@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 
-import { browserHistory } from 'react-router'
-
 import {Card, CardMedia, CardTitle, CardText, CardActions} from 'react-toolbox/lib/card';
 import {Button} from 'react-toolbox/lib/button';
 
@@ -13,7 +11,7 @@ export default class ThreadCard extends Component {
     }
 
     openThread(){
-        browserHistory.push(this.props.thread._id);
+        
     }
 
     renderCardMediaComponent(){
