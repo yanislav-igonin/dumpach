@@ -11,7 +11,7 @@ export default class ThreadCard extends Component {
     }
 
     openThread(){
-        
+        window.location.href = '/threads/' + this.props.thread._id;
     }
 
     renderCardMediaComponent(){

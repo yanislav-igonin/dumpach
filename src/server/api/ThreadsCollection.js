@@ -41,12 +41,31 @@ ThreadsCollection.getAllThreads = () => {
     return new Promise((resolve, reject) => {
 		ThreadsCollection.find({}).lean().exec((err, threads) => {
 			if (err) {
-				console.error('Get threads error');
+				console.error('Get threads error', err);
 				resolve(err);
 			} else {
 				resolve(threads);
 			}
 		});
+	});
+}
+
+ThreadsCollection.getThreadById = (threadId) => {
+    console.log('getThreadById');
+
+    return new Promise((resolve, reject) => {
+		if (threadId.match(/^[0-9a-fA-F]{24}$/)) {
+			ThreadsCollection.findById(threadId).lean().exec((err, thread) => {
+				if (err) {
+					console.error('Get thread by id error', err);
+					resolve(err);
+				} else {
+					resolve(thread);
+				}
+			});
+		} else {
+			resolve(null);
+		}
 	});
 }
 

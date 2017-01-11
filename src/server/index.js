@@ -55,6 +55,16 @@ server.get('/threads', (req, res) => {
 
 });
 
+server.get('/threads/:threadId', (req, res) => {
+    ThreadsCollection.getThreadById(req.params.threadId).then((thread) => {
+        if(thread !== null){
+            res.send(thread);
+        } else {
+            res.send('Тред не найден!');
+        }
+    });
+});
+
 /////////////////////////////////////
 //SERVER INITIALIZATION
 /////////////////////////////////////

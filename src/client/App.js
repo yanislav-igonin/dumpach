@@ -4,4 +4,4 @@ import MainPage from './MainPage.js';
 
 import './App.scss';
 
-ReactDOM.render(<MainPage />, document.getElementById('root'));
+render(<MainPage />, document.getElementById('root'));
