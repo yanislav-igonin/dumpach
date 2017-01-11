@@ -3,6 +3,7 @@
 const NODE_ENV = 'development';
 const path = require('path');
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     entry: [
@@ -23,6 +24,7 @@ module.exports = {
         new webpack.DefinePlugin({
             NODE_ENV: JSON.stringify(NODE_ENV)
         }),
+        new ExtractTextPlugin('style.css', { allChunks: true }),
         new webpack.HotModuleReplacementPlugin()
     ],
 
@@ -33,9 +35,16 @@ module.exports = {
                 loaders: ['react-hot', 'babel'],
                 include: path.join(__dirname, 'src/client')
             },
+
             {
-                test: /\.(scss|css)$/, 
-                loader: 'style-loader!css-loader?sourceMap&modules&importLoaders=1&localIdentName=[name]-[local]___[hash:base64:5]!sass-loader?sourceMap!'
+                test: /\.scss$/,
+                exclude: /(node_modules)\/react-toolbox/,
+                loader: ExtractTextPlugin.extract('css!sass'),
+            },
+            {
+                test: /(\.scss|\.css)$/,
+                include : /(node_modules)\/react-toolbox/,
+                loader: ExtractTextPlugin.extract('style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!sass')
             }
         ]
     }
