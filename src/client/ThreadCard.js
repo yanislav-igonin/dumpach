@@ -1,10 +1,31 @@
 import React, {Component} from 'react';
+
+import { browserHistory } from 'react-router'
+
 import {Card, CardMedia, CardTitle, CardText, CardActions} from 'react-toolbox/lib/card';
 import {Button} from 'react-toolbox/lib/button';
 
 export default class ThreadCard extends Component {
     constructor(props) {
         super(props);
+
+        this.openThread = this.openThread.bind(this);
+    }
+
+    openThread(){
+        browserHistory.push(this.props.thread._id);
+    }
+
+    renderCardMediaComponent(){
+        let _renderedCardMediaComponent = null;
+
+        if(this.props.thread.posts[0].files.length > 0){
+            _renderedCardMediaComponent = <CardMedia aspectRatio="wide" image={this.props.thread.posts[0].files[0].name}/>;
+        } else {
+            _renderedCardMediaComponent = <CardMedia aspectRatio="wide" image="http://newshahipack.com/data/frontImages/news/page_thumb/no-imager.jpg"/>;
+        }
+
+        return _renderedCardMediaComponent;
     }
 
     render() {
@@ -16,11 +37,11 @@ export default class ThreadCard extends Component {
                 marginBottom: 20,
                 display: 'inline-block'
             }}>
-                <CardMedia aspectRatio="wide" image={this.props.thread.posts[0].files[0].name}/>
+                {this.renderFiles()}
                 <CardTitle style={{ height: 175 }} title={this.props.thread.posts[0].title}/>
                 <CardText>{this.props.thread.posts[0].text}</CardText>
                 <CardActions>
-                    <Button label="Открыть тред"/>
+                    <Button label="Открыть тред" onMouseUp={this.openThread}/>
                 </CardActions>
             </Card>
         );

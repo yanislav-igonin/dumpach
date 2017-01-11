@@ -6,6 +6,8 @@ import formidable from 'formidable';
 import fs from 'fs';
 import Promise from 'bluebird';
 
+import ThreadsCollection from './api/ThreadsCollection';
+
 const server = express();
 let httpPort, httpsPort, privateKey, certificate, uploadDir, credentials, viewPath;
 
@@ -38,113 +40,6 @@ if(process.env.NODE_ENV === 'production'){
 /////////////////////////////////////
 //ROUTES
 /////////////////////////////////////
-const threads = [
-    {
-        posts: [
-            {
-                title: 'op post title',
-                text: 'op post',
-                files: [
-                    {
-                        name: 'http://i3.kym-cdn.com/photos/images/facebook/000/862/065/0e9.jpg'
-                    }
-                ]
-            },
-            {
-                title: 'second post title',
-                text: 'second post',
-                files: [
-                    {
-                        name: 'http://i3.kym-cdn.com/photos/images/facebook/000/862/065/0e9.jpg'
-                    }
-                ]
-            },
-            {
-                title: 'third post title',
-                text: 'third post',
-                files: [
-                    {
-                        name: 'http://i3.kym-cdn.com/photos/images/facebook/000/862/065/0e9.jpg'
-                    }
-                ]
-            },
-            {
-                title: 'fourth post title',
-                text: 'fourth post',
-                files: [
-                    {
-                        name: 'http://i3.kym-cdn.com/photos/images/facebook/000/862/065/0e9.jpg'
-                    }
-                ]
-            },
-        ]
-    },
-    {
-        posts: [
-            {
-                title: 'second op post title',
-                text: 'second thread op post',
-                files: [
-                    {
-                        name: 'http://i3.kym-cdn.com/photos/images/facebook/000/862/065/0e9.jpg'
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        posts: [
-            {
-                title: 'second op post title',
-                text: 'second thread op post',
-                files: [
-                    {
-                        name: 'http://i3.kym-cdn.com/photos/images/facebook/000/862/065/0e9.jpg'
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        posts: [
-            {
-                title: 'second op post title',
-                text: 'second thread op post',
-                files: [
-                    {
-                        name: 'http://i3.kym-cdn.com/photos/images/facebook/000/862/065/0e9.jpg'
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        posts: [
-            {
-                title: 'second op post title',
-                text: 'second thread op post',
-                files: [
-                    {
-                        name: 'http://i3.kym-cdn.com/photos/images/facebook/000/862/065/0e9.jpg'
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        posts: [
-            {
-                title: 'second op post title',
-                text: 'second thread op post',
-                files: [
-                    {
-                        name: 'http://i3.kym-cdn.com/photos/images/facebook/000/862/065/0e9.jpg'
-                    }
-                ]
-            }
-        ]
-    },
-];
 
 server.get('/', (req, res) => {
     console.log('GET /', (new Date).toUTCString());
@@ -153,7 +48,11 @@ server.get('/', (req, res) => {
 
 server.get('/threads', (req, res) => {
     console.log('GET /threads', (new Date).toUTCString());
-    res.send(threads);
+
+    ThreadsCollection.getAllThreads().then((threads) => {
+        res.send(threads);
+    });
+
 });
 
 /////////////////////////////////////

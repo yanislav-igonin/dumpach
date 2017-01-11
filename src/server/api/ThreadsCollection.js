@@ -56,4 +56,4 @@ ThreadsCollection.getAllThreads = () => {
 /////////////MONGO MODEL EXPORT/////////////
 ////////////////////////////////////////////
 
-module.exports = PostsCollection;
+module.exports = ThreadsCollection;

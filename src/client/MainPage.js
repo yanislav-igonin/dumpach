@@ -21,6 +21,7 @@ export default class MainPage extends Component {
         let _this = this;
 
         this.getThreads().then((threads) => {
+            console.log(threads);
             _this.setState({ threads: threads });
             return false;
         });
@@ -37,7 +38,6 @@ export default class MainPage extends Component {
 
             _request.onreadystatechange = () => {
                 if (_request.readyState === 4 && _request.status === 200) {
-                    console.log(_request.responseText);
                     _threads = JSON.parse(_request.responseText);
                     resolve(_threads);
                 }
@@ -49,8 +49,8 @@ export default class MainPage extends Component {
     }
 
     renderThreads(){
-        return this.state.threads.map((thread, threadIndex) => {
-            return <ThreadCard key={threadIndex} thread={thread} />;
+        return this.state.threads.map((thread) => {
+            return <ThreadCard key={thread._id} thread={thread} />;
         });
     }
 
