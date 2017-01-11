@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Promise from 'bluebird';
 
+import CreateThreadForm from './CreateThreadForm';
 import ThreadCard from './ThreadCard';
 
 export default class MainPage extends Component {
@@ -57,6 +58,7 @@ export default class MainPage extends Component {
     render(){
         return (
             <div className="dumpach-main-container">
+                <CreateThreadForm />
                 <ul className="dumpach-threads-list" style={{ marginTop: '3em' }}>
                     {this.renderThreads()}
                 </ul>
