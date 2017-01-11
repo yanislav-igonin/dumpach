@@ -37,7 +37,7 @@ export default class ThreadCard extends Component {
                 marginBottom: 20,
                 display: 'inline-block'
             }}>
-                {this.renderFiles()}
+                {this.renderCardMediaComponent()}
                 <CardTitle style={{ height: 175 }} title={this.props.thread.posts[0].title}/>
                 <CardText>{this.props.thread.posts[0].text}</CardText>
                 <CardActions>
