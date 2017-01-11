@@ -10,11 +10,15 @@ export default class CreateThreadForm extends Component {
         super(props);
 
         this.state = {
-            active: false
+            active: false,
+            newThreadTitle: '',
+            newThreadText: ''
         };
 
 
         this.handleToggle = this.handleToggle.bind(this);
+        this.handleNewThreadTitleChange = this.handleNewThreadTitleChange.bind(this);
+        this.handleNewThreadTextChange = this.handleNewThreadTextChange.bind(this);
         this.createThread = this.createThread.bind(this);
 
         this.actions = [
@@ -27,30 +31,65 @@ export default class CreateThreadForm extends Component {
         this.setState({active: !this.state.active});
     }
 
+    handleNewThreadTitleChange(value){
+        this.setState({newThreadTitle: value});
+    }
+
+    handleNewThreadTextChange(value){
+        this.setState({newThreadText: value});
+    }
+
     createThread(){
-        // let _request;
+        
+        let _files = this.refs.newThreadOpPostFiles.files,
+            _title = this.state.newThreadTitle,
+            _text = this.state.newThreadText,
+            _file,
+            _this = this;
+            // _newFilesNamesArray = this.state.filesNames;
+            // _progressBar = document.querySelector('#file-upload-progress');
 
-        // return new Promise((resolve, reject) => {
+            debugger
 
-        //     _request.open("POST", "/threads", true);
+        if(_files.length > 0 || _text !== '') {
 
-        //     _request.onreadystatechange = () => {
-        //         if (_request.readyState === 4 && _request.status === 200) {
-        //             _threads = JSON.parse(_request.responseText);
-        //             resolve(_threads);
-        //         }
-        //     }
 
-        //     _request.send();
+            let _request = new XMLHttpRequest(),
+                _formData = new FormData();
 
-        // });
+            for (let fileIndex = 0; fileIndex < _files.length; fileIndex++) {
+                _file = _files[fileIndex];
+
+                _formData.append('uploads[]', _file, _file.name);
+            }
+            
+            _formData.append('title', _title);
+            _formData.append('text', _text);
+
+            _request.upload.onprogress = (event) => {
+
+                if (event.lengthComputable) {
+                    // _progressBar.style.width = parseInt(event.loaded * 100 / event.total) + '%';
+                }
+
+            };
+
+            _request.open("POST", "/threads", true);
+            _request.onreadystatechange = () => {
+                if (request.readyState === 4 && request.status === 201) {
+                }
+            };
+            debugger
+            _request.send(_formData);
+
+        }
 
         this.handleToggle();
     }
 
     render() {
         return (
-            <div className='create-thread-dialog-container' style={{margin: '3em 0 0 3em'}}>
+            <div className='create-thread-dialog-container' style={{margin: '3em 0 0 40px'}}>
                 <Button label='Создать тред' onClick={this.handleToggle}/>
                 <Dialog
                     className='create-thread-dialog'
@@ -59,7 +98,10 @@ export default class CreateThreadForm extends Component {
                     onEscKeyDown={this.handleToggle}
                     onOverlayClick={this.handleToggle}
                     title='Создать тред'>
-                    <Input type='text' multiline ref='newThreadOpPost' />
+
+                    <Input type='text' label='Введите тему' value={this.state.newThreadTitle} onChange={this.handleNewThreadTitleChange}/>
+                    <Input type='text' label='Введите текст' multiline rows={5} value={this.state.newThreadText} onChange={this.handleNewThreadTextChange}/> />
+                    <input type='file' multiple ref='newThreadOpPostFiles' />
 
                 </Dialog>
             </div>
