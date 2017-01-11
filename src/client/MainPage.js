@@ -50,7 +50,7 @@ export default class MainPage extends Component {
 
     renderThreads(){
         return this.state.threads.map((thread, threadIndex) => {
-            return <ThreadCard key={threadIndex} thread={thread} />
+            return <ThreadCard key={threadIndex} thread={thread} />;
         });
     }
 
