@@ -18,7 +18,7 @@ export default class ThreadCard extends Component {
         let _renderedCardMediaComponent = null;
 
         if(this.props.thread.posts[0].files.length > 0){
-            _renderedCardMediaComponent = <CardMedia aspectRatio="wide" image={this.props.thread.posts[0].files[0].name}/>;
+            _renderedCardMediaComponent = <CardMedia aspectRatio="wide" image={'/uploads/' + this.props.thread.posts[0].files[0]}/>;
         } else {
             _renderedCardMediaComponent = <CardMedia aspectRatio="wide" image="http://newshahipack.com/data/frontImages/news/page_thumb/no-imager.jpg"/>;
         }
@@ -36,8 +36,8 @@ export default class ThreadCard extends Component {
                 display: 'inline-block'
             }}>
                 {this.renderCardMediaComponent()}
-                <CardTitle style={{ height: 175 }} title={this.props.thread.posts[0].title}/>
-                <CardText>{this.props.thread.posts[0].text}</CardText>
+                <CardTitle style={{ height: 175, wordWrap: 'break-word' }} title={this.props.thread.posts[0].title}/>
+                <CardText style={{ height: 175, wordWrap: 'break-word' }}>{this.props.thread.posts[0].text}</CardText>
                 <CardActions>
                     <Button label="Открыть тред" onMouseUp={this.openThread}/>
                 </CardActions>
