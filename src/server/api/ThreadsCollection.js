@@ -69,7 +69,26 @@ ThreadsCollection.getThreadById = (threadId) => {
 	});
 }
 
+ThreadsCollection.createNewThread = (thread) => {
+	console.log('createNewThread');
 
+	let _newThread = new ThreadsCollection({
+		posts: thread.posts
+	});
+
+	return new Promise((resolve, reject) => {
+
+		_newThread.save((err, thread) => {
+			if (err) {
+				console.error('Create new thread error', err);
+				resolve(err);
+			} else {
+				resolve(thread);
+			}
+		})
+
+	});
+}
 
 ////////////////////////////////////////////
 /////////////MONGO MODEL EXPORT/////////////

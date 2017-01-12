@@ -20,6 +20,12 @@ server
     .use('/scripts', express.static(path.join(__dirname, '../../dist/client')))
     .use('/uploads', express.static(path.join(__dirname, '../../uploads')));
 
+uploadDir = path.join(__dirname, '../../uploads');
+
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir);
+}
+
 if(process.env.NODE_ENV === 'production'){
 
 } else {
@@ -35,6 +41,7 @@ if(process.env.NODE_ENV === 'production'){
         }))
         .use(require('webpack-hot-middleware')(compiler));
 }
+
 
 
 /////////////////////////////////////
@@ -60,7 +67,11 @@ server.post('/threads', (req, res) => {
 
     let _thread = {
         posts: []
-    }
+    },  _post = {
+        title: '',
+        text: '',
+        files: []
+    },  _fileName;
 
     res.setHeader('Access-Control-Allow-Origin', '*');
 
@@ -68,24 +79,25 @@ server.post('/threads', (req, res) => {
 
     form.multiples = true;
 
-    // form.uploadDir = path.join(__dirname, 'uploads');
+    form.uploadDir = uploadDir;
 
-    // form.on('file', (field, file) => {
-    //     fs.rename(file.path, path.join(uploadDir, file.name));
-    //     console.log('File', file.name, 'uploded');
-    //     _post.filesNames.push(file.name);
-    // });
+    form.on('file', (field, file) => {
+        _fileName = file.path + '.' + file.type.split('/')[1];
+        fs.rename(file.path, _fileName);
+        console.log('File', file.name, 'uploded');
+        _post.files.push(_fileName);
+    });
 
-    // form.on('field', (name, value) => {
-    //     switch (name) {
-    //         case 'text':
-    //             _post.text = value;
-    //             break;
-    //     }
-    // });
-
-    form.on('progress', (bytesReceived, bytesExpected) => {
-        // console.log('Files uploading: ' + (bytesReceived / (1024 * 1024)).toFixed(2) + 'MB/' +  (bytesExpected / (1024 * 1024)).toFixed(2) + 'MB');
+    form.on('field', (name, value) => {
+        console.log(name, value);
+        switch (name) {
+            case 'title':
+                _post.title = value;
+                break;
+            case 'text':
+                _post.text = value;
+                break;
+        }
     });
     
     form.on('error', (err) => {
@@ -93,18 +105,20 @@ server.post('/threads', (req, res) => {
     });
 
     form.on('end', () => {
-        // console.log(_post);
-        // PostsCollection.saveNewPost(_post).then((status) => {
-        //     console.log(status);
-        //     PostsCollection.getAllPosts().then((posts) => {
-        //         res.status(201).send(posts);
-        //     })
-        // })
-        res.send('201')
+        _thread.posts.push(_post);
+
+        ThreadsCollection.createNewThread(_thread).then((thread) => {
+            if(thread.posts !== undefined){
+                res.status(201).send(thread._id);
+            } else {
+                res.send('Ошибка при создании треда!');
+            }
+        })
+
     });
-    
+
     form.parse(req, (err, fields, files) => {
-        console.log(fields, files);
+        // console.log(fields, files);
     });
 });
 
