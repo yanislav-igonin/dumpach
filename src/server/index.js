@@ -71,7 +71,7 @@ server.post('/threads', (req, res) => {
         title: '',
         text: '',
         files: []
-    },  _fileName;
+    },  _fullFilePath, _fileName;
 
     res.setHeader('Access-Control-Allow-Origin', '*');
 
@@ -82,8 +82,9 @@ server.post('/threads', (req, res) => {
     form.uploadDir = uploadDir;
 
     form.on('file', (field, file) => {
-        _fileName = file.path + '.' + file.type.split('/')[1];
-        fs.rename(file.path, _fileName);
+        _fullFilePath = file.path + '.' + file.type.split('/')[1];
+        _fileName = _fullFilePath.split('/')[_fullFilePath.split('/').length - 1];
+        fs.rename(file.path, _fullFilePath);
         console.log('File', file.name, 'uploded');
         _post.files.push(_fileName);
     });
