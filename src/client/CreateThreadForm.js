@@ -39,6 +39,10 @@ export default class CreateThreadForm extends Component {
         this.setState({newThreadText: value});
     }
 
+    openCreatedThread(threadId){
+        window.location.href = '/threads/' + threadId;
+    }
+
     createThread(){
         
         let _files = this.refs.newThreadOpPostFiles.files,
@@ -52,8 +56,6 @@ export default class CreateThreadForm extends Component {
             debugger
 
         if(_files.length > 0 || _text !== '') {
-
-
             let _request = new XMLHttpRequest(),
                 _formData = new FormData();
 
@@ -76,12 +78,12 @@ export default class CreateThreadForm extends Component {
 
             _request.open("POST", "/threads", true);
             _request.onreadystatechange = () => {
-                if (request.readyState === 4 && request.status === 201) {
+                if (_request.readyState === 4 && _request.status === 201) {
+                    this.openCreatedThread(JSON.parse(_request.responseText));
                 }
             };
-            debugger
+            
             _request.send(_formData);
-
         }
 
         this.handleToggle();
