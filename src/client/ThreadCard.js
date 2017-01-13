@@ -12,7 +12,6 @@ export default class ThreadCard extends Component {
     }
 
     openThread(){
-        // window.location.href = '/threads/' + this.props.thread._id;
         browserHistory.push(`/threads/${this.props.thread._id}`)
     }
 
