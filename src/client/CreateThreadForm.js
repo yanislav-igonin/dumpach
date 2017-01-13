@@ -91,7 +91,7 @@ export default class CreateThreadForm extends Component {
 
     render() {
         return (
-            <div className='create-thread-dialog-container' style={{margin: '3em 0 0 40px'}}>
+            <div className='create-thread-dialog-container' style={{margin: '3em 0 0 5%'}}>
                 <Button label='Создать тред' onClick={this.handleToggle}/>
                 <Dialog
                     className='create-thread-dialog'

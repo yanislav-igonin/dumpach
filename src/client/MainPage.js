@@ -59,7 +59,7 @@ export default class MainPage extends Component {
         return (
             <div className="dumpach-main-container">
                 <CreateThreadForm />
-                <ul className="dumpach-threads-list" style={{ marginTop: '3em' }}>
+                <ul className="dumpach-threads-list" style={{ marginTop: '3em', paddingLeft: '5%' }}>
                     {this.renderThreads()}
                 </ul>
             </div>

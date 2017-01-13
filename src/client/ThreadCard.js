@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { browserHistory } from 'react-router'
 
 import {Card, CardMedia, CardTitle, CardText, CardActions} from 'react-toolbox/lib/card';
 import {Button} from 'react-toolbox/lib/button';
@@ -11,16 +12,17 @@ export default class ThreadCard extends Component {
     }
 
     openThread(){
-        window.location.href = '/threads/' + this.props.thread._id;
+        // window.location.href = '/threads/' + this.props.thread._id;
+        browserHistory.push(`/threads/${this.props.thread._id}`)
     }
 
     renderCardMediaComponent(){
         let _renderedCardMediaComponent = null;
 
         if(this.props.thread.posts[0].files.length > 0){
-            _renderedCardMediaComponent = <CardMedia aspectRatio="wide" image={'/uploads/' + this.props.thread.posts[0].files[0]}/>;
+            _renderedCardMediaComponent = <CardMedia className='thread-card-media' aspectRatio="wide" image={'/uploads/' + this.props.thread.posts[0].files[0]}/>;
         } else {
-            _renderedCardMediaComponent = <CardMedia aspectRatio="wide" image="http://newshahipack.com/data/frontImages/news/page_thumb/no-imager.jpg"/>;
+            _renderedCardMediaComponent = <CardMedia className='thread-card-media' aspectRatio="wide" image="http://newshahipack.com/data/frontImages/news/page_thumb/no-imager.jpg"/>;
         }
 
         return _renderedCardMediaComponent;
@@ -29,15 +31,15 @@ export default class ThreadCard extends Component {
     render() {
         return (
             <Card style={{
-                width: '340px',
+                width: '45%',
                 height: 600,
-                marginRight: 20,
+                marginRight: '5%',
                 marginBottom: 20,
                 display: 'inline-block'
             }}>
                 {this.renderCardMediaComponent()}
-                <CardTitle style={{ height: 175, wordWrap: 'break-word' }} title={this.props.thread.posts[0].title}/>
-                <CardText style={{ height: 175, wordWrap: 'break-word' }}>{this.props.thread.posts[0].text}</CardText>
+                <CardTitle style={{ maxHeight: '10%', wordWrap: 'break-word' }} title={this.props.thread.posts[0].title}/>
+                <CardText style={{ height: '33.5%', wordWrap: 'break-word', overflow: 'auto' }}>{this.props.thread.posts[0].text}</CardText>
                 <CardActions>
                     <Button label="Открыть тред" onMouseUp={this.openThread}/>
                 </CardActions>
