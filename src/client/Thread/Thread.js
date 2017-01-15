@@ -43,9 +43,11 @@ export default class Thread extends Component {
 
     renderPosts(){
             debugger
-        return this.state.posts.map((post) => {
+        return this.state.posts.map((post, postIndex) => {
             return (
-                <p>{post.text}</p>
+                <div key={postIndex}>
+                    <p>{post.text}</p>
+                </div>
             )
         });
     }
