@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Promise from 'bluebird';
 
+import Post from './Post/Post';
+
 export default class Thread extends Component {
     constructor(props){
         super(props);
@@ -42,12 +44,9 @@ export default class Thread extends Component {
     }
 
     renderPosts(){
-            debugger
         return this.state.posts.map((post, postIndex) => {
             return (
-                <div key={postIndex}>
-                    <p>{post.text}</p>
-                </div>
+                <Post key={postIndex} post={post} />
             )
         });
     }
