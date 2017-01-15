@@ -13,8 +13,8 @@ export default class Post extends Component {
     render(){
         return (
             <div className='dumpach-thread-post'>
-                <h1>{this.props.post.title}</h1>
-                <p>{this.props.post.text}</p>
+                <h1 className='post-title'>{this.props.post.title}</h1>
+                <p className='post-text'>{this.props.post.text}</p>
             </div>
         )
     }
