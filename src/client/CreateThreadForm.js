@@ -53,8 +53,6 @@ export default class CreateThreadForm extends Component {
             // _newFilesNamesArray = this.state.filesNames;
             // _progressBar = document.querySelector('#file-upload-progress');
 
-            debugger
-
         if(_files.length > 0 || _text !== '') {
             let _request = new XMLHttpRequest(),
                 _formData = new FormData();

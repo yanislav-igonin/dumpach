@@ -90,6 +90,34 @@ ThreadsCollection.createNewThread = (thread) => {
 	});
 }
 
+ThreadsCollection.postInThread = (threadId, post) => {
+
+	console.log('postInThread', threadId, post);
+
+	return new Promise((resolve, reject) => {
+		if (threadId.match(/^[0-9a-fA-F]{24}$/)) {
+
+			ThreadsCollection.findByIdAndUpdate(
+				threadId,
+				{$push: { "posts": post }},
+				{safe: true, upsert: true, new: true},
+				(err, thread) => {
+					if (err) {
+						console.error('Get thread by id error', err);
+						resolve(err);
+					} else {
+						console.log(thread);
+						resolve(thread.posts);
+					}
+				}
+			);
+
+		} else {
+			resolve(null);
+		}
+	});
+}
+
 ////////////////////////////////////////////
 /////////////MONGO MODEL EXPORT/////////////
 ////////////////////////////////////////////

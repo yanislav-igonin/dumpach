@@ -19,11 +19,11 @@ export default class AnswerInThreadForm extends Component {
         this.handleToggle = this.handleToggle.bind(this);
         this.handleAnswerTitleChange = this.handleAnswerTitleChange.bind(this);
         this.handleAnswerTextChange = this.handleAnswerTextChange.bind(this);
-        // this.createThread = this.createThread.bind(this);
+        this.answerInThread = this.answerInThread.bind(this);
 
         this.actions = [
             {label: "Отмена", onClick: this.handleToggle}, 
-            {label: "Ответить в тред", onClick: this.createThread}
+            {label: "Ответить в тред", onClick: this.answerInThread}
         ];
     }
 
@@ -39,48 +39,44 @@ export default class AnswerInThreadForm extends Component {
         this.setState({answerText: value});
     }
 
-    createThread(){
+    answerInThread(){
         
-        // let _files = this.refs.newThreadOpPostFiles.files,
-        //     _title = this.state.newThreadTitle,
-        //     _text = this.state.newThreadText,
-        //     _file,
-        //     _this = this;
-        //     // _newFilesNamesArray = this.state.filesNames;
-        //     // _progressBar = document.querySelector('#file-upload-progress');
+        let _files = this.refs.answerFiles.files,
+            _title = this.state.answerTitle,
+            _text = this.state.answerText,
+            _file,
+            _this = this;
 
-        //     debugger
+        if(_files.length > 0 || _text !== '') {
+            let _request = new XMLHttpRequest(),
+                _formData = new FormData();
 
-        // if(_files.length > 0 || _text !== '') {
-        //     let _request = new XMLHttpRequest(),
-        //         _formData = new FormData();
+            for (let fileIndex = 0; fileIndex < _files.length; fileIndex++) {
+                _file = _files[fileIndex];
 
-        //     for (let fileIndex = 0; fileIndex < _files.length; fileIndex++) {
-        //         _file = _files[fileIndex];
-
-        //         _formData.append('uploads[]', _file, _file.name);
-        //     }
+                _formData.append('uploads[]', _file, _file.name);
+            }
             
-        //     _formData.append('title', _title);
-        //     _formData.append('text', _text);
+            _formData.append('title', _title);
+            _formData.append('text', _text);
 
-        //     _request.upload.onprogress = (event) => {
+            _request.upload.onprogress = (event) => {
 
-        //         if (event.lengthComputable) {
-        //             // _progressBar.style.width = parseInt(event.loaded * 100 / event.total) + '%';
-        //         }
+                if (event.lengthComputable) {
+                    // _progressBar.style.width = parseInt(event.loaded * 100 / event.total) + '%';
+                }
 
-        //     };
+            };
 
-        //     _request.open("POST", "/threads", true);
-        //     _request.onreadystatechange = () => {
-        //         if (_request.readyState === 4 && _request.status === 201) {
-        //             this.openCreatedThread(JSON.parse(_request.responseText));
-        //         }
-        //     };
+            _request.open("POST", "/threads/" + this.props.threadId, true);
+            _request.onreadystatechange = () => {
+                if (_request.readyState === 4 && _request.status === 201) {
+                    _this.props.Thread.updatePosts(JSON.parse(_request.responseText));
+                }
+            };
             
-        //     _request.send(_formData);
-        // }
+            _request.send(_formData);
+        }
 
         this.handleToggle();
     }

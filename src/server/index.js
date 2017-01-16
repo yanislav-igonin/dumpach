@@ -124,7 +124,7 @@ server.post('/threads', (req, res) => {
 });
 
 server.get('/threads/:threadId', (req, res) => {
-    console.log('GET /thread', (new Date).toUTCString());
+    console.log('GET /threads/' + req.params.threadId, (new Date).toUTCString());
 
     ThreadsCollection.getThreadById(req.params.threadId).then((thread) => {
         if(thread !== null){
@@ -132,6 +132,64 @@ server.get('/threads/:threadId', (req, res) => {
         } else {
             res.send('Тред не найден!');
         }
+    });
+});
+
+server.post('/threads/:threadId', (req, res) => {
+    console.log('POST /threads/' + req.params.threadId, (new Date).toUTCString());
+
+    let _post = {
+        title: '',
+        text: '',
+        files: []
+    },  _fullFilePath, _fileName;
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    var form = new formidable.IncomingForm();
+
+    form.multiples = true;
+
+    form.uploadDir = uploadDir;
+
+    form.on('file', (field, file) => {
+        _fullFilePath = file.path + '.' + file.type.split('/')[1];
+        _fileName = _fullFilePath.split('/')[_fullFilePath.split('/').length - 1];
+        fs.rename(file.path, _fullFilePath);
+        console.log('File', file.name, 'uploded');
+        _post.files.push(_fileName);
+    });
+
+    form.on('field', (name, value) => {
+        console.log(name, value);
+        switch (name) {
+            case 'title':
+                _post.title = value;
+                break;
+            case 'text':
+                _post.text = value;
+                break;
+        }
+    });
+    
+    form.on('error', (err) => {
+        console.log('An error has occured: \n' + err);
+    });
+
+    form.on('end', () => {
+
+        ThreadsCollection.postInThread(req.params.threadId, _post).then((posts) => {
+            if(posts !== undefined){
+                res.status(201).send(posts);
+            } else {
+                res.send('Ошибка при ответе в тред!');
+            }
+        })
+
+    });
+
+    form.parse(req, (err, fields, files) => {
+        // console.log(fields, files);
     });
 });
 

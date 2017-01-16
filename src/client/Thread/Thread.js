@@ -11,6 +11,8 @@ export default class Thread extends Component {
         this.state = {
             posts: []
         }
+
+        this.updatePosts = this.updatePosts.bind(this);
     }
 
     
@@ -44,6 +46,10 @@ export default class Thread extends Component {
         });
     }
 
+    updatePosts(posts){
+        this.setState({posts: posts});
+    }
+
     renderPosts(){
         return this.state.posts.map((post, postIndex) => {
             return (
@@ -55,7 +61,7 @@ export default class Thread extends Component {
     render(){
         return (
             <div className='dumpach-thread-container'>
-                <AnswerInThreadForm />
+                <AnswerInThreadForm threadId={this.props.params.threadId} updatePosts={this.updatePosts} Thread={this}/>
                 <ul className='thread-posts-list'>
                     {this.renderPosts()}
                 </ul>
