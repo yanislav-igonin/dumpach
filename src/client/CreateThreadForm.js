@@ -91,7 +91,7 @@ export default class CreateThreadForm extends Component {
 
     render() {
         return (
-            <div className='create-thread-dialog-container' style={{margin: '3em 0 0 5%'}}>
+            <div className='create-thread-dialog-container' style={{margin: '3em 0 0 2%'}}>
                 <Button label='Создать тред' onClick={this.handleToggle}/>
                 <Dialog
                     className='create-thread-dialog'
@@ -102,7 +102,7 @@ export default class CreateThreadForm extends Component {
                     title='Создать тред'>
 
                     <Input type='text' label='Введите тему' value={this.state.newThreadTitle} onChange={this.handleNewThreadTitleChange}/>
-                    <Input type='text' label='Введите текст' multiline rows={5} value={this.state.newThreadText} onChange={this.handleNewThreadTextChange}/> />
+                    <Input type='text' label='Введите текст' multiline rows={5} value={this.state.newThreadText} onChange={this.handleNewThreadTextChange}/>
                     <input type='file' multiple ref='newThreadOpPostFiles' />
 
                 </Dialog>

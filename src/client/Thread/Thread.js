@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Promise from 'bluebird';
 
 import Post from './Post/Post';
+import AnswerInThreadForm from './AnswerInThreadForm';
 
 export default class Thread extends Component {
     constructor(props){
@@ -54,7 +55,10 @@ export default class Thread extends Component {
     render(){
         return (
             <div className='dumpach-thread-container'>
-                {this.renderPosts()}
+                <AnswerInThreadForm />
+                <ul className='thread-posts-list'>
+                    {this.renderPosts()}
+                </ul>
             </div>
         )
     }

@@ -30,9 +30,9 @@ export default class ThreadCard extends Component {
     render() {
         return (
             <Card style={{
-                width: '45%',
+                width: '48%',
                 height: 600,
-                marginRight: '5%',
+                marginRight: '2%',
                 marginBottom: 20,
                 display: 'inline-block'
             }}>
