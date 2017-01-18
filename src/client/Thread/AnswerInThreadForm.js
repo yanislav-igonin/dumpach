@@ -68,7 +68,7 @@ export default class AnswerInThreadForm extends Component {
 
             };
 
-            _request.open("POST", "/threads/" + this.props.threadId, true);
+            _request.open("POST", "/api/threads/" + this.props.threadId, true);
             _request.onreadystatechange = () => {
                 if (_request.readyState === 4 && _request.status === 201) {
                     _this.props.Thread.updatePosts(JSON.parse(_request.responseText));

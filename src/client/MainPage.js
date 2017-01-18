@@ -14,7 +14,7 @@ export default class MainPage extends Component {
     }
 
     
-    componentWillMount() {
+    componentDidMount() {
         this.getInitialThreads();
     }
     
@@ -35,7 +35,7 @@ export default class MainPage extends Component {
 
         return new Promise((resolve, reject) => {
 
-            _request.open("GET", "/threads", true);
+            _request.open("GET", "/api/threads", true);
 
             _request.onreadystatechange = () => {
                 if (_request.readyState === 4 && _request.status === 200) {

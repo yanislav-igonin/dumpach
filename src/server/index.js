@@ -18,6 +18,7 @@ let httpPort, httpsPort, privateKey, certificate, uploadDir, credentials, viewPa
 server
     .use('/public', express.static(path.join(__dirname, '../../public')))
     .use('/scripts', express.static(path.join(__dirname, '../../dist/client')))
+    .use('/threads/scripts', express.static(path.join(__dirname, '../../dist/client')))
     .use('/uploads', express.static(path.join(__dirname, '../../uploads')));
 
 uploadDir = path.join(__dirname, '../../uploads');
@@ -53,8 +54,13 @@ server.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../../view/index.html'));
 });
 
-server.get('/threads', (req, res) => {
-    console.log('GET /threads', (new Date).toUTCString());
+server.get('/threads/:threadId', (req, res) => {
+    console.log('GET /', (new Date).toUTCString());
+    res.sendFile(path.join(__dirname, '../../view/thread.html'));
+});
+
+server.get('/api/threads', (req, res) => {
+    console.log('GET /api/threads', (new Date).toUTCString());
 
     ThreadsCollection.getAllThreads().then((threads) => {
         res.send(threads);
@@ -62,8 +68,8 @@ server.get('/threads', (req, res) => {
 
 });
 
-server.post('/threads', (req, res) => {
-    console.log('POST /threads', (new Date).toString());
+server.post('/api/threads', (req, res) => {
+    console.log('POST /api/threads', (new Date).toString());
 
     let _thread = {
         posts: []
@@ -114,7 +120,7 @@ server.post('/threads', (req, res) => {
             } else {
                 res.send('Ошибка при создании треда!');
             }
-        })
+        });
 
     });
 
@@ -123,8 +129,8 @@ server.post('/threads', (req, res) => {
     });
 });
 
-server.get('/threads/:threadId', (req, res) => {
-    console.log('GET /threads/' + req.params.threadId, (new Date).toUTCString());
+server.get('/api/threads/:threadId', (req, res) => {
+    console.log('GET /api/threads/' + req.params.threadId, (new Date).toUTCString());
 
     ThreadsCollection.getThreadById(req.params.threadId).then((thread) => {
         if(thread !== null){
@@ -135,8 +141,8 @@ server.get('/threads/:threadId', (req, res) => {
     });
 });
 
-server.post('/threads/:threadId', (req, res) => {
-    console.log('POST /threads/' + req.params.threadId, (new Date).toUTCString());
+server.post('/api/threads/:threadId', (req, res) => {
+    console.log('POST /api/threads/' + req.params.threadId, (new Date).toUTCString());
 
     let _post = {
         title: '',

@@ -74,7 +74,7 @@ export default class CreateThreadForm extends Component {
 
             };
 
-            _request.open("POST", "/threads", true);
+            _request.open("POST", "/api/threads", true);
             _request.onreadystatechange = () => {
                 if (_request.readyState === 4 && _request.status === 201) {
                     this.openCreatedThread(JSON.parse(_request.responseText));

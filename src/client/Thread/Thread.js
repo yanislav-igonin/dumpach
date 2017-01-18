@@ -33,7 +33,7 @@ export default class Thread extends Component {
 
         return new Promise((resolve, reject) => {
             
-            _request.open("GET", "/threads/" + _this.props.params.threadId, true);
+            _request.open("GET", "/api/threads/" + _this.props.params.threadId, true);
 
             _request.onreadystatechange = () => {
                 if (_request.readyState === 4 ) {
