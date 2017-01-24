@@ -8,7 +8,7 @@ import Promise from 'bluebird';
 ////////////////////////////////////////////
 
 import mongoose from 'mongoose';
-const db_url = 'localhost';
+const db_url = 'mongodb://localhost/dumpach';
 
 mongoose.connect(db_url);
 mongoose.Promise = Promise;
@@ -23,7 +23,8 @@ mongoose.connection.on('connected', () => {
 ////////////////////////////////////////////
 
 let threadsSchema = mongoose.Schema({
-    posts: Array
+    posts: Array,
+	updateTime: Number
 });
 
 
@@ -73,7 +74,8 @@ ThreadsCollection.createNewThread = (thread) => {
 	console.log('createNewThread');
 
 	let _newThread = new ThreadsCollection({
-		posts: thread.posts
+		posts: thread.posts,
+		updateTime: Date.now()
 	});
 
 	return new Promise((resolve, reject) => {
@@ -99,7 +101,7 @@ ThreadsCollection.postInThread = (threadId, post) => {
 
 			ThreadsCollection.findByIdAndUpdate(
 				threadId,
-				{$push: { "posts": post }},
+				{$push: { "posts": post }, $set: {updateTime: Date.now()}},
 				{safe: true, upsert: true, new: true},
 				(err, thread) => {
 					if (err) {

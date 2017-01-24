@@ -40,7 +40,8 @@ export default class MainPage extends Component {
             _request.onreadystatechange = () => {
                 if (_request.readyState === 4 && _request.status === 200) {
                     _threads = JSON.parse(_request.responseText);
-                    resolve(_threads);
+                    debugger
+                    resolve(_threads.sort(compareThreadUpdateTime));
                 }
             }
 
@@ -65,4 +66,8 @@ export default class MainPage extends Component {
             </div>
         );
     }
+}
+
+function compareThreadUpdateTime(a, b){
+    return b.updateTime - a.updateTime;
 }

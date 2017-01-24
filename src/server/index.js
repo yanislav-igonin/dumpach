@@ -1,207 +1,91 @@
 import http from 'http';
 // import https from 'https';
 import express from 'express';
+import cluster from 'cluster';
 import path from 'path';
-import formidable from 'formidable';
 import fs from 'fs';
-import Promise from 'bluebird';
+import bodyParser from 'body-parser';
 
-import ThreadsCollection from './api/ThreadsCollection';
+import indexRoutes from './routes/index';
+import apiRoutes from './routes/api';
 
-const server = express();
-let httpPort, httpsPort, privateKey, certificate, uploadDir, credentials, viewPath;
+const server = express(),
+    httpPort = process.env.NODE_ENV === 'production' ? 80 : 8080,
+    uploadDir = path.join(__dirname, '../../uploads');
 
-
-/////////////////////////////////////
-//SERVER PROD AND DEV CONFIGURATION
-/////////////////////////////////////
-server
-    .use('/public', express.static(path.join(__dirname, '../../public')))
-    .use('/scripts', express.static(path.join(__dirname, '../../dist/client')))
-    .use('/threads/scripts', express.static(path.join(__dirname, '../../dist/client')))
-    .use('/uploads', express.static(path.join(__dirname, '../../uploads')));
-
-uploadDir = path.join(__dirname, '../../uploads');
+// const privateKey, certificate, credentials;//FOR HTTPS IN FUTURE
 
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir);
 }
 
+cluster.on('exit', function (worker) {
+    console.log('Worker %d died :(', worker.id);
+    cluster.fork();
+});
+
 if(process.env.NODE_ENV === 'production'){
+    if (cluster.isMaster) {
 
+        let _cpuCount = require('os').cpus().length;
+
+        for (let i = 0; i < _cpuCount; i++) {
+            cluster.fork();
+        }
+
+    } else {
+        initializeServer();
+    }
 } else {
-    httpPort = 8080;
-
-    const webpack = require('webpack');
-    const config = require('../../webpack.config');
-    const compiler = webpack(config);
-
-    server
-        .use(require('webpack-dev-middleware')(compiler, {
-            publicPath: config.output.publicPath
-        }))
-        .use(require('webpack-hot-middleware')(compiler));
+    initializeServer();
 }
 
 
 
 /////////////////////////////////////
-//ROUTES
-/////////////////////////////////////
-
-server.get('/', (req, res) => {
-    console.log('GET /', (new Date).toUTCString());
-    res.sendFile(path.join(__dirname, '../../view/index.html'));
-});
-
-server.get('/threads/:threadId', (req, res) => {
-    console.log('GET /', (new Date).toUTCString());
-    res.sendFile(path.join(__dirname, '../../view/thread.html'));
-});
-
-server.get('/api/threads', (req, res) => {
-    console.log('GET /api/threads', (new Date).toUTCString());
-
-    ThreadsCollection.getAllThreads().then((threads) => {
-        res.send(threads);
-    });
-
-});
-
-server.post('/api/threads', (req, res) => {
-    console.log('POST /api/threads', (new Date).toString());
-
-    let _thread = {
-        posts: []
-    },  _post = {
-        title: '',
-        text: '',
-        files: []
-    },  _fullFilePath, _fileName;
-
-    res.setHeader('Access-Control-Allow-Origin', '*');
-
-    var form = new formidable.IncomingForm();
-
-    form.multiples = true;
-
-    form.uploadDir = uploadDir;
-
-    form.on('file', (field, file) => {
-        _fullFilePath = file.path + '.' + file.type.split('/')[1];
-        _fileName = _fullFilePath.split('/')[_fullFilePath.split('/').length - 1];
-        fs.rename(file.path, _fullFilePath);
-        console.log('File', file.name, 'uploded');
-        _post.files.push(_fileName);
-    });
-
-    form.on('field', (name, value) => {
-        console.log(name, value);
-        switch (name) {
-            case 'title':
-                _post.title = value;
-                break;
-            case 'text':
-                _post.text = value;
-                break;
-        }
-    });
-    
-    form.on('error', (err) => {
-        console.log('An error has occured: \n' + err);
-    });
-
-    form.on('end', () => {
-        _thread.posts.push(_post);
-
-        ThreadsCollection.createNewThread(_thread).then((thread) => {
-            if(thread.posts !== undefined){
-                res.status(201).send(thread._id);
-            } else {
-                res.send('Ошибка при создании треда!');
-            }
-        });
-
-    });
-
-    form.parse(req, (err, fields, files) => {
-        // console.log(fields, files);
-    });
-});
-
-server.get('/api/threads/:threadId', (req, res) => {
-    console.log('GET /api/threads/' + req.params.threadId, (new Date).toUTCString());
-
-    ThreadsCollection.getThreadById(req.params.threadId).then((thread) => {
-        if(thread !== null){
-            res.send(thread);
-        } else {
-            res.send('Тред не найден!');
-        }
-    });
-});
-
-server.post('/api/threads/:threadId', (req, res) => {
-    console.log('POST /api/threads/' + req.params.threadId, (new Date).toUTCString());
-
-    let _post = {
-        title: '',
-        text: '',
-        files: []
-    },  _fullFilePath, _fileName;
-
-    res.setHeader('Access-Control-Allow-Origin', '*');
-
-    var form = new formidable.IncomingForm();
-
-    form.multiples = true;
-
-    form.uploadDir = uploadDir;
-
-    form.on('file', (field, file) => {
-        _fullFilePath = file.path + '.' + file.type.split('/')[1];
-        _fileName = _fullFilePath.split('/')[_fullFilePath.split('/').length - 1];
-        fs.rename(file.path, _fullFilePath);
-        console.log('File', file.name, 'uploded');
-        _post.files.push(_fileName);
-    });
-
-    form.on('field', (name, value) => {
-        console.log(name, value);
-        switch (name) {
-            case 'title':
-                _post.title = value;
-                break;
-            case 'text':
-                _post.text = value;
-                break;
-        }
-    });
-    
-    form.on('error', (err) => {
-        console.log('An error has occured: \n' + err);
-    });
-
-    form.on('end', () => {
-
-        ThreadsCollection.postInThread(req.params.threadId, _post).then((posts) => {
-            if(posts !== undefined){
-                res.status(201).send(posts);
-            } else {
-                res.send('Ошибка при ответе в тред!');
-            }
-        })
-
-    });
-
-    form.parse(req, (err, fields, files) => {
-        // console.log(fields, files);
-    });
-});
-
-/////////////////////////////////////
 //SERVER INITIALIZATION
 /////////////////////////////////////
-server.listen(httpPort, () => {
-    console.log('Server is listenning on port', httpPort);
-});
+function initializeServer(){
+    const server = express();
+    
+    //STATIC FILES
+    server
+        .use('/public', express.static(path.join(__dirname, '../../public')))
+        .use('/scripts', express.static(path.join(__dirname, '../../dist/client')))
+        .use('/threads/scripts', express.static(path.join(__dirname, '../../dist/client')))
+        .use('/uploads', express.static(uploadDir));
+   
+    //BODY PARSERS
+    server
+        .use(bodyParser.json())
+        .use(bodyParser.urlencoded({
+            extended: true
+        }));
+
+    //ROUTES
+    server
+        .use('/', indexRoutes)
+        .use('/api', apiRoutes);
+
+    if (process.env.NODE_ENV === 'production') {
+
+    } else {
+        const webpack = require('webpack');
+        const config = require(path.join(__dirname, '../../webpack.config'));
+        const compiler = webpack(config);
+        
+        server
+            .use(require('webpack-dev-middleware')(compiler, {
+                publicPath: config.output.publicPath
+            }))
+            .use(require('webpack-hot-middleware')(compiler));
+    }
+
+    server.listen(httpPort, () => {
+        if(process.env.NODE_ENV === 'production'){
+            console.log('Worker %d listening port %d', cluster.worker.id, httpPort);
+        } else {
+            console.log('Server listening port %d', httpPort);
+        }
+    });
+}

@@ -65,6 +65,7 @@ export default class CreateThreadForm extends Component {
             
             _formData.append('title', _title);
             _formData.append('text', _text);
+            _formData.append('time', Date.now());
 
             _request.upload.onprogress = (event) => {
 
