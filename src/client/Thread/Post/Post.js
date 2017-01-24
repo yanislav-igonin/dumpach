@@ -21,7 +21,7 @@ export default class Post extends Component {
     render(){
         return (
             <li className='dumpach-thread-post'>
-                <h1 className='post-title'>{this.props.post.title}</h1>
+                <h1 className='post-title'>{this.props.post.title} - {this.props.postIndex}</h1>
                 <ul className='post-files-list'>
                     {this.renderFiles()}
                 </ul>

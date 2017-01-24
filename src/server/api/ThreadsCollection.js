@@ -96,28 +96,46 @@ ThreadsCollection.postInThread = (threadId, post) => {
 
 	console.log('postInThread', threadId, post);
 
+	let _postsLength, _updateParameters;
+
 	return new Promise((resolve, reject) => {
 		if (threadId.match(/^[0-9a-fA-F]{24}$/)) {
 
-			ThreadsCollection.findByIdAndUpdate(
-				threadId,
-				{$push: { "posts": post }, $set: {updateTime: Date.now()}},
-				{safe: true, upsert: true, new: true},
-				(err, thread) => {
-					if (err) {
-						console.error('Get thread by id error', err);
-						resolve(err);
-					} else {
-						console.log(thread);
-						resolve(thread.posts);
+			ThreadsCollection.findById(threadId).lean().exec((err, thread) => {
+
+				_postsLength = thread.posts.length;
+				_updateParameters = getThreadUpdateTimeParameters(post, _postsLength, thread);
+
+				ThreadsCollection.findByIdAndUpdate(
+					threadId,
+					{$push: { "posts": post }, $set: _updateParameters},
+					{safe: true, upsert: true, new: true},
+					(err, thread) => {
+						if (err) {
+							console.error('Get thread by id error', err);
+							resolve(err);
+						} else {
+							resolve(thread.posts);
+						}
 					}
-				}
-			);
+				);
+			
+			});
 
 		} else {
 			resolve(null);
 		}
 	});
+}
+
+function getThreadUpdateTimeParameters(post, postsLength, thread){
+	let _parameters = {updateTime: post.time};
+
+	if(post.sage || postsLength > 500){
+		_parameters.updateTime = thread.updateTime;
+	}
+	
+	return _parameters;
 }
 
 ////////////////////////////////////////////

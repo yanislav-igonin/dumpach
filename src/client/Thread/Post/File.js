@@ -25,7 +25,6 @@ export default class File extends React.Component{
     }
 
     render(){
-        debugger;
         let _filesLocation = window.location.origin + '/uploads/',
             _fileType,
             _renderedElement = null,

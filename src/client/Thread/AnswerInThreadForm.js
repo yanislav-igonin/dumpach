@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Button} from 'react-toolbox/lib/button';
 import Dialog from 'react-toolbox/lib/dialog';
 import Input from 'react-toolbox/lib/input';
+import Checkbox from 'react-toolbox/lib/checkbox';
 
 import Promise from 'bluebird';
 
@@ -47,6 +48,8 @@ export default class AnswerInThreadForm extends Component {
             _file,
             _this = this;
 
+        // for(let i = 0; i < 500; i++){
+
         if(_files.length > 0 || _text !== '') {
             let _request = new XMLHttpRequest(),
                 _formData = new FormData();
@@ -78,6 +81,7 @@ export default class AnswerInThreadForm extends Component {
             
             _request.send(_formData);
         }
+        // }
 
         this.handleToggle();
     }
@@ -97,6 +101,7 @@ export default class AnswerInThreadForm extends Component {
                     <Input type='text' label='Введите тему' value={this.state.answerTitle} onChange={this.handleAnswerTitleChange}/>
                     <Input type='text' label='Введите текст' multiline rows={5} value={this.state.answerText} onChange={this.handleAnswerTextChange}/>
                     <input type='file' multiple ref='answerFiles' />
+                    <Checkbox />
 
                 </Dialog>
             </div>

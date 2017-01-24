@@ -53,7 +53,7 @@ export default class Thread extends Component {
     renderPosts(){
         return this.state.posts.map((post, postIndex) => {
             return (
-                <Post key={postIndex} post={post} />
+                <Post key={postIndex} post={post} postIndex={postIndex} />
             )
         });
     }

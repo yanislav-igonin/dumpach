@@ -40,7 +40,6 @@ export default class MainPage extends Component {
             _request.onreadystatechange = () => {
                 if (_request.readyState === 4 && _request.status === 200) {
                     _threads = JSON.parse(_request.responseText);
-                    debugger
                     resolve(_threads.sort(compareThreadUpdateTime));
                 }
             }
