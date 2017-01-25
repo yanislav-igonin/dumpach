@@ -48,8 +48,6 @@ export default class AnswerInThreadForm extends Component {
             _file,
             _this = this;
 
-        // for(let i = 0; i < 500; i++){
-
         if(_files.length > 0 || _text !== '') {
             let _request = new XMLHttpRequest(),
                 _formData = new FormData();
@@ -81,7 +79,6 @@ export default class AnswerInThreadForm extends Component {
             
             _request.send(_formData);
         }
-        // }
 
         this.handleToggle();
     }

@@ -85,6 +85,7 @@ ThreadsCollection.createNewThread = (thread) => {
 				console.error('Create new thread error', err);
 				resolve(err);
 			} else {
+				deleteOldThread();
 				resolve(thread);
 			}
 		})
@@ -136,6 +137,23 @@ function getThreadUpdateTimeParameters(post, postsLength, thread){
 	}
 	
 	return _parameters;
+}
+
+function deleteOldThread(){
+	ThreadsCollection.find({}).lean().exec((err, threads) => {
+
+		if(threads.length > 50){
+			ThreadsCollection.findOne().sort({updateTime: 1}).exec((err, thread) => {
+
+				ThreadsCollection.remove({ _id: thread._id }, function(err) {
+					if (err) {
+						console.log('error:', err);
+					}
+				});
+
+			});
+		}
+	});
 }
 
 ////////////////////////////////////////////
