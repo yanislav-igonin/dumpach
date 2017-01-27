@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Promise from 'bluebird';
+// import Masonry from 'react-masonry-component';
 
 import CreateThreadForm from './CreateThreadForm';
 import ThreadCard from './ThreadCard';

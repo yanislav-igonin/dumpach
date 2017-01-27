@@ -13,13 +13,15 @@ export default class AnswerInThreadForm extends Component {
         this.state = {
             active: false,
             answerTitle: '',
-            answerText: ''
+            answerText: '',
+            answerSage: false
         };
 
 
         this.handleToggle = this.handleToggle.bind(this);
         this.handleAnswerTitleChange = this.handleAnswerTitleChange.bind(this);
         this.handleAnswerTextChange = this.handleAnswerTextChange.bind(this);
+        this.handleAnswerSageChange = this.handleAnswerSageChange.bind(this);
         this.answerInThread = this.answerInThread.bind(this);
 
         this.actions = [
@@ -40,11 +42,16 @@ export default class AnswerInThreadForm extends Component {
         this.setState({answerText: value});
     }
 
+    handleAnswerSageChange(value){
+        this.setState({answerSage: value});
+    }
+
     answerInThread(){
         
         let _files = this.refs.answerFiles.files,
             _title = this.state.answerTitle,
             _text = this.state.answerText,
+            _sage = this.state.answerSage,
             _file,
             _this = this;
 
@@ -61,6 +68,7 @@ export default class AnswerInThreadForm extends Component {
             _formData.append('title', _title);
             _formData.append('text', _text);
             _formData.append('time', Date.now());
+            _formData.append('sage', _sage);
 
             _request.upload.onprogress = (event) => {
 
@@ -97,8 +105,9 @@ export default class AnswerInThreadForm extends Component {
 
                     <Input type='text' label='Введите тему' value={this.state.answerTitle} onChange={this.handleAnswerTitleChange}/>
                     <Input type='text' label='Введите текст' multiline rows={5} value={this.state.answerText} onChange={this.handleAnswerTextChange}/>
+                    <Checkbox checked={this.state.answerSage} onChange={this.handleAnswerSageChange} label="САЖА"/>
                     <input type='file' multiple ref='answerFiles' />
-                    <Checkbox />
+                    
 
                 </Dialog>
             </div>
