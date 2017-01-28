@@ -109,7 +109,6 @@ router.post('/threads/:threadId', (req, res) => {
     form.on('error', (err) => {
         console.log('An error has occured: \n' + err);
     });
-
     form.on('end', () => {
 
         ThreadsCollection.postInThread(req.params.threadId, _post).then((posts) => {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Promise from 'bluebird';
-// import Masonry from 'react-masonry-component';
+import Masonry from 'react-masonry-component';
 
 import CreateThreadForm from './CreateThreadForm';
 import ThreadCard from './ThreadCard';
@@ -60,9 +60,9 @@ export default class MainPage extends Component {
         return (
             <div className="dumpach-main-container">
                 <CreateThreadForm />
-                <ul className="dumpach-threads-list" style={{ marginTop: '3em', paddingLeft: '2%' }}>
+                <Masonry elementType={'ul'} className="dumpach-threads-list" style={{ marginTop: '3em', paddingLeft: '2%' }}>
                     {this.renderThreads()}
-                </ul>
+                </Masonry>
             </div>
         );
     }

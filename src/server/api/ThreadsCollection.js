@@ -98,6 +98,12 @@ ThreadsCollection.postInThread = (threadId, post) => {
 	console.log('postInThread', threadId, post);
 
 	let _postsLength, _updateParameters;
+	
+	if(post.sage === 'true'){
+		post.sage = true;
+	} else {
+		post.sage = false;
+	}
 
 	return new Promise((resolve, reject) => {
 		if (threadId.match(/^[0-9a-fA-F]{24}$/)) {
@@ -131,8 +137,8 @@ ThreadsCollection.postInThread = (threadId, post) => {
 
 function getThreadUpdateTimeParameters(post, postsLength, thread){
 	let _parameters = {updateTime: post.time};
-
-	if(post.sage || postsLength > 500){
+	
+	if(post.sage === true || postsLength > 500){
 		_parameters.updateTime = thread.updateTime;
 	}
 	
