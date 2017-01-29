@@ -93,7 +93,7 @@ export default class AnswerInThreadForm extends Component {
 
     render() {
         return (
-            <div className='answer-thread-dialog-container' style={{margin: '3em 0 0 2%'}}>
+            <div className='answer-thread-dialog-container' style={{margin: '1em 0 0 2%'}}>
                 <Button label='Ответить в тред' onClick={this.handleToggle}/>
                 <Dialog
                     className='answer-thread-dialog'

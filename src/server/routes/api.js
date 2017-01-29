@@ -73,7 +73,7 @@ router.get('/threads/:threadId', (req, res) => {
         if(thread !== null){
             res.send(thread);
         } else {
-            res.send('Тред не найден!');
+            res.status(404).end();
         }
     });
 });
@@ -122,6 +122,10 @@ router.post('/threads/:threadId', (req, res) => {
     });
 
     form.parse(req);
+});
+
+router.use('*', (req, res) => {
+    res.send('Not found');
 });
 
 module.exports = router;

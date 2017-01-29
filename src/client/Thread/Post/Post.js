@@ -11,19 +11,29 @@ export default class Post extends Component {
         }
     }
 
+    getPostTitleStyles(){
+        return(
+            {
+                textOverflow: 'elipsis',
+                wordWrap: 'break-word'
+            }
+        )
+    }
+            
     renderPostTitle(){
         let _postTime = new Date(parseInt(this.props.post.time)),
             _postTitle = (
-                <h1 className='post-title'>
-                    {this.props.post.title} - {_postTime.toLocaleDateString()} {_postTime.toLocaleTimeString()} - #{this.props.postIndex} 
-                </h1>
+                <div>
+                    <h2 className='post-title' style={this.getPostTitleStyles()}>{this.props.post.title}</h2>
+                    <h2 className='post-title'>{_postTime.toLocaleDateString()} {_postTime.toLocaleTimeString()} - #{this.props.postIndex}</h2>
+                </div>
             );
 
         if(this.props.post.title === ''){
             _postTitle = (
-                <h1 className='post-title'>
-                    {_postTime.toLocaleDateString()} {_postTime.toLocaleTimeString()} - #{this.props.postIndex} 
-                </h1>
+                <div>
+                    <h2 className='post-title'>{_postTime.toLocaleDateString()} {_postTime.toLocaleTimeString()} - #{this.props.postIndex}</h2>
+                </div>
             )
         }
 
@@ -36,6 +46,25 @@ export default class Post extends Component {
         });
     }
 
+    renderPostText(){
+        let _postText = null,
+            _lines = this.props.post.text.split('\n');
+            
+        if(this.props.post.text !== ''){
+
+            _postText = _lines.map((line, lineIndex) => {
+                return (
+                    <div key={lineIndex} className='post-text'>
+                        {line}
+                        <br/>
+                    </div>
+                )
+            });
+        }
+
+        return _postText;
+    }
+
 
     render(){
         
@@ -45,8 +74,11 @@ export default class Post extends Component {
                 <ul className='post-files-list'>
                     {this.renderFiles()}
                 </ul>
-                <p className='post-text'>{this.props.post.text}</p>
+                <div className='post-text-container'>
+                    {this.renderPostText()}
+                </div>
             </li>
         )
     }
 }
+

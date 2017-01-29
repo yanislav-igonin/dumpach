@@ -1,3 +1,17 @@
 .thread-card-media{
     height: 30%;
 }
+
+@media (max-width: 1000px) {
+    .thread-card-title{
+        p{
+            font-size: 50px;
+        }
+    }
+
+    .thread-card-text{
+        p{
+            font-size: 40px;
+        }
+    }
+}

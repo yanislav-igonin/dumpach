@@ -4,10 +4,32 @@
     margin-bottom: 1%;
     
     .post-title{
-        margin: 2% 0;
+        margin: 0;
     }
 
     .post-files-list{
         padding: 0;
+        margin-top: 10px;
+    }
+
+    .post-text-container{
+        margin: 0;
+
+        .post-text{
+            font-size: 22px;
+        }
+    }
+}
+
+@media (max-width: 1000px) {
+    .dumpach-thread-post{
+        
+        .post-title{
+            font-size: 50px;
+        }
+
+        .post-text{
+            font-size: 40px;
+        }
     }
 }

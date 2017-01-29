@@ -27,17 +27,32 @@ export default class ThreadCard extends Component {
         return _renderedCardMediaComponent;
     }
 
-    render() {
-        return (
-            <Card style={{
-                width: '46%',
+    getCardStyles(){
+        let _styles = {
+            width: '46%',
+            marginRight: '2%',
+            marginBottom: 20,
+            display: 'inline-block'
+        };
+
+        if(document.body.clientWidth < 1000){
+            _styles = {
+                width: '96%',
                 marginRight: '2%',
                 marginBottom: 20,
                 display: 'inline-block'
-            }}>
+            }
+        }
+
+        return _styles;
+    }
+
+    render() {
+        return (
+            <Card style={this.getCardStyles()}>
                 {this.renderCardMediaComponent()}
-                <CardTitle style={{ maxHeight: '10%', wordWrap: 'break-word' }} title={this.props.thread.posts[0].title}/>
-                <CardText style={{ height: '33.5%', wordWrap: 'break-word', overflow: 'auto' }}>{this.props.thread.posts[0].text}</CardText>
+                <CardTitle className='thread-card-title' style={{ maxHeight: '10%', wordWrap: 'break-word' }} title={this.props.thread.posts[0].title}/>
+                <CardText className='thread-card-text' style={{ height: '33.5%', wordWrap: 'break-word', overflow: 'auto' }}>{this.props.thread.posts[0].text}</CardText>
                 <CardActions>
                     <Button label="Открыть тред" onMouseUp={this.openThread}/>
                 </CardActions>
@@ -45,3 +60,4 @@ export default class ThreadCard extends Component {
         );
     }
 }
+

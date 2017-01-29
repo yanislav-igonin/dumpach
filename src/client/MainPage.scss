@@ -3,3 +3,11 @@
         margin-top: 3em;
     }
 }
+
+@media (max-width: 1000px) {
+    .dumpach-main-container{
+        button{
+            font-size: 40px;
+        }
+    }
+}

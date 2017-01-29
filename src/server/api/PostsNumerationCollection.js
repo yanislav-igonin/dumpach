@@ -15,7 +15,9 @@ let postsNumerationSchema = mongoose.Schema({
 let PostsNumerationCollection = mongoose.model('PostsNumeration', postsNumerationSchema);
 
 
-// PostsNumerationCollection
+PostsNumerationCollection.incrementPostsNumeration = () => {
+    
+}
 
 
 module.exports = PostsNumerationCollection;
