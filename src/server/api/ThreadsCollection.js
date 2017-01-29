@@ -2,6 +2,8 @@
 
 import Promise from 'bluebird';
 
+import PostsNumerationCollection from './PostsNumerationCollection';
+
 
 ////////////////////////////////////////////
 ///////////DB CONNECTION FUNCTIONS//////////
@@ -17,6 +19,8 @@ mongoose.connection.on('error', console.error.bind(console, 'connection error:')
 mongoose.connection.on('connected', () => {
     console.log('Mongoose default connection open to ' + db_url);
 });
+
+PostsNumerationCollection.createFirstDocument();
 
 ////////////////////////////////////////////
 ////////////MONGO SCHEMA CREATION///////////
@@ -80,15 +84,19 @@ ThreadsCollection.createNewThread = (thread) => {
 
 	return new Promise((resolve, reject) => {
 
-		_newThread.save((err, thread) => {
-			if (err) {
-				console.error('Create new thread error', err);
-				resolve(err);
-			} else {
-				deleteOldThread();
-				resolve(thread);
-			}
-		})
+		PostsNumerationCollection.incrementPostsNumeration().then((postNumeration) => {
+			_newThread.posts[0].postNumeration = postNumeration;
+
+			_newThread.save((err, thread) => {
+				if (err) {
+					console.error('Create new thread error', err);
+					resolve(err);
+				} else {
+					deleteOldThread();
+					resolve(thread);
+				}
+			})
+		});
 
 	});
 }
@@ -113,19 +121,24 @@ ThreadsCollection.postInThread = (threadId, post) => {
 				_postsLength = thread.posts.length;
 				_updateParameters = getThreadUpdateTimeParameters(post, _postsLength, thread);
 
-				ThreadsCollection.findByIdAndUpdate(
-					threadId,
-					{$push: { "posts": post }, $set: _updateParameters},
-					{safe: true, upsert: true, new: true},
-					(err, thread) => {
-						if (err) {
-							console.error('Get thread by id error', err);
-							resolve(err);
-						} else {
-							resolve(thread.posts);
+				PostsNumerationCollection.incrementPostsNumeration().then((postNumeration) => {
+					post.postNumeration = postNumeration;
+
+					ThreadsCollection.findByIdAndUpdate(
+						threadId,
+						{$push: { "posts": post }, $set: _updateParameters},
+						{safe: true, upsert: true, new: true},
+						(err, thread) => {
+							if (err) {
+								console.error('Get thread by id error', err);
+								resolve(err);
+							} else {
+								resolve(thread.posts);
+							}
 						}
-					}
-				);
+					);
+
+				});
 			
 			});
 

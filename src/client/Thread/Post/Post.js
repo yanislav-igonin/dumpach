@@ -21,18 +21,19 @@ export default class Post extends Component {
     }
             
     renderPostTitle(){
+        debugger
         let _postTime = new Date(parseInt(this.props.post.time)),
             _postTitle = (
                 <div>
+                    <h2 className='post-title'>{_postTime.toLocaleDateString()} {_postTime.toLocaleTimeString()} - #{this.props.postIndex} - {this.props.post.postNumeration}</h2>
                     <h2 className='post-title' style={this.getPostTitleStyles()}>{this.props.post.title}</h2>
-                    <h2 className='post-title'>{_postTime.toLocaleDateString()} {_postTime.toLocaleTimeString()} - #{this.props.postIndex}</h2>
                 </div>
             );
 
         if(this.props.post.title === ''){
             _postTitle = (
                 <div>
-                    <h2 className='post-title'>{_postTime.toLocaleDateString()} {_postTime.toLocaleTimeString()} - #{this.props.postIndex}</h2>
+                    <h2 className='post-title'>{_postTime.toLocaleDateString()} {_postTime.toLocaleTimeString()} - #{this.props.postIndex} - {this.props.post.postNumeration}</h2>
                 </div>
             )
         }
