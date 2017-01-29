@@ -18,7 +18,8 @@ export default class Thread extends Component {
             drawerActive: false
         }
 
-        this.updatePosts = this.updatePosts.bind(this);
+        this.getInitialPosts = this.getInitialPosts.bind(this);
+        this.refreshPosts = this.refreshPosts.bind(this);
         this.toggleDrawerActive = this.toggleDrawerActive.bind(this);
         this.goToMainPage = this.goToMainPage.bind(this);
     }
@@ -61,6 +62,10 @@ export default class Thread extends Component {
         this.setState({posts: posts});
     }
 
+    refreshPosts(){
+        this.getInitialPosts()
+    }
+
     goToMainPage(){
         browserHistory.push('/');
     }
@@ -68,6 +73,10 @@ export default class Thread extends Component {
     toggleDrawerActive(){
         this.setState({ drawerActive: !this.state.drawerActive });
     };
+
+    scrollToTop(){
+        document.getElementsByClassName('dumpach-thread-container')[0].scrollTop = 0;
+    }
 
     renderPosts(){
         return this.state.posts.map((post, postIndex) => {
@@ -82,7 +91,7 @@ export default class Thread extends Component {
             <Layout>
                 
                 <NavDrawer active={this.state.drawerActive}
-                    width={'normal'}
+                    className='thread-nav-drawer-content'
                     onOverlayClick={ this.toggleDrawerActive }>
                     
                     <Button style={{margin: '10px'}} label='На главную' onClick={this.goToMainPage}/>
@@ -90,13 +99,19 @@ export default class Thread extends Component {
                 </NavDrawer>
 
                 <Panel>
-                    <AppBar leftIcon='menu' onLeftIconClick={ this.toggleDrawerActive } />
+                    <AppBar leftIcon='menu' rightIcon='arrow_upward' onLeftIconClick={ this.toggleDrawerActive } onRightIconClick={this.scrollToTop}/>
 
                     <div  style={{ flex: 1, overflowY: 'auto' }} className='dumpach-thread-container'>
                         <AnswerInThreadForm threadId={this.props.params.threadId} updatePosts={this.updatePosts} Thread={this}/>
+                        
                         <ul className='thread-posts-list'>
                             {this.renderPosts()}
                         </ul>
+                                    
+                        <div style={{margin: '1em 0 0 2%'}}>
+                            <Button style={{marginBottom: '10px', display:'inline-block'}} label='Обновить тред' onClick={this.refreshPosts}/>
+                            <AnswerInThreadForm threadId={this.props.params.threadId} updatePosts={this.updatePosts} Thread={this}/>
+                        </div>
                     </div>
                 </Panel>
 

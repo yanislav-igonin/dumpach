@@ -2,6 +2,12 @@
     height: 30%;
 }
 
+.thread-card-title{
+    h5{
+        margin: 0;
+    }
+}
+
 @media (max-width: 1000px) {
     .thread-card-title{
         p{
