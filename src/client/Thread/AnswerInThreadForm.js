@@ -105,8 +105,19 @@ export default class AnswerInThreadForm extends Component {
             borderStyle: 'dashed',
             borderRadius: 5,
             textAlign: 'center',
-            padding: '40px 0'
+            padding: '40px 0',
+            position: 'relative'
         }
+    }
+
+    renderFilesPreview(){
+        return this.state.answerFiles.map((file) => {
+            return (
+                <li className='files-preview-list-element'>
+                    <img key={file.name} width="50px" src={file.preview} /> 
+                </li>
+            );
+        })
     }
 
     render() {
@@ -126,9 +137,15 @@ export default class AnswerInThreadForm extends Component {
                     <Checkbox checked={this.state.answerSage} onChange={this.handleAnswerSageChange} label="САЖА"/>
                     <Dropzone style={this.getDropzoneStyle()} onDrop={this.handleFilesDrop} >
                         <i className="material-icons">attach_file</i>
-                        {this.state.answerFiles.length > 0 ? <div>
-                        <h2>Uploading {this.state.answerFiles.length} files...</h2>
-                        </div> : null}
+
+                        {this.state.answerFiles.length > 0 ? 
+                            <div>
+                                <h2>Uploading {this.state.answerFiles.length} files...</h2>
+                                <ul className='files-preview-list'>
+                                    {this.renderFilesPreview()}
+                                </ul>
+                            </div> : null}
+                            
                     </Dropzone>
 
 

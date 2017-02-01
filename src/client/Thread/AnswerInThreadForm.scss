@@ -1,0 +1,18 @@
+.answer-thread-dialog{
+    h6{
+        margin-top: 1rem;
+    }
+
+    .files-preview-list{
+        position: absolute;
+        top: 0px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        .files-preview-list-element{
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+}
