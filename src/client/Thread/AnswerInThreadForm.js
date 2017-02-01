@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Dropzone from 'react-dropzone';
 import {Button} from 'react-toolbox/lib/button';
 import Dialog from 'react-toolbox/lib/dialog';
 import Input from 'react-toolbox/lib/input';
@@ -14,7 +15,8 @@ export default class AnswerInThreadForm extends Component {
             active: false,
             answerTitle: '',
             answerText: '',
-            answerSage: false
+            answerSage: false,
+            answerFiles: []
         };
 
 
@@ -22,6 +24,7 @@ export default class AnswerInThreadForm extends Component {
         this.handleAnswerTitleChange = this.handleAnswerTitleChange.bind(this);
         this.handleAnswerTextChange = this.handleAnswerTextChange.bind(this);
         this.handleAnswerSageChange = this.handleAnswerSageChange.bind(this);
+        this.handleFilesDrop = this.handleFilesDrop.bind(this);
         this.answerInThread = this.answerInThread.bind(this);
 
         this.actions = [
@@ -46,9 +49,12 @@ export default class AnswerInThreadForm extends Component {
         this.setState({answerSage: value});
     }
 
+    handleFilesDrop(files){
+        this.setState({answerFiles: files});
+    }
+
     answerInThread(){
-        
-        let _files = this.refs.answerFiles.files,
+        let _files = this.state.answerFiles,
             _title = this.state.answerTitle,
             _text = this.state.answerText,
             _sage = this.state.answerSage,
@@ -91,6 +97,18 @@ export default class AnswerInThreadForm extends Component {
         this.handleToggle();
     }
 
+    getDropzoneStyle(){
+        return{
+            width: '100%',
+            borderWidth: 2,
+            borderColor: 'rgb(102, 102, 102)',
+            borderStyle: 'dashed',
+            borderRadius: 5,
+            textAlign: 'center',
+            padding: '40px 0'
+        }
+    }
+
     render() {
         return (
             <div className='answer-thread-dialog-container' style={{margin: '1em 0 0 2%', display:'inline-block'}}>
@@ -106,8 +124,13 @@ export default class AnswerInThreadForm extends Component {
                     <Input type='text' label='Введите тему' value={this.state.answerTitle} onChange={this.handleAnswerTitleChange}/>
                     <Input type='text' label='Введите текст' multiline rows={5} value={this.state.answerText} onChange={this.handleAnswerTextChange}/>
                     <Checkbox checked={this.state.answerSage} onChange={this.handleAnswerSageChange} label="САЖА"/>
-                    <input type='file' multiple ref='answerFiles' />
-                    
+                    <Dropzone style={this.getDropzoneStyle()} onDrop={this.handleFilesDrop} >
+                        <i className="material-icons">attach_file</i>
+                        {this.state.answerFiles.length > 0 ? <div>
+                        <h2>Uploading {this.state.answerFiles.length} files...</h2>
+                        </div> : null}
+                    </Dropzone>
+
 
                 </Dialog>
             </div>

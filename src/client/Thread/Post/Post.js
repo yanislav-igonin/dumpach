@@ -21,7 +21,6 @@ export default class Post extends Component {
     }
             
     renderPostTitle(){
-        debugger
         let _postTime = new Date(parseInt(this.props.post.time)),
             _postTitle = (
                 <div>
