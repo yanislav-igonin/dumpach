@@ -5,4 +5,17 @@
     label{
         font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     }
+
+    .files-preview-list{
+        position: absolute;
+        top: 0px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        .files-preview-list-element{
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
 }

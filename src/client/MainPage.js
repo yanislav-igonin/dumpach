@@ -20,11 +20,9 @@ export default class MainPage extends Component {
     }
     
     getInitialThreads(){
-        let _this = this;
-
         this.getThreads().then((threads) => {
             console.log(threads);
-            _this.setState({ threads: threads });
+            this.setState({ threads: threads });
             return false;
         });
     }

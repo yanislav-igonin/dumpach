@@ -4,6 +4,7 @@ import {Button} from 'react-toolbox/lib/button';
 import Dialog from 'react-toolbox/lib/dialog';
 import Input from 'react-toolbox/lib/input';
 import Checkbox from 'react-toolbox/lib/checkbox';
+import ProgressBar from 'react-toolbox/lib/progress_bar';
 
 import Promise from 'bluebird';
 
@@ -16,7 +17,8 @@ export default class AnswerInThreadForm extends Component {
             answerTitle: '',
             answerText: '',
             answerSage: false,
-            answerFiles: []
+            answerFiles: [],
+            uploadProgress: 0
         };
 
 
@@ -79,7 +81,7 @@ export default class AnswerInThreadForm extends Component {
             _request.upload.onprogress = (event) => {
 
                 if (event.lengthComputable) {
-                    // _progressBar.style.width = parseInt(event.loaded * 100 / event.total) + '%';
+                    this.setState({uploadProgress: parseInt(event.loaded * 100 / event.total)});
                 }
 
             };
@@ -88,13 +90,24 @@ export default class AnswerInThreadForm extends Component {
             _request.onreadystatechange = () => {
                 if (_request.readyState === 4 && _request.status === 201) {
                     _this.props.Thread.updatePosts(JSON.parse(_request.responseText));
+                    this.clearAllFields()
+                    this.handleToggle();
                 }
             };
             
             _request.send(_formData);
         }
 
-        this.handleToggle();
+    }
+
+    clearAllFields(){
+        this.setState({
+            answerTitle: '',
+            answerText: '',
+            answerSage: false,
+            answerFiles: [],
+            uploadProgress: 0
+        });
     }
 
     getDropzoneStyle(){
@@ -131,6 +144,8 @@ export default class AnswerInThreadForm extends Component {
                     onEscKeyDown={this.handleToggle}
                     onOverlayClick={this.handleToggle}
                     title='Ответить в тред'>
+
+                    <ProgressBar type="linear" mode="determinate" value={this.state.uploadProgress} />
 
                     <Input type='text' label='Введите тему' value={this.state.answerTitle} onChange={this.handleAnswerTitleChange}/>
                     <Input type='text' label='Введите текст' multiline rows={5} value={this.state.answerText} onChange={this.handleAnswerTextChange}/>
