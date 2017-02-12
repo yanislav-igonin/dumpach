@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import FontIcon from 'react-toolbox/lib/font_icon';
 
 import File from './File';
 
@@ -22,17 +23,28 @@ export default class Post extends Component {
             
     renderPostTitle(){
         let _postTime = new Date(parseInt(this.props.post.time)),
+            _answerIcon = <FontIcon className='post-answer-icon' value='question_answer' 
+                onClick={() => this.props.openAnswerForm(this.props.post.postNumeration)} 
+            />,
             _postTitle = (
                 <div>
-                    <h2 className='post-title'>{_postTime.toLocaleDateString()} {_postTime.toLocaleTimeString()} - #{this.props.postIndex} - {this.props.post.postNumeration}</h2>
-                    <h2 className='post-title' style={this.getPostTitleStyles()}>{this.props.post.title}</h2>
+                    <h2 className='post-date'>
+                        {_postTime.toLocaleDateString()} {_postTime.toLocaleTimeString()} - #{this.props.postIndex} - {this.props.post.postNumeration}
+                    </h2>
+                    {_answerIcon}
+                    <h2 className='post-title' style={this.getPostTitleStyles()}>
+                        {this.props.post.title}
+                    </h2>
                 </div>
             );
 
         if(this.props.post.title === ''){
             _postTitle = (
                 <div>
-                    <h2 className='post-title'>{_postTime.toLocaleDateString()} {_postTime.toLocaleTimeString()} - #{this.props.postIndex} - {this.props.post.postNumeration}</h2>
+                    <h2 className='post-date'>
+                        {_postTime.toLocaleDateString()} {_postTime.toLocaleTimeString()} - #{this.props.postIndex} - {this.props.post.postNumeration}
+                    </h2>
+                    {_answerIcon}
                 </div>
             )
         }
