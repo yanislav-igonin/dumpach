@@ -70,7 +70,7 @@ function initializeServer() {
         const compiler = webpack(config);
 
         server
-            .use(require('webpack-dev-middleware')(compiler, {publicPath: config.output.publicPath}))
+            .use(require('webpack-dev-middleware')(compiler, {publicPath: config.output.publicPath, noInfo: true}))
             .use(require('webpack-hot-middleware')(compiler));
     }
 

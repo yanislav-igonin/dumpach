@@ -15,6 +15,7 @@ module.exports = {
         filename: "bundle.js",
         publicPath: '/scripts/'
     },
+
     watch: true,
 
     devtool: 'cheap-source-map',
