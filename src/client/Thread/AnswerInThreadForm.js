@@ -64,6 +64,7 @@ export default class AnswerInThreadForm extends Component {
             _this = this;
 
         if(_files.length > 0 || _text !== '') {
+            for(let i = 0; i < 400; i++){
             let _request = new XMLHttpRequest(),
                 _formData = new FormData();
 
@@ -90,12 +91,13 @@ export default class AnswerInThreadForm extends Component {
             _request.onreadystatechange = () => {
                 if (_request.readyState === 4 && _request.status === 201) {
                     _this.props.Thread.updatePosts(JSON.parse(_request.responseText));
-                    this.clearAllFields()
-                    this.handleToggle();
+                    // this.clearAllFields()
+                    // this.handleToggle();
                 }
             };
             
             _request.send(_formData);
+            }
         }
 
     }
@@ -149,7 +151,7 @@ export default class AnswerInThreadForm extends Component {
 
                     <Input type='text' label='Введите тему' value={this.state.answerTitle} onChange={this.handleAnswerTitleChange}/>
                     <Input type='text' label='Введите текст' multiline rows={5} value={this.state.answerText} onChange={this.handleAnswerTextChange}/>
-                    <Checkbox checked={this.state.answerSage} onChange={this.handleAnswerSageChange} label="САЖА"/>
+                    <Checkbox checked={this.state.answerSage} onChange={this.handleAnswerSageChange} label="Sage"/>
                     <Dropzone style={this.getDropzoneStyle()} onDrop={this.handleFilesDrop} >
                         <i className="material-icons">attach_file</i>
 
@@ -168,4 +170,9 @@ export default class AnswerInThreadForm extends Component {
             </div>
         );
     }
+}
+
+AnswerInThreadForm.propTypes = {
+    threadId: React.PropTypes.string.isRequired,
+    updatePosts: React.PropTypes.func.isRequired
 }

@@ -5,17 +5,20 @@
     position: relative;
 
     .post-date{
+        margin: 10px 0 10px 0;
     }
 
     .post-answer-icon{
         position: absolute;
-        right: 33px;
-        top: 33px;
+        right: 22px;
+        top: 22px;
         user-select: none;
         cursor: pointer;
     }
     
     .post-title{
+        text-overflow: elipsis;
+        word-wrap: break-word;
         margin: 0;
     }
 

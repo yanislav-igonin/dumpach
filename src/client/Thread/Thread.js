@@ -81,7 +81,7 @@ export default class Thread extends Component {
     renderPosts(){
         return this.state.posts.map((post, postIndex) => {
             return (
-                <Post key={new Date().getTime() + post.time + post.text} post={post} postIndex={postIndex} />
+                <Post key={new Date().getTime() + post.time + post.text + postIndex} post={post} postIndex={postIndex} />
             )
         });
     }
@@ -118,4 +118,8 @@ export default class Thread extends Component {
             </Layout>
         )
     }
+}
+
+Thread.propTypes = {
+    params: React.PropTypes.object.isRequired
 }

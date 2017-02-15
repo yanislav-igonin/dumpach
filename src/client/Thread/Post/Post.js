@@ -11,15 +11,6 @@ export default class Post extends Component {
             posts: []
         }
     }
-
-    getPostTitleStyles(){
-        return(
-            {
-                textOverflow: 'elipsis',
-                wordWrap: 'break-word'
-            }
-        )
-    }
             
     renderPostTitle(){
         let _postTime = new Date(parseInt(this.props.post.time)),
@@ -32,7 +23,7 @@ export default class Post extends Component {
                         {_postTime.toLocaleDateString()} {_postTime.toLocaleTimeString()} - #{this.props.postIndex} - {this.props.post.postNumeration}
                     </h2>
                     {_answerIcon}
-                    <h2 className='post-title' style={this.getPostTitleStyles()}>
+                    <h2 className='post-title'>
                         {this.props.post.title}
                     </h2>
                 </div>
@@ -94,3 +85,7 @@ export default class Post extends Component {
     }
 }
 
+Post.propTypes = {
+    post: React.PropTypes.object.isRequired,
+    postIndex: React.PropTypes.number.isRequired,
+}

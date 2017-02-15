@@ -10,9 +10,7 @@ import indexRoutes from './routes/index';
 import apiRoutes from './routes/api';
 
 const server = express(),
-    httpPort = process.env.NODE_ENV === 'production'
-        ? 80
-        : 8080,
+    httpPort = process.env.NODE_ENV === 'production' ? 8080 : 8080,
     uploadDir = path.join(__dirname, '../../uploads');
 
 // const privateKey, certificate, credentials;//FOR HTTPS IN FUTURE
