@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "babel-node src/server/index.js",
-    "build": "webpack --config webpack.production.config.js && babel server -d dist/server",
-    "serve": "NODE_ENV=production forever start dist/server/index.js"
+    "build": "webpack --config webpack.production.config.js && babel src/server -d dist/server",
+    "serve": "NODE_ENV=production node dist/server/index.js"
   },
   "repository": {
     "type": "git",
