@@ -1,6 +1,8 @@
 "use strict";
 
 import Promise from 'bluebird';
+import fs from 'fs';
+import path from 'path';
 
 import PostsNumerationCollection from './PostsNumerationCollection';
 
@@ -103,7 +105,7 @@ ThreadsCollection.createNewThread = (thread) => {
 
 ThreadsCollection.postInThread = (threadId, post) => {
 
-	console.log('postInThread', threadId, post);
+	console.log('postInThread', threadId);
 
 	let _postsLength, _updateParameters;
 	
@@ -160,18 +162,35 @@ function getThreadUpdateTimeParameters(post, postsLength, thread){
 
 function deleteOldThread(){
 	ThreadsCollection.find({}).lean().exec((err, threads) => {
-
 		if(threads.length > 50){
-			ThreadsCollection.findOne().sort({updateTime: 1}).exec((err, thread) => {
+			ThreadsCollection.find().sort({updateTime: 1}).exec((err, threads) => {
+				if(threads.length > 50){
+					for(let threadIndex = 50; threadIndex < threads.length; threadIndex++){
+						deleteOldThreadFiles(threads[threadIndex].posts);
 
-				ThreadsCollection.remove({ _id: thread._id }, function(err) {
-					if (err) {
-						console.log('error:', err);
+						ThreadsCollection.remove({ _id: threads[threadIndex]._id }, function(err) {
+							if (err) {
+								console.log('error:', err);
+							}
+						});
 					}
-				});
-
+				}
 			});
 		}
+	});
+}
+
+function deleteOldThreadFiles(posts){
+	posts.map((post) => {
+		post.files.map((file) => {
+			fs.unlink(path.join(__dirname, '../../../uploads/', file), (err) => {
+				if(err){
+					console.error(err);
+				} else {
+					console.log('Old file deleted');
+				}
+			});
+		})
 	});
 }
 
