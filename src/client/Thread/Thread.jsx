@@ -6,8 +6,8 @@ import { Button } from 'react-toolbox/lib/button';
 import { AppBar } from 'react-toolbox';
 import { Layout, NavDrawer, Panel } from 'react-toolbox';
 
-import Post from './Post/Post';
-import AnswerInThreadForm from './AnswerInThreadForm';
+import Post from './Post/Post.jsx';
+import AnswerInThreadForm from './AnswerInThreadForm.jsx';
 
 export default class Thread extends Component {
     constructor(props){

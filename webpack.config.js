@@ -8,7 +8,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
     entry: [
         'webpack-hot-middleware/client',
-        './src/client/App',
+        './src/client/App.jsx',
     ],
     output: {
         path: path.join(__dirname, 'dist/client'),
@@ -29,10 +29,21 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin()
     ],
 
+    eslint: {
+        configFile: './.eslintrc'
+    },
+
     module: {
+        preLoaders: [
+            { 
+                test: /\.jsx?$/, 
+                loader: 'eslint', 
+                exclude: /node_modules/ 
+            }
+        ],
         loaders: [
             {
-                test: /\.js$/,
+                test: /\.jsx$/,
                 loaders: ['react-hot', 'babel'],
                 include: path.join(__dirname, 'src/client')
             },

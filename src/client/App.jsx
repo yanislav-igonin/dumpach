@@ -1,11 +1,11 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import { Router, Route, browserHistory } from 'react-router'
+import { Router, Route, browserHistory } from 'react-router';
 
-import MainPage from './MainPage.js';
-import NotFoundPage from './NotFoundPage';
-import Thread from './Thread/Thread';
+import MainPage from './MainPage.jsx';
+import NotFoundPage from './NotFoundPage.jsx';
+import Thread from './Thread/Thread.jsx';
 
 import './App.scss';
 

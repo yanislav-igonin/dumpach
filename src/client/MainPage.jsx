@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Promise from 'bluebird';
 import Masonry from 'react-masonry-component';
 
-import CreateThreadForm from './CreateThreadForm';
-import ThreadCard from './ThreadCard';
+import CreateThreadForm from './CreateThreadForm.jsx';
+import ThreadCard from './ThreadCard.jsx';
 
 export default class MainPage extends Component {
     constructor(props){

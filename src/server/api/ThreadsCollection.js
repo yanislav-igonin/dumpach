@@ -163,7 +163,7 @@ function getThreadUpdateTimeParameters(post, postsLength, thread){
 function deleteOldThread(){
 	ThreadsCollection.find({}).lean().exec((err, threads) => {
 		if(threads.length > 50){
-			ThreadsCollection.find().sort({updateTime: 1}).exec((err, threads) => {
+			ThreadsCollection.find().sort({updateTime: -1}).exec((err, threads) => {
 				if(threads.length > 50){
 					for(let threadIndex = 50; threadIndex < threads.length; threadIndex++){
 						deleteOldThreadFiles(threads[threadIndex].posts);

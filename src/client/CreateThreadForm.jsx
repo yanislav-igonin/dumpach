@@ -3,35 +3,32 @@ import Dropzone from 'react-dropzone';
 import {Button} from 'react-toolbox/lib/button';
 import Dialog from 'react-toolbox/lib/dialog';
 import Input from 'react-toolbox/lib/input';
-import Checkbox from 'react-toolbox/lib/checkbox';
 import ProgressBar from 'react-toolbox/lib/progress_bar';
 
 import Promise from 'bluebird';
 
-export default class AnswerInThreadForm extends Component {
+export default class CreateThreadForm extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             active: false,
-            answerTitle: '',
-            answerText: '',
-            answerSage: false,
-            answerFiles: [],
+            newThreadTitle: '',
+            newThreadText: '',
+            newThreadFiles: [],
             uploadProgress: 0
         };
 
 
         this.handleToggle = this.handleToggle.bind(this);
-        this.handleAnswerTitleChange = this.handleAnswerTitleChange.bind(this);
-        this.handleAnswerTextChange = this.handleAnswerTextChange.bind(this);
-        this.handleAnswerSageChange = this.handleAnswerSageChange.bind(this);
+        this.handleNewThreadTitleChange = this.handleNewThreadTitleChange.bind(this);
+        this.handleNewThreadTextChange = this.handleNewThreadTextChange.bind(this);
         this.handleFilesDrop = this.handleFilesDrop.bind(this);
-        this.answerInThread = this.answerInThread.bind(this);
+        this.createThread = this.createThread.bind(this);
 
         this.actions = [
             {label: "Отмена", onClick: this.handleToggle}, 
-            {label: "Ответить в тред", onClick: this.answerInThread}
+            {label: "Создать тред", onClick: this.createThread}
         ];
     }
 
@@ -39,32 +36,30 @@ export default class AnswerInThreadForm extends Component {
         this.setState({active: !this.state.active});
     }
 
-    handleAnswerTitleChange(value){
-        this.setState({answerTitle: value});
+    handleNewThreadTitleChange(value){
+        this.setState({newThreadTitle: value});
     }
 
-    handleAnswerTextChange(value){
-        this.setState({answerText: value});
-    }
-
-    handleAnswerSageChange(value){
-        this.setState({answerSage: value});
+    handleNewThreadTextChange(value){
+        this.setState({newThreadText: value});
     }
 
     handleFilesDrop(files){
-        this.setState({answerFiles: files});
+        this.setState({newThreadFiles: files});
     }
 
-    answerInThread(){
-        let _files = this.state.answerFiles,
-            _title = this.state.answerTitle,
-            _text = this.state.answerText,
-            _sage = this.state.answerSage,
-            _file,
-            _this = this;
+    openCreatedThread(threadId){
+        window.location.href = '/threads/' + threadId;
+    }
+
+    createThread(){
+        
+        let _files = this.state.newThreadFiles,
+            _title = this.state.newThreadTitle,
+            _text = this.state.newThreadText,
+            _file;
 
         if(_files.length > 0 || _text !== '') {
-            for(let i = 0; i < 400; i++){
             let _request = new XMLHttpRequest(),
                 _formData = new FormData();
 
@@ -77,7 +72,6 @@ export default class AnswerInThreadForm extends Component {
             _formData.append('title', _title);
             _formData.append('text', _text);
             _formData.append('time', Date.now());
-            _formData.append('sage', _sage);
 
             _request.upload.onprogress = (event) => {
 
@@ -87,30 +81,19 @@ export default class AnswerInThreadForm extends Component {
 
             };
 
-            _request.open("POST", "/api/threads/" + this.props.threadId, true);
+            _request.open("POST", "/api/threads", true);
             _request.onreadystatechange = () => {
                 if (_request.readyState === 4 && _request.status === 201) {
-                    _this.props.Thread.updatePosts(JSON.parse(_request.responseText));
-                    // this.clearAllFields()
-                    // this.handleToggle();
+                    this.openCreatedThread(JSON.parse(_request.responseText));
                 }
             };
             
             _request.send(_formData);
-            }
         }
 
+        this.handleToggle();
     }
 
-    clearAllFields(){
-        this.setState({
-            answerTitle: '',
-            answerText: '',
-            answerSage: false,
-            answerFiles: [],
-            uploadProgress: 0
-        });
-    }
 
     getDropzoneStyle(){
         return{
@@ -126,7 +109,7 @@ export default class AnswerInThreadForm extends Component {
     }
 
     renderFilesPreview(){
-        return this.state.answerFiles.map((file) => {
+        return this.state.newThreadFiles.map((file) => {
             return (
                 <li className='files-preview-list-element'>
                     <img key={file.name} width="50px" src={file.preview} /> 
@@ -137,42 +120,34 @@ export default class AnswerInThreadForm extends Component {
 
     render() {
         return (
-            <div className='answer-thread-dialog-container' style={{margin: '1em 0 0 2%', display:'inline-block'}}>
-                <Button label='Ответить в тред' onClick={this.handleToggle}/>
+            <div className='create-thread-dialog-container' style={{margin: '3em 0 0 2%'}}>
+                <Button label='Создать тред' onClick={this.handleToggle}/>
                 <Dialog
-                    className='answer-thread-dialog'
+                    className='create-thread-dialog'
                     actions={this.actions}
                     active={this.state.active}
                     onEscKeyDown={this.handleToggle}
                     onOverlayClick={this.handleToggle}
-                    title='Ответить в тред'>
+                    title='Создать тред'>
 
                     <ProgressBar type="linear" mode="determinate" value={this.state.uploadProgress} />
 
-                    <Input type='text' label='Введите тему' value={this.state.answerTitle} onChange={this.handleAnswerTitleChange}/>
-                    <Input type='text' label='Введите текст' multiline rows={5} value={this.state.answerText} onChange={this.handleAnswerTextChange}/>
-                    <Checkbox checked={this.state.answerSage} onChange={this.handleAnswerSageChange} label="Sage"/>
+                    <Input type='text' label='Введите тему' value={this.state.newThreadTitle} onChange={this.handleNewThreadTitleChange}/>
+                    <Input type='text' label='Введите текст' multiline rows={5} value={this.state.newThreadText} onChange={this.handleNewThreadTextChange}/>
                     <Dropzone style={this.getDropzoneStyle()} onDrop={this.handleFilesDrop} >
                         <i className="material-icons">attach_file</i>
 
-                        {this.state.answerFiles.length > 0 ? 
+                        {this.state.newThreadFiles.length > 0 ? 
                             <div>
-                                <h2>Uploading {this.state.answerFiles.length} files...</h2>
+                                <h2>Uploading {this.state.newThreadFiles.length} files...</h2>
                                 <ul className='files-preview-list'>
                                     {this.renderFilesPreview()}
                                 </ul>
                             </div> : null}
                             
                     </Dropzone>
-
-
                 </Dialog>
             </div>
         );
     }
-}
-
-AnswerInThreadForm.propTypes = {
-    threadId: React.PropTypes.string.isRequired,
-    updatePosts: React.PropTypes.func.isRequired
 }

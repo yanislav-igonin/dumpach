@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import FontIcon from 'react-toolbox/lib/font_icon';
 
-import File from './File';
+import File from './File.jsx';
 
 export default class Post extends Component {
     constructor(props){
