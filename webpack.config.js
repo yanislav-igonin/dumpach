@@ -15,6 +15,10 @@ module.exports = {
         filename: "bundle.js",
         publicPath: '/scripts/'
     },
+    
+    resolve: {
+        extensions: ["", ".js", ".jsx"]
+    },
 
     watch: true,
 
