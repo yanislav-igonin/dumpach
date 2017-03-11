@@ -71,7 +71,7 @@ ThreadsCollection.getThreadById = (threadId) => {
 				}
 			});
 		} else {
-			resolve(null);
+			resolve({error: 'Thread not found!'});
 		}
 	});
 }

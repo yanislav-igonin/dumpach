@@ -70,10 +70,10 @@ router.post('/threads', (req, res) => {
 router.get('/threads/:threadId', (req, res) => {
 
     ThreadsCollection.getThreadById(req.params.threadId).then((thread) => {
-        if(thread !== null){
+        if(thread.error !== null){
             res.send(thread);
         } else {
-            res.status(404).end();
+            res.res.send(thread.error);;
         }
     });
 });

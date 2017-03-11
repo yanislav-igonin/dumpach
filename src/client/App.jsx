@@ -15,6 +15,7 @@ render(
     <Router history={browserHistory}>
         <Route path='/' component={MainPage} />
         <Route path='threads/:threadId' component={Thread} />
+        <Route path='404' component={NotFoundPage} />
         <Route path='*' component={NotFoundPage} />
     </Router>,
     document.getElementById('root')

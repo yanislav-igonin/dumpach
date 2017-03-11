@@ -50,6 +50,11 @@ export default class Thread extends Component {
                 }
                 if (_request.readyState === 4 ) {
                     _thread = JSON.parse(_request.responseText);
+                    debugger
+                    if(_thread.error !== null){
+                        this.goToNotFound();
+                    }
+
                     resolve(_thread.posts);
                 }
             }
@@ -68,6 +73,10 @@ export default class Thread extends Component {
 
     goToMainPage(){
         browserHistory.push('/');
+    }
+
+    goToNotFound(){
+        browserHistory.push('/404');
     }
 
     toggleDrawerActive(){
