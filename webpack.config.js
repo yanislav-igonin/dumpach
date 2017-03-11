@@ -16,6 +16,10 @@ module.exports = {
         publicPath: '/scripts/'
     },
 
+    resolve: {
+        extensions: ['', '.js', '.jsx']
+    },
+
     watch: true,
 
     devtool: 'cheap-source-map',
@@ -34,13 +38,13 @@ module.exports = {
     },
 
     module: {
-        preLoaders: [
-            { 
-                test: /\.jsx?$/, 
-                loader: 'eslint', 
-                exclude: /node_modules/ 
-            }
-        ],
+        // preLoaders: [
+        //     { 
+        //         test: /\.jsx?$/, 
+        //         loader: 'eslint', 
+        //         exclude: /node_modules/ 
+        //     }
+        // ],
         loaders: [
             {
                 test: /\.jsx$/,
@@ -50,7 +54,8 @@ module.exports = {
 
             {
                 test: /\.scss$/,
-                exclude: /(node_modules)\/react-toolbox/,
+             
+    "babel-eslint": "^7.1.1",   exclude: /(node_modules)\/react-toolbox/,
                 loader: ExtractTextPlugin.extract('css!sass'),
             },
             {

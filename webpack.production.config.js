@@ -14,6 +14,10 @@ module.exports = {
         filename: "bundle.js"
     },
 
+    resolve: {
+        extensions: ['', '.js', '.jsx']
+    },
+
     plugins: [
         new webpack.NoErrorsPlugin(),
         new webpack.DefinePlugin({
@@ -32,7 +36,7 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.js$/,
+                test: /\.jsx?$/,
                 loaders: ['babel'],
                 include: path.join(__dirname, 'src/client')
             },
