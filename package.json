@@ -4,9 +4,11 @@
   "description": "SPA imageboard with one section without moderation",
   "main": "index.js",
   "scripts": {
-    "start": "babel-node src/server/index.js",
+    "start": "NODE_ENV=production node dist/server/index.js",
     "build": "webpack --config webpack.production.config.js && babel src/server -d dist/server",
-    "serve": "NODE_ENV=production node dist/server/index.js"
+    "build:front": "webpack --config webpack.production.config.js",
+    "build:back": "babel src/server -d dist/server",
+    "dev": "nodemon src/server/index.js --exec babel-node"
   },
   "repository": {
     "type": "git",
