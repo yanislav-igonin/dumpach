@@ -1,11 +1,14 @@
-.dumpach-main-container{
-    .dumpach-threads-list{
+@import './ThreadCard/ThreadCard.scss';
+
+.main-container{
+    .threads-list{
+        list-style: none;
         margin-top: 3em;
     }
 }
 
 @media (max-width: 1000px) {
-    .dumpach-main-container{
+    .main-container{
         button{
             font-size: 40px;
         }

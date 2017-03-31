@@ -1,36 +1,63 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import Promise from 'bluebird';
+import axios from 'axios';
 import Masonry from 'react-masonry-component';
 
-export default class MainPage extends Component {
+import {threadsActions} from '../../actions/threadsActions';
+
+import ThreadCard from './ThreadCard/ThreadCard';
+
+class MainPage extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            threads: []
-        };
     }
 
     componentDidMount() {
         this.getInitialThreads();
     }
+    
+    getInitialThreads() {
+        this.getThreads()
+            .then((threads) => {
+                this.props.dispatch(threadsActions.threadsInit(threads));
+            });
+    }
 
-    getInitialThreads() {}
+    getThreads() {
+        return new Promise((resolve, reject) => {
+            axios.get('/api/threads')
+                .then((response) =>{
+                    resolve(response.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        });
+    }
 
-    getThreads() {}
-
-    renderThreads() {}
+    renderThreads() {
+        return this.props.threads.map((thread, threadIndex) => {
+            return <ThreadCard key={thread + threadIndex} thread={thread} />;
+        });
+    }
 
     render() {
         return (
-            <div className="dumpach-main-container">
-                <Masonry elementType={'ul'} className="dumpach-threads-list" >
-                    <li>dick</li>
+            <div className="main-container">
+                <Masonry elementType={'ul'} className="threads-list" >
+                    {this.renderThreads()}
                 </Masonry>
             </div>
         );
     }
 }
+
+function mapStateToProps(state, ownProps) {
+    return state.threads;
+}
+
+export default connect(mapStateToProps)(MainPage);
 
 function compareThreadUpdateTime(a, b) {
     return b.updateTime - a.updateTime;

@@ -3,7 +3,6 @@
 const NODE_ENV = 'development';
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     entry: [
@@ -29,7 +28,6 @@ module.exports = {
         new webpack.DefinePlugin({
             NODE_ENV: JSON.stringify(NODE_ENV)
         }),
-        new ExtractTextPlugin('style.css', { allChunks: true }),
         new webpack.HotModuleReplacementPlugin()
     ],
 

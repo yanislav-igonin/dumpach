@@ -1,0 +1,11 @@
+.threads-list-element{
+    margin: 0 10px 10px 0;
+
+    .thread-card-image{
+        // max-width: 400px;
+        width: initial!important;
+        height: initial!important;
+        max-height: 400px;
+        max-width: 400px;
+    }
+}
