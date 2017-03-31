@@ -20,10 +20,6 @@ module.exports = {
         extensions: ["", ".js", ".jsx"]
     },
 
-    resolve: {
-        extensions: ['', '.js', '.jsx']
-    },
-
     watch: true,
 
     devtool: 'cheap-source-map',
@@ -37,35 +33,16 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin()
     ],
 
-    eslint: {
-        configFile: './.eslintrc'
-    },
-
     module: {
-        // preLoaders: [
-        //     { 
-        //         test: /\.jsx?$/, 
-        //         loader: 'eslint', 
-        //         exclude: /node_modules/ 
-        //     }
-        // ],
         loaders: [
             {
-                test: /\.jsx$/,
+                test: /\.jsx?$/, 
                 loaders: ['react-hot', 'babel'],
                 include: path.join(__dirname, 'src/client')
             },
-
             {
                 test: /\.scss$/,
-             
-    "babel-eslint": "^7.1.1",   exclude: /(node_modules)\/react-toolbox/,
-                loader: ExtractTextPlugin.extract('css!sass'),
-            },
-            {
-                test: /(\.scss|\.css)$/,
-                include : /(node_modules)\/react-toolbox/,
-                loader: ExtractTextPlugin.extract('style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!sass')
+                loaders: ["style-loader", "css-loader", "sass-loader"]
             }
         ]
     }

@@ -1,12 +1,4 @@
-@import './MainPage.scss';
-@import './ThreadCard.scss';
-@import './CreateThreadForm.scss';
-
-
-@import './Thread/Thread.scss';
-@import './Thread/AnswerInThreadForm.scss';
-@import './Thread/Post/Post.scss';
-@import './Thread/Post/File.scss';
+@import './components/MainPage/MainPage.scss';
 
 *{
     font-family: 'Roboto', sans-serif;

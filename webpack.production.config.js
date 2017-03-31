@@ -36,20 +36,13 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.jsx?$/,
-                loaders: ['babel'],
+                test: /\.jsx?$/, 
+                loaders: ['react-hot', 'babel'],
                 include: path.join(__dirname, 'src/client')
             },
-
             {
                 test: /\.scss$/,
-                exclude: /(node_modules)\/react-toolbox/,
-                loader: ExtractTextPlugin.extract('css!sass'),
-            },
-            {
-                test: /(\.scss|\.css)$/,
-                include : /(node_modules)\/react-toolbox/,
-                loader: ExtractTextPlugin.extract('style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!sass')
+                loaders: ["style-loader", "css-loader", "sass-loader"]
             }
         ]
     }
