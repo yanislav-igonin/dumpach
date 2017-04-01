@@ -31,7 +31,12 @@ export default class ThreadCard extends Component {
                 <Card>
                         
                     <CardMedia
-                        overlay={<CardTitle title={this.props.thread.posts[0].title} />}
+                        overlay={
+                            <CardTitle 
+                                title={this.props.thread.posts[0].title} 
+                                titleStyle={{wordWrap: 'break-word'}}
+                            />
+                        }
                     >
                         {this.renderImage()}
                     </CardMedia>

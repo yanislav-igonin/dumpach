@@ -7,13 +7,35 @@ import Promise from 'bluebird';
 import ThreadsCollection from './../api/ThreadsCollection';
 
 const router = express.Router(),
-    uploadDir = path.join(__dirname, '../../../uploads');;
+    uploadDir = path.join(__dirname, '../../../uploads');
+
+const threads = [
+    {
+        posts: [
+            {
+                text: 'sdfksldfmskldfskldfsdf',
+                title: 'sdfsdfsdfsdsnuihf34y734yf73f93hf3',
+                files: []
+            }
+        ]
+    },
+    {
+        posts: [
+            {
+                text: '123123',
+                title: 'sdfsdf',
+                files: []
+            }
+        ]
+    },
+]
 
 router.get('/threads', (req, res) => {
 
-    ThreadsCollection.getAllThreads().then((threads) => {
+    // ThreadsCollection.getAllThreads().then((threads) => {
         res.send(threads);
-    });
+    // });
+    
 
 });
 
@@ -58,7 +80,7 @@ router.post('/threads', (req, res) => {
             if(thread.posts !== undefined){
                 res.status(201).send(thread._id);
             } else {
-                res.send('Ошибка при создании треда!');
+                res.send({error: 'Thread creating error!'});
             }
         });
 

@@ -6,6 +6,7 @@ import Masonry from 'react-masonry-component';
 
 import {threadsActions} from '../../actions/threadsActions';
 
+import CreateThreadForm from './CreateThreadForm/CreateThreadForm';
 import ThreadCard from './ThreadCard/ThreadCard';
 
 class MainPage extends Component {
@@ -28,6 +29,7 @@ class MainPage extends Component {
         return new Promise((resolve, reject) => {
             axios.get('/api/threads')
                 .then((response) =>{
+                    debugger
                     resolve(response.data);
                 })
                 .catch((error) => {
@@ -45,6 +47,8 @@ class MainPage extends Component {
     render() {
         return (
             <div className="main-container">
+                <CreateThreadForm />
+
                 <Masonry elementType={'ul'} className="threads-list" >
                     {this.renderThreads()}
                 </Masonry>
