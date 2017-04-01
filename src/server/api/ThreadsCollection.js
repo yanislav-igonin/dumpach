@@ -78,6 +78,7 @@ ThreadsCollection.getThreadById = (threadId) => {
 
 ThreadsCollection.createNewThread = (thread) => {
 	console.log('createNewThread');
+	console.log(thread);
 
 	let _newThread = new ThreadsCollection({
 		posts: thread.posts,

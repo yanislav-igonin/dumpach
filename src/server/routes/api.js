@@ -86,7 +86,11 @@ router.post('/threads', (req, res) => {
 
     });
 
-    form.parse(req);
+    form.parse(req, function(err, fields, files) {
+        console.log(err);
+        console.log(fields);
+        console.log(files);
+    });
 });
 
 router.get('/threads/:threadId', (req, res) => {

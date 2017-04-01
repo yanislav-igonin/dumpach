@@ -3,6 +3,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import Dropzone from 'react-dropzone';
+import axios from 'axios';
 
 export default class CreateThreadForm extends Component {
     constructor(props){
@@ -20,6 +21,8 @@ export default class CreateThreadForm extends Component {
         this.changeTitle = this.changeTitle.bind(this);
         this.changeText = this.changeText.bind(this);
         this.onDrop = this.onDrop.bind(this);
+
+        this.createThread = this.createThread.bind(this);
     }
 
     toggleOpen() {
@@ -36,6 +39,25 @@ export default class CreateThreadForm extends Component {
 
     onDrop(acceptedFiles, rejectedFiles) {
         this.setState({files: acceptedFiles});
+    }
+
+    createThread() {
+        let _data = new FormData();
+        _data.append('text', this.state.text);
+        _data.append('title', this.state.title);
+        _data.append(this.state.files);
+        let _config = {
+            onUploadProgress(progressEvent) {
+                console.log(Math.round((progressEvent.loaded * 100) / progressEvent.total));
+            }
+        };
+        axios.post('/api/threads', _data, _config)
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     }
 
     renderDropzoneFilesPreview() {
@@ -68,7 +90,7 @@ export default class CreateThreadForm extends Component {
             <FlatButton
                 label="Create thread"
                 primary={true}
-                onTouchTap={this.toggleOpen}
+                onTouchTap={this.createThread}
             />,
         ];
 
