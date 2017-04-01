@@ -9,32 +9,32 @@ import ThreadsCollection from './../api/ThreadsCollection';
 const router = express.Router(),
     uploadDir = path.join(__dirname, '../../../uploads');
 
-const threads = [
-    {
-        posts: [
-            {
-                text: 'sdfksldfmskldfskldfsdf',
-                title: 'sdfsdfsdfsdsnuihf34y734yf73f93hf3',
-                files: []
-            }
-        ]
-    },
-    {
-        posts: [
-            {
-                text: '123123',
-                title: 'sdfsdf',
-                files: []
-            }
-        ]
-    },
-]
+// const threads = [
+//     {
+//         posts: [
+//             {
+//                 text: 'sdfksldfmskldfskldfsdf',
+//                 title: 'sdfsdfsdfsdsnuihf34y734yf73f93hf3',
+//                 files: []
+//             }
+//         ]
+//     },
+//     {
+//         posts: [
+//             {
+//                 text: '123123',
+//                 title: 'sdfsdf',
+//                 files: []
+//             }
+//         ]
+//     },
+// ]
 
 router.get('/threads', (req, res) => {
 
-    // ThreadsCollection.getAllThreads().then((threads) => {
+    ThreadsCollection.getAllThreads().then((threads) => {
         res.send(threads);
-    // });
+    });
     
 
 });

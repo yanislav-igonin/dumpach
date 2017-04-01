@@ -14,12 +14,12 @@ export default class ThreadCard extends Component {
     renderImage(){
         let _image = (
             <img className="thread-card-image" src="http://img.memecdn.com/catnip-mother-fucker_o_2772335.jpg" />
-        );
+        ), _file = this.props.thread.posts[0].files[0];
 
-        if(this.props.thread.posts[0].files[0] !== undefined){
-            // _image = (
-            //     <img src="images/nature-600-337.jpg" />
-            // );
+        if(_file !== undefined){
+            _image = (
+                <img src={"uploads/" + _file} />
+            );
         }
 
         return _image;

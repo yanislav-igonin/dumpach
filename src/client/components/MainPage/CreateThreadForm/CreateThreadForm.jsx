@@ -45,7 +45,10 @@ export default class CreateThreadForm extends Component {
         let _data = new FormData();
         _data.append('text', this.state.text);
         _data.append('title', this.state.title);
-        _data.append(this.state.files);
+        this.state.files.map((file, fileIndex) => {
+            _data.append('uploads[]', file, file.name);
+        });
+
         let _config = {
             onUploadProgress(progressEvent) {
                 console.log(Math.round((progressEvent.loaded * 100) / progressEvent.total));
