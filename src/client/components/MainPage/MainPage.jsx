@@ -29,7 +29,6 @@ class MainPage extends Component {
         return new Promise((resolve, reject) => {
             axios.get('/api/threads')
                 .then((response) =>{
-                    debugger
                     resolve(response.data);
                 })
                 .catch((error) => {

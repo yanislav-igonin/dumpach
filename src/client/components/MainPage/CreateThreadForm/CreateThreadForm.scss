@@ -15,8 +15,11 @@
 }
 .create-thread-form-dropzone{
     width: 100%;
-    height: 6em;
     border: 2px dashed #ccc;
+    border-radius: 5;
+    text-align: center;
+    padding: 40px 0;
+    position: relative;
 
     .dropzone-content{
         

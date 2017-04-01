@@ -9,19 +9,53 @@ export default class CreateThreadForm extends Component {
         super(props);
 
         this.state = {
-            open: false
+            open: false,
+            title: '',
+            text: '',
+            files: []
         }
 
         this.toggleOpen = this.toggleOpen.bind(this);
+
+        this.changeTitle = this.changeTitle.bind(this);
+        this.changeText = this.changeText.bind(this);
+        this.onDrop = this.onDrop.bind(this);
     }
 
     toggleOpen() {
         this.setState({open: !this.state.open});
-    };
+    }
+
+    changeTitle(event, value) {
+        this.setState({title: value});
+    }
+
+    changeText(event, value) {
+        this.setState({text: value});
+    }
 
     onDrop(acceptedFiles, rejectedFiles) {
-      console.log('Accepted files: ', acceptedFiles);
-      console.log('Rejected files: ', rejectedFiles);
+        this.setState({files: acceptedFiles});
+    }
+
+    renderDropzoneFilesPreview() {
+        return this.state.files.map((file, fileIndex) => {
+            return (
+                <div>
+                    suka
+                </div>
+            );
+        });
+    }
+
+    renderDropzoneContent() {
+        let _content = <i className="material-icons">attach_file</i>;
+
+        if(this.state.files.length > 0){
+            _content = this.renderDropzoneFilesPreview();
+        }
+
+        return _content;
     }
 
     render() {
@@ -57,20 +91,25 @@ export default class CreateThreadForm extends Component {
                     <TextField
                         className="create-thread-form-dialog-textfield"
                         floatingLabelText="Thread title"
+                        value={this.state.title}
+                        onChange={this.changeTitle}
                     />
 
                     <TextField
                         className="create-thread-form-dialog-textfield"
                         multiLine={true}
                         floatingLabelText="Thread text"
+                        value={this.state.text}
+                        onChange={this.changeText}
                     />
 
                     <Dropzone
                         className="create-thread-form-dropzone"
+                        accept={['image/*', 'video/*']}
                         onDrop={this.onDrop}
                     >
                         <div className="dropzone-content">
-                            <i className="material-icons">attach_file</i>
+                            {this.renderDropzoneContent()}
                         </div>
                     </Dropzone>
 
