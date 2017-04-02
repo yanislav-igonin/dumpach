@@ -6,5 +6,12 @@ export const threadsActions = {
             payload: threads
         }
     },
+
+    threadsUpdate(threads){
+        return {
+            type: 'THREADS_UPDATE',
+            payload: threads
+        }
+    }
     
 }

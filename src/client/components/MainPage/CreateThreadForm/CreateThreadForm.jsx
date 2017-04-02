@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { browserHistory } from 'react-router'
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
@@ -56,11 +57,15 @@ export default class CreateThreadForm extends Component {
         };
         axios.post('/api/threads', _data, _config)
         .then((response) => {
-            console.log(response);
+            this.goToThread(response.data);
         })
         .catch((error) => {
             console.log(error);
         });
+    }
+
+    goToThread(threadId){
+        browserHistory.push('/threads/' + threadId);
     }
 
     renderDropzoneFilesPreview() {
@@ -130,7 +135,7 @@ export default class CreateThreadForm extends Component {
 
                     <Dropzone
                         className="create-thread-form-dropzone"
-                        accept={['image/*', 'video/*']}
+                        accept={'image/*, video/webm'}
                         onDrop={this.onDrop}
                     >
                         <div className="dropzone-content">

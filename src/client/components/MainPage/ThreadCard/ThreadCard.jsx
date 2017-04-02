@@ -1,10 +1,13 @@
 import React, {Component} from 'react';
+import { browserHistory } from 'react-router'
 import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 
 export default class ThreadCard extends Component {
     constructor(props) {
         super(props);
+
+        this.openThread = this.openThread.bind(this);
     }
 
     componentDidMount() {
@@ -23,6 +26,11 @@ export default class ThreadCard extends Component {
         }
 
         return _image;
+    }
+
+    openThread(){
+        console.log(this.props.thread._id);
+        browserHistory.push('/threads/' + this.props.thread._id);
     }
 
     render() {
@@ -44,6 +52,13 @@ export default class ThreadCard extends Component {
                      <CardText>
                         {this.props.thread.posts[0].text}
                     </CardText>
+
+                    <CardActions>
+                        <FlatButton 
+                            label="Open thread" 
+                            onTouchTap={this.openThread}
+                        />
+                    </CardActions>
 
                 </Card>
             </li>

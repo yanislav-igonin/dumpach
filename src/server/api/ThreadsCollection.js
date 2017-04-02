@@ -46,7 +46,7 @@ ThreadsCollection.getAllThreads = () => {
     console.log('getAllThreads');
 
     return new Promise((resolve, reject) => {
-		ThreadsCollection.find({}, {posts: {$slice: 1}}).lean().exec((err, threads) => {
+		ThreadsCollection.find({}, {posts: {$slice: 1}}).sort({updateTime: -1}).lean().exec((err, threads) => {
 			if (err) {
 				console.error('Get threads error', err);
 				resolve(err);

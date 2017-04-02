@@ -1,16 +1,25 @@
 @import './ThreadCard/ThreadCard.scss';
 @import './CreateThreadForm/CreateThreadForm.scss';
 
-.main-container{
+.main-page-container{
+
+    .main-page-controls{
+        margin: 1em 0 0 1%!important;
+
+        .update-threads-button{
+            display: inline-block;
+        }
+    }
+
+
     .threads-list{
         list-style: none;
-        margin-top: 3em;
-        padding-left: 1em;
+        padding-left: 1%;
     }
 }
 
 @media (max-width: 1000px) {
-    .main-container{
+    .main-page-container{
         button{
             font-size: 40px;
         }

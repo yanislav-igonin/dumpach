@@ -9,6 +9,9 @@ const threadsReducer = (state = defaultState, action) => {
 		case 'THREADS_INIT':
             _newState = Object.assign({}, state, {threads: action.payload});
 			break;
+		case 'THREADS_UPDATE':
+            _newState = Object.assign({}, state, {threads: action.payload});
+			break;
 		default:
 			_newState = state;
 			break;

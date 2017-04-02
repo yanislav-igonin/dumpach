@@ -16,6 +16,7 @@ injectTapEventPlugin();
 import combinedReducer from './reducers';
 
 import MainPage from './components/MainPage/MainPage';
+import Thread from './components/Thread/Thread';
 
 import './App.scss';
 
@@ -27,8 +28,8 @@ render(
   <MuiThemeProvider>
     <Provider store={store}>
         <Router history={history}>
-            <Route path="/" component={MainPage}>
-            </Route>
+            <Route path="/" component={MainPage} />
+            <Route path="/threads/:threadId" component={Thread} />
         </Router>
     </Provider>
     

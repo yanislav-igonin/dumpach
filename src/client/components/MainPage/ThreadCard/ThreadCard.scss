@@ -1,10 +1,15 @@
 .threads-list-element{
-    margin: 0 10px 10px 0;
+    margin: 0 1% 1% 0;
+    max-width: 32%;
+
+    // @media (max-width: 1000px) {
+    //     max-width: 98%;
+    // }
+
 
     .thread-card-image{
         width: initial!important;
         height: initial!important;
-        max-height: 600px;
-        max-width: 600px;
+        max-height: 400px;
     }
 }

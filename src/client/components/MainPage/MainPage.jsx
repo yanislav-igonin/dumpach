@@ -4,6 +4,8 @@ import Promise from 'bluebird';
 import axios from 'axios';
 import Masonry from 'react-masonry-component';
 
+import FlatButton from 'material-ui/FlatButton';
+
 import {threadsActions} from '../../actions/threadsActions';
 
 import CreateThreadForm from './CreateThreadForm/CreateThreadForm';
@@ -12,6 +14,8 @@ import ThreadCard from './ThreadCard/ThreadCard';
 class MainPage extends Component {
     constructor(props) {
         super(props);
+
+        this.updateThreads = this.updateThreads.bind(this);
     }
 
     componentDidMount() {
@@ -37,6 +41,13 @@ class MainPage extends Component {
         });
     }
 
+    updateThreads(){
+        this.getThreads()
+            .then((threads) => {
+                this.props.dispatch(threadsActions.threadsUpdate(threads));
+            });
+    }
+
     renderThreads() {
         return this.props.threads.map((thread, threadIndex) => {
             return <ThreadCard key={thread + threadIndex} thread={thread} />;
@@ -45,8 +56,16 @@ class MainPage extends Component {
 
     render() {
         return (
-            <div className="main-container">
-                <CreateThreadForm />
+            <div className="main-page-container">
+
+                <div className="main-page-controls">
+                    <CreateThreadForm />
+
+                    <FlatButton className="update-threads-button"
+                        label="Update threads" 
+                        onTouchTap={this.updateThreads} 
+                    />                
+                </div>
 
                 <Masonry elementType={'ul'} className="threads-list" >
                     {this.renderThreads()}
@@ -61,7 +80,3 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps)(MainPage);
-
-function compareThreadUpdateTime(a, b) {
-    return b.updateTime - a.updateTime;
-}
