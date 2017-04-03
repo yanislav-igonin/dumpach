@@ -89,6 +89,7 @@ ThreadsCollection.createNewThread = (thread) => {
 
 		PostsNumerationCollection.incrementPostsNumeration().then((postNumeration) => {
 			_newThread.posts[0].postNumeration = postNumeration;
+			_newThread.posts[0].time = Date.now();
 
 			_newThread.save((err, thread) => {
 				if (err) {
@@ -105,10 +106,10 @@ ThreadsCollection.createNewThread = (thread) => {
 }
 
 ThreadsCollection.postInThread = (threadId, post) => {
-
 	console.log('postInThread', threadId);
-
 	let _postsLength, _updateParameters;
+
+	post.time = Date.now();
 	
 	if(post.sage === 'true'){
 		post.sage = true;

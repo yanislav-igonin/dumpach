@@ -8,6 +8,7 @@ import FlatButton from 'material-ui/FlatButton';
 import {threadActions} from '../../actions/threadActions';
 
 import Post from './Post/Post';
+import AnswerInThreadForm from './AnswerInThreadForm/AnswerInThreadForm';
 
 class Thread extends Component {
     constructor(props) {
@@ -41,8 +42,8 @@ class Thread extends Component {
 
     updateThread(){
         this.getThread()
-            .then((threads) => {
-                this.props.dispatch(threadActions.threadUpdate(thread));
+            .then((thread) => {
+                this.props.dispatch(threadActions.threadUpdate(thread.posts));
             });
     }
 
@@ -51,6 +52,7 @@ class Thread extends Component {
     }
 
     renderPosts() {
+        debugger
         return this.props.posts.map((post, postIndex) => {
             return (
                 <Post 
@@ -66,10 +68,7 @@ class Thread extends Component {
             <div className="thread-container">
                 <div className="thread-controls">
 
-                    <FlatButton className="answer-in-thread-button"
-                        label="Answer in thread" 
-                        onTouchTap={this.answerInThread} 
-                    />   
+                    <AnswerInThreadForm threadId={this.props.routeParams.threadId}/> 
 
                     <FlatButton className="update-thread-button"
                         label="Update thread" 

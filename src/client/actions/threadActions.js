@@ -10,7 +10,7 @@ export const threadActions = {
     threadUpdate(posts){
         return {
             type: 'THREAD_UPDATE',
-            payload: thread.posts
+            payload: posts
         }
     }
     

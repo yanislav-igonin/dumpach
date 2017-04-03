@@ -112,6 +112,10 @@ router.post('/threads/:threadId', (req, res) => {
         files: []
     },  _fullFilePath, _fileName;
 
+
+
+        console.log(req);
+
     res.setHeader('Access-Control-Allow-Origin', '*');
 
     var form = new formidable.IncomingForm();

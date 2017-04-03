@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import { browserHistory } from 'react-router'
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
@@ -6,7 +7,9 @@ import TextField from 'material-ui/TextField';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
 
-export default class CreateThreadForm extends Component {
+import {threadActions} from '../../../actions/threadActions';
+
+class AnswerInThreadForm extends Component {
     constructor(props){
         super(props);
 
@@ -23,7 +26,7 @@ export default class CreateThreadForm extends Component {
         this.changeText = this.changeText.bind(this);
         this.onDrop = this.onDrop.bind(this);
 
-        this.createThread = this.createThread.bind(this);
+        this.answerInThread = this.answerInThread.bind(this);
     }
 
     toggleOpen() {
@@ -42,7 +45,7 @@ export default class CreateThreadForm extends Component {
         this.setState({files: acceptedFiles});
     }
 
-    createThread() {
+    answerInThread() {
         let _data = new FormData();
         _data.append('text', this.state.text);
         _data.append('title', this.state.title);
@@ -55,17 +58,14 @@ export default class CreateThreadForm extends Component {
                 console.log(Math.round((progressEvent.loaded * 100) / progressEvent.total));
             }
         };
-        axios.post('/api/threads', _data, _config)
+        
+        axios.post('/api/threads/' + this.props.threadId, _data, _config)
         .then((response) => {
-            this.goToThread(response.data);
+            this.props.dispatch(threadActions.threadUpdate(response.data));
         })
         .catch((error) => {
             console.log(error);
         });
-    }
-
-    goToThread(threadId){
-        browserHistory.push('/threads/' + threadId);
     }
 
     renderDropzoneContent() {
@@ -122,22 +122,22 @@ export default class CreateThreadForm extends Component {
                 onTouchTap={this.toggleOpen}
             />,
             <FlatButton
-                label="Create thread"
+                label="Answer in thread"
                 primary={true}
-                onTouchTap={this.createThread}
+                onTouchTap={this.answerInThread}
             />,
         ];
 
         return (
-            <div className="create-thread-form-container">
-                <FlatButton className="open-create-thread-form-button"
-                    label="Create thread" 
+            <div className="answer-in-thread-form-container">
+                <FlatButton className="open-answer-in-thread-form-button"
+                    label="Answer in thread" 
                     onTouchTap={this.toggleOpen} 
                 />
 
                 <Dialog
-                    className="create-thread-form-dialog"
-                    title="Create thread"
+                    className="answer-in-thread-form-dialog"
+                    title="Answer in thread"
                     actions={actions}
                     modal={false}
                     open={this.state.open}
@@ -145,14 +145,14 @@ export default class CreateThreadForm extends Component {
                 >
 
                     <TextField
-                        className="create-thread-form-dialog-textfield"
+                        className="answer-in-thread-form-dialog-textfield"
                         floatingLabelText="Thread title"
                         value={this.state.title}
                         onChange={this.changeTitle}
                     />
 
                     <TextField
-                        className="create-thread-form-dialog-textfield"
+                        className="answer-in-thread-form-dialog-textfield"
                         multiLine={true}
                         floatingLabelText="Thread text"
                         value={this.state.text}
@@ -160,7 +160,7 @@ export default class CreateThreadForm extends Component {
                     />
 
                     <Dropzone
-                        className="create-thread-form-dropzone"
+                        className="answer-in-thread-form-dropzone"
                         accept={'image/*, video/webm'}
                         onDrop={this.onDrop}
                     >
@@ -174,3 +174,9 @@ export default class CreateThreadForm extends Component {
         );
     }
 }
+
+function mapStateToProps(state, ownProps) {
+    return state.thread;
+}
+
+export default connect(mapStateToProps)(AnswerInThreadForm);
