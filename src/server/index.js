@@ -1,7 +1,5 @@
 import http from 'http';
-// import https from 'https';
 import express from 'express';
-import cluster from 'cluster';
 import path from 'path';
 import fs from 'fs';
 import bodyParser from 'body-parser';
@@ -10,35 +8,14 @@ import indexRoutes from './routes/index';
 import apiRoutes from './routes/api';
 
 const server = express(),
-    httpPort = process.env.NODE_ENV === 'production' ? 8080 : 8080,
+    httpPort =  8080,
     uploadDir = path.join(__dirname, '../../uploads');
-
-// const privateKey, certificate, credentials;//FOR HTTPS IN FUTURE
 
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir);
 }
 
-cluster.on('exit', function (worker) {
-        console.log('Worker %d died :(', worker.id);
-        cluster.fork();
-    });
-
-if (process.env.NODE_ENV === 'production') {
-    if (cluster.isMaster) {
-
-        let _cpuCount = require('os').cpus().length;
-
-        for (let i = 0; i < _cpuCount; i++) {
-            cluster.fork();
-        }
-
-    } else {
-        initializeServer();
-    }
-} else {
-    initializeServer();
-}
+initializeServer();
 
 // /////////////////////////////////// SERVER INITIALIZATION
 // ///////////////////////////////////
@@ -62,7 +39,7 @@ function initializeServer() {
         .use('/', indexRoutes)
         .use('/api', apiRoutes);
 
-    if (process.env.NODE_ENV === 'production') {} else {
+    if (process.env.NODE_ENV === 'development') {
         const webpack = require('webpack');
         const config = require(path.join(__dirname, '../../webpack.config'));
         const compiler = webpack(config);
@@ -73,10 +50,6 @@ function initializeServer() {
     }
 
     server.listen(httpPort, () => {
-        if (process.env.NODE_ENV === 'production') {
-            console.log('Worker %d listening port %d', cluster.worker.id, httpPort);
-        } else {
-            console.log('Server listening port %d', httpPort);
-        }
+        console.log('Server listening port %d', httpPort);
     });
 }
