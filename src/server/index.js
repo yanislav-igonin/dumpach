@@ -39,7 +39,7 @@ function initializeServer() {
         .use('/', indexRoutes)
         .use('/api', apiRoutes);
 
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV !== 'production') {
         const webpack = require('webpack');
         const config = require(path.join(__dirname, '../../webpack.config'));
         const compiler = webpack(config);
