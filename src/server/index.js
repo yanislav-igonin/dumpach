@@ -9,10 +9,17 @@ import apiRoutes from './routes/api';
 
 const server = express(),
     httpPort =  8080,
-    uploadDir = path.join(__dirname, '../../uploads');
+    uploadDir = path.join(__dirname, '../../uploads'),
+    uploadThumbsDir = path.join(__dirname, '../../uploads_thumbs');
 
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir);
+    console.log('Uploads dir created');
+}
+
+if (!fs.existsSync(uploadThumbsDir)) {
+    fs.mkdirSync(uploadThumbsDir);
+    console.log('Uploads thumbs dir created');
 }
 
 initializeServer();

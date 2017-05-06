@@ -3,32 +3,13 @@ import path from 'path';
 import formidable from 'formidable';
 import fs from 'fs';
 import Promise from 'bluebird';
+import sharp from 'sharp';
 
 import ThreadsCollection from './../api/ThreadsCollection';
 
 const router = express.Router(),
-    uploadDir = path.join(__dirname, '../../../uploads');
-
-// const threads = [
-//     {
-//         posts: [
-//             {
-//                 text: 'sdfksldfmskldfskldfsdf',
-//                 title: 'sdfsdfsdfsdsnuihf34y734yf73f93hf3',
-//                 files: []
-//             }
-//         ]
-//     },
-//     {
-//         posts: [
-//             {
-//                 text: '123123',
-//                 title: 'sdfsdf',
-//                 files: []
-//             }
-//         ]
-//     },
-// ]
+    uploadDir = path.join(__dirname, '../../../uploads'),
+    uploadThumbsDir = path.join(__dirname, '../../../uploads_thumbs');
 
 router.get('/threads', (req, res) => {
 
@@ -36,7 +17,6 @@ router.get('/threads', (req, res) => {
         res.send(threads);
     });
     
-
 });
 
 router.post('/threads', (req, res) => {
@@ -61,8 +41,18 @@ router.post('/threads', (req, res) => {
         _fullFilePath = file.path + '.' + file.type.split('/')[1];
         _fileName = _fullFilePath.split('/')[_fullFilePath.split('/').length - 1];
         fs.rename(file.path, _fullFilePath);
-        console.log('File', file.name, 'uploded');
-        _post.files.push(_fileName);
+        
+        if(file.type.split('/')[0] === 'image'){
+
+            sharp(_fullFilePath)
+                .resize(150)
+                .toFile(uploadThumbsDir + '/' + _fileName, (err) => {
+                    if(err) console.log({error: err});
+                });
+
+            console.log('File', file.name, 'uploded');
+            _post.files.push(_fileName);
+        }
     });
 
     form.on('field', (name, value) => {
@@ -128,8 +118,18 @@ router.post('/threads/:threadId', (req, res) => {
         _fullFilePath = file.path + '.' + file.type.split('/')[1];
         _fileName = _fullFilePath.split('/')[_fullFilePath.split('/').length - 1];
         fs.rename(file.path, _fullFilePath);
-        console.log('File', file.name, 'uploded');
-        _post.files.push(_fileName);
+
+        if(file.type.split('/')[0] === 'image'){
+
+            sharp(_fullFilePath)
+                .resize(150)
+                .toFile(uploadThumbsDir + '/' + _fileName, (err) => {
+                    if(err) console.log({error: err});
+                });
+
+            console.log('File', file.name, 'uploded');
+            _post.files.push(_fileName);
+        }
     });
 
     form.on('field', (name, value) => {

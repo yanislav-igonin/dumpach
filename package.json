@@ -8,7 +8,7 @@
     "build": "webpack --config webpack.production.config.js && babel src/server -d dist/server",
     "build:front": "webpack --config webpack.production.config.js",
     "build:back": "babel src/server -d dist/server",
-    "dev": "nodemon src/server/index.js --ignore /src/client --exec babel-node"
+    "dev": "nodemon src/server/index.js --watch /src/server/ --ignore uploads/ --ignore uploads_thumbs/ --exec babel-node"
   },
   "repository": {
     "type": "git",
@@ -56,6 +56,7 @@
     "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.6.0",
     "redux-logger": "^3.0.1",
+    "sharp": "^0.17.3",
     "webpack": "^1.14.0"
   }
 }

@@ -1,6 +1,7 @@
 dist
 node_modules
 uploads
+uploads_thumbs
 cert
 *.log
 .vscode
