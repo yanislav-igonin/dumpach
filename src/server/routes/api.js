@@ -43,16 +43,15 @@ router.post('/threads', (req, res) => {
         fs.rename(file.path, _fullFilePath);
         
         if(file.type.split('/')[0] === 'image'){
-
             sharp(_fullFilePath)
                 .resize(150)
                 .toFile(uploadThumbsDir + '/thumb_' + _fileName, (err) => {
                     if(err) console.log({error: err});
                 });
-
-            console.log('File', file.name, 'uploded');
-            _post.files.push(_fileName);
         }
+
+        console.log('File', file.name, 'uploded');
+        _post.files.push(_fileName);
     });
 
     form.on('field', (name, value) => {
@@ -102,10 +101,6 @@ router.post('/threads/:threadId', (req, res) => {
         files: []
     },  _fullFilePath, _fileName;
 
-
-
-        console.log(req);
-
     res.setHeader('Access-Control-Allow-Origin', '*');
 
     var form = new formidable.IncomingForm();
@@ -120,16 +115,15 @@ router.post('/threads/:threadId', (req, res) => {
         fs.rename(file.path, _fullFilePath);
 
         if(file.type.split('/')[0] === 'image'){
-
             sharp(_fullFilePath)
                 .resize(150)
                 .toFile(uploadThumbsDir + '/thumb_' + _fileName, (err) => {
                     if(err) console.log({error: err});
                 });
-
-            console.log('File', file.name, 'uploded');
-            _post.files.push(_fileName);
         }
+
+        console.log('File', file.name, 'uploded');
+        _post.files.push(_fileName);
     });
 
     form.on('field', (name, value) => {
