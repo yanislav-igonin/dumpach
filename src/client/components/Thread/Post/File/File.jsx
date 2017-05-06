@@ -21,7 +21,6 @@ export default class File extends React.Component{
     }
 
     openImageInNewTab(path){
-        console.log(path);
         window.open(path);
     }
 
@@ -69,4 +68,4 @@ export default class File extends React.Component{
 }
 
 const IMAGES_EXTENSIONS = ['jpg', 'JPG', 'jpeg', 'JPEG', 'png', 'PNG', 'gif', 'GIF'];
-const VIDEOS_EXTENSIONS = ['mpeg', 'ogg', 'mkv', 'avi', 'webm', 'mov', 'MOV', 'mp4'];
+const VIDEOS_EXTENSIONS = ['webm'];

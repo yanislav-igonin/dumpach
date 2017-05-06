@@ -8,7 +8,7 @@ export default class Post extends Component {
         
     }
 
-    renderFiles(){
+    renderFiles() {
         if(this.props.post.files.length > 0){
             return this.props.post.files.map((file) => {
                 return <File key={file} file={file} />
@@ -16,7 +16,7 @@ export default class Post extends Component {
         }
     }
 
-    renderPostText(){
+    renderPostText() {
         let _paragraphs = this.props.post.text.split('\n');
             
         if(this.props.post.text !== ''){

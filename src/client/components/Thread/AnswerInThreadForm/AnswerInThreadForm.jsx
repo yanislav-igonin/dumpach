@@ -146,7 +146,7 @@ class AnswerInThreadForm extends Component {
 
                     <TextField
                         className="answer-in-thread-form-dialog-textfield"
-                        floatingLabelText="Thread title"
+                        floatingLabelText="Post title"
                         value={this.state.title}
                         onChange={this.changeTitle}
                     />
@@ -154,7 +154,7 @@ class AnswerInThreadForm extends Component {
                     <TextField
                         className="answer-in-thread-form-dialog-textfield"
                         multiLine={true}
-                        floatingLabelText="Thread text"
+                        floatingLabelText="Post text"
                         value={this.state.text}
                         onChange={this.changeText}
                     />
