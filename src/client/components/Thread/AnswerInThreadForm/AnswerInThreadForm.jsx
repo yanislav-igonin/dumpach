@@ -47,25 +47,29 @@ class AnswerInThreadForm extends Component {
 
     answerInThread() {
         let _data = new FormData();
-        _data.append('text', this.state.text);
-        _data.append('title', this.state.title);
-        this.state.files.map((file, fileIndex) => {
-            _data.append('uploads[]', file, file.name);
-        });
-
-        let _config = {
-            onUploadProgress(progressEvent) {
-                console.log(Math.round((progressEvent.loaded * 100) / progressEvent.total));
-            }
-        };
         
-        axios.post('/api/threads/' + this.props.threadId, _data, _config)
-        .then((response) => {
-            this.props.dispatch(threadActions.threadUpdate(response.data));
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+        if(this.state.text !== '' || this.state.files.length > 0){
+            _data.append('text', this.state.text);
+            _data.append('title', this.state.title);
+            this.state.files.map((file, fileIndex) => {
+                _data.append('uploads[]', file, file.name);
+            });
+
+            let _config = {
+                onUploadProgress(progressEvent) {
+                    console.log(Math.round((progressEvent.loaded * 100) / progressEvent.total));
+                }
+            };
+            
+            axios.post('/api/threads/' + this.props.threadId, _data, _config)
+            .then((response) => {
+                this.props.dispatch(threadActions.threadUpdate(response.data));
+                this.setState({open: false, title: '', text: '', files: []});
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }
     }
 
     renderDropzoneContent() {
