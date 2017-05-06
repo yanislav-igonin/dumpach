@@ -31,10 +31,10 @@ function initializeServer() {
 
     //STATIC FILES
     server
-        .use('/public', express.static(path.join(__dirname, '../../public')))
-        .use('/scripts', express.static(path.join(__dirname, '../../dist/client')))
-        .use('/threads/scripts', express.static(path.join(__dirname, '../../dist/client')))
-        .use('/uploads', express.static(uploadDir));
+        .use('/assets', express.static(path.join(__dirname, '../../dist/client')))
+        .use('/threads/assets', express.static(path.join(__dirname, '../../dist/client')))
+        .use('/uploads', express.static(uploadDir))
+        .use('/uploads_thumbs', express.static(uploadThumbsDir));
 
     //BODY PARSERS
     server

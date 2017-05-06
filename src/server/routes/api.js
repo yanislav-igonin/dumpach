@@ -46,7 +46,7 @@ router.post('/threads', (req, res) => {
 
             sharp(_fullFilePath)
                 .resize(150)
-                .toFile(uploadThumbsDir + '/' + _fileName, (err) => {
+                .toFile(uploadThumbsDir + '/thumb_' + _fileName, (err) => {
                     if(err) console.log({error: err});
                 });
 
@@ -123,7 +123,7 @@ router.post('/threads/:threadId', (req, res) => {
 
             sharp(_fullFilePath)
                 .resize(150)
-                .toFile(uploadThumbsDir + '/' + _fileName, (err) => {
+                .toFile(uploadThumbsDir + '/thumb_' + _fileName, (err) => {
                     if(err) console.log({error: err});
                 });
 

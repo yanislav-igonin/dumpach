@@ -52,7 +52,6 @@ class Thread extends Component {
     }
 
     renderPosts() {
-        debugger
         return this.props.posts.map((post, postIndex) => {
             return (
                 <Post 
