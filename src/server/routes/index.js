@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/threads/:threadId', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../../view/thread.html'));
+    res.sendFile(path.join(__dirname, '../../../view/main.html'));
 });
 
 module.exports = router;
