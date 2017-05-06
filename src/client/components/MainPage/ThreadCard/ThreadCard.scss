@@ -12,22 +12,22 @@
 
     /* Larger than phablet */
     @media (min-width: $phablet) {
-        max-width: 98%;
+        max-width: 44%;
     }
 
     /* Larger than tablet */
     @media (min-width: $tablet) {
-        max-width: 98%;
+        max-width: 32%;
     }
 
     /* Larger than desktop */
     @media (min-width: $desktop) {
-        max-width: 32%;
+        max-width: 23.5%;
     }
 
     /* Larger than Desktop HD */
     @media (min-width: $desktop-hd) {
-        max-width: 23.5%;
+        max-width: 18.5%;
     }
 
 
