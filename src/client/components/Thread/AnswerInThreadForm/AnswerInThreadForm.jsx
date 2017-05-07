@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import { browserHistory } from 'react-router'
+
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import Dropzone from 'react-dropzone';
+
 import axios from 'axios';
 
+import {settingsActions} from '../../../actions/settingsActions';
 import {threadActions} from '../../../actions/threadActions';
 
 class AnswerInThreadForm extends Component {
@@ -15,6 +18,7 @@ class AnswerInThreadForm extends Component {
 
         this.state = {
             open: false,
+            answerButtonDisabled: false,
             title: '',
             text: '',
             files: []
@@ -42,6 +46,7 @@ class AnswerInThreadForm extends Component {
     }
 
     onDrop(acceptedFiles, rejectedFiles) {
+        console.log(acceptedFiles, rejectedFiles);
         this.setState({files: acceptedFiles});
     }
 
@@ -60,15 +65,28 @@ class AnswerInThreadForm extends Component {
                     console.log(Math.round((progressEvent.loaded * 100) / progressEvent.total));
                 }
             };
-            
-            axios.post('/api/threads/' + this.props.threadId, _data, _config)
-            .then((response) => {
-                this.props.dispatch(threadActions.threadUpdate(response.data));
-                this.setState({open: false, title: '', text: '', files: []});
-            })
-            .catch((error) => {
-                console.log(error);
+
+            this.setState({answerButtonDisabled: true}, () => {
+
+                axios.post('/api/threads/' + this.props.threadId, _data, _config)
+                .then((response) => {
+                    this.props.dispatch(threadActions.threadUpdate(response.data));
+                    this.props.dispatch(settingsActions.snackbarUpdate('Posted succesfully'));
+                    this.setState({
+                        open: false, 
+                        title: '', 
+                        text: '', 
+                        files: [], 
+                        answerButtonDisabled: false
+                    });
+                })
+                .catch((error) => {
+                    console.log(error);
+                    this.setState({answerButtonDisabled: false});
+                });
+
             });
+            
         }
     }
 
@@ -97,7 +115,7 @@ class AnswerInThreadForm extends Component {
             _fileElement = null;
 
         if(_fileType[0] === 'image'){
-            _fileElement = (
+            _fileElemanswerButtonDisabledent = (
                 <img 
                     key={file.preview} 
                     className="file-preview" 
@@ -129,6 +147,7 @@ class AnswerInThreadForm extends Component {
                 label="Answer in thread"
                 primary={true}
                 onTouchTap={this.answerInThread}
+                disabled={this.state.answerButtonDisabled}
             />,
         ];
 

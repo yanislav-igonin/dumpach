@@ -4,7 +4,9 @@ import Promise from 'bluebird';
 import axios from 'axios';
 
 import FlatButton from 'material-ui/FlatButton';
+import Snackbar from 'material-ui/Snackbar';
 
+import {settingsActions} from '../../actions/settingsActions';
 import {threadActions} from '../../actions/threadActions';
 
 import Post from './Post/Post';
@@ -15,6 +17,7 @@ class Thread extends Component {
         super(props);
         
         this.updateThread = this.updateThread.bind(this);
+        this.handleSnackbarRequestClose = this.handleSnackbarRequestClose.bind(this);
     }
 
     componentDidMount() {
@@ -47,12 +50,12 @@ class Thread extends Component {
             });
     }
 
-    answerInThread() {
-        console.log('cock');
+    handleSnackbarRequestClose() {
+        this.props.dispatch(settingsActions.snackbarUpdate())
     }
 
     renderPosts() {
-        return this.props.posts.map((post, postIndex) => {
+        return this.props.thread.posts.map((post, postIndex) => {
             return (
                 <Post 
                     key={post + postIndex}  
@@ -79,6 +82,14 @@ class Thread extends Component {
                 <ul className="posts-list">
                     {this.renderPosts()}
                 </ul>
+
+                <Snackbar
+                    open={this.props.settings.snackbar.opened}
+                    message={this.props.settings.snackbar.message}
+                    autoHideDuration={4000}
+                    onRequestClose={this.handleSnackbarRequestClose}
+                />
+
             </div>
         );
     }
@@ -86,7 +97,10 @@ class Thread extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-    return state.thread;
+    return {
+        thread: state.thread,
+        settings: state.settings
+    };
 }
 
 export default connect(mapStateToProps)(Thread);

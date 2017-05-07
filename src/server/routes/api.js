@@ -136,12 +136,12 @@ router.post('/threads/:threadId', (req, res) => {
     form.on('end', () => {
 
         ThreadsCollection.postInThread(req.params.threadId, _post).then((posts) => {
-            if(posts !== undefined){
+            if(posts.error !== null){
                 res.status(201).send(posts);
             } else {
-                res.send('Ошибка при ответе в тред!');
+                res.send(posts.error);
             }
-        })
+        });
 
     });
 
