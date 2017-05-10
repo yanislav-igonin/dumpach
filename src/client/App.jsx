@@ -9,6 +9,8 @@ import { Router, Route, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import FlatButton from 'material-ui/FlatButton';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
@@ -24,8 +26,15 @@ const root = document.getElementById('root');
 let store = createStore(combinedReducer, applyMiddleware(createLogger()));
 const history = syncHistoryWithStore(browserHistory, store);
 
+const muiTheme = getMuiTheme({
+    flatButton: {
+        buttonFilterColor: '#607D8B',
+        textColor: '#FFF',
+    }
+});
+
 render(
-  <MuiThemeProvider>
+  <MuiThemeProvider muiTheme={muiTheme}>
     <Provider store={store}>
         <Router history={history}>
             <Route path="/" component={MainPage} />

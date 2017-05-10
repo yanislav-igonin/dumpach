@@ -14,6 +14,11 @@ export default class ThreadCard extends Component {
         
     }
 
+    openThread(){
+        console.log(this.props.thread._id);
+        browserHistory.push('/threads/' + this.props.thread._id);
+    }
+
     renderImage(){
         let _image = (
             <img className="thread-card-image" src="http://img.memecdn.com/catnip-mother-fucker_o_2772335.jpg" />
@@ -26,11 +31,6 @@ export default class ThreadCard extends Component {
         }
 
         return _image;
-    }
-
-    openThread(){
-        console.log(this.props.thread._id);
-        browserHistory.push('/threads/' + this.props.thread._id);
     }
 
     render() {

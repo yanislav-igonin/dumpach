@@ -59,6 +59,7 @@ class Thread extends Component {
             return (
                 <Post 
                     key={post + postIndex}  
+                    postIndex={postIndex}
                     post={post}
                 />
             );

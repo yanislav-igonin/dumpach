@@ -1,12 +1,15 @@
 @import './components/MainPage/MainPage.scss';
 @import './components/Thread/Thread.scss';
 
+@import './imports/palette.scss';
+    
+html{
+    background-color: $primary-color;
+}
+
 *{
     font-family: 'Roboto', sans-serif;
 
-    html{
-        background-color: #EEEEEE;
-    }
 
     body{
         margin: 0;
