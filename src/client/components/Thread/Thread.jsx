@@ -51,7 +51,7 @@ class Thread extends Component {
     }
 
     handleSnackbarRequestClose() {
-        this.props.dispatch(settingsActions.snackbarUpdate())
+        this.props.dispatch(settingsActions.snackbarUpdate(''))
     }
 
     renderPosts() {

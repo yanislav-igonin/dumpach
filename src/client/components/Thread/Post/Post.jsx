@@ -8,6 +8,15 @@ export default class Post extends Component {
         
     }
 
+    getPostsListElementStyle() {
+        if(this.props.postIndex === 0){
+            return {
+                backgroundColor: '#9E9E9E',
+                boxShadow: 'none'
+            };
+        }
+    }
+
     renderFiles() {
         if(this.props.post.files.length > 0){
             return this.props.post.files.map((file) => {
@@ -31,11 +40,11 @@ export default class Post extends Component {
     }
 
     render() {
-        const {title, text, time, files} = this.props.post;
+        const {title, text, time, files, postNumeration} = this.props.post;
         const _time = new Date(time);
 
         return (
-            <li className="posts-list-element">
+            <li className="posts-list-element" style={this.getPostsListElementStyle()}>
                 <div className="post-container">
 
                     <h3 className="post-title">{title}</h3>
@@ -43,6 +52,8 @@ export default class Post extends Component {
                     <h3 className="post-title">
                         {_time.toLocaleDateString()} {_time.getHours()}:{_time.getMinutes()}:{_time.getSeconds()}
                     </h3>
+
+                    <h3 className="post-title">&nbsp;- #{postNumeration}</h3>
 
                     <ul className='post-files-list'>
                         {this.renderFiles()}

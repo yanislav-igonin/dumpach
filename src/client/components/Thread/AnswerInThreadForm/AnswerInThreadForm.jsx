@@ -115,7 +115,7 @@ class AnswerInThreadForm extends Component {
             _fileElement = null;
 
         if(_fileType[0] === 'image'){
-            _fileElemanswerButtonDisabledent = (
+            _fileElement = (
                 <img 
                     key={file.preview} 
                     className="file-preview" 
