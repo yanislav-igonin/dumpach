@@ -183,13 +183,27 @@ function deleteOldThread(){
 }
 
 function deleteOldThreadFiles(posts){
+	let _fileExtension;
+
 	posts.map((post) => {
 		post.files.map((file) => {
 			fs.unlink(path.join(__dirname, '../../../uploads/', file), (err) => {
+				_fileExtension = file.split('.')[file.split('.').length - 1];
+
 				if(err){
 					console.error(err);
 				} else {
-					console.log('Old file deleted');
+					if(_fileExtension !== 'webm' && _fileExtension !== 'WEBM'){
+						fs.unlink(path.join(__dirname, '../../../uploads/', file), (err) => {
+							if(err){
+								console.error(err);
+							} else {
+								console.log('Old image deleted');
+							}
+						});
+					} else {
+						console.log('Old video deleted');
+					}
 				}
 			});
 		})
