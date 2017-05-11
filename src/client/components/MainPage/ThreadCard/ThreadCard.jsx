@@ -57,6 +57,7 @@ export default class ThreadCard extends Component {
                         <FlatButton 
                             label="Open thread" 
                             onTouchTap={this.openThread}
+                            labelStyle={{color: '#000'}}
                         />
                     </CardActions>
 

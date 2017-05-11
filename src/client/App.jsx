@@ -28,8 +28,8 @@ const history = syncHistoryWithStore(browserHistory, store);
 
 const muiTheme = getMuiTheme({
     flatButton: {
-        buttonFilterColor: '#F5F5F5',
-        textColor: '#000',
+        buttonFilterColor: 'rgba(0, 0, 0, .2)',
+        textColor: '#FFF',
     }
 });
 

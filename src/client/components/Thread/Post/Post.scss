@@ -18,6 +18,10 @@
         .post-title{
             display: inline-block;
             margin-top: 0;
+
+            +.post-index{
+                color: orangered;
+            }
         }
 
         .post-files-list{
