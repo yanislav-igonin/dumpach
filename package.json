@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "SPA imageboard with one section without moderation",
   "main": "index.js",
+  "engines": {
+    "node": "6.9.4"
+  },
   "scripts": {
     "start": "NODE_ENV=production node dist/server/index.js",
     "build": "webpack --config webpack.production.config.js && babel src/server -d dist/server",
@@ -33,19 +36,11 @@
     "style-loader": "^0.13.1",
     "webpack": "^1.14.0",
     "webpack-dev-middleware": "^1.6.1",
-    "webpack-hot-middleware": "^2.10.0"
-  },
-  "dependencies": {
+    "webpack-hot-middleware": "^2.10.0",
     "axios": "^0.15.3",
     "babel-cli": "^6.18.0",
     "babel-loader": "^6.2.7",
-    "bluebird": "^3.4.6",
-    "body-parser": "^1.16.0",
-    "express": "^4.14.0",
-    "forever": "^0.15.3",
-    "formidable": "^1.0.17",
     "material-ui": "^0.17.1",
-    "mongoose": "^4.7.2",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-dropzone": "^3.9.2",
@@ -56,7 +51,14 @@
     "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.6.0",
     "redux-logger": "^3.0.1",
-    "sharp": "^0.17.3",
     "webpack": "^1.14.0"
+  },
+  "dependencies": {
+    "bluebird": "^3.4.6",
+    "body-parser": "^1.16.0",
+    "express": "^4.14.0",
+    "formidable": "^1.0.17",
+    "mongoose": "^4.7.2",
+    "sharp": "^0.17.3"
   }
 }
