@@ -28,7 +28,7 @@ let store;
 if(NODE_ENV !== 'production'){
     store = createStore(combinedReducer, applyMiddleware(createLogger()));
 } else {
-    let store = createStore(combinedReducer);
+    store = createStore(combinedReducer);
 }
 const history = syncHistoryWithStore(browserHistory, store);
 
