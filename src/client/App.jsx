@@ -23,7 +23,13 @@ import Thread from './components/Thread/Thread';
 import './App.scss';
 
 const root = document.getElementById('root');
-let store = createStore(combinedReducer, applyMiddleware(createLogger()));
+
+let store;
+if(NODE_ENV !== 'production'){
+    store = createStore(combinedReducer, applyMiddleware(createLogger()));
+} else {
+    let store = createStore(combinedReducer);
+}
 const history = syncHistoryWithStore(browserHistory, store);
 
 const muiTheme = getMuiTheme({
