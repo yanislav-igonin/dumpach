@@ -1,7 +1,5 @@
 'use strict'
 
-//codeship check
-
 const NODE_ENV = 'production';
 const path = require('path');
 const webpack = require('webpack');

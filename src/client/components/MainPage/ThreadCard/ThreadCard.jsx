@@ -33,6 +33,21 @@ export default class ThreadCard extends Component {
         return _image;
     }
 
+    renderText() {
+        const {text} = this.props.thread.posts[0],
+            _paragraphs = text.split('\n');
+            
+        if(text !== ''){
+            return _paragraphs.map((line, lineIndex) => {
+                return (
+                    <div key={lineIndex} className='thread-card-text-container'>
+                        <p className="thread-card-text">{line}</p>
+                    </div>
+                );
+            });
+        }
+    }
+
     render() {
         return (
             <li className="threads-list-element">
@@ -42,7 +57,13 @@ export default class ThreadCard extends Component {
                         overlay={
                             <CardTitle 
                                 title={this.props.thread.posts[0].title} 
-                                titleStyle={{wordWrap: 'break-word'}}
+                                titleStyle={{
+                                    wordWrap: 'break-word',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap',
+                                    fontSize: 16
+                                }}
                             />
                         }
                     >
@@ -50,7 +71,7 @@ export default class ThreadCard extends Component {
                     </CardMedia>
 
                      <CardText>
-                        {this.props.thread.posts[0].text}
+                        {this.renderText()}
                     </CardText>
 
                     <CardActions>

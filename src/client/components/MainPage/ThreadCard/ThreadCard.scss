@@ -36,4 +36,11 @@
         height: initial!important;
         max-height: 400px;
     }
+
+    .thread-card-text-container{
+
+        .thread-card-text{
+            margin: 0;
+        }
+    }
 }
