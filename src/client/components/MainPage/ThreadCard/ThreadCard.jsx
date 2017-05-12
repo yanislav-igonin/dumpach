@@ -57,7 +57,13 @@ export default class ThreadCard extends Component {
                         overlay={
                             <CardTitle 
                                 title={this.props.thread.posts[0].title} 
-                                titleStyle={{wordWrap: 'break-word'}}
+                                titleStyle={{
+                                    wordWrap: 'break-word',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap',
+                                    fontSize: 16
+                                }}
                             />
                         }
                     >
