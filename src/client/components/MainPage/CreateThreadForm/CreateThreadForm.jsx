@@ -145,6 +145,7 @@ export default class CreateThreadForm extends Component {
                     modal={false}
                     open={this.state.open}
                     onRequestClose={this.toggleOpen}
+                    autoScrollBodyContent={true}
                 >
 
                     <TextField

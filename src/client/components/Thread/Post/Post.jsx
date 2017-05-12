@@ -52,6 +52,19 @@ export default class Post extends Component {
         }
     }
 
+    renderPostFilesList() {
+        if(this.props.post.files.length > 0){
+            return (
+                <ul 
+                    className='post-files-list'
+                    style={this.getPostFilesListStyle()}
+                >
+                    {this.renderFiles()}
+                </ul>
+            );
+        }
+    }
+
     renderPostText() {
         const {postIndex} = this.props;
         let _paragraphs = this.props.post.text.split('\n'),
@@ -93,12 +106,7 @@ export default class Post extends Component {
                         <h3 className="post-title">&nbsp;&nbsp;&nbsp;№{postNumeration}</h3>
                     </div>
 
-                    <ul 
-                        className='post-files-list'
-                        style={this.getPostFilesListStyle()}
-                    >
-                        {this.renderFiles()}
-                    </ul>
+                    {this.renderPostFilesList()}
 
                     {this.renderPostText()}
                 </div>
