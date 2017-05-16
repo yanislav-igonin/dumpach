@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { browserHistory } from 'react-router'
+import {browserHistory} from 'react-router'
 import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 
@@ -10,12 +10,7 @@ export default class ThreadCard extends Component {
         this.openThread = this.openThread.bind(this);
     }
 
-    componentDidMount() {
-        
-    }
-
     openThread(){
-        console.log(this.props.thread._id);
         browserHistory.push('/threads/' + this.props.thread._id);
     }
 

@@ -11,7 +11,7 @@ const settingsReducer = (state = defaultState, action) => {
     
 	switch (action.type) {
 		case 'DRAWER_UPDATE':
-			_newState = Object.assign({}, state, {drawerOpened: !state.drawerOpenned});
+			_newState = Object.assign({}, state, {drawerOpened: !state.drawerOpened});
 			break;
 		case 'SNACKBAR_UPDATE':
 			_newState = Object.assign({}, state, {snackbar: {opened: !state.snackbar.opened, message: action.payload}});

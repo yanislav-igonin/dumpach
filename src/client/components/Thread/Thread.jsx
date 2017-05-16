@@ -11,6 +11,7 @@ import {threadActions} from '../../actions/threadActions';
 
 import Post from './Post/Post';
 import AnswerInThreadForm from './AnswerInThreadForm/AnswerInThreadForm';
+import Menu from '../Menu/Menu';
 
 class Thread extends Component {
     constructor(props) {
@@ -77,6 +78,8 @@ class Thread extends Component {
                         label="Update thread" 
                         onTouchTap={this.updateThread} 
                     />   
+
+                    <Menu />
 
                 </div>
 
