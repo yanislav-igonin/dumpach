@@ -10,6 +10,7 @@ import {threadsActions} from '../../actions/threadsActions';
 
 import CreateThreadForm from './CreateThreadForm/CreateThreadForm';
 import ThreadCard from './ThreadCard/ThreadCard';
+import Menu from '../Menu/Menu';
 
 class MainPage extends Component {
     constructor(props) {
@@ -64,7 +65,9 @@ class MainPage extends Component {
                     <FlatButton className="update-threads-button"
                         label="Update threads" 
                         onTouchTap={this.updateThreads} 
-                    />                
+                    />         
+
+                    <Menu />       
                 </div>
 
                 <Masonry elementType={'ul'} className="threads-list" >
