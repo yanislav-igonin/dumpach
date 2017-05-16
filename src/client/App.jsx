@@ -18,6 +18,7 @@ injectTapEventPlugin();
 import combinedReducer from './reducers';
 
 import MainPage from './components/MainPage/MainPage';
+import NotFound from './components/NotFound/NotFound';
 import Thread from './components/Thread/Thread';
 
 import './App.scss';
@@ -45,6 +46,7 @@ render(
         <Router history={history}>
             <Route path="/" component={MainPage} />
             <Route path="/threads/:threadId" component={Thread} />
+            <Route path="*" component={NotFound} />
         </Router>
     </Provider>
     
