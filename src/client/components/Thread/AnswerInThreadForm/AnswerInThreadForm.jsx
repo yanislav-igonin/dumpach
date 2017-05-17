@@ -5,6 +5,7 @@ import { browserHistory } from 'react-router'
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
+import Checkbox from 'material-ui/Checkbox';
 import Dropzone from 'react-dropzone';
 
 import axios from 'axios';
@@ -21,6 +22,7 @@ class AnswerInThreadForm extends Component {
             answerButtonDisabled: false,
             title: '',
             text: '',
+            sage: false,
             files: []
         }
 
@@ -28,6 +30,7 @@ class AnswerInThreadForm extends Component {
 
         this.changeTitle = this.changeTitle.bind(this);
         this.changeText = this.changeText.bind(this);
+        this.changeSage = this.changeSage.bind(this);
         this.onDrop = this.onDrop.bind(this);
 
         this.answerInThread = this.answerInThread.bind(this);
@@ -45,6 +48,10 @@ class AnswerInThreadForm extends Component {
         this.setState({text: value});
     }
 
+    changeSage(event, value) {
+        this.setState({sage: value});
+    }
+
     onDrop(acceptedFiles, rejectedFiles) {
         console.log(acceptedFiles, rejectedFiles);
         this.setState({files: acceptedFiles});
@@ -54,8 +61,9 @@ class AnswerInThreadForm extends Component {
         let _data = new FormData();
         
         if(this.state.text !== '' || this.state.files.length > 0){
-            _data.append('text', this.state.text);
             _data.append('title', this.state.title);
+            _data.append('text', this.state.text);
+            _data.append('sage', this.state.sage);
             this.state.files.map((file, fileIndex) => {
                 _data.append('uploads[]', file, file.name);
             });
@@ -181,6 +189,12 @@ class AnswerInThreadForm extends Component {
                         floatingLabelText="Post text"
                         value={this.state.text}
                         onChange={this.changeText}
+                    />
+
+                    <Checkbox
+                        label="Sage"
+                        labelPosition="left"
+                        onCheck={this.changeSage}
                     />
 
                     <Dropzone

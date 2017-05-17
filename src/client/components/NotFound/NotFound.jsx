@@ -1,9 +1,14 @@
 import React from 'react';
 
+import Menu from '../Menu/Menu';
+
 const NotFound = () =>
   <div>
+    <Menu />
+
     <h3>404 page not found</h3>
-    <p>We are sorry but the page you are looking for does not exist.</p>
+    <img src="/public/404-page.png" />
+    <p>Thank You Mario! But Our Trash Is In Another Dump!</p>
   </div>
 
 export default NotFound;

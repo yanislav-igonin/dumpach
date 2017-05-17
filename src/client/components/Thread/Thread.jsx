@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {browserHistory} from 'react-router'
 import Promise from 'bluebird';
 import axios from 'axios';
 
@@ -28,7 +29,11 @@ class Thread extends Component {
     getInitialThread() {
         this.getThread()
             .then((thread) => {
-                this.props.dispatch(threadActions.threadInit(thread));
+                if(thread.error){
+                    browserHistory.push('/404');
+                } else {
+                    this.props.dispatch(threadActions.threadInit(thread));
+                }
             });
     }
 
@@ -56,15 +61,19 @@ class Thread extends Component {
     }
 
     renderPosts() {
-        return this.props.thread.posts.map((post, postIndex) => {
-            return (
-                <Post 
-                    key={post + postIndex}  
-                    postIndex={postIndex}
-                    post={post}
-                />
-            );
-        });
+        const {posts} = this.props.thread;
+
+        if(posts.length > 0){
+            return posts.map((post, postIndex) => {
+                return (
+                    <Post 
+                        key={post + postIndex}  
+                        postIndex={postIndex}
+                        post={post}
+                    />
+                );
+            });
+        }
     }
 
     render() {
