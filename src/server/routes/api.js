@@ -148,8 +148,4 @@ router.post('/threads/:threadId', (req, res) => {
     form.parse(req);
 });
 
-router.use((req, res, next) => {
-    res.send('Not found');
-});
-
 module.exports = router;
