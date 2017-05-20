@@ -1,4 +1,4 @@
-@import './ThreadCard/ThreadCard.scss';
+@import './ThreadPreview/ThreadPreview.scss';
 @import './CreateThreadForm/CreateThreadForm.scss';
 
 .main-page-container{
@@ -14,7 +14,7 @@
 
     .threads-list{
         list-style: none;
-        padding-left: 1%;
+        padding: 0 1em;
     }
 }
 
