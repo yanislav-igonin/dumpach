@@ -34,7 +34,14 @@ class Menu extends Component {
 
     renderOpenMainPageButton() {
         if(this.props.routing.locationBeforeTransitions.pathname !== '/'){
-            return <MenuItem onClick={this.openMainPage}>Main</MenuItem>;
+            return (
+                <MenuItem 
+                    rightIcon={<FontIcon className="fa fa-home"/>} 
+                    onClick={this.openMainPage}
+                >
+                    Main
+                </MenuItem>
+            );
         }
     }
 
