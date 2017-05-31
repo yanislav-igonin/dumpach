@@ -1,21 +1,20 @@
 .answer-in-thread-form-container{
-
     display: inline-block;
+}
 
-    .open-answer-in-thread-form-button{
+.answer-in-thread-form-dialog{
+
+    .answer-in-thread-form-dialog-textfield{
+        width: 100%!important;
+        display: block!important;
     }
-
-    .creaanswer-inte-thread-form-dialog{
-
+    .answer-in-thread-form-dialog-checkbox{
+        margin: 1em 0;
     }
 }
 
-.answer-in-thread-form-dialog-textfield{
-    width: 100%!important;
-    display: block!important;
-}
 .answer-in-thread-form-dropzone{
-    width: 100%;
+    width: calc(100% - 4px);
     border: 2px dashed #ccc;
     border-radius: 5;
     text-align: center;

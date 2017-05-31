@@ -22,6 +22,15 @@
             +.post-index{
                 color: orangered;
             }
+
+            +.post-open-thread-link{
+                color: orangered;
+                cursor: pointer;
+
+                &:hover{
+                    color: darken(orangered, 10%);
+                }
+            }
         }
 
         .post-files-list{

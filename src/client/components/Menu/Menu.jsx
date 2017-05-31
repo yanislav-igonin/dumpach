@@ -48,7 +48,12 @@ class Menu extends Component {
                     onRequestChange={this.handleToggle}
                 >
                     {this.renderOpenMainPageButton()}
-                    <MenuItem onClick={this.openGithubPage}>Github</MenuItem>
+                    <MenuItem 
+                        onClick={this.openGithubPage}
+                        rightIcon={<FontIcon className="fa fa-github"/>}
+                    >
+                        Github
+                    </MenuItem>
                 </Drawer>
             </div>
         );

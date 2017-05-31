@@ -193,6 +193,7 @@ class AnswerInThreadForm extends Component {
 
                     <Checkbox
                         label="Sage"
+                        className="answer-in-thread-form-dialog-checkbox"
                         labelPosition="left"
                         onCheck={this.changeSage}
                     />

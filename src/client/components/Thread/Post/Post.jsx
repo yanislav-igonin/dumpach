@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import {browserHistory} from 'react-router'
+import FlatButton from 'material-ui/FlatButton';
 
 import File from './File/File';
 
@@ -6,6 +8,11 @@ export default class Post extends Component {
     constructor(props) {
         super(props);
         
+        this.openThread = this.openThread.bind(this);
+    }
+
+    openThread() {
+        browserHistory.push('/threads/' + this.props.threadId);
     }
 
     getPostTitleContainerStyle() {
@@ -33,6 +40,9 @@ export default class Post extends Component {
         }
     }
 
+
+
+
     renderPostIndex() {
         let _postIndexElement = null;
         const {postIndex} = this.props;
@@ -42,6 +52,19 @@ export default class Post extends Component {
         }
 
         return _postIndexElement;
+    }
+
+    renderOpenThreadButton() {
+        if(this.props.postIndex === 0 && this.props.threadId !== undefined){
+            return (
+                <h3 
+                    className="post-title post-open-thread-link"
+                    onTouchTap={this.openThread}
+                >
+                    &nbsp;&nbsp;&nbsp;Open Thread
+                </h3>
+            );
+        }
     }
 
     renderFiles() {
@@ -104,6 +127,8 @@ export default class Post extends Component {
                         {this.renderPostIndex()}
 
                         <h3 className="post-title">&nbsp;&nbsp;&nbsp;№{postNumeration}</h3>
+                        
+                        {this.renderOpenThreadButton()}
                     </div>
 
                     {this.renderPostFilesList()}

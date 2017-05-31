@@ -9,7 +9,7 @@ import FlatButton from 'material-ui/FlatButton';
 import {threadsActions} from '../../actions/threadsActions';
 
 import CreateThreadForm from './CreateThreadForm/CreateThreadForm';
-import ThreadCard from './ThreadCard/ThreadCard';
+import ThreadPreview from './ThreadPreview/ThreadPreview';
 import Menu from '../Menu/Menu';
 
 class MainPage extends Component {
@@ -49,9 +49,9 @@ class MainPage extends Component {
             });
     }
 
-    renderThreads() {
+    renderThreadsPreview() {
         return this.props.threads.map((thread, threadIndex) => {
-            return <ThreadCard key={thread + threadIndex} thread={thread} />;
+            return <ThreadPreview key={thread + threadIndex} thread={thread} />;
         });
     }
 
@@ -70,9 +70,9 @@ class MainPage extends Component {
                     <Menu />       
                 </div>
 
-                <Masonry elementType={'ul'} className="threads-list" >
-                    {this.renderThreads()}
-                </Masonry>
+                <ul className="threads-list">
+                    {this.renderThreadsPreview()}
+                </ul>
             </div>
         );
     }
