@@ -26,6 +26,7 @@
             +.post-open-thread-link{
                 color: orangered;
                 cursor: pointer;
+                user-select: none;
 
                 &:hover{
                     color: darken(orangered, 10%);
