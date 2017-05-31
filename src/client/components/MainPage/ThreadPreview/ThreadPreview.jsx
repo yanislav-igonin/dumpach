@@ -1,18 +1,10 @@
 import React, {Component} from 'react';
-import {browserHistory} from 'react-router'
-import FlatButton from 'material-ui/FlatButton';
 
 import Post from '../../Thread/Post/Post';
 
 export default class ThreadPreview extends Component {
     constructor(props) {
         super(props);
-
-        this.openThread = this.openThread.bind(this);
-    }
-
-    openThread(){
-        browserHistory.push('/threads/' + this.props.thread._id);
     }
 
     renderPosts() {
@@ -25,6 +17,7 @@ export default class ThreadPreview extends Component {
                         key={post + postIndex}  
                         postIndex={postIndex}
                         post={post}
+                        threadId={this.props.thread._id}
                     />
                 );
             });
@@ -39,6 +32,7 @@ export default class ThreadPreview extends Component {
                     {this.renderPosts()}
                 </ul>
                 
+                <hr className="threads-separator"/>
             </li>
         );
     }
