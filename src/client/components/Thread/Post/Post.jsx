@@ -4,6 +4,8 @@ import FlatButton from 'material-ui/FlatButton';
 
 import File from './File/File';
 
+import {addZero} from './helpers/postHelpers';
+
 export default class Post extends Component {
     constructor(props) {
         super(props);
@@ -121,7 +123,7 @@ export default class Post extends Component {
                         <h3 className="post-title">{title}</h3>
                         {title !== '' ? <h3 className="post-title">&nbsp;</h3>: null}
                         <h3 className="post-title">
-                            {_time.toLocaleDateString()} {_time.getHours()}:{_time.getMinutes()}:{_time.getSeconds()}
+                            {_time.toLocaleDateString()} {addZero(_time.getHours())}:{addZero(_time.getMinutes())}:{addZero(_time.getSeconds())}
                         </h3>
 
                         {this.renderPostIndex()}
