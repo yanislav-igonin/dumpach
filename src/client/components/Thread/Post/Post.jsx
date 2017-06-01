@@ -120,8 +120,7 @@ export default class Post extends Component {
                 <div className="post-container">
 
                     <div className="post-title-container" style={this.getPostTitleContainerStyle()}>
-                        <h3 className="post-title">{threadTitle}</h3>
-                        {threadTitle !== undefined ? <h3 className="post-title">&nbsp;</h3>: null}
+                        {postIndex > 0 ? null : <h3 className="post-title">{threadTitle}&nbsp;</h3>}
                         <h3 className="post-title">
                             {_time.toLocaleDateString()} {addZero(_time.getHours())}:{addZero(_time.getMinutes())}:{addZero(_time.getSeconds())}
                         </h3>
