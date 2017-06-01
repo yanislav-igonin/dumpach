@@ -17,7 +17,7 @@ export default class ThreadPreview extends Component {
                         key={post + postIndex}  
                         postIndex={postIndex}
                         post={post}
-                        threadId={this.props.thread._id}
+                        threadId={this.props.thread.threadId}
                     />
                 );
             });

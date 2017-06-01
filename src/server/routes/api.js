@@ -12,11 +12,9 @@ const router = express.Router(),
     uploadThumbsDir = path.join(__dirname, '../../../uploads_thumbs');
 
 router.get('/threads', (req, res) => {
-
     ThreadsCollection.getAllThreads().then((threads) => {
         res.send(threads);
     });
-    
 });
 
 router.post('/threads', (req, res) => {
@@ -67,7 +65,7 @@ router.post('/threads', (req, res) => {
 
         ThreadsCollection.createNewThread(_thread).then((thread) => {
             if(thread.posts !== undefined){
-                res.status(201).send(thread._id);
+                res.send(JSON.stringify(thread.threadId));
             } else {
                 res.send({error: 'Thread creating error!'});
             }
@@ -75,20 +73,18 @@ router.post('/threads', (req, res) => {
 
     });
 
-    form.parse(req, function(err, fields, files) {
-        console.log(err);
-        console.log(fields);
-        console.log(files);
-    });
+    form.parse(req);
 });
 
 router.get('/threads/:threadId', (req, res) => {
 
     ThreadsCollection.getThreadById(req.params.threadId).then((thread) => {
-        if(thread.error !== null){
-            res.send(thread);
-        } else {
-            res.res.send(thread.error);;
+        if(thread !== null){
+            if(thread.error === undefined){
+                res.send(thread);
+            } else {
+                res.send(thread.error);;
+            }
         }
     });
 });
@@ -137,7 +133,7 @@ router.post('/threads/:threadId', (req, res) => {
 
         ThreadsCollection.postInThread(req.params.threadId, _post).then((posts) => {
             if(posts.error !== null){
-                res.status(201).send(posts);
+                res.send(posts);
             } else {
                 res.send(posts.error);
             }

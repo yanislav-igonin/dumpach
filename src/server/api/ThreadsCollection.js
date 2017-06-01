@@ -29,6 +29,7 @@ PostsNumerationCollection.createFirstDocument();
 ////////////////////////////////////////////
 
 let threadsSchema = mongoose.Schema({
+	threadId: Number,
     posts: Array,
 	updateTime: Number
 });
@@ -61,18 +62,14 @@ ThreadsCollection.getThreadById = (threadId) => {
     console.log('getThreadById');
 
     return new Promise((resolve, reject) => {
-		if (threadId.match(/^[0-9a-fA-F]{24}$/)) {
-			ThreadsCollection.findById(threadId).lean().exec((err, thread) => {
-				if (err) {
-					console.error('Get thread by id error', err);
-					resolve(err);
-				} else {
-					resolve(thread);
-				}
-			});
-		} else {
-			resolve({error: 'Thread not found!'});
-		}
+		ThreadsCollection.findOne({threadId: threadId}).lean().exec((err, thread) => {
+			if (err) {
+				console.error('Get thread by id error', err);
+				resolve(err);
+			} else {
+				resolve(thread);
+			}
+		});
 	});
 }
 
@@ -80,26 +77,30 @@ ThreadsCollection.createNewThread = (thread) => {
 	console.log('createNewThread');
 	console.log(thread);
 
-	let _newThread = new ThreadsCollection({
-		posts: thread.posts,
-		updateTime: Date.now()
-	});
-
 	return new Promise((resolve, reject) => {
+		ThreadsCollection.find().lean().exec((err, threads) => {
 
-		PostsNumerationCollection.incrementPostsNumeration().then((postNumeration) => {
-			_newThread.posts[0].postNumeration = postNumeration;
-			_newThread.posts[0].time = Date.now();
+			let _newThread = new ThreadsCollection({
+				posts: thread.posts,
+				updateTime: Date.now(),
+				threadId: threads.length === null ? 0 : threads.length
+			});
 
-			_newThread.save((err, thread) => {
-				if (err) {
-					console.error('Create new thread error', err);
-					resolve(err);
-				} else {
-					deleteOldThread();
-					resolve(thread);
-				}
-			})
+			PostsNumerationCollection.incrementPostsNumeration().then((postNumeration) => {
+				_newThread.posts[0].postNumeration = postNumeration;
+				_newThread.posts[0].time = Date.now();
+
+				_newThread.save((err, thread) => {
+					if (err) {
+						console.error('Create new thread error', err);
+						resolve(err);
+					} else {
+						deleteOldThread();
+						resolve(thread);
+					}
+				})
+			});
+
 		});
 
 	});
@@ -112,37 +113,31 @@ ThreadsCollection.postInThread = (threadId, post) => {
 	post.time = Date.now();
 
 	return new Promise((resolve, reject) => {
-		if (threadId.match(/^[0-9a-fA-F]{24}$/)) {
+		ThreadsCollection.findOne({threadId: threadId}).lean().exec((err, thread) => {
 
-			ThreadsCollection.findById(threadId).lean().exec((err, thread) => {
+			_postsLength = thread.posts.length;
+			_updateParameters = getThreadUpdateTimeParameters(post, _postsLength, thread);
 
-				_postsLength = thread.posts.length;
-				_updateParameters = getThreadUpdateTimeParameters(post, _postsLength, thread);
+			PostsNumerationCollection.incrementPostsNumeration().then((postNumeration) => {
+				post.postNumeration = postNumeration;
 
-				PostsNumerationCollection.incrementPostsNumeration().then((postNumeration) => {
-					post.postNumeration = postNumeration;
-
-					ThreadsCollection.findByIdAndUpdate(
-						threadId,
-						{$push: { "posts": post }, $set: _updateParameters},
-						{safe: true, upsert: true, new: true},
-						(err, thread) => {
-							if (err) {
-								console.error('Get thread by id error', err);
-								resolve(err);
-							} else {
-								resolve(thread.posts);
-							}
+				ThreadsCollection.findByIdAndUpdate(
+					thread._id,
+					{$push: { "posts": post }, $set: _updateParameters},
+					{safe: true, upsert: true, new: true},
+					(err, thread) => {
+						if (err) {
+							console.error('Get thread by id error', err);
+							resolve(err);
+						} else {
+							resolve(thread.posts);
 						}
-					);
+					}
+				);
 
-				});
-			
 			});
-
-		} else {
-			resolve(null);
-		}
+		
+		});
 	});
 }
 
