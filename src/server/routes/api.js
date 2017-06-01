@@ -87,11 +87,9 @@ router.get('/threads/:threadId', (req, res) => {
 
     ThreadsCollection.getThreadById(req.params.threadId).then((thread) => {
         if(thread !== null){
-            if(thread.error === undefined){
-                res.send(thread);
-            } else {
-                res.send(thread.error);;
-            }
+            res.send(thread);
+        } else {
+            res.send({error: 404});
         }
     });
 });
