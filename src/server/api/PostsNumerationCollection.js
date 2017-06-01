@@ -8,7 +8,7 @@ import mongoose from 'mongoose';
 ////////////////////////////////////////////
 
 let postsNumerationSchema = mongoose.Schema({
-    postNumeration: Number
+    postsNumeration: Number
 });
 
 
@@ -17,7 +17,7 @@ let PostsNumerationCollection = mongoose.model('posts_numeration', postsNumerati
 
 PostsNumerationCollection.createFirstDocument = () => {
     let _newNumeration = new PostsNumerationCollection({
-        postNumeration: 1
+        postsNumeration: 1
     }); 
 
     PostsNumerationCollection.findOne({}).lean().exec((err, doc) => {
@@ -35,13 +35,13 @@ PostsNumerationCollection.incrementPostsNumeration = () => {
     console.log('incrementPostsNumeration');
     return new Promise((resolve, reject) => {
 
-        PostsNumerationCollection.findOneAndUpdate({}, {$inc: {postNumeration: 1}}, function (err, doc) {
+        PostsNumerationCollection.findOneAndUpdate({}, {$inc: {postsNumeration: 1}}, function (err, doc) {
             if(err){
                 console.log(err);
                 reject();
             }
 
-            resolve(doc.postNumeration);
+            resolve(doc.postsNumeration);
         });
 
     })

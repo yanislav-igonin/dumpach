@@ -3,7 +3,7 @@ export const threadActions = {
     threadInit(thread){
         return {
             type: 'THREAD_INIT',
-            payload: thread.posts
+            payload: thread
         }
     },
 

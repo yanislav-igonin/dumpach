@@ -20,9 +20,9 @@ router.get('/threads', (req, res) => {
 router.post('/threads', (req, res) => {
 
     let _thread = {
+        threadTitle: '',
         posts: []
     },  _post = {
-        title: '',
         text: '',
         files: []
     },  _fullFilePath, _fileName;
@@ -53,7 +53,14 @@ router.post('/threads', (req, res) => {
     });
 
     form.on('field', (name, value) => {
-        _post[name] = value;
+        switch(name){
+            case 'threadTitle':
+                _thread.threadTitle = value;
+                break;
+            case 'text':
+                _post.text = value;
+                break;
+        }
     });
     
     form.on('error', (err) => {

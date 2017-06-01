@@ -8,7 +8,7 @@ export default class ThreadPreview extends Component {
     }
 
     renderPosts() {
-        const {posts} = this.props.thread;
+        const {posts, threadTitle} = this.props.thread;
 
         if(posts.length > 0){
             return posts.map((post, postIndex) => {
@@ -16,6 +16,7 @@ export default class ThreadPreview extends Component {
                     <Post 
                         key={post + postIndex}  
                         postIndex={postIndex}
+                        threadTitle={threadTitle}
                         post={post}
                         threadId={this.props.thread.threadId}
                     />

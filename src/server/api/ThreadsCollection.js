@@ -5,6 +5,7 @@ import fs from 'fs';
 import path from 'path';
 
 import PostsNumerationCollection from './PostsNumerationCollection';
+import ThreadsNumerationCollection from './ThreadsNumerationCollection';
 
 
 ////////////////////////////////////////////
@@ -20,9 +21,10 @@ mongoose.Promise = Promise;
 mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
 mongoose.connection.on('connected', () => {
     console.log('Mongoose default connection open to ' + db_url);
+	PostsNumerationCollection.createFirstDocument();
+	ThreadsNumerationCollection.createFirstDocument();
 });
 
-PostsNumerationCollection.createFirstDocument();
 
 ////////////////////////////////////////////
 ////////////MONGO SCHEMA CREATION///////////
@@ -30,6 +32,7 @@ PostsNumerationCollection.createFirstDocument();
 
 let threadsSchema = mongoose.Schema({
 	threadId: Number,
+	threadTitle: String,
     posts: Array,
 	updateTime: Number
 });
@@ -44,8 +47,6 @@ let ThreadsCollection = mongoose.model('Threads', threadsSchema);
 ////////////////////////////////////////////
 
 ThreadsCollection.getAllThreads = () => {
-    console.log('getAllThreads');
-
     return new Promise((resolve, reject) => {
 		ThreadsCollection.find({}, {posts: {$slice: 3}}).sort({updateTime: -1}).lean().exec((err, threads) => {
 			if (err) {
@@ -59,8 +60,6 @@ ThreadsCollection.getAllThreads = () => {
 }
 
 ThreadsCollection.getThreadById = (threadId) => {
-    console.log('getThreadById');
-
     return new Promise((resolve, reject) => {
 		ThreadsCollection.findOne({threadId: threadId}).lean().exec((err, thread) => {
 			if (err) {
@@ -74,16 +73,14 @@ ThreadsCollection.getThreadById = (threadId) => {
 }
 
 ThreadsCollection.createNewThread = (thread) => {
-	console.log('createNewThread');
-	console.log(thread);
-
 	return new Promise((resolve, reject) => {
-		ThreadsCollection.find().lean().exec((err, threads) => {
+		ThreadsNumerationCollection.incrementThreadsNumeration().then((threadNumeration) => {
 
 			let _newThread = new ThreadsCollection({
+				threadTitle: thread.threadTitle,
 				posts: thread.posts,
 				updateTime: Date.now(),
-				threadId: threads.length === null ? 0 : threads.length
+				threadId: threadNumeration
 			});
 
 			PostsNumerationCollection.incrementPostsNumeration().then((postNumeration) => {
@@ -107,7 +104,6 @@ ThreadsCollection.createNewThread = (thread) => {
 }
 
 ThreadsCollection.postInThread = (threadId, post) => {
-	console.log('postInThread', threadId);
 	let _postsLength, _updateParameters;
 
 	post.time = Date.now();

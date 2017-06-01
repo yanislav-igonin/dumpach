@@ -111,8 +111,8 @@ export default class Post extends Component {
     }
 
     render() {
-        const {title, text, time, files, postNumeration} = this.props.post,
-            {postIndex} = this.props,
+        const {text, time, files, postNumeration} = this.props.post,
+            {threadTitle, postIndex} = this.props,
             _time = new Date(time);
 
         return (
@@ -120,8 +120,8 @@ export default class Post extends Component {
                 <div className="post-container">
 
                     <div className="post-title-container" style={this.getPostTitleContainerStyle()}>
-                        <h3 className="post-title">{title}</h3>
-                        {title !== '' ? <h3 className="post-title">&nbsp;</h3>: null}
+                        <h3 className="post-title">{threadTitle}</h3>
+                        {threadTitle !== undefined ? <h3 className="post-title">&nbsp;</h3>: null}
                         <h3 className="post-title">
                             {_time.toLocaleDateString()} {addZero(_time.getHours())}:{addZero(_time.getMinutes())}:{addZero(_time.getSeconds())}
                         </h3>

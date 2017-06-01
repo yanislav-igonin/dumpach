@@ -12,6 +12,7 @@ export default class CreateThreadForm extends Component {
 
         this.state = {
             open: false,
+            createButtonDisabled: false,
             title: '',
             text: '',
             files: []
@@ -47,7 +48,7 @@ export default class CreateThreadForm extends Component {
 
         if(this.state.text !== '' || this.state.files.length > 0){
             _data.append('text', this.state.text);
-            _data.append('title', this.state.title);
+            _data.append('threadTitle', this.state.title);
             this.state.files.map((file, fileIndex) => {
                 _data.append('uploads[]', file, file.name);
             });
@@ -128,6 +129,7 @@ export default class CreateThreadForm extends Component {
                 label="Create thread"
                 primary={true}
                 onTouchTap={this.createThread}
+                disabled={this.state.createButtonDisabled}
             />,
         ];
 
@@ -158,7 +160,7 @@ export default class CreateThreadForm extends Component {
                     <TextField
                         className="create-thread-form-dialog-textfield"
                         multiLine={true}
-                        floatingLabelText="Thread text"
+                        floatingLabelText="Thread OP post"
                         value={this.state.text}
                         onChange={this.changeText}
                     />

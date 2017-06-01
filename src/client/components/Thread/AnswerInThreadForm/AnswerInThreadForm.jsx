@@ -20,7 +20,6 @@ class AnswerInThreadForm extends Component {
         this.state = {
             open: false,
             answerButtonDisabled: false,
-            title: '',
             text: '',
             sage: false,
             files: []
@@ -28,7 +27,6 @@ class AnswerInThreadForm extends Component {
 
         this.toggleOpen = this.toggleOpen.bind(this);
 
-        this.changeTitle = this.changeTitle.bind(this);
         this.changeText = this.changeText.bind(this);
         this.changeSage = this.changeSage.bind(this);
         this.onDrop = this.onDrop.bind(this);
@@ -38,10 +36,6 @@ class AnswerInThreadForm extends Component {
 
     toggleOpen() {
         this.setState({open: !this.state.open});
-    }
-
-    changeTitle(event, value) {
-        this.setState({title: value});
     }
 
     changeText(event, value) {
@@ -61,7 +55,6 @@ class AnswerInThreadForm extends Component {
         let _data = new FormData();
         
         if(this.state.text !== '' || this.state.files.length > 0){
-            _data.append('title', this.state.title);
             _data.append('text', this.state.text);
             _data.append('sage', this.state.sage);
             this.state.files.map((file, fileIndex) => {
@@ -175,13 +168,6 @@ class AnswerInThreadForm extends Component {
                     onRequestClose={this.toggleOpen}
                     autoScrollBodyContent={true}
                 >
-
-                    <TextField
-                        className="answer-in-thread-form-dialog-textfield"
-                        floatingLabelText="Post title"
-                        value={this.state.title}
-                        onChange={this.changeTitle}
-                    />
 
                     <TextField
                         className="answer-in-thread-form-dialog-textfield"

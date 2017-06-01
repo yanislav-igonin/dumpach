@@ -61,7 +61,7 @@ class Thread extends Component {
     }
 
     renderPosts() {
-        const {posts} = this.props.thread;
+        const {posts, threadTitle} = this.props.thread;
 
         if(posts.length > 0){
             return posts.map((post, postIndex) => {
@@ -69,6 +69,7 @@ class Thread extends Component {
                     <Post 
                         key={post + postIndex}  
                         postIndex={postIndex}
+                        threadTitle={threadTitle}
                         post={post}
                     />
                 );
