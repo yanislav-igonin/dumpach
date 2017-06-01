@@ -49,7 +49,7 @@ function initializeServer() {
 
     if (process.env.NODE_ENV !== 'production') {
         const webpack = require('webpack');
-        const config = require(path.join(__dirname, '../../webpack.config'));
+        const config = require(path.join(__dirname, '../../webpack.config.js'));
         const compiler = webpack(config);
 
         server

@@ -41,15 +41,15 @@ const muiTheme = getMuiTheme({
 });
 
 render(
-  <MuiThemeProvider muiTheme={muiTheme}>
-    <Provider store={store}>
-        <Router history={history}>
-            <Route path="/" component={MainPage} />
-            <Route path="/threads/:threadId" component={Thread} />
-            <Route path="*" component={NotFound} />
-        </Router>
-    </Provider>
-    
-  </MuiThemeProvider>,
-    root,
-);//Master build
+    <MuiThemeProvider muiTheme={muiTheme}>
+        <Provider store={store}>
+            <Router history={history}>
+                <Route path="/" component={MainPage} />
+                <Route path="/threads/:threadId" component={Thread} />
+                <Route path="*" component={NotFound} />
+            </Router>
+        </Provider>
+        
+    </MuiThemeProvider>,
+    root
+);

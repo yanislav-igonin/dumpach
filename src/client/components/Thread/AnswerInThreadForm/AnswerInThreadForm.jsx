@@ -23,7 +23,7 @@ class AnswerInThreadForm extends Component {
             text: '',
             sage: false,
             files: []
-        }
+        };
 
         this.toggleOpen = this.toggleOpen.bind(this);
 
