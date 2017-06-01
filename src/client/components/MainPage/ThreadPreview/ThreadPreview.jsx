@@ -33,7 +33,7 @@ export default class ThreadPreview extends Component {
                     {this.renderPosts()}
                 </ul>
                 
-                <hr className="threads-separator"/>
+                {this.props.lastThread === false ? <hr className="threads-separator"/> : null}
             </li>
         );
     }

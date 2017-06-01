@@ -50,8 +50,13 @@ class MainPage extends Component {
     }
 
     renderThreadsPreview() {
+        let _lastThread = false;
+
         return this.props.threads.map((thread, threadIndex) => {
-            return <ThreadPreview key={thread + threadIndex} thread={thread} />;
+            if(threadIndex === this.props.threads.length - 1){
+                _lastThread = true;
+            }
+            return <ThreadPreview key={thread + threadIndex} thread={thread} lastThread={_lastThread} />;
         });
     }
 
