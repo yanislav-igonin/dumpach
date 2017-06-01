@@ -19,6 +19,10 @@
             display: inline-block;
             margin-top: 0;
 
+            +.sage{
+                color: orangered;
+            }
+
             +.post-index{
                 color: orangered;
             }

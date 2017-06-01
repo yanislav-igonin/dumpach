@@ -50,7 +50,7 @@ export default class Post extends Component {
         const {postIndex} = this.props;
 
         if(postIndex > 0){
-            _postIndexElement = <h3 className="post-title post-index">&nbsp;&nbsp;&nbsp;#{postIndex + 1}</h3>;
+            _postIndexElement = <h3 className="post-title post-index">&nbsp;&nbsp;#{postIndex + 1}</h3>;
         }
 
         return _postIndexElement;
@@ -111,7 +111,7 @@ export default class Post extends Component {
     }
 
     render() {
-        const {text, time, files, postNumeration} = this.props.post,
+        const {text, time, files, postNumeration, sage} = this.props.post,
             {threadTitle, postIndex} = this.props,
             _time = new Date(time);
 
@@ -120,14 +120,18 @@ export default class Post extends Component {
                 <div className="post-container">
 
                     <div className="post-title-container" style={this.getPostTitleContainerStyle()}>
+
                         {postIndex > 0 ? null : <h3 className="post-title">{threadTitle}&nbsp;</h3>}
+                        
                         <h3 className="post-title">
                             {_time.toLocaleDateString()} {addZero(_time.getHours())}:{addZero(_time.getMinutes())}:{addZero(_time.getSeconds())}
                         </h3>
 
                         {this.renderPostIndex()}
 
-                        <h3 className="post-title">&nbsp;&nbsp;&nbsp;№{postNumeration}</h3>
+                        <h3 className="post-title">&nbsp;&nbsp;№{postNumeration}</h3>
+                        
+                        {sage === 'true' ? <h3 className="post-title sage">&nbsp;&nbsp;SAGE</h3> : null}
                         
                         {this.renderOpenThreadButton()}
                     </div>

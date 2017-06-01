@@ -99,7 +99,6 @@ router.get('/threads/:threadId', (req, res) => {
 router.post('/threads/:threadId', (req, res) => {
 
     let _post = {
-        title: '',
         text: '',
         files: []
     },  _fullFilePath, _fileName;
