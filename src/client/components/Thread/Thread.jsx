@@ -96,7 +96,8 @@ class Thread extends Component {
                     color="orangered"
                     style={{
                         backgroundColor: 'none',
-                        borderRadius: 0
+                        borderRadius: 0,
+                        zIndex: 9999
                     }}
                 />
 
