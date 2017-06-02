@@ -13,12 +13,18 @@ import {threadActions} from '../../actions/threadActions';
 import Post from './Post/Post';
 import AnswerInThreadForm from './AnswerInThreadForm/AnswerInThreadForm';
 import Menu from '../Menu/Menu';
+import LinearProgress from 'material-ui/LinearProgress';
 
 class Thread extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            requestReadiness: 0
+        };
         
         this.updateThread = this.updateThread.bind(this);
+        this.changeRequestReadiness = this.changeRequestReadiness.bind(this);
         this.handleSnackbarRequestClose = this.handleSnackbarRequestClose.bind(this);
     }
 
@@ -60,6 +66,10 @@ class Thread extends Component {
         this.props.dispatch(settingsActions.snackbarUpdate(''))
     }
 
+    changeRequestReadiness(value) {
+        this.setState({requestReadiness: value});
+    }
+
     renderPosts() {
         const {posts, threadTitle} = this.props.thread;
 
@@ -80,9 +90,22 @@ class Thread extends Component {
     render() {
         return (
             <div className="thread-container">
+                <LinearProgress 
+                    mode="determinate" 
+                    value={this.state.requestReadiness}
+                    color="orangered"
+                    style={{
+                        backgroundColor: 'none',
+                        borderRadius: 0
+                    }}
+                />
+
                 <div className="thread-controls">
 
-                    <AnswerInThreadForm threadId={this.props.routeParams.threadId}/> 
+                    <AnswerInThreadForm 
+                        threadId={this.props.routeParams.threadId}
+                        changeRequestReadiness={this.changeRequestReadiness}
+                    /> 
 
                     <FlatButton className="update-thread-button"
                         label="Update thread" 

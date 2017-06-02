@@ -45,6 +45,7 @@ export default class CreateThreadForm extends Component {
 
     createThread() {
         let _data = new FormData();
+        const _this = this;
 
         if(this.state.text !== '' || this.state.files.length > 0){
             _data.append('text', this.state.text);
@@ -56,6 +57,7 @@ export default class CreateThreadForm extends Component {
             let _config = {
                 onUploadProgress(progressEvent) {
                     console.log(Math.round((progressEvent.loaded * 100) / progressEvent.total));
+                    _this.props.changeRequestReadiness((progressEvent.loaded * 100) / progressEvent.total);
                 }
             };
             axios.post('/api/threads', _data, _config)

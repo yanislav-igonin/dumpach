@@ -11,12 +11,18 @@ import {threadsActions} from '../../actions/threadsActions';
 import CreateThreadForm from './CreateThreadForm/CreateThreadForm';
 import ThreadPreview from './ThreadPreview/ThreadPreview';
 import Menu from '../Menu/Menu';
+import LinearProgress from 'material-ui/LinearProgress';
 
 class MainPage extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            requestReadiness: 0
+        };
+
         this.updateThreads = this.updateThreads.bind(this);
+        this.changeRequestReadiness = this.changeRequestReadiness.bind(this);
     }
 
     componentDidMount() {
@@ -49,6 +55,10 @@ class MainPage extends Component {
             });
     }
 
+    changeRequestReadiness(value) {
+        this.setState({requestReadiness: value});
+    }
+
     renderThreadsPreview() {
         let _lastThread = false;
 
@@ -64,8 +74,18 @@ class MainPage extends Component {
         return (
             <div className="main-page-container">
 
+                <LinearProgress 
+                    mode="determinate" 
+                    value={this.state.requestReadiness}
+                    color="orangered"
+                    style={{
+                        backgroundColor: 'none',
+                        borderRadius: 0
+                    }}
+                />
+
                 <div className="main-page-controls">
-                    <CreateThreadForm />
+                    <CreateThreadForm changeRequestReadiness={this.changeRequestReadiness}/>
 
                     <FlatButton className="update-threads-button"
                         label="Update threads" 

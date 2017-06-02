@@ -53,6 +53,7 @@ class AnswerInThreadForm extends Component {
 
     answerInThread() {
         let _data = new FormData();
+        const _this = this;
         
         if(this.state.text !== '' || this.state.files.length > 0){
             _data.append('text', this.state.text);
@@ -64,6 +65,7 @@ class AnswerInThreadForm extends Component {
             let _config = {
                 onUploadProgress(progressEvent) {
                     console.log(Math.round((progressEvent.loaded * 100) / progressEvent.total));
+                    _this.props.changeRequestReadiness((progressEvent.loaded * 100) / progressEvent.total);
                 }
             };
 
@@ -80,6 +82,7 @@ class AnswerInThreadForm extends Component {
                         files: [], 
                         answerButtonDisabled: false
                     });
+                    this.props.changeRequestReadiness(0);
                 })
                 .catch((error) => {
                     console.log(error);
