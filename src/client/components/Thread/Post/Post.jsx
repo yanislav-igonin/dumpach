@@ -33,7 +33,7 @@ export default class Post extends Component {
         }
     }
 
-    getPostsListElementStyle() {
+    getPostsContainerStyle() {
         if(this.props.postIndex === 0){
             return {
                 backgroundColor: '#9E9E9E',
@@ -116,8 +116,8 @@ export default class Post extends Component {
             _time = new Date(time);
 
         return (
-            <li className="posts-list-element" style={this.getPostsListElementStyle()}>
-                <div className="post-container">
+            <li className="posts-list-element">
+                <div className="post-container" style={this.getPostsContainerStyle()}>
 
                     <div className="post-title-container" style={this.getPostTitleContainerStyle()}>
 

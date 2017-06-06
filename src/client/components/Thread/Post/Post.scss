@@ -2,9 +2,8 @@
 @import './File/File.scss';
 
 .posts-list-element{
-    width: 100%;
-    box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
-    background-color: $primary-color-light;
+    min-width: 260px;
+    max-width: 100%;
     margin-bottom: .5%;
 
     +.main-post{
@@ -14,6 +13,9 @@
 
     .post-container{
         padding: 1%;
+        display: inline-block;
+        box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+        background-color: $primary-color-light;
 
         .post-title{
             display: inline-block;
