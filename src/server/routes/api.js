@@ -2,17 +2,18 @@ import express from 'express';
 import path from 'path';
 import formidable from 'formidable';
 import fs from 'fs';
-import Promise from 'bluebird';
-import sharp from 'sharp';
+
+import {makeImageThumb, makeVideoThumb} from '../helpers/thumbsMaker';
 
 import ThreadsCollection from './../api/ThreadsCollection';
 
 const router = express.Router(),
-    uploadDir = path.join(__dirname, '../../../uploads'),
-    uploadThumbsDir = path.join(__dirname, '../../../uploads_thumbs');
+    uploadDir = path.join(__dirname, '../../../uploads');
 
 router.get('/threads', (req, res) => {
-    ThreadsCollection.getAllThreads().then((threads) => {
+    ThreadsCollection
+    .getAllThreads()
+    .then((threads) => {
         res.send(threads);
     });
 });
@@ -41,11 +42,11 @@ router.post('/threads', (req, res) => {
         fs.rename(file.path, _fullFilePath);
         
         if(file.type.split('/')[0] === 'image'){
-            sharp(_fullFilePath)
-                .resize(150)
-                .toFile(uploadThumbsDir + '/thumb_' + _fileName, (err) => {
-                    if(err) console.log({error: err});
-                });
+            makeImageThumb(_fullFilePath, _fileName)
+            .then(() => {});
+        } else {
+            makeVideoThumb(_fullFilePath, _fileName)
+            .then(() => {});
         }
 
         console.log('File', file.name, 'uploded');
@@ -70,7 +71,9 @@ router.post('/threads', (req, res) => {
     form.on('end', () => {
         _thread.posts.push(_post);
 
-        ThreadsCollection.createNewThread(_thread).then((thread) => {
+        ThreadsCollection
+        .createNewThread(_thread)
+        .then((thread) => {
             if(thread.posts !== undefined){
                 res.send(JSON.stringify(thread.threadId));
             } else {
@@ -85,7 +88,9 @@ router.post('/threads', (req, res) => {
 
 router.get('/threads/:threadId', (req, res) => {
 
-    ThreadsCollection.getThreadById(req.params.threadId).then((thread) => {
+    ThreadsCollection
+    .getThreadById(req.params.threadId)
+    .then((thread) => {
         if(thread !== null){
             res.send(thread);
         } else {
@@ -113,13 +118,13 @@ router.post('/threads/:threadId', (req, res) => {
         _fullFilePath = file.path + '.' + file.type.split('/')[1];
         _fileName = _fullFilePath.split('/')[_fullFilePath.split('/').length - 1];
         fs.rename(file.path, _fullFilePath);
-
+ 
         if(file.type.split('/')[0] === 'image'){
-            sharp(_fullFilePath)
-                .resize(150)
-                .toFile(uploadThumbsDir + '/thumb_' + _fileName, (err) => {
-                    if(err) console.log({error: err});
-                });
+            makeImageThumb(_fullFilePath, _fileName)
+            .then(() => {});
+        } else {
+            makeVideoThumb(_fullFilePath, _fileName)
+            .then(() => {});
         }
 
         console.log('File', file.name, 'uploded');
@@ -134,8 +139,9 @@ router.post('/threads/:threadId', (req, res) => {
         console.log('An error has occured: \n' + err);
     });
     form.on('end', () => {
-
-        ThreadsCollection.postInThread(req.params.threadId, _post).then((posts) => {
+        ThreadsCollection
+        .postInThread(req.params.threadId, _post)
+        .then((posts) => {
             if(posts.error !== null){
                 res.send(posts);
             } else {

@@ -48,7 +48,11 @@ export default class File extends React.Component{
             case 'video':
                 _renderedElement = (
                     <li className="files-list-element">
-                        <video className="files-list-element-video" controls="controls" >
+                        <video 
+                            className="files-list-element-video" 
+                            controls="controls"
+                            poster={_thumbsLocation + 'thumb_' + _file + '.png'}
+                        >
                             <source src={_filesLocation + _file} />
                         </video>
                     </li>

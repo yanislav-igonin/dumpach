@@ -5,4 +5,6 @@ Front-end: React, Redux, React-Redux-Router
 
 Backend: Express, MongoDB
 
-Image resize: [Sharp](https://github.com/lovell/sharp)
+Image thumbs: [Sharp](https://github.com/lovell/sharp)
+
+Video thumbs: [Fluent ffmpeg](https://github.com/fluent-ffmpeg/node-fluent-ffmpeg)
