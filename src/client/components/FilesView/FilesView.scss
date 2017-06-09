@@ -1,9 +1,8 @@
-.files-list-element{
-    list-style: none;
-    display: inline-block;
-    margin: 0 .5% .5% 0;
-    vertical-align: middle;
-    cursor: pointer;
+.files-view-container{
+    display: none;
+    position: fixed;
+
+    width
 
     img{
         max-width: 150px;
