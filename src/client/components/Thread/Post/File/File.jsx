@@ -1,9 +1,12 @@
 import React from 'react';
 
+import settingsActions from '../../../../actions/settingsActions';
+
 export default class File extends React.Component{
     constructor(props){
         super(props);
 
+        this.openFileView = this.openFileView.bind(this);
     }
 
     checkFileExtension(fileName){
@@ -24,6 +27,10 @@ export default class File extends React.Component{
         window.open(path);
     }
 
+    openFileView(path){
+        this.props.dispatch(settingsActions.filesViewUpdate(path));
+    }
+
     render(){
         let _filesLocation = window.location.origin + '/uploads/',
             _thumbsLocation = window.location.origin + '/uploads_thumbs/',
@@ -37,24 +44,28 @@ export default class File extends React.Component{
             case 'image':
                 _renderedElement = (
                     <li className="files-list-element">
-                        <img 
-                            className="files-list-element-image" 
-                            src={_thumbsLocation + 'thumb_' + _file} 
+                        <div className="files-list-element-content">
+                            <img 
+                                className="files-list-element-image" 
+                                src={_thumbsLocation + 'thumb_' + _file} 
                             onClick={() => this.openImageInNewTab(_filesLocation + _file)}
-                        />
+                            />
+                        </div>
                     </li>
                 )
                 break;
             case 'video':
                 _renderedElement = (
                     <li className="files-list-element">
-                        <video 
-                            className="files-list-element-video" 
-                            controls="controls"
-                            poster={_thumbsLocation + 'thumb_' + _file + '.png'}
-                        >
-                            <source src={_filesLocation + _file} />
-                        </video>
+                        <div className="files-list-element-content">
+                            <video 
+                                className="files-list-element-video" 
+                                controls="controls"
+                                poster={_thumbsLocation + 'thumb_' + _file + '.png'}
+                            >
+                                <source src={_filesLocation + _file} />
+                            </video>
+                        </div>
                     </li>
                 )
                 break;
