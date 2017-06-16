@@ -21,7 +21,9 @@ module.exports = {
     plugins: [
         new webpack.NoErrorsPlugin(),
         new webpack.DefinePlugin({
-            NODE_ENV: JSON.stringify(NODE_ENV)
+            'process.env': {
+                NODE_ENV: JSON.stringify('production')
+            }   
         }),
         new ExtractTextPlugin('style.css', { allChunks: true }),
         new webpack.optimize.UglifyJsPlugin({
