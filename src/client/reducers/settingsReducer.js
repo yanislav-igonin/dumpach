@@ -1,5 +1,9 @@
 const defaultState = {
 	drawerOpened: false,
+	filesView: {
+		opened: false,
+		file: ''
+	},
     snackbar: {
         opened: false,
         message: ''
