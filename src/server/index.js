@@ -42,7 +42,7 @@ function initializeServer() {
     server
         .use(bodyParser.json())
         .use(bodyParser.urlencoded({extended: true}))
-        .use(morgan('tiny'));
+        .use(morgan('dev'));
 
     //ROUTES
     server
