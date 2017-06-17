@@ -12,6 +12,14 @@ export default class File extends React.Component{
         window.open(path);
     }
 
+    playPauseVideo(event) {
+        if(event.target.paused === false){
+            event.target.pause();
+        } else {
+            event.target.play();
+        }
+    }
+
     render(){
         let _filesLocation = window.location.origin + '/uploads/',
             _thumbsLocation = window.location.origin + '/uploads_thumbs/',
@@ -42,6 +50,7 @@ export default class File extends React.Component{
                             <video 
                                 className="files-list-element-video" 
                                 controls="controls"
+                                onClick={this.playPauseVideo}
                                 poster={_thumbsLocation + 'thumb_' + _file + '.png'}
                             >
                                 <source src={_filesLocation + _file} />
