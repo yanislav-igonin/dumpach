@@ -1,34 +1,15 @@
 import React from 'react';
 
+import {checkFileExtension} from '../../../../helpers/filesHelpers';
 import settingsActions from '../../../../actions/settingsActions';
 
 export default class File extends React.Component{
     constructor(props){
         super(props);
-
-        this.openFileView = this.openFileView.bind(this);
-    }
-
-    checkFileExtension(fileName){
-        let _splittedFileName = fileName.split('.'),
-            _fileType;
-
-        if(IMAGES_EXTENSIONS.indexOf(_splittedFileName[_splittedFileName.length - 1]) !== -1){
-            _fileType = 'image';
-        }
-        if(VIDEOS_EXTENSIONS.indexOf(_splittedFileName[_splittedFileName.length - 1]) !== -1){
-            _fileType = 'video';
-        }
-
-        return _fileType;
     }
 
     openImageInNewTab(path){
         window.open(path);
-    }
-
-    openFileView(path){
-        this.props.dispatch(settingsActions.filesViewUpdate(path));
     }
 
     render(){
@@ -38,7 +19,7 @@ export default class File extends React.Component{
             _renderedElement = null,
             _file = this.props.file;
             
-        _fileType = this.checkFileExtension(_file);
+        _fileType = checkFileExtension(_file);
 
         switch(_fileType){
             case 'image':
@@ -81,6 +62,3 @@ export default class File extends React.Component{
         return _renderedElement;
     }
 }
-
-const IMAGES_EXTENSIONS = ['jpg', 'JPG', 'jpeg', 'JPEG', 'png', 'PNG', 'gif', 'GIF'];
-const VIDEOS_EXTENSIONS = ['webm'];

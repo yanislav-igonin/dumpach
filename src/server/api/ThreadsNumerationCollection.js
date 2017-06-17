@@ -11,9 +11,7 @@ let threadsNumerationSchema = mongoose.Schema({
     threadsNumeration: Number
 });
 
-
 let ThreadsNumerationCollection = mongoose.model('threads_numeration', threadsNumerationSchema);
-
 
 ThreadsNumerationCollection.createFirstDocument = () => {
     let _newNumeration = new ThreadsNumerationCollection({
@@ -47,5 +45,6 @@ ThreadsNumerationCollection.incrementThreadsNumeration = () => {
     })
 }
 
+console.log('Threads numeration collection initialized');
 
 module.exports = ThreadsNumerationCollection;

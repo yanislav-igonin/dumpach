@@ -47,8 +47,7 @@ class AnswerInThreadForm extends Component {
     }
 
     onDrop(acceptedFiles, rejectedFiles) {
-        console.log(acceptedFiles, rejectedFiles);
-        this.setState({files: acceptedFiles});
+        this.setState({files: acceptedFiles.slice(0, 10)});
     }
 
     answerInThread() {

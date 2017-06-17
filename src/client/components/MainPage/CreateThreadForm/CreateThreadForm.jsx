@@ -40,7 +40,7 @@ export default class CreateThreadForm extends Component {
     }
 
     onDrop(acceptedFiles, rejectedFiles) {
-        this.setState({files: acceptedFiles});
+        this.setState({files: acceptedFiles.slice(0, 10)});
     }
 
     createThread() {
@@ -162,7 +162,7 @@ export default class CreateThreadForm extends Component {
                     <TextField
                         className="create-thread-form-dialog-textfield"
                         multiLine={true}
-                        floatingLabelText="Thread OP post"
+                        floatingLabelText="Thread OP"
                         value={this.state.text}
                         onChange={this.changeText}
                     />

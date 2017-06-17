@@ -47,5 +47,6 @@ PostsNumerationCollection.incrementPostsNumeration = () => {
     })
 }
 
+console.log('Posts numeration collection initialized');
 
 module.exports = PostsNumerationCollection;
