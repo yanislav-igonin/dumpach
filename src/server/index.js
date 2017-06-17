@@ -3,6 +3,7 @@ import express from 'express';
 import path from 'path';
 import fs from 'fs';
 import bodyParser from 'body-parser';
+import morgan from 'morgan';
 
 import indexRoutes from './routes/index';
 import apiRoutes from './routes/api';
@@ -40,7 +41,8 @@ function initializeServer() {
     //BODY PARSERS
     server
         .use(bodyParser.json())
-        .use(bodyParser.urlencoded({extended: true}));
+        .use(bodyParser.urlencoded({extended: true}))
+        .use(morgan('tiny'));
 
     //ROUTES
     server
