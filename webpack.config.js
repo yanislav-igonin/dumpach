@@ -1,6 +1,5 @@
 'use strict'
 
-const NODE_ENV = 'development';
 const path = require('path');
 const webpack = require('webpack');
 
@@ -26,7 +25,9 @@ module.exports = {
     plugins: [
         new webpack.NoErrorsPlugin(),
         new webpack.DefinePlugin({
-            NODE_ENV: JSON.stringify(NODE_ENV)
+            'process.env': {
+                NODE_ENV: JSON.stringify('development')
+            }
         }),
         new webpack.HotModuleReplacementPlugin()
     ],

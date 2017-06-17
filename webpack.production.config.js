@@ -1,6 +1,5 @@
 'use strict'
 
-const NODE_ENV = 'production';
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -21,7 +20,9 @@ module.exports = {
     plugins: [
         new webpack.NoErrorsPlugin(),
         new webpack.DefinePlugin({
-            NODE_ENV: JSON.stringify('production')
+            'process.env': {
+                NODE_ENV: JSON.stringify('production')
+            }
         }),
         new ExtractTextPlugin('style.css', { allChunks: true }),
         new webpack.optimize.UglifyJsPlugin({

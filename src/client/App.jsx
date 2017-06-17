@@ -26,7 +26,7 @@ import './App.scss';
 const root = document.getElementById('root');
 
 let store;
-if(NODE_ENV !== 'production'){
+if(process.env.NODE_ENV !== 'production'){
     store = createStore(combinedReducer, applyMiddleware(createLogger()));
 } else {
     store = createStore(combinedReducer);
