@@ -121,6 +121,22 @@ class Thread extends Component {
                     {this.renderPosts()}
                 </ul>
 
+                <div className="thread-controls after">
+
+                    <AnswerInThreadForm 
+                        threadId={this.props.routeParams.threadId}
+                        changeRequestReadiness={this.changeRequestReadiness}
+                    /> 
+
+                    <FlatButton className="update-thread-button"
+                        label="Update thread" 
+                        onTouchTap={this.updateThread} 
+                    />   
+
+                    <Menu />
+
+                </div>
+
                 <Snackbar
                     open={this.props.settings.snackbar.opened}
                     message={this.props.settings.snackbar.message}
