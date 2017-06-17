@@ -59,6 +59,7 @@
     "fluent-ffmpeg": "^2.1.2",
     "formidable": "^1.0.17",
     "mongoose": "^4.7.2",
+    "morgan": "^1.8.2",
     "sharp": "^0.17.3"
   }
 }
