@@ -4,7 +4,7 @@ import FlatButton from 'material-ui/FlatButton';
 
 import File from './File/File';
 
-import {addZero} from './helpers/postHelpers';
+import {addZero} from '../../../helpers/postHelpers';
 
 export default class Post extends Component {
     constructor(props) {

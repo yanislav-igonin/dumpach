@@ -21,6 +21,7 @@ mongoose.Promise = Promise;
 mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
 mongoose.connection.on('connected', () => {
     console.log('Mongoose default connection open to ' + db_url);
+    console.log('Threads collection initialized');
 	PostsNumerationCollection.createFirstDocument();
 	ThreadsNumerationCollection.createFirstDocument();
 });
