@@ -1,6 +1,8 @@
 # dumpach
 SPA imageboard with one section without moderation
 
+Hosted on Digital Ocean
+
 Front-end: React, Redux, React-Redux-Router
 
 Backend: Express, MongoDB
