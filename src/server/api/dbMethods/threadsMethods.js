@@ -15,17 +15,25 @@ const getAllThreads = (db) => {
         .toArray((err, threads) => {
             assert.equal(null, err);
 
-            Promise
-            .map(threads, (thread, threadIndex) => {
-                postsMethods
-                .getPostsByThreadId(db, thread._id)
-                .then((posts) => {
-                    thread.posts = posts;
-                    _threads.push(thread);
+            Promise.all(
+                threads
+                .map((thread, threadIndex) => {
+                    return new Promise((resolve, reject) => {
+                        postsMethods
+                        .getPostsByThreadId(db, thread._id)
+                        .then((posts) => {
+                            console.log(posts);
+                            resolve(posts);
+                        })
+                    }).then((posts) => {
+                        thread.posts = posts;
+                        _threads.push(thread);
+                    })
                 })
-            })
+            )
             .then(() => {
-                resolve(threads);
+                console.log(_threads);
+                resolve(_threads);
             })
             
         });

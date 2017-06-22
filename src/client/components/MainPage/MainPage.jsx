@@ -26,7 +26,7 @@ class MainPage extends Component {
         this
         .getThreads()
         .then((threads) => {
-            // this.props.dispatch(threadsActions.threadsInit(threads));
+            this.props.dispatch(threadsActions.threadsInit(threads));
             console.log(threads);
         });
     }
@@ -47,7 +47,7 @@ class MainPage extends Component {
     updateThreads(){
         this.getThreads()
         .then((threads) => {
-            // this.props.dispatch(threadsActions.threadsUpdate(threads));
+            this.props.dispatch(threadsActions.threadsUpdate(threads));
         });
     }
 
