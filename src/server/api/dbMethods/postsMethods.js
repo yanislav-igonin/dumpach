@@ -3,7 +3,7 @@ const assert = require('assert');
 
 const countersMethods = require('./countersMethods');
 
-const getPostsByThreadId = (db) => {
+const getPostsByThreadId = (db, threadId) => {
     return new Promise((resolve, reject) => {
         // db
         // .collection('posts')
@@ -14,13 +14,14 @@ const getPostsByThreadId = (db) => {
             
         //     resolve(posts);
         // });
+        console.log(posts);
 
-        resolve(threads);
+        resolve(posts);
     });
 }
 
 module.exports = {
-    getAllThreads: getAllThreads
+    getPostsByThreadId: getPostsByThreadId
 };
 
 const posts = [

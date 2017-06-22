@@ -3,8 +3,9 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const fs = require('fs');
+const Promise = require('bluebird');
 
-const MongoClient = require('mongodb').MongoClient,
+const MongoClient = Promise.promisifyAll(require("mongodb")).MongoClient,
     assert = require('assert');
 
 const db_url = 'mongodb://localhost:27017/dumpach';

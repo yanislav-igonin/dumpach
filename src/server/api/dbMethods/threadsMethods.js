@@ -2,20 +2,33 @@ const Promise = require('bluebird');
 const assert = require('assert');
 
 const countersMethods = require('./countersMethods');
+const postsMethods = require('./postsMethods');
 
 const getAllThreads = (db) => {
-    return new Promise((resolve, reject) => {
-        // db
-        // .collection('posts')
-        // .find({})
-        // // .sort({time: -1})
-        // .toArray((err, posts) => {
-        //     assert.equal(null, err);
-            
-        //     resolve(posts);
-        // });
+    let _threads = [],
+        _thread;
 
-        resolve(threads);
+    return new Promise((resolve, reject) => {
+        db
+        .collection('threads')
+        .find({})
+        .toArray((err, threads) => {
+            assert.equal(null, err);
+
+            Promise
+            .map(threads, (thread, threadIndex) => {
+                postsMethods
+                .getPostsByThreadId(db, thread._id)
+                .then((posts) => {
+                    thread.posts = posts;
+                    _threads.push(thread);
+                })
+            })
+            .then(() => {
+                resolve(threads);
+            })
+            
+        });
     });
 }
 
@@ -26,7 +39,6 @@ module.exports = {
 const threads = [
     {
         _id: 0,
-        time: Date.now(),
-        posts: []
+        time: Date.now()
     }
 ]
