@@ -2,27 +2,20 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import Promise from 'bluebird';
 import axios from 'axios';
-import Masonry from 'react-masonry-component';
 
-import FlatButton from 'material-ui/FlatButton';
+import { Button } from 'semantic-ui-react';
+import { Input } from 'semantic-ui-react';
+import { Form, TextArea } from 'semantic-ui-react';
+import { Comment, Header } from 'semantic-ui-react';
+import { Message } from 'semantic-ui-react';
 
 import {threadsActions} from '../../actions/threadsActions';
-
-import CreateThreadForm from './CreateThreadForm/CreateThreadForm';
-import ThreadPreview from './ThreadPreview/ThreadPreview';
-import Menu from '../Menu/Menu';
-import LinearProgress from 'material-ui/LinearProgress';
 
 class MainPage extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            requestReadiness: 0
-        };
-
         this.updateThreads = this.updateThreads.bind(this);
-        this.changeRequestReadiness = this.changeRequestReadiness.bind(this);
     }
 
     componentDidMount() {
@@ -30,33 +23,32 @@ class MainPage extends Component {
     }
     
     getInitialThreads() {
-        this.getThreads()
-            .then((threads) => {
-                this.props.dispatch(threadsActions.threadsInit(threads));
-            });
+        this
+        .getThreads()
+        .then((threads) => {
+            // this.props.dispatch(threadsActions.threadsInit(threads));
+            console.log(threads);
+        });
     }
 
     getThreads() {
         return new Promise((resolve, reject) => {
-            axios.get('/api/threads')
-                .then((response) =>{
-                    resolve(response.data);
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+            axios
+            .get('/api/threads')
+            .then((response) =>{
+                resolve(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
         });
     }
 
     updateThreads(){
         this.getThreads()
-            .then((threads) => {
-                this.props.dispatch(threadsActions.threadsUpdate(threads));
-            });
-    }
-
-    changeRequestReadiness(value) {
-        this.setState({requestReadiness: value});
+        .then((threads) => {
+            // this.props.dispatch(threadsActions.threadsUpdate(threads));
+        });
     }
 
     renderThreadsPreview() {
@@ -73,36 +65,47 @@ class MainPage extends Component {
     render() {
         return (
             <div className="main-page-container">
+                <div className="main-page-content">
+                    <div className="post-form">
+                        <Input
+                            className="form-input"
+                            ref="threadTitle"
+                            placeholder="Thread Title"
+                        />
+                        <Form>
+                            <TextArea
+                                className="form-input"
+                                ref="threadOP"
+                                placeholder="Thread OP"
+                                autoHeight
+                            />
+                        </Form>
+                        <Button
+                            className="form-submit-button"
+                            primary 
+                            onClick={() => {}}
+                        >
+                            Create Thread
+                        </Button>
+                    </div>
 
-                <LinearProgress 
-                    mode="determinate" 
-                    value={this.state.requestReadiness}
-                    color="orangered"
-                    style={{
-                        backgroundColor: 'none',
-                        borderRadius: 0,
-                        zIndex: 9999
-                    }}
-                />
+                    <Header 
+                        as='h3'
+                        dividing
+                    >
+                        Threads
+                    </Header>
 
-                <div className="main-page-controls">
-                    <CreateThreadForm changeRequestReadiness={this.changeRequestReadiness}/>
-
-                    <FlatButton className="update-threads-button"
-                        label="Update threads" 
-                        onTouchTap={this.updateThreads} 
-                    />         
-
-                    <Menu />       
                 </div>
-
-                <ul className="threads-list">
-                    {this.renderThreadsPreview()}
-                </ul>
             </div>
         );
     }
 }
+                    // <Comment.Group>
+                    //     {this.renderPosts()}
+                    // </Comment.Group>
+
+                    // {this.renderErrorMessage()}
 
 function mapStateToProps(state, ownProps) {
     return state.threads;
