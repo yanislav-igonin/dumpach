@@ -2,6 +2,7 @@
 
 const path = require('path');
 const webpack = require('webpack');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
@@ -14,36 +15,42 @@ module.exports = {
     },
 
     resolve: {
-        extensions: ['', '.js', '.jsx']
+        extensions: ['.js', '.jsx']
     },
 
     plugins: [
-        new webpack.NoErrorsPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify('production')
             }
         }),
-        new ExtractTextPlugin('style.css', { allChunks: true }),
-        new webpack.optimize.UglifyJsPlugin({
-            compress:{
-                warnings: false,
-                drop_console: true,
-                unsafe:true
-            }
-        })
+        new ExtractTextPlugin({
+            filename: 'style.css',
+            disable: false,
+            allChunks: true
+        }),
+        new CleanWebpackPlugin(['dist'], {
+            root: __dirname,
+            verbose: true,
+            dry: false
+        }),
+        new webpack.optimize.ModuleConcatenationPlugin()
     ],
 
     module: {
         loaders: [
             {
                 test: /\.jsx?$/, 
-                loaders: ['react-hot', 'babel'],
+                loaders: ['babel-loader'],
                 include: path.join(__dirname, 'src/client')
             },
             {
                 test: /\.scss$/,
-                loader: ExtractTextPlugin.extract('css!sass')
+                loader: ExtractTextPlugin.extract({
+                    fallbackLoader: "style-loader",
+                    loader: "css-loader!sass-loader",
+                }),
             }
         ]
     }

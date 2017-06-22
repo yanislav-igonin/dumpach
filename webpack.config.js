@@ -13,9 +13,9 @@ module.exports = {
         filename: "bundle.js",
         publicPath: '/assets/'
     },
-    
+
     resolve: {
-        extensions: ["", ".js", ".jsx"]
+        extensions: ['.js', '.jsx']
     },
 
     watch: true,
@@ -23,7 +23,7 @@ module.exports = {
     devtool: 'cheap-source-map',
 
     plugins: [
-        new webpack.NoErrorsPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify('development')
@@ -36,7 +36,7 @@ module.exports = {
         loaders: [
             {
                 test: /\.jsx?$/, 
-                loaders: ['react-hot', 'babel'],
+                loaders: ['react-hot-loader', 'babel-loader'],
                 include: path.join(__dirname, 'src/client')
             },
             {

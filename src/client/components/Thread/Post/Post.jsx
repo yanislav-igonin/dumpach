@@ -102,8 +102,16 @@ export default class Post extends Component {
         if(this.props.post.text !== ''){
             return _paragraphs.map((line, lineIndex) => {
                 return (
-                    <div key={lineIndex} className='post-text-container'>
-                        <p className="post-text" style={_textStyle}>{line}</p>
+                    <div 
+                        key={lineIndex} 
+                        className='post-text-container'
+                    >
+                        <p 
+                            className="post-text" 
+                            style={_textStyle}
+                        >
+                            {line}
+                        </p>
                     </div>
                 )
             });
