@@ -40,14 +40,21 @@ const getAllThreads = (db) => {
 }
 
 getThreadById = (db, threadId) => {
-    db
-    .collection('threads')
-    .findOne({_id: threadId}, (err, thread) => {
-        postsMethods
-        .getPostsByThreadId(db, thread._id)
-        .then((posts) => {
-            thread.posts = posts;
-        })
+    return new Promise((resolve, reject) => {
+        db
+        .collection('threads')
+        .findOne({_id: parseInt(threadId)}, (err, thread) => {
+            assert.equal(null, err);
+
+            console.log(thread);
+            postsMethods
+            .getPostsByThreadId(db, thread._id)
+            .then((posts) => {
+                thread.posts = posts;
+
+                resolve(thread);
+            })
+        });
     });
 }
 

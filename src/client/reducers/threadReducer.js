@@ -1,5 +1,5 @@
 const defaultState = {
-	threadTitle: '',
+	title: '',
 	posts: []
 };
 
@@ -9,7 +9,7 @@ const threadReducer = (state = defaultState, action) => {
 	switch (action.type) {
 		case 'THREAD_INIT':
 			_newState = Object.assign({}, state, {
-				threadTitle: action.payload.threadTitle,
+				title: action.payload.title,
 				posts: action.payload.posts
 			});
 			break;

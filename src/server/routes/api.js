@@ -31,6 +31,7 @@ module.exports = (app, db) => {
 
         app.get('/api/threads/:threadId', (req, res) => {
             // checkOrigin(req, res, () => {
+                console.log(req.params);
                 threadsMethods
                 .getThreadById(db, req.params.threadId)
                 .then((thread) => res.send(thread));
