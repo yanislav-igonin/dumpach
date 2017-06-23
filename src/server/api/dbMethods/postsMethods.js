@@ -16,6 +16,24 @@ const getPostsByThreadId = (db, threadId) => {
     });
 }
 
+const createPost = (db, post) => {
+    return new Promise((resolve, reject) => {
+        countersMethods
+        .incrementNumeration('posts')
+        .then((id) => {
+            post._id = id;
+
+            db
+            .collection('posts')
+            .insert(post, (err, result) => {
+                assert.equal(null, err);
+
+                resolve()
+            });
+        });
+    });
+}
+
 module.exports = {
     getPostsByThreadId: getPostsByThreadId
 };

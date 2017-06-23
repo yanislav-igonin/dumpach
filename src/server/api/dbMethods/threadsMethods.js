@@ -22,17 +22,16 @@ const getAllThreads = (db) => {
                         postsMethods
                         .getPostsByThreadId(db, thread._id)
                         .then((posts) => {
-                            console.log(posts);
                             resolve(posts);
                         })
-                    }).then((posts) => {
+                    })
+                    .then((posts) => {
                         thread.posts = posts;
                         _threads.push(thread);
                     })
                 })
             )
             .then(() => {
-                console.log(_threads);
                 resolve(_threads);
             })
             
@@ -40,8 +39,31 @@ const getAllThreads = (db) => {
     });
 }
 
+const createThread = (db, data) => {
+    let _thread = {
+        _id: 0,
+        posts: []
+    };
+
+    return new Promise((resolve, reject) => {
+        countersMethods
+        .incrementNumeration('threads')
+        .then((id) => {
+            _thread._id = id;
+
+
+            // db
+            // .collection('threads')
+            // .insert(thread)
+        })
+        // db
+        // .collection('threads')
+    });
+}
+
 module.exports = {
-    getAllThreads: getAllThreads
+    getAllThreads: getAllThreads,
+    createThread: createThread,
 };
 
 const threads = [

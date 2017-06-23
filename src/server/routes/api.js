@@ -29,21 +29,13 @@ module.exports = (app, db) => {
             })
         });
 
-        // app.post('/api/posts', (req, res) => {
-        //     checkOrigin(req, res, () => {
-        //         postsMethods
-        //         .createPost(db, req.body)
-        //         .then((posts) => res.send(posts));
-        //     });
-        // });
-
-        // app.post('/api/posts/:id', (req, res) => {
-        //     checkOrigin(req, res, () => {
-        //         postsMethods
-        //         .replyPost(db, req.params.id, req.body)
-        //         .then((post) => res.send(post));
-        //     });
-        // });
+        app.post('/api/threads', (req, res) => {
+            checkOrigin(req, res, () => {
+                threadsMethods
+                .createThread(db, req.body)
+                .then((thread) => res.send(thread));
+            })
+        });
     });
 
 };
