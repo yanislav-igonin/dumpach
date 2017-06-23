@@ -26,15 +26,16 @@ module.exports = (app, db) => {
                 threadsMethods
                 .getAllThreads(db)
                 .then((threads) => res.send(threads));
-            })
+            });
         });
 
         app.post('/api/threads', (req, res) => {
+            console.log(req.body);
             checkOrigin(req, res, () => {
                 threadsMethods
                 .createThread(db, req.body)
                 .then((thread) => res.send(thread));
-            })
+            });
         });
     });
 

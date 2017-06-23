@@ -16,6 +16,7 @@ class MainPage extends Component {
         super(props);
 
         this.updateThreads = this.updateThreads.bind(this);
+        this.createThread = this.createThread.bind(this);
     }
 
     componentDidMount() {
@@ -51,6 +52,50 @@ class MainPage extends Component {
         });
     }
 
+    createThread(){
+        const {threadTitle, threadOP} = this.refs;
+        
+        if(threadOP.ref.value !== ''){
+            axios.post('/api/threads', {
+                thread: {
+                    title: threadTitle.inputRef.value,
+                }, post: {
+                    text: threadOP.ref.value,
+                }
+            })
+            .then((response) => {
+                // this
+                // .props
+                // .dispatch(postsActions
+                //     .postsUpdate(response.data)
+                // );
+
+                // this.clearInputs();
+                console.log(response.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        } 
+        // else {
+        //     if(this.props.settings.errorMessage.opened === false){
+        //         this
+        //         .props
+        //         .dispatch(settingsActions
+        //             .errorMessageOpen("Post text can't be empty")
+        //         );
+
+        //         setTimeout(() => {
+        //             this
+        //             .props
+        //             .dispatch(settingsActions
+        //                 .errorMessageClose()
+        //             );
+        //         }, 5000);
+        //     }
+        // }
+    }
+
     renderThreadsPreview() {
         let _lastThread = false;
 
@@ -83,7 +128,7 @@ class MainPage extends Component {
                         <Button
                             className="form-submit-button"
                             primary 
-                            onClick={() => {}}
+                            onClick={this.createThread}
                         >
                             Create Thread
                         </Button>

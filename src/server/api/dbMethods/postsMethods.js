@@ -17,9 +17,11 @@ const getPostsByThreadId = (db, threadId) => {
 }
 
 const createPost = (db, post) => {
+    post.time = Date.now();
+    
     return new Promise((resolve, reject) => {
         countersMethods
-        .incrementNumeration('posts')
+        .incrementNumeration(db, 'posts')
         .then((id) => {
             post._id = id;
 
@@ -28,36 +30,13 @@ const createPost = (db, post) => {
             .insert(post, (err, result) => {
                 assert.equal(null, err);
 
-                resolve()
+                resolve(post)
             });
         });
     });
 }
 
 module.exports = {
-    getPostsByThreadId: getPostsByThreadId
+    getPostsByThreadId: getPostsByThreadId,
+    createPost: createPost
 };
-
-// const posts = [
-//     {
-//         _id: 0,
-//         threadId: 0,
-//         time: Date.now(),
-//         text: 'Suka',
-//         files: []
-//     },
-//     {
-//         _id: 1,
-//         threadId: 0,
-//         time: Date.now(),
-//         text: '123141',
-//         files: []
-//     },
-//     {
-//         _id: 2,
-//         threadId: 0,
-//         time: Date.now(),
-//         text: 'ccsdcwdw',
-//         files: []
-//     },
-// ]
