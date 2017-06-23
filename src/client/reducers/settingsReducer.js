@@ -1,10 +1,5 @@
 const defaultState = {
-	drawerOpened: false,
-	filesView: {
-		opened: false,
-		file: ''
-	},
-    snackbar: {
+	errorMessage: {
         opened: false,
         message: ''
     }
@@ -14,12 +9,23 @@ const settingsReducer = (state = defaultState, action) => {
 	let _newState = {};
     
 	switch (action.type) {
-		case 'DRAWER_UPDATE':
-			_newState = Object.assign({}, state, {drawerOpened: !state.drawerOpened});
+		case 'ERROR_MESSAGE_OPEN':
+			_newState = Object.assign({}, state, {
+                errorMessage : {
+                    opened: true,
+                    message: action.payload
+                }
+            });
 			break;
-		case 'SNACKBAR_UPDATE':
-			_newState = Object.assign({}, state, {snackbar: {opened: !state.snackbar.opened, message: action.payload}});
+		case 'ERROR_MESSAGE_CLOSE':
+			_newState = Object.assign({}, state, {
+                errorMessage : {
+                    opened: false,
+                    message: ''
+                }
+            });
 			break;
+
 		default:
 			_newState = state;
 			break;

@@ -1,16 +1,15 @@
 export const settingsActions = {
 
-    drawerUpdate(thread){
+    errorMessageOpen(message) {
         return {
-            type: 'DRAWER_UPDATE'
-        }
+            type: 'ERROR_MESSAGE_OPEN',
+            payload: message
+        };
     },
 
-    snackbarUpdate(message){
+    errorMessageClose() {
         return {
-            type: 'SNACKBAR_UPDATE',
-            payload: message
-        }
-    }
-    
-}
+            type: 'ERROR_MESSAGE_CLOSE'
+        };
+    },
+};

@@ -39,6 +39,18 @@ const getAllThreads = (db) => {
     });
 }
 
+getThreadById = (db, threadId) => {
+    db
+    .collection('threads')
+    .findOne({_id: threadId}, (err, thread) => {
+        postsMethods
+        .getPostsByThreadId(db, thread._id)
+        .then((posts) => {
+            thread.posts = posts;
+        })
+    });
+}
+
 const createThread = (db, data) => {
     let _thread = {
         title: data.thread.title,
@@ -75,5 +87,6 @@ const createThread = (db, data) => {
 
 module.exports = {
     getAllThreads: getAllThreads,
+    getThreadById: getThreadById,
     createThread: createThread,
 };

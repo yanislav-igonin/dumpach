@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import Promise from 'bluebird';
 import axios from 'axios';
+import {browserHistory} from 'react-router'
 
 import { Button } from 'semantic-ui-react';
 import { Input } from 'semantic-ui-react';
@@ -9,7 +10,10 @@ import { Form, TextArea } from 'semantic-ui-react';
 import { Comment, Header } from 'semantic-ui-react';
 import { Message } from 'semantic-ui-react';
 
+import {settingsActions} from '../../actions/settingsActions';
 import {threadsActions} from '../../actions/threadsActions';
+
+import './MainPage.scss';
 
 class MainPage extends Component {
     constructor(props) {
@@ -27,8 +31,12 @@ class MainPage extends Component {
         this
         .getThreads()
         .then((threads) => {
-            this.props.dispatch(threadsActions.threadsInit(threads));
-            console.log(threads);
+            this
+            .props
+            .dispatch(
+                threadsActions
+                .threadsInit(threads)
+            );
         });
     }
 
@@ -48,7 +56,12 @@ class MainPage extends Component {
     updateThreads(){
         this.getThreads()
         .then((threads) => {
-            this.props.dispatch(threadsActions.threadsUpdate(threads));
+            this
+            .props
+            .dispatch(
+                threadsActions
+                .threadsUpdate(threads)
+            );
         });
     }
 
@@ -64,47 +77,55 @@ class MainPage extends Component {
                 }
             })
             .then((response) => {
-                // this
-                // .props
-                // .dispatch(postsActions
-                //     .postsUpdate(response.data)
-                // );
-
-                // this.clearInputs();
-                console.log(response.data);
+                browserHistory.push('/threads/' + response.data._id);
             })
             .catch((err) => {
                 console.log(err);
             });
-        } 
-        // else {
-        //     if(this.props.settings.errorMessage.opened === false){
-        //         this
-        //         .props
-        //         .dispatch(settingsActions
-        //             .errorMessageOpen("Post text can't be empty")
-        //         );
+        } else {
+            if(this.props.settings.errorMessage.opened === false){
+                this
+                .props
+                .dispatch(settingsActions
+                    .errorMessageOpen("Post text can't be empty")
+                );
 
-        //         setTimeout(() => {
-        //             this
-        //             .props
-        //             .dispatch(settingsActions
-        //                 .errorMessageClose()
-        //             );
-        //         }, 5000);
-        //     }
-        // }
+                setTimeout(() => {
+                    this
+                    .props
+                    .dispatch(settingsActions
+                        .errorMessageClose()
+                    );
+                }, 5000);
+            }
+        }
     }
 
-    renderThreadsPreview() {
-        let _lastThread = false;
+    // renderThreadsPreview(){
+    //     let _lastThread = false;
 
-        return this.props.threads.map((thread, threadIndex) => {
-            if(threadIndex === this.props.threads.length - 1){
-                _lastThread = true;
-            }
-            return <ThreadPreview key={thread + threadIndex} thread={thread} lastThread={_lastThread} />;
-        });
+    //     return this.props.threads.map((thread, threadIndex) => {
+    //         if(threadIndex === this.props.threads.length - 1){
+    //             _lastThread = true;
+    //         }
+    //         return <ThreadPreview key={thread + threadIndex} thread={thread} lastThread={_lastThread} />;
+    //     });
+    // }
+
+    renderErrorMessage(){
+        if(this.props.settings.errorMessage.opened === true){
+            return (
+                <Message 
+                    className="error-message" 
+                    negative
+                >
+                    <Message.Header>
+                        Posting error
+                    </Message.Header>
+                    <p>{this.props.settings.errorMessage.message}</p>
+                </Message>
+            );
+        }
     }
 
     render() {
@@ -141,6 +162,7 @@ class MainPage extends Component {
                         Threads
                     </Header>
 
+                    {this.renderErrorMessage()}
                 </div>
             </div>
         );
@@ -150,10 +172,9 @@ class MainPage extends Component {
                     //     {this.renderPosts()}
                     // </Comment.Group>
 
-                    // {this.renderErrorMessage()}
 
 function mapStateToProps(state, ownProps) {
-    return state.threads;
+    return state;
 }
 
 export default connect(mapStateToProps)(MainPage);

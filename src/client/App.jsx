@@ -11,6 +11,7 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import combinedReducer from './reducers';
 
 import MainPage from './components/MainPage/MainPage';
+import Thread from './components/MainPage/Thread/Thread';
 
 import './App.scss';
 
@@ -26,6 +27,7 @@ render(
     <Provider store={store}>
         <Router history={history}>
             <Route path="/" component={MainPage} />
+            <Route path="/threads/:threadId" component={Thread} />
         </Router>
     </Provider>,
     document.getElementById('root')

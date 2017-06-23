@@ -22,20 +22,27 @@ module.exports = (app, db) => {
     ])
     .then(() => {
         app.get('/api/threads', (req, res) => {
-            checkOrigin(req, res, () => {
+            // checkOrigin(req, res, () => {
                 threadsMethods
                 .getAllThreads(db)
                 .then((threads) => res.send(threads));
-            });
+            // });
+        });
+
+        app.get('/api/threads/:threadId', (req, res) => {
+            // checkOrigin(req, res, () => {
+                threadsMethods
+                .getThreadById(db, req.params.threadId)
+                .then((thread) => res.send(thread));
+            // });
         });
 
         app.post('/api/threads', (req, res) => {
-            console.log(req.body);
-            checkOrigin(req, res, () => {
+            // checkOrigin(req, res, () => {
                 threadsMethods
                 .createThread(db, req.body)
                 .then((thread) => res.send(thread));
-            });
+            // });
         });
     });
 
