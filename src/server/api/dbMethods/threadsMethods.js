@@ -45,8 +45,7 @@ getThreadById = (db, threadId) => {
         .collection('threads')
         .findOne({_id: parseInt(threadId)}, (err, thread) => {
             assert.equal(null, err);
-
-            console.log(thread);
+            
             postsMethods
             .getPostsByThreadId(db, thread._id)
             .then((posts) => {
@@ -70,7 +69,7 @@ const createThread = (db, data) => {
         .incrementNumeration(db, 'threads')
         .then((id) => {
             _thread._id = id;
-            data.post.threadId = id
+            data.post.threadId = id;
 
             postsMethods
             .createPost(db, data.post)
@@ -85,8 +84,38 @@ const createThread = (db, data) => {
 
                     resolve(_thread);
                 });
+            });
+        });
+    });
+}
 
+const answerInThread = (db, threadId, post) => {
+    let _thread;
 
+    return new Promise((resolve, reject) => {
+        postsMethods
+        .createPost(db, post, threadId)
+        .then((post) => {
+            db
+            .collection('threads')
+            .findOneAndUpdate(
+                { _id: parseInt(threadId) },
+                { $push: { postsId: post._id }, $set: {time: Date.now()} },
+                {
+                    returnOriginal: false
+                }
+            , (err, result) => {
+                assert.equal(null, err);
+                
+                _thread = result.value;
+                
+                postsMethods
+                .getPostsByThreadId(db, threadId)
+                .then((posts) => {
+                    _thread.posts = posts;
+
+                    resolve(_thread);
+                });
             });
         });
     });
@@ -96,4 +125,5 @@ module.exports = {
     getAllThreads: getAllThreads,
     getThreadById: getThreadById,
     createThread: createThread,
+    answerInThread: answerInThread,
 };

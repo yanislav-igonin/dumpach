@@ -16,7 +16,7 @@ const getPostsByThreadId = (db, threadId) => {
     });
 }
 
-const createPost = (db, post) => {
+const createPost = (db, post, threaId) => {
     post.time = Date.now();
     
     return new Promise((resolve, reject) => {
@@ -24,6 +24,9 @@ const createPost = (db, post) => {
         .incrementNumeration(db, 'posts')
         .then((id) => {
             post._id = id;
+            if(threaId !== undefined){
+                post.threadId = threaId;
+            }
 
             db
             .collection('posts')
@@ -32,6 +35,38 @@ const createPost = (db, post) => {
 
                 resolve(post)
             });
+        });
+    });
+}
+
+const replyPost = (db, postId, replyPost) => {
+    return new Promise((resolve, reject) => {
+        countersMethods
+        .incrementPostNumeration(db)
+        .then((id) => {
+            replyPost._id = id;
+
+            db
+            .collection('posts')
+            .insert(replyPost, (err, result) => {
+                assert.equal(null, err);
+
+                db
+                .collection('posts')
+                .findOneAndUpdate(
+                    { _id: parseInt(postId) },
+                    { $push: { replies: id } },
+                    {
+                        returnOriginal: false
+                    }
+                , (err, result) => {
+                    assert.equal(null, err);
+                    
+                    getAllPosts(db)
+                    .then((posts) => resolve(posts));
+                });
+            });
+
         });
     });
 }

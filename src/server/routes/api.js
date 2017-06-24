@@ -45,6 +45,16 @@ module.exports = (app, db) => {
                 .then((thread) => res.send(thread));
             // });
         });
+
+        app.post('/api/threads/:threadId', (req, res) => {
+            // checkOrigin(req, res, () => {
+
+                console.log(req.params.threadId, req.body);
+                threadsMethods
+                .answerInThread(db, req.params.threadId, req.body)
+                .then((thread) => res.send(thread));
+            // });
+        });
     });
 
 };
