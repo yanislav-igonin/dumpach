@@ -39,7 +39,7 @@ const getAllThreads = (db) => {
     });
 }
 
-getThreadById = (db, threadId) => {
+const getThreadById = (db, threadId) => {
     return new Promise((resolve, reject) => {
         db
         .collection('threads')
@@ -69,10 +69,9 @@ const createThread = (db, data) => {
         .incrementNumeration(db, 'threads')
         .then((id) => {
             _thread._id = id;
-            data.post.threadId = id;
 
             postsMethods
-            .createPost(db, data.post)
+            .createPost(db, data.post, id)
             .then((post) => {
                 _thread.postsId.push(post._id);
 
@@ -94,7 +93,7 @@ const answerInThread = (db, threadId, post) => {
 
     return new Promise((resolve, reject) => {
         postsMethods
-        .createPost(db, post, threadId)
+        .createPost(db, post, parseInt(threadId))
         .then((post) => {
             db
             .collection('threads')
@@ -110,8 +109,9 @@ const answerInThread = (db, threadId, post) => {
                 _thread = result.value;
                 
                 postsMethods
-                .getPostsByThreadId(db, threadId)
+                .getPostsByThreadId(db, parseInt(threadId))
                 .then((posts) => {
+                    console.log(posts);
                     _thread.posts = posts;
 
                     resolve(_thread);

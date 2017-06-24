@@ -2,6 +2,7 @@ const Promise = require('bluebird');
 
 module.exports = (app, db) => {
     const threadsMethods = require('../api/dbMethods/threadsMethods');
+    const postsMethods = require('../api/dbMethods/postsMethods');
     const countersMethods = require('../api/dbMethods/countersMethods');
     
     const checkOrigin = (req, res, next) => {
@@ -29,15 +30,6 @@ module.exports = (app, db) => {
             // });
         });
 
-        app.get('/api/threads/:threadId', (req, res) => {
-            // checkOrigin(req, res, () => {
-                console.log(req.params);
-                threadsMethods
-                .getThreadById(db, req.params.threadId)
-                .then((thread) => res.send(thread));
-            // });
-        });
-
         app.post('/api/threads', (req, res) => {
             // checkOrigin(req, res, () => {
                 threadsMethods
@@ -46,17 +38,22 @@ module.exports = (app, db) => {
             // });
         });
 
+        app.get('/api/threads/:threadId', (req, res) => {
+            // checkOrigin(req, res, () => {
+                threadsMethods
+                .getThreadById(db, req.params.threadId)
+                .then((thread) => res.send(thread));
+            // });
+        });
+
         app.post('/api/threads/:threadId', (req, res) => {
             // checkOrigin(req, res, () => {
-
-                console.log(req.params.threadId, req.body);
                 threadsMethods
                 .answerInThread(db, req.params.threadId, req.body)
                 .then((thread) => res.send(thread));
             // });
         });
     });
-
 };
 
 // import express from 'express';

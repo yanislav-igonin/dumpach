@@ -16,7 +16,7 @@ const getPostsByThreadId = (db, threadId) => {
     });
 }
 
-const createPost = (db, post, threaId) => {
+const createPost = (db, post, threadId) => {
     post.time = Date.now();
     
     return new Promise((resolve, reject) => {
@@ -24,54 +24,55 @@ const createPost = (db, post, threaId) => {
         .incrementNumeration(db, 'posts')
         .then((id) => {
             post._id = id;
-            if(threaId !== undefined){
-                post.threadId = threaId;
-            }
+            post.threadId = threadId;
 
             db
             .collection('posts')
             .insert(post, (err, result) => {
                 assert.equal(null, err);
 
-                resolve(post)
+                if(post.replyId !== undefined){
+                    db
+                    .collection('posts')
+                    .findOneAndUpdate(
+                        { _id: parseInt(post.replyId) },
+                        { $push: { repliesId: id } },
+                        {
+                            returnOriginal: false
+                        }
+                    , (err, result) => {
+                        assert.equal(null, err);
+                        
+                        resolve(post)   
+                    });
+                } else {
+                    resolve(post);
+                }
+
             });
         });
     });
 }
 
-const replyPost = (db, postId, replyPost) => {
+const replyPost = (db, post) => {
     return new Promise((resolve, reject) => {
-        countersMethods
-        .incrementPostNumeration(db)
-        .then((id) => {
-            replyPost._id = id;
-
-            db
-            .collection('posts')
-            .insert(replyPost, (err, result) => {
-                assert.equal(null, err);
-
-                db
-                .collection('posts')
-                .findOneAndUpdate(
-                    { _id: parseInt(postId) },
-                    { $push: { replies: id } },
-                    {
-                        returnOriginal: false
-                    }
-                , (err, result) => {
-                    assert.equal(null, err);
-                    
-                    getAllPosts(db)
-                    .then((posts) => resolve(posts));
-                });
-            });
-
+        db
+        .collection('posts')
+        .findOneAndUpdate(
+            { _id: parseInt(post.replyId) },
+            { $push: { repliesId: id } },
+            {
+                returnOriginal: false
+            }
+        , (err, result) => {
+            assert.equal(null, err);
+            
+            resolve(post)   
         });
     });
 }
 
 module.exports = {
     getPostsByThreadId: getPostsByThreadId,
-    createPost: createPost
+    createPost: createPost,
 };
