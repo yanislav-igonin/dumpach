@@ -11,7 +11,8 @@ const threadReducer = (state = defaultState, action) => {
 			_newState = Object.assign({}, state, {
 				title: action.payload.title,
 				time: action.payload.time,
-				posts: action.payload.posts
+				posts: action.payload.posts,
+				_id: action.payload._id,
 			});
 			break;
 		case 'THREAD_UPDATE':
