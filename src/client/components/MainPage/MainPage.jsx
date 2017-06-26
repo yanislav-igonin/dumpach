@@ -26,19 +26,6 @@ class MainPage extends Component {
     componentDidMount() {
         this.getInitialThreads();
     }
-    
-    getInitialThreads() {
-        this
-        .getThreads()
-        .then((threads) => {
-            this
-            .props
-            .dispatch(
-                threadsActions
-                .threadsInit(threads)
-            );
-        });
-    }
 
     getThreads() {
         return new Promise((resolve, reject) => {
@@ -50,18 +37,6 @@ class MainPage extends Component {
             .catch((error) => {
                 console.log(error);
             });
-        });
-    }
-
-    updateThreads(){
-        this.getThreads()
-        .then((threads) => {
-            this
-            .props
-            .dispatch(
-                threadsActions
-                .threadsUpdate(threads)
-            );
         });
     }
 
@@ -86,19 +61,46 @@ class MainPage extends Component {
             if(this.props.settings.errorMessage.opened === false){
                 this
                 .props
-                .dispatch(settingsActions
+                .dispatch(
+                    settingsActions
                     .errorMessageOpen("Post text can't be empty")
                 );
 
                 setTimeout(() => {
                     this
                     .props
-                    .dispatch(settingsActions
+                    .dispatch(
+                        settingsActions
                         .errorMessageClose()
                     );
                 }, 5000);
             }
         }
+    }
+    
+    getInitialThreads() {
+        this
+        .getThreads()
+        .then((threads) => {
+            this
+            .props
+            .dispatch(
+                threadsActions
+                .threadsInit(threads)
+            );
+        });
+    }
+
+    updateThreads(){
+        this.getThreads()
+        .then((threads) => {
+            this
+            .props
+            .dispatch(
+                threadsActions
+                .threadsUpdate(threads)
+            );
+        });
     }
 
     // renderThreadsPreview(){

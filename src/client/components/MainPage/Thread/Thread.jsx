@@ -7,6 +7,7 @@ import axios from 'axios';
 import { Button } from 'semantic-ui-react';
 import { Form, TextArea } from 'semantic-ui-react';
 import { Comment, Header } from 'semantic-ui-react';
+import { Message } from 'semantic-ui-react';
 
 import Post from './Post/Post';
 
@@ -24,6 +25,7 @@ class Thread extends Component {
         };
         
         // this.updateThread = this.updateThread.bind(this);
+        this.sendPost = this.sendPost.bind(this);
         // this.changeRequestReadiness = this.changeRequestReadiness.bind(this);
     }
 
@@ -31,18 +33,6 @@ class Thread extends Component {
         this.getInitialThread();
     }
     
-    getInitialThread() {
-        this
-        .getThread()
-        .then((thread) => {
-            if(thread.error){
-                browserHistory.push('/404');
-            } else {
-                this.props.dispatch(threadActions.threadInit(thread));
-            }
-        });
-    }
-
     getThread() {
         return new Promise((resolve, reject) => {
             axios
@@ -53,6 +43,67 @@ class Thread extends Component {
             .catch((error) => {
                 console.log(error);
             });
+        });
+    }
+
+    sendPost() {
+        const {postText} = this.refs;
+
+        if(this.refs.postText.ref.value !== ''){
+            for(let i = 0; i<500; i++){
+
+                axios.post('/api/threads/' + this.props.thread._id, {
+                    text: postText.ref.value,
+                })
+                .then((response) => {
+                    this
+                    .props
+                    .dispatch(
+                        threadActions
+                        .threadUpdate(response.data)
+                    );
+
+                    this.clearInputs();
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+            }
+        } else {
+            if(this.props.settings.errorMessage.opened === false){
+                this
+                .props
+                .dispatch(
+                    settingsActions
+                    .errorMessageOpen("Post text can't be empty")
+                );
+
+                setTimeout(() => {
+                    this
+                    .props
+                    .dispatch(
+                        settingsActions
+                        .errorMessageClose()
+                    );
+                }, 5000);
+            }
+        }
+    }
+
+    getInitialThread() {
+        this
+        .getThread()
+        .then((thread) => {
+            if(thread.error){
+                browserHistory.push('/404');
+            } else {
+                this
+                .props
+                .dispatch(
+                    threadActions
+                    .threadInit(thread)
+                );
+            }
         });
     }
 
@@ -67,6 +118,12 @@ class Thread extends Component {
                 .threadUpdate(thread.posts)
             );
         });
+    }
+
+    clearInputs(){
+        const {postText} = this.refs;
+
+        postText.ref.value = '';
     }
 
     renderErrorMessage(){
@@ -113,7 +170,7 @@ class Thread extends Component {
                         <Form>
                             <TextArea
                                 className="form-input"
-                                ref="post-text"
+                                ref="postText"
                                 placeholder="Text"
                                 autoHeight
                             />
