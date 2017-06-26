@@ -8,6 +8,21 @@ const getPostsByThreadId = (db, threadId) => {
         db
         .collection('posts')
         .find({threadId: threadId})
+        .sort({ time: 1})
+        .toArray((err, posts) => {
+            assert.equal(null, err);
+            
+            resolve(posts);
+        });
+    });
+}
+
+const getPreviewPostsByThreadId = (db, threadId) => {
+    return new Promise((resolve, reject) => {
+        db
+        .collection('posts')
+        .find({threadId: threadId})
+        .sort({ time: 1})
         .toArray((err, posts) => {
             assert.equal(null, err);
             
@@ -48,7 +63,6 @@ const createPost = (db, post, threadId) => {
                 } else {
                     resolve(post);
                 }
-
             });
         });
     });

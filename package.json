@@ -8,8 +8,8 @@
   },
   "scripts": {
     "start": "NODE_ENV=production node dist/server/index.js",
-    "build": "webpack --config webpack.production.config.js && babel src/server -d dist/server",
-    "build:front": "webpack --config webpack.production.config.js",
+    "build": "webpack -p --config webpack.production.config.js && babel src/server -d dist/server",
+    "build:front": "webpack -p --config webpack.production.config.js",
     "build:back": "babel src/server -d dist/server",
     "dev": "nodemon src/server/index.js --watch src/server --ignore src/client --ignore uploads/ --ignore uploads_thumbs/ --exec node NODE_ENV=development",
     "clean": "rm -rf dist"

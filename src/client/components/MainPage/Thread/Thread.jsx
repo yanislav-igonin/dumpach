@@ -50,25 +50,22 @@ class Thread extends Component {
         const {postText} = this.refs;
 
         if(this.refs.postText.ref.value !== ''){
-            for(let i = 0; i<500; i++){
+            axios.post('/api/threads/' + this.props.thread._id, {
+                text: postText.ref.value,
+            })
+            .then((response) => {
+                this
+                .props
+                .dispatch(
+                    threadActions
+                    .threadUpdate(response.data)
+                );
 
-                axios.post('/api/threads/' + this.props.thread._id, {
-                    text: postText.ref.value,
-                })
-                .then((response) => {
-                    this
-                    .props
-                    .dispatch(
-                        threadActions
-                        .threadUpdate(response.data)
-                    );
-
-                    this.clearInputs();
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-            }
+                this.clearInputs();
+            })
+            .catch((err) => {
+                console.log(err);
+            });
         } else {
             if(this.props.settings.errorMessage.opened === false){
                 this
@@ -153,7 +150,6 @@ class Thread extends Component {
                         posts={posts}
                         postIndex={postIndex} 
                         threadTitle={postIndex === 0 ? title: ''}
-                        threadId={_id}
                         reply={true}
                         key={'post' + post + postIndex}
                     />

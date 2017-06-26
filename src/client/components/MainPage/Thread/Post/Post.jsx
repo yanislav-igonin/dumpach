@@ -10,8 +10,8 @@ import { Popup } from 'semantic-ui-react'
 
 import { addZero } from '../../../../helpers/postHelpers';
 
-// import { postsActions } from '../../../actions/postsActions';
-// import { settingsActions } from '../../../actions/settingsActions';
+import {settingsActions} from '../../../../actions/settingsActions';
+import {threadActions} from '../../../../actions/threadActions';
 
 import './Post.scss';
 
@@ -22,7 +22,6 @@ class Post extends Component{
 
         this.state = {
             replyForm: false,
-            replyAuthor: '',
             replyText: ''
         };
 
@@ -32,23 +31,20 @@ class Post extends Component{
     }
 
     sendReply(){
-        const {replyAuthor, replyText} = this.state;
+        const { replyText } = this.state;
         const { post } = this.props;
-        const { posts } = this.props.posts;
         
         if(replyText !== ''){
-            axios.post('/api/posts/' + post._id, {
-                author: replyAuthor,
+            axios.post('/api/threads/' + post.threadId, {
                 text: replyText,
-                time: Date.now(),
-                replies: [],
-                lastPostId: posts[posts.length - 1]._id
+                replyId: post._id
             })
             .then((response) => {
                 this
                 .props
-                .dispatch(postsActions
-                    .postsUpdate(response.data)
+                .dispatch(
+                    threadActions
+                    .threadUpdate(response.data)
                 );
                 
                 this.toggleReplyForm();
