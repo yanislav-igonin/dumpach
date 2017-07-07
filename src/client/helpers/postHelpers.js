@@ -4,3 +4,11 @@ export const addZero = (time) => {
     }
     return time;
 }
+
+export const findReplyIndex = (posts, replyId) => {
+    for(let postIndex = 0; postIndex < posts.length; postIndex++){
+        if(posts[postIndex]._id === replyId){
+            return postIndex;
+        } 
+    }
+}

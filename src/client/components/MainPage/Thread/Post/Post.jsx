@@ -8,7 +8,7 @@ import { Form, TextArea } from 'semantic-ui-react'
 import { Comment, Header } from 'semantic-ui-react'
 import { Popup } from 'semantic-ui-react'
 
-import { addZero } from '../../../../helpers/postHelpers';
+import { addZero, findReplyIndex } from '../../../../helpers/postHelpers';
 
 import {settingsActions} from '../../../../actions/settingsActions';
 import {threadActions} from '../../../../actions/threadActions';
@@ -128,7 +128,7 @@ class Post extends Component{
                                 <a className="reply-id-link">
                                     {replyId}
                                 </a>
-                                {replyIdIndex !== repliesId.length - 1 
+                                 {replyIdIndex !== repliesId.length - 1 
                                     ?<p className="reply-id-comma">
                                         ,&nbsp;
                                     </p>
@@ -144,7 +144,7 @@ class Post extends Component{
                         
                         <Comment.Group>
                             <Post 
-                                post={posts[replyId]} 
+                                post={posts[findReplyIndex(posts, replyId)]} 
                                 posts={posts}
                                 postIndex={replyIdIndex}
                                 threadTitle=""

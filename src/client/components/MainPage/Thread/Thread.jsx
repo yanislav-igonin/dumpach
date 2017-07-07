@@ -187,7 +187,7 @@ class Thread extends Component {
                         Posts
                     </Header>
 
-                     <Comment.Group>
+                    <Comment.Group>
                          {this.renderPosts()}
                     </Comment.Group>
 
