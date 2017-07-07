@@ -39,6 +39,47 @@ const getAllThreads = (db) => {
     });
 }
 
+const getAllThreadsPreview = (db) => {
+    let _threads = [],
+        _thread;
+
+    return new Promise((resolve, reject) => {
+        db
+        .collection('threads')
+        .find({})
+        .sort({time: -1})
+        .toArray((err, threads) => {
+            assert.equal(null, err);
+
+            threads.map((thread, threadIndex) => {
+                
+            })
+
+            Promise.all(
+                threads
+                .map((thread, threadIndex) => {
+                    return new Promise((resolve, reject) => {
+                        postsMethods
+                        .getPostsByThreadId(db, thread._id)
+                        .then((posts) => {
+                            resolve(posts);
+                        })
+                    })
+                    .then((posts) => {
+                        thread.posts = posts;
+                        _threads.push(thread);
+                    })
+                })
+            )
+            .then(() => {
+                resolve(_threads);
+            })
+
+            // resolve(threads);
+        });
+    });
+}
+
 const getThreadById = (db, threadId) => {
     return new Promise((resolve, reject) => {
         db
@@ -123,6 +164,7 @@ const answerInThread = (db, threadId, post) => {
 
 module.exports = {
     getAllThreads: getAllThreads,
+    getAllThreadsPreview: getAllThreadsPreview,
     getThreadById: getThreadById,
     createThread: createThread,
     answerInThread: answerInThread,

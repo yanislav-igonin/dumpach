@@ -10,6 +10,8 @@ import { Form, TextArea } from 'semantic-ui-react';
 import { Comment, Header } from 'semantic-ui-react';
 import { Message } from 'semantic-ui-react';
 
+import ThreadPreview from './ThreadPreview/ThreadPreview';
+
 import {settingsActions} from '../../actions/settingsActions';
 import {threadsActions} from '../../actions/threadsActions';
 
@@ -103,16 +105,16 @@ class MainPage extends Component {
         });
     }
 
-    // renderThreadsPreview(){
-    //     let _lastThread = false;
-
-    //     return this.props.threads.map((thread, threadIndex) => {
-    //         if(threadIndex === this.props.threads.length - 1){
-    //             _lastThread = true;
-    //         }
-    //         return <ThreadPreview key={thread + threadIndex} thread={thread} lastThread={_lastThread} />;
-    //     });
-    // }
+    renderThreadsPreview(){
+        return this.props.threads.threads.map((thread, threadIndex) => {
+            return (
+                <ThreadPreview 
+                    key={thread + threadIndex}
+                    thread={thread}
+                />
+            );
+        });
+    }
 
     renderErrorMessage(){
         if(this.props.settings.errorMessage.opened === true){
@@ -163,6 +165,8 @@ class MainPage extends Component {
                     >
                         Threads
                     </Header>
+
+                    {this.renderThreadsPreview()}
 
                     {this.renderErrorMessage()}
                 </div>

@@ -8,7 +8,7 @@ const getPostsByThreadId = (db, threadId) => {
         db
         .collection('posts')
         .find({threadId: threadId})
-        .sort({ time: 1})
+        .sort({time: 1})
         .toArray((err, posts) => {
             assert.equal(null, err);
             

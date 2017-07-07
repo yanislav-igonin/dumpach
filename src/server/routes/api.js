@@ -23,11 +23,15 @@ module.exports = (app, db) => {
     ])
     .then(() => {
         app.get('/api/threads', (req, res) => {
-            // checkOrigin(req, res, () => {
+            // if(req.query.full === 'true'){
                 threadsMethods
                 .getAllThreads(db)
                 .then((threads) => res.send(threads));
-            // });
+            // } else {
+            //     threadsMethods
+            //     .getAllThreadsPreview(db)
+            //     .then((threads) => res.send(threads));
+            // }
         });
 
         app.post('/api/threads', (req, res) => {
@@ -39,19 +43,15 @@ module.exports = (app, db) => {
         });
 
         app.get('/api/threads/:threadId', (req, res) => {
-            // checkOrigin(req, res, () => {
-                threadsMethods
-                .getThreadById(db, req.params.threadId)
-                .then((thread) => res.send(thread));
-            // });
+            threadsMethods
+            .getThreadById(db, req.params.threadId)
+            .then((thread) => res.send(thread));
         });
 
         app.post('/api/threads/:threadId', (req, res) => {
-            // checkOrigin(req, res, () => {
-                threadsMethods
-                .answerInThread(db, req.params.threadId, req.body)
-                .then((thread) => res.send(thread));
-            // });
+            threadsMethods
+            .answerInThread(db, req.params.threadId, req.body)
+            .then((thread) => res.send(thread));
         });
     });
 };
