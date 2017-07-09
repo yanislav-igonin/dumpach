@@ -14,7 +14,7 @@ const getAllThreads = (db) => {
         .find({})
         .toArray((err, threads) => {
             assert.equal(null, err);
-
+            
             Promise.all(
                 threads
                 .map((thread, threadIndex) => {
@@ -32,6 +32,10 @@ const getAllThreads = (db) => {
                 })
             )
             .then(() => {
+                _threads.sort((a, b) => {
+                    return b.time - a.time;
+                });
+                
                 resolve(_threads);
             })
             
@@ -52,7 +56,7 @@ const getAllThreadsPreview = (db) => {
             assert.equal(null, err);
 
             threads.map((thread, threadIndex) => {
-                
+
             })
 
             Promise.all(
@@ -169,3 +173,16 @@ module.exports = {
     createThread: createThread,
     answerInThread: answerInThread,
 };
+
+// MongoDB query first and last two elements
+
+// Hello.
+
+// I'm making simple imageboard on nodejs and mongodb. I have collection for threads, that contains posts ids, and posts collections, each post contains thread id, where it was posted.
+
+// The question is how to get first post and two last posts of thread for preview? Firstrly i get thread by it id, it contains all posts ids, that was posted in it, after I have two options: 
+//  1. I can take posts ids that I need from thread array and after get
+//     them from posts collection by it ids(first and two last) 
+//  2. I can find all posts 
+
+// sdfs

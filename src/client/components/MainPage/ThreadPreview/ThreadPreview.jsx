@@ -17,6 +17,7 @@ export default class ThreadPreview extends Component {
     constructor(props) {
         super(props);
         
+        this.openThread = this.openThread.bind(this);
         // this.updateThread = this.updateThread.bind(this);
         // this.sendPost = this.sendPost.bind(this);
         // this.changeRequestReadiness = this.changeRequestReadiness.bind(this);
@@ -132,6 +133,16 @@ export default class ThreadPreview extends Component {
     //     }
     // }
 
+    openThread(){
+        if(event.which == 2){
+            console.log('middle');
+        } else {
+            console.log('left');
+        }
+        event.preventDefault();
+        browserHistory.push('/threads/' + this.props.thread._id);
+    }
+
     renderPosts() {
         const {posts, title, _id} = this.props.thread;
         
@@ -152,10 +163,12 @@ export default class ThreadPreview extends Component {
     }
 
     render() {
+        console.log(this.props.thread);
         return (
             <div className="thread-container">
                 <div className="thread-content">
                     {this.props.thread.title}
+                    <a href="#" onClick={this.openThread}>Open</a>
                 </div>
             </div>
         );
