@@ -1,0 +1,43 @@
+.post-container{
+
+    .meta-without-title{
+        margin-left: 0!important;
+    }
+
+    .post-text-container{
+
+        .post-text{
+            margin: 0!important;
+
+            &:first-child{
+                margin-top: .25em!important;
+            }
+
+            &:last-child{
+                margin-bottom: .5em!important;
+            }
+        }
+    }
+
+    .replies-container{
+        .replies-content{
+            .replies-text{
+                display: inline-block;
+                font-size: .875em;
+                margin-bottom: .5em;
+            }
+        }
+
+        .reply-id-container{
+            display: inline-block;
+
+            .reply-id-link{
+                display: inline-block;
+                cursor: pointer;    
+            }
+            .reply-id-comma{
+                display: inline-block;
+            }
+        }
+    }
+}

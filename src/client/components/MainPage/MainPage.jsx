@@ -32,7 +32,7 @@ class MainPage extends Component {
     getThreads() {
         return new Promise((resolve, reject) => {
             axios
-            .get('/api/threads')
+            .get('/api/threads?preview=true')
             .then((response) =>{
                 resolve(response.data);
             })

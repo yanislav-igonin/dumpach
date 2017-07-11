@@ -5,8 +5,7 @@ const countersMethods = require('./countersMethods');
 const postsMethods = require('./postsMethods');
 
 const getAllThreads = (db) => {
-    let _threads = [],
-        _thread;
+    let _threads = [];
 
     return new Promise((resolve, reject) => {
         db
@@ -37,15 +36,13 @@ const getAllThreads = (db) => {
                 });
                 
                 resolve(_threads);
-            })
-            
+            });
         });
     });
 }
 
 const getAllThreadsPreview = (db) => {
-    let _threads = [],
-        _thread;
+    let _threads = [];
 
     return new Promise((resolve, reject) => {
         db
@@ -55,16 +52,12 @@ const getAllThreadsPreview = (db) => {
         .toArray((err, threads) => {
             assert.equal(null, err);
 
-            threads.map((thread, threadIndex) => {
-
-            })
-
             Promise.all(
                 threads
                 .map((thread, threadIndex) => {
                     return new Promise((resolve, reject) => {
                         postsMethods
-                        .getPostsByThreadId(db, thread._id)
+                        .getPreviewPostsByThreadId(db, thread.postsId)
                         .then((posts) => {
                             resolve(posts);
                         })
@@ -76,10 +69,12 @@ const getAllThreadsPreview = (db) => {
                 })
             )
             .then(() => {
+                _threads.sort((a, b) => {
+                    return b.time - a.time;
+                });
+                
                 resolve(_threads);
-            })
-
-            // resolve(threads);
+            });
         });
     });
 }

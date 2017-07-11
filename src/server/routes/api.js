@@ -23,15 +23,16 @@ module.exports = (app, db) => {
     ])
     .then(() => {
         app.get('/api/threads', (req, res) => {
-            // if(req.query.full === 'true'){
+            console.log(req.query);
+            if(req.query.preview === 'true'){
+                threadsMethods
+                .getAllThreadsPreview(db)
+                .then((threads) => res.send(threads));
+            } else {
                 threadsMethods
                 .getAllThreads(db)
                 .then((threads) => res.send(threads));
-            // } else {
-            //     threadsMethods
-            //     .getAllThreadsPreview(db)
-            //     .then((threads) => res.send(threads));
-            // }
+            }
         });
 
         app.post('/api/threads', (req, res) => {

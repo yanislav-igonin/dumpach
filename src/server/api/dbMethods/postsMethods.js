@@ -17,11 +17,17 @@ const getPostsByThreadId = (db, threadId) => {
     });
 }
 
-const getPreviewPostsByThreadId = (db, threadId) => {
+const getPreviewPostsByThreadId = (db, postsId) => {
+    const postsLength = postsId.length;
+
     return new Promise((resolve, reject) => {
         db
         .collection('posts')
-        .find({threadId: threadId})
+        .find({$or: [
+            {_id: postsId[0]},
+            {_id: postsId[postsLength - 2]}, 
+            {_id: postsId[postsLength - 1]}
+        ]})
         .sort({ time: 1})
         .toArray((err, posts) => {
             assert.equal(null, err);
@@ -88,5 +94,6 @@ const replyPost = (db, post) => {
 
 module.exports = {
     getPostsByThreadId: getPostsByThreadId,
+    getPreviewPostsByThreadId: getPreviewPostsByThreadId,
     createPost: createPost,
 };
