@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router';
 import { Comment } from 'semantic-ui-react'
 
-import { addZero } from '../../../../helpers/postHelpers';
+import { addZero } from '../../../../helpers/postsHelpers';
 
 import '../../Thread/Post/Post.scss';
 

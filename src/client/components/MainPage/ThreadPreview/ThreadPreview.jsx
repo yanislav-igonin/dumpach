@@ -37,6 +37,8 @@ export default class ThreadPreview extends Component {
                     <Comment.Group>
                          {this.renderPostsPreview()}
                     </Comment.Group>
+
+                    <hr />
                 </div>
             </div>
         );

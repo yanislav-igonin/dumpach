@@ -4,5 +4,20 @@
 
     .thread-preview-content{
 
+        .ui.comments{
+            margin-bottom: 0;
+        }
+
+        hr{
+            // color: rgba(34,36,38,.15);
+            // background-color: rgba(34,36,38,.15);
+
+            display: block;
+            height: 1px;
+            border: 0;
+            border-top: 1px solid rgba(34,36,38,.15);
+            margin: 1em 0;
+            padding: 0; 
+        }
     }
 }

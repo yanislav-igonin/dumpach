@@ -1,7 +1,8 @@
 import React from 'react';
 
-import {checkFileExtension} from '../../../../helpers/filesHelpers';
-import settingsActions from '../../../../actions/settingsActions';
+import './File.scss';
+
+import {checkFileExtension} from '../../../../../helpers/filesHelpers';
 
 export default class File extends React.Component{
     constructor(props){

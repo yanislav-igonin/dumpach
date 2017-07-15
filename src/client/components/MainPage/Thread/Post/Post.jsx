@@ -8,7 +8,9 @@ import { Form, TextArea } from 'semantic-ui-react'
 import { Comment, Header } from 'semantic-ui-react'
 import { Popup } from 'semantic-ui-react'
 
-import { addZero, findReplyIndex } from '../../../../helpers/postHelpers';
+import File from './File/File';
+
+import { addZero, findReplyIndex } from '../../../../helpers/postsHelpers';
 
 import {settingsActions} from '../../../../actions/settingsActions';
 import {threadActions} from '../../../../actions/threadActions';
@@ -77,6 +79,29 @@ class Post extends Component{
 
     changeReplyText(event){
         this.setState({replyText: event.currentTarget.value});
+    }
+
+    renderPostFilesContainer(){
+        if(this.props.post.files.length > 0){
+            return (
+                <div className="post-files-container">
+                    <ul className="post-files-list">
+                        {this.renderPostFiles()}
+                    </ul>
+                </div>  
+            );
+        }
+    }
+
+    renderPostFiles(){
+        // debugger
+        return this
+        .props
+        .post
+        .files
+        .map((file, fileIndex) => {
+            return <File file={file} key={file + fileIndex} />;
+        });
     }
 
     renderPostText(text){
@@ -197,6 +222,8 @@ class Post extends Component{
                     <Comment.Metadata className={threadTitle === '' ? 'meta-without-title' : ''}>
                         <div>#{post._id} {goodTime.toLocaleDateString()} {addZero(goodTime.getHours())}:{addZero(goodTime.getMinutes())}:{addZero(goodTime.getSeconds())}</div>
                     </Comment.Metadata>
+
+                    {this.renderPostFilesContainer()}
 
                     <div className="post-text-container">
                         {this.renderPostText(post.text)}
