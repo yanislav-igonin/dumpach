@@ -15,10 +15,11 @@ const makeImageThumb = (fullFilePath, fileName) => {
         sharp(fullFilePath)
         .resize(150)
         .toFile(uploadThumbsDir + '/thumb_' + fileName)
-        .then((err) => {
-            if(err) console.log({error: err});
-
+        .then(file => {
             resolve();
+        })
+        .catch(err => {
+            console.log({error: err})
         });
     });
 }

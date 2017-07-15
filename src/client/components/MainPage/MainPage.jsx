@@ -4,11 +4,17 @@ import Promise from 'bluebird';
 import axios from 'axios';
 import {browserHistory} from 'react-router'
 
-import { Button } from 'semantic-ui-react';
-import { Input } from 'semantic-ui-react';
-import { Form, TextArea } from 'semantic-ui-react';
-import { Comment, Header } from 'semantic-ui-react';
-import { Message } from 'semantic-ui-react';
+import { 
+    Input,
+    Button,
+    Form, 
+    TextArea, 
+    Comment,
+    Header,
+    Message,
+    Icon
+} from 'semantic-ui-react'
+import Dropzone from 'react-dropzone';
 
 import ThreadPreview from './ThreadPreview/ThreadPreview';
 
@@ -21,8 +27,14 @@ class MainPage extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            postingInProgress: false,
+            files: []
+        };
+
         this.updateThreads = this.updateThreads.bind(this);
         this.createThread = this.createThread.bind(this);
+        this.onDrop = this.onDrop.bind(this);
     }
 
     componentDidMount() {
@@ -44,15 +56,24 @@ class MainPage extends Component {
 
     createThread(){
         const {threadTitle, threadOP} = this.refs;
+        const post = new FormData();
+        const config = {
+            onUploadProgress(progressEvent) {
+                console.log(Math.round((progressEvent.loaded * 100) / progressEvent.total));
+            }
+        };
         
-        if(threadOP.ref.value !== ''){
-            axios.post('/api/threads', {
-                thread: {
-                    title: threadTitle.inputRef.value,
-                }, post: {
-                    text: threadOP.ref.value,
-                }
-            })
+        if(threadOP.ref.value !== '' || this.state.files.length !== 0){
+            post.append('title', threadTitle.inputRef.value);
+            post.append('text', threadOP.ref.value);
+            this.state.files.forEach((file, fileIndex) => {
+                post.append('uploads[]', file, file.name);
+            });
+
+            axios.post('/api/threads',
+                post, 
+                config
+            )
             .then((response) => {
                 browserHistory.push('/threads/' + response.data._id);
             })
@@ -65,7 +86,7 @@ class MainPage extends Component {
                 .props
                 .dispatch(
                     settingsActions
-                    .errorMessageOpen("Post text can't be empty")
+                    .errorMessageOpen("Post text or files can't be empty")
                 );
 
                 setTimeout(() => {
@@ -103,6 +124,56 @@ class MainPage extends Component {
                 .threadsUpdate(threads)
             );
         });
+    }
+
+    onDrop(acceptedFiles, rejectedFiles){
+        this.setState({files: acceptedFiles});
+    }
+        
+    renderDropzoneContent() {
+        let _content = <Icon name='file' />;
+
+        if(this.state.files.length > 0){
+            _content = this.renderDropzoneFilesPreview();
+        }
+
+        return _content;
+    }
+
+    renderDropzoneFilesPreview() {
+        return this.state.files.map((file, fileIndex) => {
+            return (
+                <div key={file + fileIndex} className="file-preview-container">
+                    {this.renderFileByType(file)}
+                </div>
+            );
+        });
+    }
+
+    renderFileByType(file) {
+        let _fileType = file.type.split('/'),
+            _fileElement = null;
+
+        if(_fileType[0] === 'image'){
+            _fileElement = (
+                <img 
+                    key={file.preview} 
+                    className="file-preview" 
+                    src={file.preview} 
+                />
+            );
+        } else {
+            _fileElement = (
+                <video 
+                    key={file.preview} 
+                    className="file-preview"
+                >
+                    <source src={file.preview} />
+                </video>
+            );
+        }
+
+        return _fileElement;
     }
 
     renderThreadsPreview(){
@@ -150,6 +221,16 @@ class MainPage extends Component {
                                 autoHeight
                             />
                         </Form>
+                        <Dropzone
+                            className="post-form-dropzone"
+                            accept={'image/*, video/webm'}
+                            ref="postFiles"
+                            onDrop={this.onDrop}
+                        >
+                            <div className="dropzone-content">
+                                {this.renderDropzoneContent()}
+                            </div>
+                        </Dropzone>
                         <Button
                             className="form-submit-button"
                             primary 

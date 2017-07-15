@@ -24,7 +24,6 @@ module.exports = (app, db) => {
     ])
     .then(() => {
         app.get('/api/threads', (req, res) => {
-            console.log(req.query);
             if(req.query.preview === 'true'){
                 threadsMethods
                 .getAllThreadsPreview(db)
@@ -37,9 +36,18 @@ module.exports = (app, db) => {
         });
 
         app.post('/api/threads', (req, res) => {
-            threadsMethods
-            .createThread(db, req.body)
-            .then((thread) => res.send(thread));
+            let threadTitle = '';
+            
+            postsParser
+            .parsePost(req)
+            .then(post => {
+                threadTitle = post.title;
+                delete post.title;
+
+                threadsMethods
+                .createThread(db, threadTitle, post)
+                .then((thread) => res.send(thread));
+            });
         });
 
         app.get('/api/threads/:threadId', (req, res) => {
@@ -49,10 +57,13 @@ module.exports = (app, db) => {
         });
 
         app.post('/api/threads/:threadId', (req, res) => {
-            console.log(req);
-            // threadsMethods
-            // .answerInThread(db, req.params.threadId, req.body)
-            // .then((thread) => res.send(thread));
+            postsParser
+            .parsePost(req)
+            .then(post => {
+                threadsMethods
+                .answerInThread(db, req.params.threadId, post)
+                .then((thread) => res.send(thread));
+            });
         });
     });
 };

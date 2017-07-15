@@ -97,9 +97,9 @@ const getThreadById = (db, threadId) => {
     });
 }
 
-const createThread = (db, data) => {
+const createThread = (db, threadTitle, postData) => {
     let _thread = {
-        title: data.thread.title,
+        title: threadTitle,
         time: Date.now(),
         postsId: []
     };
@@ -111,7 +111,7 @@ const createThread = (db, data) => {
             _thread._id = id;
 
             postsMethods
-            .createPost(db, data.post, id)
+            .createPost(db, postData, id)
             .then((post) => {
                 _thread.postsId.push(post._id);
 
@@ -151,7 +151,6 @@ const answerInThread = (db, threadId, post) => {
                 postsMethods
                 .getPostsByThreadId(db, parseInt(threadId))
                 .then((posts) => {
-                    console.log(posts);
                     _thread.posts = posts;
 
                     resolve(_thread);

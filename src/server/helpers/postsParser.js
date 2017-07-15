@@ -51,9 +51,14 @@ const parsePost = (req) => {
             console.log('An error has occured: \n' + err);
         });
         form.on('end', () => {
-
+            console.log(post);
+            resolve(post);
         });
 
         form.parse(req);
     })
+}
+
+module.exports = {
+    parsePost: parsePost
 }
