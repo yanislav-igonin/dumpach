@@ -82,7 +82,7 @@ class Post extends Component{
     }
 
     renderPostFilesContainer(){
-        if(this.props.post.files.length > 0){
+        if(this.props.post.files !== undefined && this.props.post.files.length > 0){
             return (
                 <div className="post-files-container">
                     <ul className="post-files-list">
@@ -94,7 +94,6 @@ class Post extends Component{
     }
 
     renderPostFiles(){
-        // debugger
         return this
         .props
         .post
@@ -213,9 +212,9 @@ class Post extends Component{
             <Comment className="post-container">
                 <Comment.Content>
                     {postIndex === 0
-                        ?<Comment.Author as="a">
+                        ?<p className="thread-title">
                             {threadTitle}
-                        </Comment.Author>
+                        </p>
                         :null
                     }
                     

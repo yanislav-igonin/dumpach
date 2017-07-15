@@ -30,7 +30,6 @@ export default class ThreadPreview extends Component {
     }
 
     render() {
-        console.log(this.props.thread);
         return (
             <div className="thread-preview-container">
                 <div className="thread-preview-content">

@@ -1,7 +1,17 @@
 .post-container{
+    
+    .thread-title{
+        font-weight: bold;
+        display: inline-block;
+        margin: 0;    
+    }
 
     .meta-without-title{
         margin-left: 0!important;
+    }
+
+    .open-thread-link{
+        margin-left: 5px;
     }
 
     .post-text-container{
@@ -18,26 +28,5 @@
             }
         }
     }
-
-    .replies-container{
-        .replies-content{
-            .replies-text{
-                display: inline-block;
-                font-size: .875em;
-                margin-bottom: .5em;
-            }
-        }
-
-        .reply-id-container{
-            display: inline-block;
-
-            .reply-id-link{
-                display: inline-block;
-                cursor: pointer;    
-            }
-            .reply-id-comma{
-                display: inline-block;
-            }
-        }
-    }
+    
 }
