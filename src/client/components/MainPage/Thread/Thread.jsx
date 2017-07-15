@@ -85,7 +85,8 @@ class Thread extends Component {
     }
 
     sendPost() {
-        const {postText} = this.refs;
+        const {postText, sage} = this.refs,
+            {files} = this.state;
         const post = new FormData();
         const config = {
             onUploadProgress(progressEvent) {
@@ -93,10 +94,12 @@ class Thread extends Component {
             }
         };
 
-        if(this.refs.postText.ref.value !== '' || this.state.files.length !== 0){
-            post.append('text', this.refs.postText.ref.value);
-            // post.append('sage', this.state.sage);
-            this.state.files.forEach((file, fileIndex) => {
+        if(postText.ref.value !== '' || files.length !== 0){
+            this.setState({postingInProgress: true});
+            
+            post.append('text', postText.ref.value);
+            post.append('sage', sage.state.checked);
+            files.forEach((file, fileIndex) => {
                 post.append('uploads[]', file, file.name);
             });
 
@@ -112,6 +115,7 @@ class Thread extends Component {
                     .threadUpdate(response.data)
                 );
 
+                this.setState({postingInProgress: false});            
                 this.clearInputs();
             })
             .catch((err) => {
@@ -139,9 +143,10 @@ class Thread extends Component {
     }
 
     clearInputs(){
-        const {postText} = this.refs;
+        const {postText, sage} = this.refs;
 
         postText.ref.value = '';
+        sage.state.checked = false;
         this.setState({files: []});
     }
 
@@ -253,10 +258,15 @@ class Thread extends Component {
                                 {this.renderDropzoneContent()}
                             </div>
                         </Dropzone>
-                        <Checkbox label="Sage" />
+                        <Checkbox
+                            label="Sage"
+                            className="post-form-sage-checkbox"
+                            ref="sage"
+                        />
                         <Button
                             className="form-submit-button"
                             primary 
+                            disabled={this.state.postingInProgress}
                             onClick={this.sendPost}
                         >
                             Send Post

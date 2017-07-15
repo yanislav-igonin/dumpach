@@ -135,27 +135,56 @@ const answerInThread = (db, threadId, post) => {
         postsMethods
         .createPost(db, post, parseInt(threadId))
         .then((post) => {
-            db
-            .collection('threads')
-            .findOneAndUpdate(
-                { _id: parseInt(threadId) },
-                { $push: { postsId: post._id }, $set: {time: Date.now()} },
-                {
-                    returnOriginal: false
-                }
-            , (err, result) => {
-                assert.equal(null, err);
-                
-                _thread = result.value;
-                
-                postsMethods
-                .getPostsByThreadId(db, parseInt(threadId))
-                .then((posts) => {
-                    _thread.posts = posts;
+            if(post.sage === 'false'){
+                db
+                .collection('threads')
+                .findOneAndUpdate(
+                    { _id: parseInt(threadId) },
+                    { 
+                        $push: { postsId: post._id }, 
+                        $set: {time: Date.now()}
+                    },
+                    {
+                        returnOriginal: false
+                    }
+                , (err, result) => {
+                    assert.equal(null, err);
+                    
+                    _thread = result.value;
+                    
+                    postsMethods
+                    .getPostsByThreadId(db, parseInt(threadId))
+                    .then((posts) => {
+                        _thread.posts = posts;
 
-                    resolve(_thread);
+                        resolve(_thread);
+                    });
                 });
-            });
+            } else {
+                db
+                .collection('threads')
+                .findOneAndUpdate(
+                    { _id: parseInt(threadId) },
+                    { 
+                        $push: { postsId: post._id }
+                    },
+                    {
+                        returnOriginal: false
+                    }
+                , (err, result) => {
+                    assert.equal(null, err);
+                    
+                    _thread = result.value;
+                    
+                    postsMethods
+                    .getPostsByThreadId(db, parseInt(threadId))
+                    .then((posts) => {
+                        _thread.posts = posts;
+
+                        resolve(_thread);
+                    });
+                });
+            }
         });
     });
 }
