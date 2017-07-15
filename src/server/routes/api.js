@@ -36,11 +36,9 @@ module.exports = (app, db) => {
         });
 
         app.post('/api/threads', (req, res) => {
-            // checkOrigin(req, res, () => {
-                threadsMethods
-                .createThread(db, req.body)
-                .then((thread) => res.send(thread));
-            // });
+            threadsMethods
+            .createThread(db, req.body)
+            .then((thread) => res.send(thread));
         });
 
         app.get('/api/threads/:threadId', (req, res) => {
@@ -50,9 +48,10 @@ module.exports = (app, db) => {
         });
 
         app.post('/api/threads/:threadId', (req, res) => {
-            threadsMethods
-            .answerInThread(db, req.params.threadId, req.body)
-            .then((thread) => res.send(thread));
+            console.log(req);
+            // threadsMethods
+            // .answerInThread(db, req.params.threadId, req.body)
+            // .then((thread) => res.send(thread));
         });
     });
 };

@@ -48,3 +48,25 @@
         }
     }
 }
+
+.post-form-dropzone{
+    width: 100%;
+    border: 2px dashed rgba(34,36,38,.15);
+    border-radius: 5px;
+    text-align: center;
+    padding: 40px 0;
+    position: relative;
+    margin-bottom: 1em;
+
+    .dropzone-content{
+        
+        .file-preview-container{
+            display: inline-block;
+
+            .file-preview{
+                max-width: 100px;
+                max-height: 100px;
+            }
+        }
+    }
+}

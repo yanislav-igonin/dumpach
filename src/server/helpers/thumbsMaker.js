@@ -1,11 +1,11 @@
-import path from 'path';
-import sharp from 'sharp';
-import ffmpeg from 'fluent-ffmpeg';
-import Promise from 'bluebird';
+const path = require('path');
+const sharp = require('sharp');
+const ffmpeg = require('ffmpeg');
+const Promise = require('Promise');
 
 const uploadThumbsDir = path.join(__dirname, '../../../uploads_thumbs');
 
-export const makeImageThumb = (fullFilePath, fileName) => {
+const makeImageThumb = (fullFilePath, fileName) => {
     return new Promise((resolve, reject) => {
         sharp(fullFilePath)
         .resize(150)
@@ -18,7 +18,7 @@ export const makeImageThumb = (fullFilePath, fileName) => {
     });
 }
 
-export const makeVideoThumb = (fullFilePath, fileName) => {
+const makeVideoThumb = (fullFilePath, fileName) => {
     return new Promise((resolve, reject) => {
         ffmpeg(fullFilePath)
         .on('error', (err) => {
@@ -34,4 +34,9 @@ export const makeVideoThumb = (fullFilePath, fileName) => {
             size: '240x?'
         });
     });
+}
+
+module.exports = {
+    makeImageThumb: makeImageThumb,
+    makeVideoThumb: makeVideoThumb,
 }

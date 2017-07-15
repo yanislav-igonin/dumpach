@@ -8,6 +8,8 @@ import { Button } from 'semantic-ui-react';
 import { Form, TextArea } from 'semantic-ui-react';
 import { Comment, Header } from 'semantic-ui-react';
 import { Message } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react'
+import Dropzone from 'react-dropzone'
 
 import Post from './Post/Post';
 
@@ -21,10 +23,12 @@ class Thread extends Component {
         super(props);
 
         this.state = {
-            requestReadiness: 0
+            requestReadiness: 0,
+            files: []
         };
         
         // this.updateThread = this.updateThread.bind(this);
+        this.onDrop = this.onDrop.bind(this);
         this.sendPost = this.sendPost.bind(this);
         // this.changeRequestReadiness = this.changeRequestReadiness.bind(this);
     }
@@ -48,11 +52,25 @@ class Thread extends Component {
 
     sendPost() {
         const {postText} = this.refs;
+        let post = new FormData();
+        let config = {
+            onUploadProgress(progressEvent) {
+                console.log(Math.round((progressEvent.loaded * 100) / progressEvent.total));
+                _this.props.changeRequestReadiness((progressEvent.loaded * 100) / progressEvent.total);
+            }
+        };
 
-        if(this.refs.postText.ref.value !== ''){
-            axios.post('/api/threads/' + this.props.thread._id, {
-                text: postText.ref.value,
-            })
+        if(this.refs.postText.ref.value !== '' || this.state.files.length !== 0){
+            post.append('text', this.refs.postText.ref.value);
+            // post.append('sage', this.state.sage);
+            this.state.files.forEach((file, fileIndex) => {
+                post.append('uploads[]', file, file.name);
+            });
+
+            axios.post('/api/threads/' + this.props.thread._id,
+                post, 
+                config
+            )
             .then((response) => {
                 this
                 .props
@@ -72,7 +90,7 @@ class Thread extends Component {
                 .props
                 .dispatch(
                     settingsActions
-                    .errorMessageOpen("Post text can't be empty")
+                    .errorMessageOpen("Post text or files can't be empty")
                 );
 
                 setTimeout(() => {
@@ -123,6 +141,56 @@ class Thread extends Component {
         postText.ref.value = '';
     }
 
+    onDrop(acceptedFiles, rejectedFiles){
+        this.setState({files: acceptedFiles});
+    }
+        
+    renderDropzoneContent() {
+        let _content = <Icon name='file' />;
+
+        if(this.state.files.length > 0){
+            _content = this.renderDropzoneFilesPreview();
+        }
+
+        return _content;
+    }
+
+    renderDropzoneFilesPreview() {
+        return this.state.files.map((file, fileIndex) => {
+            return (
+                <div key={file + fileIndex} className="file-preview-container">
+                    {this.renderFileByType(file)}
+                </div>
+            );
+        });
+    }
+
+    renderFileByType(file) {
+        let _fileType = file.type.split('/'),
+            _fileElement = null;
+
+        if(_fileType[0] === 'image'){
+            _fileElement = (
+                <img 
+                    key={file.preview} 
+                    className="file-preview" 
+                    src={file.preview} 
+                />
+            );
+        } else {
+            _fileElement = (
+                <video 
+                    key={file.preview} 
+                    className="file-preview"
+                >
+                    <source src={file.preview} />
+                </video>
+            );
+        }
+
+        return _fileElement;
+    }
+
     renderErrorMessage(){
         if(this.props.settings.errorMessage.opened === true){
             return (
@@ -171,6 +239,16 @@ class Thread extends Component {
                                 autoHeight
                             />
                         </Form>
+                        <Dropzone
+                            className="post-form-dropzone"
+                            accept={'image/*, video/webm'}
+                            ref="postFiles"
+                            onDrop={this.onDrop}
+                        >
+                            <div className="dropzone-content">
+                                {this.renderDropzoneContent()}
+                            </div>
+                        </Dropzone>
                         <Button
                             className="form-submit-button"
                             primary 
