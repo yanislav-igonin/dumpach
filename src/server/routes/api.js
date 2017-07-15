@@ -1,6 +1,7 @@
 const Promise = require('bluebird');
 
 module.exports = (app, db) => {
+    const postsParser = require('../helpers/postsParser');
     const threadsMethods = require('../api/dbMethods/threadsMethods');
     const postsMethods = require('../api/dbMethods/postsMethods');
     const countersMethods = require('../api/dbMethods/countersMethods');

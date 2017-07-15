@@ -4,11 +4,16 @@ import {browserHistory} from 'react-router'
 import Promise from 'bluebird';
 import axios from 'axios';
 
-import { Button } from 'semantic-ui-react';
-import { Form, TextArea } from 'semantic-ui-react';
-import { Comment, Header } from 'semantic-ui-react';
-import { Message } from 'semantic-ui-react';
-import { Icon } from 'semantic-ui-react'
+import { 
+    Button,
+    Form, 
+    TextArea, 
+    Comment,
+    Header,
+    Message,
+    Icon,
+    Checkbox 
+} from 'semantic-ui-react'
 import Dropzone from 'react-dropzone'
 
 import Post from './Post/Post';
@@ -249,6 +254,7 @@ class Thread extends Component {
                                 {this.renderDropzoneContent()}
                             </div>
                         </Dropzone>
+                        <Checkbox label="Sage" />
                         <Button
                             className="form-submit-button"
                             primary 

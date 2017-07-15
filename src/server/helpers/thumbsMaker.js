@@ -1,9 +1,14 @@
+const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
-const ffmpeg = require('ffmpeg');
-const Promise = require('Promise');
+const ffmpeg = require('fluent-ffmpeg');
+const Promise = require('bluebird');
 
 const uploadThumbsDir = path.join(__dirname, '../../../uploads_thumbs');
+if (!fs.existsSync(uploadThumbsDir)) {
+    fs.mkdirSync(uploadThumbsDir);
+    console.log('Uploads thumbs dir created');
+}
 
 const makeImageThumb = (fullFilePath, fileName) => {
     return new Promise((resolve, reject) => {
