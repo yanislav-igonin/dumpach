@@ -1,0 +1,18 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
+
+const config = require('../../config/config');
+const router = require('./router');
+
+const app = express();
+
+app
+  .use('/', router)
+  .use(bodyParser.json())
+  .use(bodyParser.urlencoded({ extended: true }))
+  .use(morgan('dev'));
+
+app.listen(config.app.port, () => {
+  console.log('Server listening port %d', config.app.port);
+});

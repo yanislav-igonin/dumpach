@@ -3,9 +3,9 @@ SPA imageboard with one section without moderation
 
 Hosted on Digital Ocean
 
-Front-end: React, Redux, React-Redux-Router
+Front-end: React, Redux, React-Router, ImmutableJS, Redux Sagas
 
-Backend: Express, MongoDB
+Backend: Express, PostgreSQL
 
 Image thumbs: [Sharp](https://github.com/lovell/sharp)
 

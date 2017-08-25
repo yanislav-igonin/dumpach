@@ -3,6 +3,8 @@ const env = process.env.NODE_ENV; // 'dev' or 'test'
 const development = {
   app: {
     port: parseInt(process.env.PORT) || 3000,
+    uploadDir: `${__dirname}/../public/upload`,
+    uploadDirThumbs: `${__dirname}/../public/upload_thumbs`,
   },
   public: {
     port: parseInt(process.env.PUBLIC_PORT) || 8080,
