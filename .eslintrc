@@ -1,0 +1,54 @@
+{
+  "extends": "airbnb",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "jasmine": true,
+    "mocha": true
+  },
+  "globals": {
+    "socket": true
+  },
+  "rules": {
+    "react/prop-types": ["off"],
+    "no-return-await": ["off"],
+    "consistent-return": ["off"],
+    "radix": ["off"],
+    "no-shadow": ["off"],
+    "no-trailing-spaces": ["error", { "skipBlankLines": true }],
+    "no-unused-vars": [
+      "error",
+      { "vars": "all", "args": "none", "ignoreRestSiblings": false }
+    ],
+    "no-use-before-define": [
+      "error",
+      { "functions": false, "classes": false, "variables": false }
+    ],
+    "no-param-reassign": ["error", { "props": false }],
+    "quotes": ["error", "single", { "allowTemplateLiterals": true }],
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "never",
+        "skipBlankLines": true
+      }
+    ],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true,
+        "optionalDependencies": true,
+        "peerDependencies": true
+      }
+    ]
+  }
+}
