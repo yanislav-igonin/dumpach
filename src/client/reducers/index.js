@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux-immutable';
-import data from './data';
+import data from '../modules/MainPage/reducers';
 
-const combinedReducer = combineReducers({
+const rootReducer = combineReducers({
   data,
 });
 
-export default combinedReducer;
+export default rootReducer;

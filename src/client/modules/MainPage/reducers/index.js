@@ -1,5 +1,5 @@
 import { List } from 'immutable';
-import { ADD_ASYNC_SUCCEEDED } from '../actions/data';
+import { ADD_ASYNC_SUCCEEDED } from '../actions';
 
 const dataReducer = (state = List(), action) => {
   switch (action.type) {

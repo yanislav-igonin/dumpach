@@ -4,7 +4,7 @@ import { Map, Iterable } from 'immutable';
 import { createLogger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 
-import reducers from '../reducers';
+import rootReducer from '../reducers';
 import rootSaga from '../sagas';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -23,7 +23,7 @@ if (process.env.NODE_ENV === `development`) {
   middlewares.push(logger);
 }
 
-const store = createStore(reducers, initialState, applyMiddleware(...middlewares));
+const store = createStore(rootReducer, initialState, applyMiddleware(...middlewares));
 
 sagaMiddleware.run(rootSaga);
 

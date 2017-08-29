@@ -1,7 +1,7 @@
 import { delay } from 'redux-saga';
 import { put, takeEvery } from 'redux-saga/effects';
 
-import { ADD_ASYNC, ADD_ASYNC_SUCCEEDED, ADD_ASYNC_FAILED } from '../modules/MainPage/actions';
+import { ADD_ASYNC, ADD_ASYNC_SUCCEEDED, ADD_ASYNC_FAILED } from '../actions';
 
 function* addAsync(action) {
   try {

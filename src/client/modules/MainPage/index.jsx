@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { addAsync } from '../actions/data';
+import { addAsync } from './actions';
 
-import './Main.scss';
+import './index.scss';
 
 class Main extends React.PureComponent {
   renderData() {
