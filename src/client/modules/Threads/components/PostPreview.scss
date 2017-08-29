@@ -1,0 +1,8 @@
+.post-preview {
+  margin-bottom: 10px;
+
+  &:first-child {
+    background-color: rgba(0, 0, 0, 0);
+    box-shadow: none;
+  }
+}

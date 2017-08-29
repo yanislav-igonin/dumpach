@@ -1,16 +1,22 @@
 import React from 'react';
-// import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
-// import './index.scss';
+import ThreadPreview from './components/ThreadPreview';
 
-const Threads = ({ children, params }) =>
+const Threads = ({ children, params, threads }) => (
   <div className="threads">
-    <h1 className="main-page__title">
-      {location.pathname}
-    </h1>
+    <h1 className="main-page__title">{location.pathname}</h1>
+
+    {threads.map(thread => (
+      <ThreadPreview thread={thread} key={location.pathname + thread.id} />
+    ))}
 
     {children}
-  </div>;
+  </div>
+);
 
-export default connect()(Threads);
+const mapStateToProps = state => ({
+  threads: state.get('threads'),
+});
+
+export default connect(mapStateToProps)(Threads);
