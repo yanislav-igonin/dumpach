@@ -33,6 +33,7 @@ module.exports = {
     hot: true,
     proxy: { '/api': `http://localhost:${config.app.port}` },
     historyApiFallback: true,
+    host: '192.168.0.103',
   },
 
   devtool: 'cheap-source-map',
