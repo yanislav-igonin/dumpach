@@ -1,31 +1,20 @@
 import React from 'react';
-import { connect } from 'react-redux';
-
-import { addAsync } from './actions';
+import { Link } from 'react-router';
 
 import './index.scss';
 
-class Main extends React.PureComponent {
-  renderData() {
-    return this.props.data.map(data =>
-      <p key={data}>
-        {data}
-      </p>
-    );
-  }
+const MainPage = () =>
+  <div className="main-page">
+    <h1 className="main-page__title">Dumpach</h1>
 
-  render() {
-    return (
-      <div className="main">
-        <button onClick={() => this.props.dispatch(addAsync())}>
-          <h1>Add async</h1>
-        </button>
-        {this.renderData()}
-      </div>
-    );
-  }
-}
+    <ul className="main-page__boards-list">
+      <li>
+        <Link to="b">/b</Link>
+      </li>
+      <li>
+        <Link to="dev">/dev</Link>
+      </li>
+    </ul>
+  </div>;
 
-const mapStateToProps = (state, ownProps) => ({ data: state.get('data') });
-
-export default connect(mapStateToProps)(Main);
+export default MainPage;

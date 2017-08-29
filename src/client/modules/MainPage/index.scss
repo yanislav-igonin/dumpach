@@ -1,3 +1,29 @@
-.main{
-  background-color: burlywood;
+.main-page {
+  &__title {
+    font-weight: 400;
+    text-align: center;
+  }
+
+  &__boards-list {
+    list-style: none;
+    text-align: center;
+    padding: 0;
+
+    li {
+      margin: 0 10px;
+      display: inline-block;
+
+      a {
+        text-decoration: none;
+
+        &:visited {
+          color: orangered;
+        }
+
+        &:hover {
+          color: darken(orangered, 10);
+        }
+      }
+    }
+  }
 }
