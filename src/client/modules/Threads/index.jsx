@@ -10,10 +10,6 @@ const Threads = ({ children, params }) =>
       {location.pathname}
     </h1>
 
-    {/* <Link to={`/${params.boardId}/1`}>1</Link>
-    <Link to={`/${params.boardId}/2`}>2</Link>
-    <Link to={`/${params.boardId}/3`}>3</Link> */}
-
     {children}
   </div>;
 
