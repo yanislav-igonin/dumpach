@@ -1,14 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
-// import './index.scss';
+import ThreadContainer from './components/ThreadContainer';
 
-const Thread = () =>
-  <div className="threads">
-    <h1 className="main-page__title">
-      cock
-    </h1>
+const Thread = ({ thread }) =>
+  <div className="thread">
+    <ThreadContainer thread={thread} />
   </div>;
 
-export default connect()(Thread);
+const mapStateToProps = state => ({
+  thread: state.get('thread'),
+});
+
+export default connect(mapStateToProps)(Thread);

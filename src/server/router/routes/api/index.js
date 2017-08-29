@@ -4,6 +4,11 @@ router.get('/:boardId', (req, res) => {
   res.send(THREADS);
 });
 
+router.get('/:boardId/:threadId', (req, res) => {
+  console.log(req)
+  res.send(THREADS[req.params.threadId]);
+});
+
 module.exports = router;
 
 const THREADS = [

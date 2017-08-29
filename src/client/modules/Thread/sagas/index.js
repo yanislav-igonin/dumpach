@@ -8,7 +8,7 @@ import {
 
 function* getThread(action) {
   try {
-    const thread = yield fetch(`${action.threadId}`)
+    const thread = yield fetch(`/api/${action.boardId}/${action.threadId}`)
       .then(res => res.json())
       .catch((err) => {
         throw { message: err.message };
