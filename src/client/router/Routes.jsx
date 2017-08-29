@@ -5,8 +5,9 @@ import MainPage from '../modules/MainPage';
 import Threads from '../modules/Threads';
 import Thread from '../modules/Thread';
 import { getThreads } from '../modules/Threads/actions';
+import { getThread } from '../modules/Thread/actions';
 
-const Routes = ({ dispatch }) =>
+const Routes = ({ dispatch }) => (
   <Router history={browserHistory}>
     <Route path="/" component={MainPage}>
       <Route
@@ -14,9 +15,14 @@ const Routes = ({ dispatch }) =>
         component={Threads}
         onEnter={({ params }) => dispatch(getThreads(params))}
       >
-        <Route path=":threadId" component={Thread} />
+        <Route
+          path=":threadId"
+          component={Thread}
+          onEnter={({ params }) => dispatch(getThread(params))}
+        />
       </Route>
     </Route>
-  </Router>;
+  </Router>
+);
 
 export default connect()(Routes);
