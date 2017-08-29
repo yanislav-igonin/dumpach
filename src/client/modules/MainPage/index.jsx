@@ -9,10 +9,10 @@ const MainPage = ({ children }) =>
 
     <ul className="main-page__boards-list">
       <li>
-        <Link to="b">/b</Link>
+        <Link to="/b">/b</Link>
       </li>
       <li>
-        <Link to="dev">/dev</Link>
+        <Link to="/dev">/dev</Link>
       </li>
     </ul>
 
