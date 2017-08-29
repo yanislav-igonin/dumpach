@@ -1,11 +1,13 @@
 import React from 'react';
-import Paper from 'material-ui/Paper';
 
 import PostPreview from './PostPreview';
 
-const ThreadPreview = ({ thread }) =>
+const ThreadPreview = ({ thread }) => (
   <div className="thread-preview">
-    {thread.posts.map(post => <PostPreview post={post} key={post.id} />)}
-  </div>;
+    {thread.posts.map((post, index) => (
+      <PostPreview post={post} index={index} key={post.id} />
+    ))}
+  </div>
+);
 
 export default ThreadPreview;

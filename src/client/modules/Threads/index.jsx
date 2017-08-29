@@ -7,9 +7,11 @@ const Threads = ({ children, params, threads }) => (
   <div className="threads">
     <h1 className="main-page__title">{location.pathname}</h1>
 
-    {threads.map(thread => (
-      <ThreadPreview thread={thread} key={location.pathname + thread.id} />
-    ))}
+    {params.threadId === undefined ? (
+      threads.map(thread => (
+        <ThreadPreview thread={thread} key={location.pathname + thread.id} />
+      ))
+    ) : null}
 
     {children}
   </div>
