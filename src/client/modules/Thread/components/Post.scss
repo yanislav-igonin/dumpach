@@ -1,5 +1,5 @@
-.post-preview-container {
-  .post-preview {
+.post-container {
+  .post {
     margin-bottom: 5px;
     padding: 5px;
     display: inline-block;
@@ -14,7 +14,7 @@
     }
   }
 
-  &:first-child > .post-preview {
+  &:first-child > .post {
     background-color: rgba(0, 0, 0, 0);
     box-shadow: none;
   }
