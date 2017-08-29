@@ -1,9 +1,9 @@
 import { List } from 'immutable';
-import { ADD_ASYNC_SUCCEEDED } from '../actions';
+import { GET_THREADS_SUCCEEDED } from '../actions';
 
-const dataReducer = (state = List(), action) => {
+const threads = (state = List(), action) => {
   switch (action.type) {
-    case ADD_ASYNC_SUCCEEDED:
+    case GET_THREADS_SUCCEEDED:
       return state.push(`data${new Date().getTime()}`);
 
     default:
@@ -11,4 +11,4 @@ const dataReducer = (state = List(), action) => {
   }
 };
 
-export default dataReducer;
+export default threads;

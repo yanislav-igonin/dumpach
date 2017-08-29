@@ -1,6 +1,6 @@
 import { fork } from 'redux-saga/effects';
-import data from '../modules/MainPage/sagas';
+import threads from '../modules/Threads/sagas';
 
 export default function* rootSaga() {
-  yield [fork(data)];
+  yield [fork(threads)];
 }

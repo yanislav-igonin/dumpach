@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux-immutable';
-import data from '../modules/MainPage/reducers';
+import threads from '../modules/Threads/reducers';
 
 const rootReducer = combineReducers({
-  data,
+  threads,
 });
 
 export default rootReducer;

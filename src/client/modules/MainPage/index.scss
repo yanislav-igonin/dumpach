@@ -1,6 +1,6 @@
 .main-page {
   &__title {
-    font-weight: 400;
+    font-weight: 300;
     text-align: center;
   }
 
@@ -8,20 +8,21 @@
     list-style: none;
     text-align: center;
     padding: 0;
-
+  
     li {
       margin: 0 10px;
       display: inline-block;
-
+  
       a {
+        cursor: pointer;
         text-decoration: none;
-
+  
         &:visited {
-          color: orangered;
+          color: black;
         }
-
+  
         &:hover {
-          color: darken(orangered, 10);
+          color: lighten(black, 50);
         }
       }
     }
