@@ -32,6 +32,7 @@ module.exports = {
     contentBase: './public',
     hot: true,
     proxy: { '/api': `http://localhost:${config.app.port}` },
+    historyApiFallback: true,
   },
 
   devtool: 'cheap-source-map',
