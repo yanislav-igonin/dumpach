@@ -15,6 +15,7 @@
     "socket": true
   },
   "rules": {
+    "max-len": [2, 80],
     "react/prop-types": ["off"],
     "no-return-await": ["off"],
     "consistent-return": ["off"],

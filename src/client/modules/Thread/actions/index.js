@@ -1,8 +1,8 @@
-export const GET_THREADS = 'GET_THREADS';
-export const GET_THREADS_SUCCEEDED = 'GET_THREADS_SUCCEEDED';
-export const GET_THREADS_FAILED = 'GET_THREADS_FAILED';
+export const GET_THREAD = 'GET_THREAD';
+export const GET_THREAD_SUCCEEDED = 'GET_THREAD_SUCCEEDED';
+export const GET_THREAD_FAILED = 'GET_THREAD_FAILED';
 
-export const getThreads = board => ({
-  type: GET_THREADS,
-  board,
+export const getThread = threadId => ({
+  type: GET_THREAD,
+  threadId,
 });
