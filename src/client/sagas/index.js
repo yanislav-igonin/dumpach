@@ -1,19 +1,6 @@
-import { delay } from 'redux-saga';
-import { put, takeEvery } from 'redux-saga/effects';
+import { fork } from 'redux-saga/effects';
+import data from '../modules/MainPage/sagas';
 
-import { ADD_ASYNC, ADD_ASYNC_SUCCEEDED, ADD_ASYNC_FAILED } from '../modules/MainPage/actions';
-
-function* addAsync(action) {
-  try {
-    yield delay(1000);
-    yield put({ type: ADD_ASYNC_SUCCEEDED });
-  } catch (e) {
-    yield put({ type: ADD_ASYNC_FAILED, message: e.message });
-  }
+export default function* rootSaga() {
+  yield [fork(data)];
 }
-
-function* rootSaga() {
-  yield takeEvery(ADD_ASYNC, addAsync);
-}
-
-export default rootSaga;
