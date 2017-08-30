@@ -8,7 +8,7 @@ module.exports = {
   },
 
   createThread(req, res) {
-    THREADS.push({
+    const thread = {
       id: THREADS_ID++,
       createdAt: Date.now(),
       updatedAt: Date.now(),
@@ -21,9 +21,11 @@ module.exports = {
           createdAt: Date.now(),
         },
       ],
-    });
+    };
 
-    res.send({ threadId: THREADS_ID });
+    THREADS.push(thread);
+
+    res.send({ threadId: thread.id });
   },
 };
 

@@ -1,4 +1,5 @@
 import { put, takeLatest } from 'redux-saga/effects';
+import { browserHistory } from 'react-router';
 
 import {
   GET_THREADS,
@@ -39,7 +40,9 @@ function* createThread(action) {
         throw { message: err.message };
       });
 
-    yield put({ type: CREATE_THREAD_SUCCEEDED, response });
+    browserHistory.replace(`${window.location.href}/${response.threadId.toString()}`);
+
+    yield put({ type: CREATE_THREAD_SUCCEEDED });
   } catch (e) {
     yield put({ type: CREATE_THREAD_FAILED, message: e.message });
   }
