@@ -9,7 +9,7 @@ const threads = (state = List(), action) => {
       return List(action.threads);
 
     case CREATE_THREAD_SUCCEEDED:
-      browserHistory.push(action.threadId);
+      browserHistory.replace(`${window.location.href}/${action.response.threadId.toString()}`);
       break;
 
     default:

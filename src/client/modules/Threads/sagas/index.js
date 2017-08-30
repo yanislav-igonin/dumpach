@@ -25,8 +25,13 @@ function* getThreads(action) {
 
 function* createThread(action) {
   try {
-    const threadId = yield fetch(`/api/${action.boardId}`, {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json, text/plain, */*');
+
+    const response = yield fetch(`/api/${action.boardId}`, {
       method: 'POST',
+      headers,
       body: JSON.stringify(action.thread),
     })
       .then(res => res.json())
@@ -34,7 +39,7 @@ function* createThread(action) {
         throw { message: err.message };
       });
 
-    yield put({ type: CREATE_THREAD_SUCCEEDED, threadId });
+    yield put({ type: CREATE_THREAD_SUCCEEDED, response });
   } catch (e) {
     yield put({ type: CREATE_THREAD_FAILED, message: e.message });
   }

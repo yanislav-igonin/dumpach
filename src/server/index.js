@@ -8,9 +8,9 @@ const router = require('./router');
 const app = express();
 
 app
-  .use('/', router)
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }))
+  .use('/', router)
   .use(morgan('dev'));
 
 app.listen(config.app.port, () => {

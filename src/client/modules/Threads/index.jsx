@@ -12,7 +12,6 @@ const Threads = ({ children, params, threads, dispatch }) => (
     {params.threadId === undefined ? (
       <CreateThreadForm
         handleSubmit={(thread) => {
-          debugger
           dispatch(createThread(params.boardId, thread));
         }}
       />

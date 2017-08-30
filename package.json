@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "server:dev": "NODE_ENV=development nodemon --inspect src/server/index.js",
+    "server:dev": "NODE_ENV=development nodemon --watch src/server --inspect src/server/index.js",
     "server:prod": "NODE_ENV=production node src/server/index.js",
     "client:dev": "NODE_ENV=development webpack-dev-server --config config/webpack.config.js",
     "client:build": "webpack -p --config config/webpack.config.production.js"
