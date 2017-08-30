@@ -26,7 +26,7 @@ class CreateThreadForm extends React.Component {
 
     return (
       <div className="create-thread-form">
-        <Paper zDepth={1} className="create-thread-form__container">
+        <Paper className="create-thread-form__container">
           <form
             onSubmit={(event) => {
               event.preventDefault();

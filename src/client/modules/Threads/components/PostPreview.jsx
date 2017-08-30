@@ -11,7 +11,7 @@ const PostPreview = ({ post, index, threadId }) => (
         {new Date(post.createdAt).toLocaleTimeString()}
       </p>
       {index === 0 ? (
-        <Link to={`${window.location.href}/${threadId}`}>Open</Link>
+        <Link to={`${window.location.pathname}/${threadId}`}>Open</Link>
       ) : null}
       <br />
       {post.text.split('\n').map(row => (
