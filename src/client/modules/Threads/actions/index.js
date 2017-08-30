@@ -11,7 +11,8 @@ export const getThreads = ({ boardId }) => ({
   boardId,
 });
 
-export const createThread = ({ boardId }) => ({
+export const createThread = (boardId, thread) => ({
   type: CREATE_THREAD,
   boardId,
+  thread,
 });
