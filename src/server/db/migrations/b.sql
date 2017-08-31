@@ -19,7 +19,6 @@ SELECT * FROM b_threads;
 CREATE TABLE b_posts (
     id SERIAL PRIMARY KEY,
     "threadId" INT REFERENCES b_threads(id),
-    -- "threadId" INT,
     title TEXT,
     text TEXT
 );
