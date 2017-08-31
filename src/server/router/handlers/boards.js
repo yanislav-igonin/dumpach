@@ -1,6 +1,22 @@
+const db = require('../../db/connection/');
+const b = require('../../db/repositories/b');
+
 module.exports = {
   getThreads(req, res) {
-    res.send(THREADS);
+    switch (req.params.boardId) {
+      case 'b':
+        b
+          .getThreads(db)
+          .then(threads => res.send(threads))
+          .catch(e => console.log(e));
+        break;
+      case 'dev':
+        res.send('dickhead');
+        break;
+      default:
+        res.sendStatus(404);
+        break;
+    }
   },
 
   getThread(req, res) {
@@ -8,24 +24,10 @@ module.exports = {
   },
 
   createThread(req, res) {
-    const thread = {
-      id: THREADS_ID++,
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
-      posts: [
-        {
-          id: POSTS_ID++,
-          title: req.body.title,
-          text: req.body.text,
-          sage: false,
-          createdAt: Date.now(),
-        },
-      ],
-    };
-
-    THREADS.push(thread);
-
-    res.send({ threadId: thread.id });
+    b
+      .createThread(db, req.body)
+      .then(thread => res.send(thread.id.toString()))
+      .catch(e => console.log(e));
   },
 };
 

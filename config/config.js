@@ -10,9 +10,11 @@ const development = {
     port: parseInt(process.env.PUBLIC_PORT) || 8080,
   },
   db: {
-    host: process.env.DEV_DB_HOST || 'localhost',
-    port: parseInt(process.env.DEV_DB_PORT) || 27017,
-    name: process.env.DEV_DB_NAME || 'db',
+    host: process.env.DB_HOST || 'localhost',
+    port: parseInt(process.env.DEV_DB_PORT) || 5432,
+    database: 'dumpach',
+    user: process.env.DB_USER || 'postgres',
+    password: process.env.DB_PASSWORD || '123456',
   },
 };
 
