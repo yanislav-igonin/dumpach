@@ -8,7 +8,7 @@ const PostPreview = ({ post, index, threadId }) => (
   <div className="post-preview-container">
     <Paper className="post-preview">
       <p className="post-preview__time">
-        {new Date(post.createdAt).toLocaleTimeString()}
+        {new Date(post.created_at).toLocaleTimeString()}
       </p>
       {index === 0 ? (
         <Link to={`${window.location.pathname}/${threadId}`}>Open</Link>

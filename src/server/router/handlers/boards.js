@@ -17,13 +17,10 @@ module.exports = {
   },
 
   getThread(req, res) {
-    res.send(THREADS[req.params.threadId]);
+    res.send('kek');
   },
 
-  createThread(req, res) {
-    b
-      .createThread(db, req.body)
-      .then(thread => res.send(thread.id.toString()))
-      .catch(e => console.log(e));
+  async createThread(req, res) {
+    res.send(await b.createThread(db, req.body));
   },
 };
