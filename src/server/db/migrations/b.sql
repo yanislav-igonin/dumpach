@@ -10,15 +10,13 @@ CREATE TABLE b_threads (
 );
 
 INSERT INTO b_threads DEFAULT VALUES;
-INSERT INTO b_threads DEFAULT VALUES;
-INSERT INTO b_threads DEFAULT VALUES;
-INSERT INTO b_threads DEFAULT VALUES;
 
 SELECT * FROM b_threads;
 
 CREATE TABLE b_posts (
     id SERIAL PRIMARY KEY,
     "threadId" INT REFERENCES b_threads(id),
+    "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     title TEXT,
     text TEXT
 );

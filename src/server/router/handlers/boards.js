@@ -2,13 +2,10 @@ const db = require('../../db/connection/');
 const b = require('../../db/repositories/b');
 
 module.exports = {
-  getThreads(req, res) {
+  async getThreads(req, res) {
     switch (req.params.boardId) {
       case 'b':
-        b
-          .getThreads(db)
-          .then(threads => res.send(threads))
-          .catch(e => console.log(e));
+        res.send(await b.getThreads(db));
         break;
       case 'dev':
         res.send('dickhead');
@@ -30,101 +27,3 @@ module.exports = {
       .catch(e => console.log(e));
   },
 };
-
-let THREADS_ID = 0;
-let POSTS_ID = 0;
-let THREADS = [
-  {
-    id: THREADS_ID++,
-    createdAt: Date.now(),
-    updatedAt: Date.now(),
-    posts: [
-      {
-        id: POSTS_ID++,
-        title: 'quia et suscipit',
-        text:
-          'quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto',
-        sage: false,
-        createdAt: Date.now(),
-      },
-      {
-        id: POSTS_ID++,
-        title: 'quia et suscipit',
-        text:
-          'quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto',
-        sage: false,
-        createdAt: Date.now(),
-      },
-      {
-        id: POSTS_ID++,
-        title: 'quia et suscipit',
-        text:
-          'quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto',
-        sage: false,
-        createdAt: Date.now(),
-      },
-    ],
-  },
-  {
-    id: THREADS_ID++,
-    createdAt: Date.now(),
-    updatedAt: Date.now(),
-    posts: [
-      {
-        id: POSTS_ID++,
-        title: 'quia et suscipit',
-        text:
-          'quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto',
-        sage: false,
-        createdAt: Date.now(),
-      },
-      {
-        id: POSTS_ID++,
-        title: 'quia et suscipit',
-        text:
-          'quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto',
-        sage: false,
-        createdAt: Date.now(),
-      },
-      {
-        id: POSTS_ID++,
-        title: 'quia et suscipit',
-        text:
-          'quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto',
-        sage: false,
-        createdAt: Date.now(),
-      },
-    ],
-  },
-  {
-    id: THREADS_ID++,
-    createdAt: Date.now(),
-    updatedAt: Date.now(),
-    posts: [
-      {
-        id: POSTS_ID++,
-        title: 'quia et suscipit',
-        text:
-          'quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto',
-        sage: false,
-        createdAt: Date.now(),
-      },
-      {
-        id: POSTS_ID++,
-        title: 'quia et suscipit',
-        text:
-          'quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto',
-        sage: false,
-        createdAt: Date.now(),
-      },
-      {
-        id: POSTS_ID++,
-        title: 'quia et suscipit',
-        text:
-          'quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto',
-        sage: false,
-        createdAt: Date.now(),
-      },
-    ],
-  },
-];
