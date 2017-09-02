@@ -4,10 +4,23 @@
     text-align: center;
   }
 
+  &__source-link-container{
+    text-align: center;
+
+    a{
+      font-weight: 300;
+      font-size: 20px;
+    }
+
+    .fa{
+      margin-left: 5px;
+    }
+  }
+
   &__under-construction{
     font-weight: 300;
     text-align: center;
-    .icon{
+    .fa{
       margin-left: 5px;
       animation: under-construction-spin infinite 5s linear;
     }

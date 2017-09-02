@@ -6,9 +6,18 @@ import './index.scss';
 const MainPage = ({ children }) => (
   <div className="main-page">
     <h1 className="main-page__title">Dumpach</h1>
+    <div className="main-page__source-link-container">
+      <Link
+        target="_blank"
+        to="https://github.com/yanislav-igonin/dumpach/tree/new-version"
+      >
+        Sources
+        <i className="fa fa-github" aria-hidden="true" />
+      </Link>
+    </div>
     <h2 className="main-page__under-construction">
       Still under construction
-      <i className="fa fa-wrench icon" aria-hidden="true" />
+      <i className="fa fa-wrench" aria-hidden="true" />
     </h2>
 
     <ul className="main-page__boards-list">
