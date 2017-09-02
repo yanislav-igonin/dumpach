@@ -14,13 +14,12 @@ const Routes = ({ dispatch }) => (
         path=":boardId"
         component={Threads}
         onEnter={({ params }) => dispatch(getThreads(params))}
-      >
-        <Route
-          path=":threadId"
-          component={Thread}
-          onEnter={({ params }) => dispatch(getThread(params))}
-        />
-      </Route>
+      />
+      <Route
+        path=":boardId/:threadId"
+        component={Thread}
+        onEnter={({ params }) => dispatch(getThread(params))}
+      />
     </Route>
   </Router>
 );

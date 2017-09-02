@@ -4,6 +4,12 @@
     padding: 5px;
     display: inline-block;
 
+    &__title{
+      display: inline-block;
+      margin: 0 0 5px 0;
+      font-weight: 500;
+    }
+
     &__time {
       display: inline-block;
       margin: 0 10px 5px 0;

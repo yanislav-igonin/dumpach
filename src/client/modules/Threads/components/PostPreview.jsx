@@ -7,7 +7,11 @@ import './PostPreview.scss';
 const PostPreview = ({ post, index, threadId }) => (
   <div className="post-preview-container">
     <Paper className="post-preview">
-      <p className="post-preview__time">
+      <p className="post-preview__title">{post.title}</p>
+      <p
+        className="post-preview__time"
+        style={post.title !== '' ? { marginLeft: 5 } : null}
+      >
         {new Date(post.created_at).toLocaleTimeString()}
       </p>
       {index === 0 ? (

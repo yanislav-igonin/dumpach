@@ -25,10 +25,19 @@ function* getThread({ boardId, threadId }) {
 
 function* answerInThread({ boardId, threadId, post }) {
   try {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json, text/plain, */*');
+
     const thread = yield fetch(`/api/${boardId}/${threadId}`, {
       method: 'POST',
+      headers,
       body: JSON.stringify(post),
-    });
+    })
+      .then(res => res.json())
+      .catch((err) => {
+        throw { message: err.message };
+      });
 
     yield put({ type: ANSWER_IN_THREAD_SUCCEEDED, thread });
   } catch (e) {

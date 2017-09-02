@@ -8,22 +8,15 @@ import ThreadPreview from './components/ThreadPreview';
 const Threads = ({ children, params, dispatch, threads }) => (
   <div className="threads">
     <h1 className="main-page__title">{location.pathname}</h1>
+    <CreateThreadForm
+      handleSubmit={(thread) => {
+        dispatch(createThread(params.boardId, thread));
+      }}
+    />
 
-    {params.threadId === undefined ? (
-      <CreateThreadForm
-        handleSubmit={(thread) => {
-          dispatch(createThread(params.boardId, thread));
-        }}
-      />
-    ) : null}
-
-    {params.threadId === undefined ? (
-      threads.map(thread => (
-        <ThreadPreview thread={thread} key={location.pathname + thread.id} />
-      ))
-    ) : null}
-
-    {children}
+    {threads.map(thread => (
+      <ThreadPreview thread={thread} key={location.pathname + thread.id} />
+    ))}
   </div>
 );
 

@@ -68,7 +68,11 @@ class CreateThreadForm extends React.Component {
               label="Sage"
             />
             <div className="submit-button-container">
-              <Button type="submit" raised color="primary">
+              <Button
+                type="submit"
+                raised
+                color="primary"
+              >
                 Answer in thread
               </Button>
             </div>
