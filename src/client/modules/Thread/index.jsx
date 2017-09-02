@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Button from 'material-ui/Button';
 
 import AnswerIntThreadForm from './components/AnswerIntThreadForm';
-import { answerInThread } from './actions';
+import { answerInThread, getThread } from './actions';
 import ThreadContainer from './components/ThreadContainer';
 
 const Thread = ({ params, dispatch, thread }) => (
@@ -14,6 +15,10 @@ const Thread = ({ params, dispatch, thread }) => (
       }}
     />
     <ThreadContainer thread={thread} />
+
+    <Button color="primary" onClick={() => dispatch(getThread(params))}>
+      Update thread
+    </Button>
   </div>
 );
 
