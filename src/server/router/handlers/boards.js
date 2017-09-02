@@ -21,6 +21,6 @@ module.exports = {
   },
 
   async createThread(req, res) {
-    res.send(await b.createThread(db, req.body));
+    res.send((await b.createThread(db, req.body)).toString());
   },
 };
