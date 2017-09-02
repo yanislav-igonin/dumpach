@@ -3,9 +3,13 @@ import { Link } from 'react-router';
 
 import './index.scss';
 
-const MainPage = ({ children }) =>
+const MainPage = ({ children }) => (
   <div className="main-page">
     <h1 className="main-page__title">Dumpach</h1>
+    <h2 className="main-page__under-construction">
+      Still under construction
+      <i className="fa fa-wrench icon" aria-hidden="true" />
+    </h2>
 
     <ul className="main-page__boards-list">
       <li>
@@ -17,6 +21,7 @@ const MainPage = ({ children }) =>
     </ul>
 
     {children}
-  </div>;
+  </div>
+);
 
 export default MainPage;

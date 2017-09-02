@@ -4,6 +4,15 @@
     text-align: center;
   }
 
+  &__under-construction{
+    font-weight: 300;
+    text-align: center;
+    .icon{
+      margin-left: 5px;
+      animation: under-construction-spin infinite 5s linear;
+    }
+  }
+
   &__boards-list {
     list-style: none;
     text-align: center;
@@ -27,4 +36,9 @@
       }
     }
   }
+}
+
+@keyframes under-construction-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
