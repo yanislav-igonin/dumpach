@@ -9,10 +9,6 @@ CREATE TABLE b_threads (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-INSERT INTO b_threads DEFAULT VALUES;
-
-SELECT * FROM b_threads;
-
 CREATE TABLE b_posts (
     id SERIAL PRIMARY KEY,
     thread_id INT REFERENCES b_threads(id),
@@ -21,15 +17,3 @@ CREATE TABLE b_posts (
     text TEXT,
     sage BOOLEAN
 );
-
-INSERT INTO b_posts (thread_id, title, text) VALUES (1,'Cocksuckers thread', 'Some dickblowing information');
-INSERT INTO b_posts (thread_id, title, text) VALUES (1,'', 'Some dickblowing information');
-INSERT INTO b_posts (thread_id, title, text) VALUES (1,'', 'Some dickblowing information');
-INSERT INTO b_posts (thread_id, title, text) VALUES (1,'', 'Some dickblowing information');
-INSERT INTO b_posts (thread_id, title, text) VALUES (1,'', 'Some dickblowing information');
-INSERT INTO b_posts (thread_id, title, text) VALUES (1,'', 'Some dickblowing information');
-
-
-
-
-SELECT * FROM b_posts;
