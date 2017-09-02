@@ -12,7 +12,7 @@ import {
 
 function* getThreads(action) {
   try {
-    const threads = yield fetch(`/api/${action.boardId}`)
+    const threads = yield fetch(`/api/boards/${action.boardId}`)
       .then(res => res.json())
       .catch((err) => {
         throw { message: err.message };
@@ -30,7 +30,7 @@ function* createThread(action) {
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json, text/plain, */*');
 
-    const threadId = yield fetch(`/api/${action.boardId}`, {
+    const threadId = yield fetch(`/api/boards/${action.boardId}`, {
       method: 'POST',
       headers,
       body: JSON.stringify(action.thread),

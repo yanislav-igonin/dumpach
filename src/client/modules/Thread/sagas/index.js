@@ -11,7 +11,7 @@ import {
 
 function* getThread({ boardId, threadId }) {
   try {
-    const thread = yield fetch(`/api/${boardId}/${threadId}`)
+    const thread = yield fetch(`/api/boards/${boardId}/${threadId}`)
       .then(res => res.json())
       .catch((err) => {
         throw { message: err.message };
@@ -29,7 +29,7 @@ function* answerInThread({ boardId, threadId, post }) {
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json, text/plain, */*');
 
-    const thread = yield fetch(`/api/${boardId}/${threadId}`, {
+    const thread = yield fetch(`/api/boards/${boardId}/${threadId}`, {
       method: 'POST',
       headers,
       body: JSON.stringify(post),

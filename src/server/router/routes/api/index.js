@@ -1,12 +1,6 @@
 const router = require('express').Router();
-const boardsHandlers = require('../../handlers/boards');
+const boards = require('./boards');
 
-router.get('/:boardId', boardsHandlers.getThreads);
-
-router.post('/:boardId', boardsHandlers.createThread);
-
-router.get('/:boardId/:threadId', boardsHandlers.getThread);
-
-router.post('/:boardId/:threadId', boardsHandlers.answerInThread);
+router.use('/boards', boards);
 
 module.exports = router;
