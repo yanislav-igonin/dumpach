@@ -10,6 +10,15 @@
     a{
       font-weight: 300;
       font-size: 20px;
+      text-decoration: none;
+
+      &:visited {
+        color: black;
+      }
+
+      &:hover {
+        color: lighten(black, 50);
+      }
     }
 
     .fa{
@@ -36,7 +45,6 @@
       display: inline-block;
   
       a {
-        cursor: pointer;
         text-decoration: none;
   
         &:visited {
