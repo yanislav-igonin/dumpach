@@ -16,11 +16,31 @@ module.exports = {
     }
   },
 
-  getThread(req, res) {
-    res.send('kek');
+  async getThread(req, res) {
+    switch (req.params.boardId) {
+      case 'b':
+        res.send(await b.getThread(db, req.params.threadId));
+        break;
+      case 'dev':
+        res.send('dickhead');
+        break;
+      default:
+        res.sendStatus(404);
+        break;
+    }
   },
 
   async createThread(req, res) {
-    res.send((await b.createThread(db, req.body)).toString());
+    switch (req.params.boardId) {
+      case 'b':
+        res.send((await b.createThread(db, req.body)).toString());
+        break;
+      case 'dev':
+        res.send('dickhead');
+        break;
+      default:
+        res.sendStatus(404);
+        break;
+    }
   },
 };

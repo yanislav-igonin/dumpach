@@ -14,6 +14,12 @@ const getThreads = async (db) => {
   return threads;
 };
 
+const getThread = async (db, threadId) => {
+  const thread = await db.one('SELECT * FROM b_threads WHERE id = $1', [threadId]);
+  thread.posts = await db.any('SELECT * FROM b_posts WHERE thread_id = $1', [threadId]);
+  return thread;
+}
+
 const createThread = async (db, post) => {
   const thread = await db.one(
     'INSERT INTO b_threads DEFAULT VALUES RETURNING id'
@@ -27,5 +33,6 @@ const createThread = async (db, post) => {
 
 module.exports = {
   getThreads,
+  getThread,
   createThread,
 };
