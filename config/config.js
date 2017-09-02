@@ -20,15 +20,19 @@ const development = {
 
 const production = {
   app: {
-    port: parseInt(process.env.TEST_APP_PORT) || 3000,
+    port: parseInt(process.env.PORT) || 3000,
+    uploadDir: `${__dirname}/../public/upload`,
+    uploadDirThumbs: `${__dirname}/../public/upload_thumbs`,
   },
   public: {
     port: parseInt(process.env.PUBLIC_PORT) || 8080,
   },
   db: {
-    host: process.env.TEST_DB_HOST || 'localhost',
-    port: parseInt(process.env.TEST_DB_PORT) || 27017,
-    name: process.env.TEST_DB_NAME || 'test',
+    host: process.env.DB_HOST || 'localhost',
+    port: 5432,
+    database: 'dumpach',
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
   },
 };
 

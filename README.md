@@ -1,12 +1,17 @@
-# dumpach
-SPA imageboard with one section without moderation
+# Dumpach
+##SPA imageboard
 
 Hosted on Digital Ocean
 
-Front-end: React, Redux, React-Router, ImmutableJS, Redux Sagas
+Front-end: React, Redux, React-Router, ImmutableJS, Redux Saga
 
 Backend: Express, PostgreSQL
 
-Image thumbs: [Sharp](https://github.com/lovell/sharp)
-
-Video thumbs: [Fluent ffmpeg](https://github.com/fluent-ffmpeg/node-fluent-ffmpeg)
+###TODO
+- [ ] Thread form cleaning after posting
+- [ ] Bump limit
+- [ ] Threads deleting
+- [ ] UI [snackbar](https://material-ui-1dab0.firebaseapp.com/demos/snackbars/) for different error mesages
+- [ ] Markdown support
+- [ ] Answers on posts
+- [ ] Image uploading and thumbs making(its done on previous version, but it was single board only, so less more images can be uploded)
