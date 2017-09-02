@@ -18,7 +18,8 @@ CREATE TABLE b_posts (
     thread_id INT REFERENCES b_threads(id),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     title TEXT,
-    text TEXT
+    text TEXT,
+    sage BOOLEAN
 );
 
 INSERT INTO b_posts (thread_id, title, text) VALUES (1,'Cocksuckers thread', 'Some dickblowing information');

@@ -43,4 +43,18 @@ module.exports = {
         break;
     }
   },
+
+  async answerInThread(req, res) {
+    switch (req.params.boardId) {
+      case 'b':
+        res.send(await b.answerInThread(db, req.params.threadId, req.body));
+        break;
+      case 'dev':
+        res.send('dickhead');
+        break;
+      default:
+        res.sendStatus(404);
+        break;
+    }
+  },
 };

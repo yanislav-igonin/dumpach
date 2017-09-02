@@ -15,10 +15,14 @@ const getThreads = async (db) => {
 };
 
 const getThread = async (db, threadId) => {
-  const thread = await db.one('SELECT * FROM b_threads WHERE id = $1', [threadId]);
-  thread.posts = await db.any('SELECT * FROM b_posts WHERE thread_id = $1', [threadId]);
+  const thread = await db.one('SELECT * FROM b_threads WHERE id = $1', [
+    threadId,
+  ]);
+  thread.posts = await db.any('SELECT * FROM b_posts WHERE thread_id = $1', [
+    threadId,
+  ]);
   return thread;
-}
+};
 
 const createThread = async (db, post) => {
   const thread = await db.one(
@@ -32,16 +36,22 @@ const createThread = async (db, post) => {
 };
 
 const answerInThread = async (db, threadId, post) => {
-  // const thread = await db.one(
-  //   'INSERT INTO b_threads DEFAULT VALUES RETURNING id'
-  // );
-  // await db.query(
-  //   'INSERT INTO b_posts(thread_id, title, text) VALUES($1, $2, $3)',
-  //   [thread.id, post.title, post.text]
-  // );
-  return await getThread();
-};
+  if (post.sage === false) {
+    await db.query(
+      'UPDATE b_threads SET updated_at=DEFAULT WHERE id=$1',
+      [threadId]
+    );
+  }
 
+  await db.query(
+    'INSERT INTO b_posts(thread_id, title, text, sage) VALUES($1, $2, $3, $4)',
+    [threadId, post.title, post.text, post.sage]
+  );
+
+  const thread = await getThread(db, threadId);
+  
+  return thread;
+};
 
 module.exports = {
   getThreads,
