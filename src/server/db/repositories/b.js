@@ -6,7 +6,7 @@ const getThreads = async (db) => {
 
   await Promise.map(threads, async (thread) => {
     thread.posts = await db.any(
-      `SELECT * FROM b_posts WHERE b_posts.thread_id=${thread.id}`
+      `SELECT * FROM b_posts WHERE b_posts.thread_id=${thread.id} ORDER BY created_at ASC`
     );
     threadsWithPosts.push(thread);
   });
@@ -18,7 +18,7 @@ const getThread = async (db, threadId) => {
   const thread = await db.one('SELECT * FROM b_threads WHERE id = $1', [
     threadId,
   ]);
-  thread.posts = await db.any('SELECT * FROM b_posts WHERE thread_id = $1', [
+  thread.posts = await db.any('SELECT * FROM b_posts WHERE thread_id = $1 ORDER BY created_at ASC', [
     threadId,
   ]);
   return thread;
