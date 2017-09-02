@@ -7,7 +7,7 @@ import Button from 'material-ui/Button';
 
 import './AnswerIntThreadForm.scss';
 
-class CreateThreadForm extends React.Component {
+class CreateThreadForm extends React.PureComponent {
   constructor(props) {
     super(props);
 
