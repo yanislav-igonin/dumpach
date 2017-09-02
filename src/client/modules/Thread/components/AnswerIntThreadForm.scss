@@ -1,5 +1,4 @@
 .answer-in-thread-form{
-  text-align: center;
   padding: 0 15%;
   margin-bottom: 20px;
 
@@ -9,6 +8,7 @@
     .header{
       font-weight: 300;
       margin-top: 0;
+      text-align: center;
     }
 
     .post-text-input{
@@ -16,7 +16,7 @@
     }
 
     .submit-button-container{
-      // display: block;
+      text-align: center;
     }
   }
 }

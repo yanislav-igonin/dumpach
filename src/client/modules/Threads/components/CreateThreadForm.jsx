@@ -49,9 +49,11 @@ class CreateThreadForm extends React.Component {
               multiline
               className="post-text-input"
             />
-            <Button type="submit" raised color="primary">
-              Create thread
-            </Button>
+            <div className="submit-button-container">
+              <Button type="submit" raised color="primary">
+                Create thread
+              </Button>
+            </div>
           </form>
         </Paper>
       </div>
