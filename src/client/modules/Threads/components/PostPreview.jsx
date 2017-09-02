@@ -14,6 +14,7 @@ const PostPreview = ({ post, index, threadId, allPosts }) => (
       >
         {new Date(post.created_at).toLocaleTimeString()}
       </p>
+      <p className="post-preview__id">№{post.id}</p>
       {index === 0 ? (
         <Link to={`${window.location.pathname}/${threadId}`}>Open</Link>
       ) : null}

@@ -14,6 +14,8 @@ const Post = ({ post, index }) => (
       >
         {new Date(post.created_at).toLocaleTimeString()}
       </p>
+      <p className="post__id">№{post.id}</p>
+      <p className="post__index">#{index + 1}</p>
       {post.text.split('\n').map(row => (
         <p className="post__text" key={row}>
           {row}
