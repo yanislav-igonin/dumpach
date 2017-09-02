@@ -2,7 +2,7 @@ const Promise = require('bluebird');
 
 const getThreads = async (db) => {
   const threadsWithPosts = [];
-  const threads = await db.any('SELECT * FROM b_threads');
+  const threads = await db.any('SELECT * FROM b_threads ORDER BY updated_at DESC');
 
   await Promise.map(threads, async (thread) => {
     thread.posts = await db.any(
