@@ -10,6 +10,7 @@ const ThreadPreview = ({ thread }) => (
         threadId={thread.id}
         index={index}
         key={post.id}
+        allPosts={thread.all_posts}
       />
     ))}
   </div>

@@ -4,7 +4,7 @@ import Paper from 'material-ui/Paper';
 
 import './PostPreview.scss';
 
-const PostPreview = ({ post, index, threadId }) => (
+const PostPreview = ({ post, index, threadId, allPosts }) => (
   <div className="post-preview-container">
     <Paper className="post-preview">
       <p className="post-preview__title">{post.title}</p>
@@ -23,6 +23,10 @@ const PostPreview = ({ post, index, threadId }) => (
           {row}
         </p>
       ))}
+
+      {index === 0 ? (
+        <p className="post-preview__all-posts">All posts: {allPosts}</p>
+      ) : null}
     </Paper>
   </div>
 );

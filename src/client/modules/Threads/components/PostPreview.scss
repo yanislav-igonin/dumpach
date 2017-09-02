@@ -18,10 +18,16 @@
     &__text {
       margin: 0;
     }
+
+    &__all-posts{
+      margin: 5px 0 0 0;
+      color: rgba(0, 0, 0, 0.50)
+    }
   }
 
   &:first-child > .post-preview {
     background-color: rgba(0, 0, 0, 0);
     box-shadow: none;
+    padding: 0;
   }
 }
