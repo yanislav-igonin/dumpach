@@ -1,5 +1,5 @@
 # Dumpach
-##SPA imageboard
+## SPA imageboard
 
 Hosted on Digital Ocean
 
@@ -7,7 +7,7 @@ Front-end: React, Redux, React-Router, ImmutableJS, Redux Saga
 
 Backend: Express, PostgreSQL
 
-###TODO
+### TODO
 - [ ] Thread form cleaning after posting
 - [ ] Bump limit
 - [ ] Threads deleting
