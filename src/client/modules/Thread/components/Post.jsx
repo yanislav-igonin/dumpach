@@ -8,7 +8,7 @@ const Post = ({ post, index }) => (
   <div className="post-container">
     <Paper className="post">
       <p className="post__time">
-        {new Date(post.createdAt).toLocaleTimeString()}
+        {new Date(post.created_at).toLocaleTimeString()}
       </p>
       {post.text.split('\n').map(row => (
         <p className="post__text" key={row}>

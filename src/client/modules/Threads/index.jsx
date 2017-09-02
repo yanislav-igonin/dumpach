@@ -5,7 +5,7 @@ import CreateThreadForm from './components/CreateThreadForm';
 import { createThread } from './actions';
 import ThreadPreview from './components/ThreadPreview';
 
-const Threads = ({ children, params, threads, dispatch }) => (
+const Threads = ({ children, params, dispatch, threads }) => (
   <div className="threads">
     <h1 className="main-page__title">{location.pathname}</h1>
 

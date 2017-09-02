@@ -31,8 +31,21 @@ const createThread = async (db, post) => {
   return thread.id;
 };
 
+const answerInThread = async (db, threadId, post) => {
+  // const thread = await db.one(
+  //   'INSERT INTO b_threads DEFAULT VALUES RETURNING id'
+  // );
+  // await db.query(
+  //   'INSERT INTO b_posts(thread_id, title, text) VALUES($1, $2, $3)',
+  //   [thread.id, post.title, post.text]
+  // );
+  return await getThread();
+};
+
+
 module.exports = {
   getThreads,
   getThread,
   createThread,
+  answerInThread,
 };
