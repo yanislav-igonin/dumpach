@@ -29,10 +29,10 @@ const production = {
   },
   db: {
     host: process.env.DB_HOST || 'localhost',
-    port: 5432,
+    port: parseInt(process.env.DEV_DB_PORT) || 5432,
     database: 'dumpach',
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
+    user: process.env.DB_USER || 'postgres',
+    password: process.env.DB_PASSWORD || '123456',
   },
 };
 
