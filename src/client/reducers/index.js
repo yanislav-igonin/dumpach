@@ -1,15 +1,10 @@
-import { combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
+import { combineReducers } from 'redux-immutable';
+import threads from '../modules/Threads/reducers';
+import thread from '../modules/Thread/reducers';
 
-import settings from './settingsReducer';
-import thread from './threadReducer';
-import threads from './threadsReducer';
-
-const combinedReducer = combineReducers({
-    settings,
-    thread,
-    threads,
-    routing: routerReducer
+const rootReducer = combineReducers({
+  threads,
+  thread,
 });
 
-export default combinedReducer;
+export default rootReducer;

@@ -1,0 +1,22 @@
+.create-thread-form{
+  padding: 0 15%;
+  margin-bottom: 20px;
+
+  &__container{
+    padding: 20px;
+
+    .header{
+      font-weight: 300;
+      margin-top: 0;
+      text-align: center;
+    }
+
+    .post-text-input{
+      margin-bottom: 20px;
+    }
+
+    .submit-button-container{
+      text-align: center;
+    }
+  }
+}

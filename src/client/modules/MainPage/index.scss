@@ -1,0 +1,65 @@
+.main-page {
+  &__title {
+    font-weight: 300;
+    text-align: center;
+  }
+
+  &__source-link-container{
+    text-align: center;
+
+    a{
+      font-weight: 300;
+      font-size: 20px;
+      text-decoration: none;
+
+      &:visited {
+        color: black;
+      }
+
+      &:hover {
+        color: lighten(black, 50);
+      }
+    }
+
+    .fa{
+      margin-left: 5px;
+    }
+  }
+
+  &__under-construction{
+    font-weight: 300;
+    text-align: center;
+    .fa{
+      margin-left: 5px;
+      animation: under-construction-spin infinite 5s linear;
+    }
+  }
+
+  &__boards-list {
+    list-style: none;
+    text-align: center;
+    padding: 0;
+  
+    li {
+      margin: 0 10px;
+      display: inline-block;
+  
+      a {
+        text-decoration: none;
+  
+        &:visited {
+          color: black;
+        }
+  
+        &:hover {
+          color: lighten(black, 50);
+        }
+      }
+    }
+  }
+}
+
+@keyframes under-construction-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

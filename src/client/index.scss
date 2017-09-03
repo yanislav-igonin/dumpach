@@ -1,0 +1,17 @@
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+html {
+  // height: 100%;
+  background-image: url('/images/background.jpg');
+  background-color: rgba(255, 255, 255, .7);
+  background-blend-mode: overlay;
+  background-attachment: fixed;
+  padding: 10px;
+}
+
+body {
+  margin: 0;
+  height: 100%;
+}

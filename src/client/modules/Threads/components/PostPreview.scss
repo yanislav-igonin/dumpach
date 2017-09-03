@@ -1,0 +1,38 @@
+.post-preview-container {
+  .post-preview {
+    margin-bottom: 5px;
+    padding: 5px;
+    display: inline-block;
+
+    &__title{
+      display: inline-block;
+      margin: 0 0 5px 0;
+      font-weight: 500;
+    }
+
+    &__time {
+      display: inline-block;
+      margin: 0 10px 5px 0;
+    }
+    
+    &__id {
+      display: inline-block;
+      margin: 0 0 5px 0;
+    }
+
+    &__text {
+      margin: 0;
+    }
+
+    &__all-posts{
+      margin: 5px 0 0 0;
+      color: rgba(0, 0, 0, 0.50)
+    }
+  }
+
+  &:first-child > .post-preview {
+    background-color: rgba(0, 0, 0, 0);
+    box-shadow: none;
+    padding: 0;
+  }
+}

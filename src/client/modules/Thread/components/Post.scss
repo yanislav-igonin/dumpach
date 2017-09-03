@@ -1,0 +1,37 @@
+.post-container {
+  .post {
+    margin-bottom: 5px;
+    padding: 5px;
+    display: inline-block;
+
+    &__title{
+      display: inline-block;
+      margin: 0 0 5px 0;
+      font-weight: 500;
+    }
+
+    &__time {
+      display: inline-block;
+      margin: 0 10px 5px 0;
+    }
+
+    &__id {
+      display: inline-block;
+      margin: 0 10px 5px 0;
+    }
+    
+    &__index {
+      display: inline-block;
+      margin: 0 0 5px 0;
+    }
+
+    &__text {
+      margin: 0;
+    }
+  }
+
+  &:first-child > .post {
+    background-color: rgba(0, 0, 0, 0);
+    box-shadow: none;
+  }
+}
