@@ -10,9 +10,6 @@ const app = express();
 app
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }))
-  .use((req, res, next) => {
-    console.log(req);
-  })
   .use('/', router)
   .use(morgan('dev'));
 
