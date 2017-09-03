@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "engines": {
+    "node": "8.4.0"
+  },
   "scripts": {
     "server:dev": "NODE_ENV=development nodemon --watch src/server --inspect src/server/index.js",
     "server:prod": "NODE_ENV=production node src/server/index.js",
