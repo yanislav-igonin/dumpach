@@ -55,7 +55,12 @@ const createThread = async (db, post) => {
 };
 
 const answerInThread = async (db, threadId, post) => {
-  if (post.sage === false) {
+  const posts = await db.any(
+    'SELECT * FROM b_posts WHERE thread_id = $1 ORDER BY created_at ASC',
+    [threadId]
+  );
+
+  if (post.sage === false && posts.length < 500) {
     await db.query('UPDATE b_threads SET updated_at=DEFAULT WHERE id=$1', [
       threadId,
     ]);
