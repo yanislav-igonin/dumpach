@@ -8,7 +8,8 @@ const getThreads = async (db) => {
 
   await Promise.map(threads, async (thread) => {
     const posts = await db.any(
-      `SELECT * FROM b_posts WHERE b_posts.thread_id=${thread.id} ORDER BY created_at ASC`
+      `SELECT * FROM b_posts WHERE b_posts.thread_id=$1 ORDER BY created_at ASC`,
+      [thread.id]
     );
 
     if (posts.length > 2) {
@@ -48,7 +49,7 @@ const createThread = async (db, post) => {
     'SELECT * FROM b_threads ORDER BY updated_at DESC'
   );
 
-  if (threads.length > 50) {
+  if (threads.length > 49) {
     await deleteOldThreads(db);
   } else {
     console.log('threads: ', threads.length);
@@ -88,9 +89,8 @@ const answerInThread = async (db, threadId, post) => {
 };
 
 const deleteOldThreads = async (db) => {
-  console.log('deleteOldThreads');
   await db.query(
-    'DELETE FROM b_threads WHERE user_id=1 ORDER BY datetime DESC LIMIT 1'
+    'DELETE FROM b_threads WHERE id=(SELECT id FROM b_threads ORDER BY updated_at ASC LIMIT 1)'
   );
 };
 

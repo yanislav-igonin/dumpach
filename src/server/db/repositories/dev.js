@@ -44,9 +44,20 @@ const getThread = async (db, threadId) => {
 };
 
 const createThread = async (db, post) => {
+  const threads = await db.any(
+    'SELECT * FROM dev_threads ORDER BY updated_at DESC'
+  );
+
+  if (threads.length > 49) {
+    await deleteOldThreads(db);
+  } else {
+    console.log('threads: ', threads.length);
+  }
+
   const thread = await db.one(
     'INSERT INTO dev_threads DEFAULT VALUES RETURNING id'
   );
+
   await db.query(
     'INSERT INTO dev_posts(thread_id, title, text) VALUES($1, $2, $3)',
     [thread.id, post.title, post.text]
@@ -74,6 +85,12 @@ const answerInThread = async (db, threadId, post) => {
   const thread = await getThread(db, threadId);
 
   return thread;
+};
+
+const deleteOldThreads = async (db) => {
+  await db.query(
+    'DELETE FROM dev_threads WHERE id=(SELECT id FROM dev_threads ORDER BY updated_at ASC LIMIT 1)'
+  );
 };
 
 module.exports = {
