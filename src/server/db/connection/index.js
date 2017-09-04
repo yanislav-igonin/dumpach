@@ -25,14 +25,4 @@ const cn = {
 
 const db = pgp(cn);
 
-db
-  .connect()
-  .then((obj) => {
-    console.log('Database connected on port', config.db.port);
-    obj.done(); // success, release connection;
-  })
-  .catch((error) => {
-    console.log('ERROR:', error.message);
-  });
-
 module.exports = db;
