@@ -4,7 +4,6 @@ const dev = require('../../db/repositories/dev');
 
 module.exports = {
   async getThreads(req, res) {
-    console.log('boards');
     switch (req.params.boardId) {
       case 'b':
         res.send(await b.getThreads(db));

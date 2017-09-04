@@ -11,10 +11,6 @@ const app = express();
 app
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }))
-  .use((req, res, next) => {
-    console.log('index', new Date(Date.now()).toLocaleTimeString());
-    next();
-  })
   .use('/', router)
   .use(morgan('dev'));
 
