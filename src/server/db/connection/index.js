@@ -1,4 +1,18 @@
-const pgp = require('pg-promise')();
+const promise = require('bluebird');
+
+const options = {
+  promiseLib: promise,
+
+  error(error, e) {
+    if (e.cn) {
+      // A connection-related error;
+      console.log('CN:', e.cn);
+      console.log('EVENT:', error.message);
+    }
+  },
+};
+
+const pgp = require('pg-promise')(options);
 const config = require('../../../../config/config');
 
 const cn = {
@@ -10,5 +24,15 @@ const cn = {
 };
 
 const db = pgp(cn);
+
+db
+  .connect()
+  .then((obj) => {
+    console.log('Database connected on port', config.db.port);
+    obj.done(); // success, release connection;
+  })
+  .catch((error) => {
+    console.log('ERROR:', error.message);
+  });
 
 module.exports = db;
