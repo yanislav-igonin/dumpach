@@ -1,7 +1,7 @@
 .post-container {
   .post {
     margin-bottom: 5px;
-    padding: 5px;
+    padding: 10px;
     display: inline-block;
 
     &__title{
@@ -15,12 +15,19 @@
       margin: 0 10px 5px 0;
     }
 
-    &__id {
+    &__sage{
       display: inline-block;
+      color: red;
       margin: 0 10px 5px 0;
     }
     
     &__index {
+      display: inline-block;
+      color: #303f9f;
+      margin: 0 10px 5px 0;
+    }
+
+    &__id {
       display: inline-block;
       margin: 0 0 5px 0;
     }
