@@ -25,7 +25,7 @@ const getThreads = async (db) => {
     }
 
     thread.all_posts = posts.length;
-    
+
     threadsWithPosts.push(thread);
   });
 
@@ -44,9 +44,20 @@ const getThread = async (db, threadId) => {
 };
 
 const createThread = async (db, post) => {
+  const threads = await db.any(
+    'SELECT * FROM b_threads ORDER BY updated_at DESC'
+  );
+
+  if (threads.length > 50) {
+    await deleteOldThreads(db);
+  } else {
+    console.log('threads: ', threads.length);
+  }
+
   const thread = await db.one(
     'INSERT INTO b_threads DEFAULT VALUES RETURNING id'
   );
+
   await db.query(
     'INSERT INTO b_posts(thread_id, title, text) VALUES($1, $2, $3)',
     [thread.id, post.title, post.text]
@@ -74,6 +85,13 @@ const answerInThread = async (db, threadId, post) => {
   const thread = await getThread(db, threadId);
 
   return thread;
+};
+
+const deleteOldThreads = async (db) => {
+  console.log('deleteOldThreads');
+  await db.query(
+    'DELETE FROM b_threads WHERE user_id=1 ORDER BY datetime DESC LIMIT 1'
+  );
 };
 
 module.exports = {

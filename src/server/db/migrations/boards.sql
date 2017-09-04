@@ -11,7 +11,7 @@ CREATE TABLE b_threads (
 
 CREATE TABLE b_posts (
     id SERIAL PRIMARY KEY,
-    thread_id INT REFERENCES b_threads(id),
+    thread_id INT REFERENCES b_threads(id) ON DELETE CASCADE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     title TEXT,
     text TEXT,
@@ -26,7 +26,7 @@ CREATE TABLE dev_threads (
 
 CREATE TABLE dev_posts (
     id SERIAL PRIMARY KEY,
-    thread_id INT REFERENCES dev_threads(id),
+    thread_id INT REFERENCES dev_threads(id) ON DELETE CASCADE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     title TEXT,
     text TEXT,

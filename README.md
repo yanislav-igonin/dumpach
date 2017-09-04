@@ -9,7 +9,7 @@ Backend: Express, PostgreSQL
 
 ### TODO
 - [ ] Thread form cleaning after posting
-- [ ] Bump limit
+- [x] Bump limit
 - [ ] Threads deleting
 - [ ] UI [snackbar](https://material-ui-1dab0.firebaseapp.com/demos/snackbars/) for different error mesages
 - [ ] Markdown support
