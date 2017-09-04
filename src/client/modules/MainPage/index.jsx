@@ -9,7 +9,7 @@ const MainPage = ({ children }) => (
     <div className="main-page__source-link-container">
       <Link
         target="_blank"
-        to="https://github.com/yanislav-igonin/dumpach/tree/new-version"
+        to="https://github.com/yanislav-igonin/dumpach/tree/master"
       >
         Sources
         <i className="fa fa-github" aria-hidden="true" />
