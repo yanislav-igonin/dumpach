@@ -12,12 +12,12 @@ const getThreads = async (db) => {
       [thread.id]
     );
 
-    // await Promise.map(posts, async (post) => {
-    //   const files = await db.any(
-    //   `SELECT * FROM b_files WHERE b_files.post_id=$1 ORDER BY created_at ASC`,
-    //   [thread.id]
-    // );
-    // });
+    await Promise.map(posts, async (post) => {
+      post.files = await db.any(
+        `SELECT * FROM b_files WHERE b_files.post_id=$1`,
+        [post.id]
+      );
+    });
 
     if (posts.length > 2) {
       thread.posts = [
