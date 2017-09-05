@@ -37,3 +37,8 @@ CREATE TABLE dev_posts (
     text TEXT,
     sage BOOLEAN
 );
+
+CREATE TABLE dev_files (
+    post_id INT REFERENCES b_posts(id) ON DELETE CASCADE,
+    name TEXT PRIMARY KEY
+);

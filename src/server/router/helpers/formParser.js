@@ -11,7 +11,7 @@ const parseFormData = async (req) => {
   post.files = await files.map((file) => {
     const newFullFileName = `${config.app.uploadDir}/${boardId}/${file.path.split('/')[2]}`;
     file.pipe(fs.createWriteStream(newFullFileName));
-    return file.filename;
+    return file.path.split('/')[2];
   });
   
   return post;

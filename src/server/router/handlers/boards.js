@@ -48,9 +48,10 @@ module.exports = {
   },
 
   async answerInThread(req, res) {
+    const post = await formParser.parseFormData(req);
     switch (req.params.boardId) {
       case 'b':
-        res.send(await b.answerInThread(db, req.params.threadId, req.body));
+        res.send(await b.answerInThread(db, req.params.threadId, post));
         break;
       case 'dev':
         res.send(await dev.answerInThread(db, req.params.threadId, req.body));

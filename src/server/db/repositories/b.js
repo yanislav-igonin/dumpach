@@ -101,14 +101,19 @@ const answerInThread = async (db, threadId, post) => {
     ]);
   }
 
-  await db.query(
-    'INSERT INTO b_posts(thread_id, title, text, sage) VALUES($1, $2, $3, $4)',
+  const postId = await db.one(
+    'INSERT INTO b_posts(thread_id, title, text, sage) VALUES($1, $2, $3, $4) RETURNING id',
     [threadId, post.title, post.text, post.sage]
   );
 
-  const thread = await getThread(db, threadId);
+  await post.files.forEach(async (file) => {
+    await db.query('INSERT INTO b_files(post_id, name) VALUES($1, $2)', [
+      postId.id,
+      file,
+    ]);
+  });
 
-  return thread;
+  return await getThread(db, threadId);
 };
 
 const deleteOldThreads = async (db) => {
