@@ -9,15 +9,22 @@ const db = require('./db/connection');
 
 const app = express();
 
-if (!fs.existsSync(config.app.uploadDir)) {
-    fs.mkdirSync(config.app.uploadDir);
-    console.log('Uploads dir created');
-}
+const boards = ['b', 'dev'];
 
-if (!fs.existsSync(config.app.uploadDirThumbs)) {
-    fs.mkdirSync(config.app.uploadDirThumbs);
-    console.log('Uploads thumbs dir created');
+if (!fs.existsSync(config.app.uploadDir)) {
+  fs.mkdirSync(config.app.uploadDir);
+  console.log('uploads dir created');
 }
+boards.forEach((board) => {
+  if (!fs.existsSync(`${config.app.uploadDir}/${board}`)) {
+    fs.mkdirSync(`${config.app.uploadDir}/${board}`);
+    console.log(board, 'uploads dir created');
+  }
+  if (!fs.existsSync(`${config.app.uploadDir}/${board}/thumbs`)) {
+    fs.mkdirSync(`${config.app.uploadDir}/${board}/thumbs`);
+    console.log(board, 'uploads thumbs dir created');
+  }
+});
 
 app
   .use(bodyParser.json())
@@ -30,7 +37,7 @@ db
   .then((cn) => {
     console.log('Database connected on port', config.db.port);
     cn.done(); // success, release connection;
-    
+
     app.listen(config.app.port, () => {
       console.log('Server listening port %d', config.app.port);
     });

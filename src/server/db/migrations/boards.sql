@@ -19,9 +19,8 @@ CREATE TABLE b_posts (
 );
 
 CREATE TABLE b_files (
-    id SERIAL PRIMARY KEY,
     post_id INT REFERENCES b_posts(id) ON DELETE CASCADE,
-    name TEXT
+    name TEXT PRIMARY KEY
 );
 
 CREATE TABLE dev_threads (

@@ -4,11 +4,12 @@ const asyncBusboy = require('async-busboy');
 const config = require('../../../../config/config.js');
 
 const parseFormData = async (req) => {
+  const { boardId } = req.params;
   const { fields, files } = await asyncBusboy(req);
   const post = fields;
 
   post.files = await files.map((file) => {
-    const newFullFileName = `${config.app.uploadDir}/${file.path.split('/')[2]}`;
+    const newFullFileName = `${config.app.uploadDir}/${boardId}/${file.path.split('/')[2]}`;
     file.pipe(fs.createWriteStream(newFullFileName));
     return file.filename;
   });
