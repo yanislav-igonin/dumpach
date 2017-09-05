@@ -12,6 +12,13 @@ const getThreads = async (db) => {
       [thread.id]
     );
 
+    await Promise.map(posts, async (post) => {
+      post.files = await db.any(
+        `SELECT * FROM b_files WHERE b_files.post_id=$1`,
+        [post.id]
+      );
+    });
+
     if (posts.length > 2) {
       thread.posts = [
         posts[0],
@@ -41,6 +48,14 @@ const getThread = async (db, threadId) => {
     'SELECT * FROM b_posts WHERE thread_id = $1 ORDER BY created_at ASC',
     [threadId]
   );
+
+  await Promise.map(thread.posts, async (post) => {
+    post.files = await db.any(
+      `SELECT * FROM b_files WHERE b_files.post_id=$1`,
+      [post.id]
+    );
+  });
+
   return thread;
 };
 
@@ -59,10 +74,18 @@ const createThread = async (db, post) => {
     'INSERT INTO b_threads DEFAULT VALUES RETURNING id'
   );
 
-  await db.query(
-    'INSERT INTO b_posts(thread_id, title, text) VALUES($1, $2, $3)',
+  const postId = await db.one(
+    'INSERT INTO b_posts(thread_id, title, text) VALUES($1, $2, $3) RETURNING id',
     [thread.id, post.title, post.text]
   );
+
+  await post.files.forEach(async (file) => {
+    await db.query('INSERT INTO b_files(post_id, name) VALUES($1, $2)', [
+      postId.id,
+      file,
+    ]);
+  });
+
   return thread.id;
 };
 
@@ -78,14 +101,19 @@ const answerInThread = async (db, threadId, post) => {
     ]);
   }
 
-  await db.query(
-    'INSERT INTO b_posts(thread_id, title, text, sage) VALUES($1, $2, $3, $4)',
+  const postId = await db.one(
+    'INSERT INTO b_posts(thread_id, title, text, sage) VALUES($1, $2, $3, $4) RETURNING id',
     [threadId, post.title, post.text, post.sage]
   );
 
-  const thread = await getThread(db, threadId);
+  await post.files.forEach(async (file) => {
+    await db.query('INSERT INTO b_files(post_id, name) VALUES($1, $2)', [
+      postId.id,
+      file,
+    ]);
+  });
 
-  return thread;
+  return await getThread(db, threadId);
 };
 
 const deleteOldThreads = async (db) => {
