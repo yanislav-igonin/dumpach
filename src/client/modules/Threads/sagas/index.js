@@ -24,17 +24,17 @@ function* getThreads(action) {
   }
 }
 
-function* createThread(action) {
+function* createThread({ boardId, thread }) {
   try {
     // const headers = new Headers();
     // headers.append('Content-Type', 'application/json');
     // headers.append('Accept', 'application/json, text/plain, */*');
     const formData = new FormData();
-    formData.append('title', action.thread.title);
-    formData.append('text', action.thread.text);
-    formData.append('files', action.thread.files);
+    formData.append('title', thread.title);
+    formData.append('text', thread.text);
+    formData.append('files', thread.files);
 
-    const threadId = yield fetch(`/api/boards/${action.boardId}`, {
+    const threadId = yield fetch(`/api/boards/${boardId}`, {
       method: 'POST',
       // headers,
       body: formData,
