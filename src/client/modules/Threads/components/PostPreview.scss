@@ -20,6 +20,17 @@
       margin: 0 0 5px 0;
     }
 
+    &__files{
+      .file-preview{
+        display: inline-block;
+
+        &__file{
+          max-height: 200px;
+          max-width: 200px;
+        }
+      }
+    }
+
     &__text {
       margin: 0;
     }

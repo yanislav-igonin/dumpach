@@ -15,7 +15,7 @@ const Threads = ({ children, params, dispatch, threads }) => (
     />
 
     {threads.map(thread => (
-      <ThreadPreview thread={thread} key={location.pathname + thread.id} />
+      <ThreadPreview thread={thread} boardId={params.boardId} key={location.pathname + thread.id} />
     ))}
   </div>
 );
