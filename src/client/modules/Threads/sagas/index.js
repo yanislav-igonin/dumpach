@@ -32,7 +32,9 @@ function* createThread({ boardId, thread }) {
     const formData = new FormData();
     formData.append('title', thread.title);
     formData.append('text', thread.text);
-    formData.append('files', thread.files);
+    thread.files.forEach((file) => {
+      formData.append('files', file, file.name);
+    });
 
     const threadId = yield fetch(`/api/boards/${boardId}`, {
       method: 'POST',

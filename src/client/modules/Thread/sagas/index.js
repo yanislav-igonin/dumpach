@@ -32,7 +32,9 @@ function* answerInThread({ boardId, threadId, post }) {
     formData.append('title', post.title);
     formData.append('text', post.text);
     formData.append('sage', post.sage);
-    formData.append('files', post.files);
+    post.files.forEach((file) => {
+      formData.append('files', file, file.name);
+    });
 
     const thread = yield fetch(`/api/boards/${boardId}/${threadId}`, {
       method: 'POST',
