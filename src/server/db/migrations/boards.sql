@@ -18,6 +18,12 @@ CREATE TABLE b_posts (
     sage BOOLEAN
 );
 
+CREATE TABLE b_files (
+    id SERIAL PRIMARY KEY,
+    post_id INT REFERENCES b_posts(id) ON DELETE CASCADE,
+    name TEXT
+);
+
 CREATE TABLE dev_threads (
     id SERIAL PRIMARY KEY,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),

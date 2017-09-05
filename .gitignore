@@ -58,3 +58,5 @@ typings/
 .env
 
 public/dist
+public/upload
+public/upload_thumbs

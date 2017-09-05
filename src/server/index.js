@@ -1,4 +1,5 @@
 const express = require('express');
+const fs = require('fs');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
@@ -7,6 +8,16 @@ const router = require('./router');
 const db = require('./db/connection');
 
 const app = express();
+
+if (!fs.existsSync(config.app.uploadDir)) {
+    fs.mkdirSync(config.app.uploadDir);
+    console.log('Uploads dir created');
+}
+
+if (!fs.existsSync(config.app.uploadDirThumbs)) {
+    fs.mkdirSync(config.app.uploadDirThumbs);
+    console.log('Uploads thumbs dir created');
+}
 
 app
   .use(bodyParser.json())
