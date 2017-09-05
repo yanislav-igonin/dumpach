@@ -2,12 +2,14 @@ import React from 'react';
 
 import Post from './Post';
 
-const ThreadContainer = ({ thread }) => (
+const ThreadContainer = ({ thread, boardId }) => (
   <div className="thread-conatiner">
     {thread.get('posts') !== undefined ? (
       thread
         .get('posts')
-        .map((post, index) => <Post post={post} index={index} key={post.id} />)
+        .map((post, index) => (
+          <Post boardId={boardId} post={post} index={index} key={post.id} />
+        ))
     ) : null}
   </div>
 );

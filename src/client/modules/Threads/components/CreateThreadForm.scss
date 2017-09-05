@@ -15,6 +15,28 @@
       margin-bottom: 20px;
     }
 
+    .dropzone{
+      width: calc(100% - 4px);
+      border: 2px dashed #ccc;
+      border-radius: 5;
+      text-align: center;
+      padding: 40px 0;
+      position: relative;
+      margin-bottom: 20px;
+
+      &__content {    
+
+        .file-preview-container{
+            display: inline-block;
+
+            .file-preview{
+                max-width: 100px;
+                max-height: 100px;
+            }
+        }
+      }
+    }
+
     .submit-button-container{
       text-align: center;
     }

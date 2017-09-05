@@ -25,14 +25,21 @@ function* getThread({ boardId, threadId }) {
 
 function* answerInThread({ boardId, threadId, post }) {
   try {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    headers.append('Accept', 'application/json, text/plain, */*');
+    // const headers = new Headers();
+    // headers.append('Content-Type', 'application/json');
+    // headers.append('Accept', 'application/json, text/plain, */*');
+    const formData = new FormData();
+    formData.append('title', post.title);
+    formData.append('text', post.text);
+    formData.append('sage', post.sage);
+    post.files.forEach((file) => {
+      formData.append('files', file, file.name);
+    });
 
     const thread = yield fetch(`/api/boards/${boardId}/${threadId}`, {
       method: 'POST',
-      headers,
-      body: JSON.stringify(post),
+      // headers,
+      body: formData,
     })
       .then(res => res.json())
       .catch((err) => {

@@ -1,4 +1,5 @@
 const db = require('../../db/connection/');
+const formParser = require('../helpers/formParser');
 const b = require('../../db/repositories/b');
 const dev = require('../../db/repositories/dev');
 
@@ -32,12 +33,13 @@ module.exports = {
   },
 
   async createThread(req, res) {
+    const post = await formParser.parseFormData(req);
     switch (req.params.boardId) {
       case 'b':
-        res.send((await b.createThread(db, req.body)).toString());
+        res.send((await b.createThread(db, post)).toString());
         break;
       case 'dev':
-        res.send((await dev.createThread(db, req.body)).toString());
+        res.send((await dev.createThread(db, post)).toString());
         break;
       default:
         res.sendStatus(404);
@@ -46,9 +48,10 @@ module.exports = {
   },
 
   async answerInThread(req, res) {
+    const post = await formParser.parseFormData(req);
     switch (req.params.boardId) {
       case 'b':
-        res.send(await b.answerInThread(db, req.params.threadId, req.body));
+        res.send(await b.answerInThread(db, req.params.threadId, post));
         break;
       case 'dev':
         res.send(await dev.answerInThread(db, req.params.threadId, req.body));

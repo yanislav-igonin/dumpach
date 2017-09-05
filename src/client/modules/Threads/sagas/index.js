@@ -24,16 +24,22 @@ function* getThreads(action) {
   }
 }
 
-function* createThread(action) {
+function* createThread({ boardId, thread }) {
   try {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    headers.append('Accept', 'application/json, text/plain, */*');
+    // const headers = new Headers();
+    // headers.append('Content-Type', 'application/json');
+    // headers.append('Accept', 'application/json, text/plain, */*');
+    const formData = new FormData();
+    formData.append('title', thread.title);
+    formData.append('text', thread.text);
+    thread.files.forEach((file) => {
+      formData.append('files', file, file.name);
+    });
 
-    const threadId = yield fetch(`/api/boards/${action.boardId}`, {
+    const threadId = yield fetch(`/api/boards/${boardId}`, {
       method: 'POST',
-      headers,
-      body: JSON.stringify(action.thread),
+      // headers,
+      body: formData,
     })
       .then(res => res.json())
       .catch((err) => {

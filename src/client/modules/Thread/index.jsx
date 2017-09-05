@@ -14,7 +14,7 @@ const Thread = ({ params, dispatch, thread }) => (
         dispatch(answerInThread(params, post));
       }}
     />
-    <ThreadContainer thread={thread} />
+    <ThreadContainer thread={thread} boardId={params.boardId} />
 
     <Button color="primary" onClick={() => dispatch(getThread(params))}>
       Update thread

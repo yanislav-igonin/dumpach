@@ -4,6 +4,7 @@ import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
 import { FormControlLabel } from 'material-ui/Form';
 import Button from 'material-ui/Button';
+import Dropzone from 'react-dropzone';
 
 import './AnswerIntThreadForm.scss';
 
@@ -15,10 +16,12 @@ class CreateThreadForm extends React.PureComponent {
       title: '',
       text: '',
       sage: false,
+      files: [],
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+    this.handleDrop = this.handleDrop.bind(this);
   }
 
   handleInputChange(event) {
@@ -27,6 +30,28 @@ class CreateThreadForm extends React.PureComponent {
 
   handleCheckboxChange(event, checked) {
     this.setState({ [event.target.name]: checked });
+  }
+
+  handleDrop(acceptedFiles, rejectedFiles) {
+    this.setState({ files: acceptedFiles });
+  }
+
+  renderDropzoneContent() {
+    let content = <i className="material-icons">attach_file</i>;
+
+    if (this.state.files.length > 0) {
+      content = this.renderDropzoneFilesPreview();
+    }
+
+    return content;
+  }
+
+  renderDropzoneFilesPreview() {
+    return this.state.files.map(file => (
+      <div key={file.preview} className="file-preview-container">
+        <img className="file-preview" src={file.preview} alt="file-preview" />
+      </div>
+    ));
   }
 
   render() {
@@ -57,6 +82,15 @@ class CreateThreadForm extends React.PureComponent {
               multiline
               className="post-text-input"
             />
+            <Dropzone
+              className="dropzone"
+              accept={'image/*'}
+              onDrop={this.handleDrop}
+            >
+              <div className="dropzone__content">
+                {this.renderDropzoneContent()}
+              </div>
+            </Dropzone>
             <FormControlLabel
               control={
                 <Checkbox
@@ -68,11 +102,7 @@ class CreateThreadForm extends React.PureComponent {
               label="Sage"
             />
             <div className="submit-button-container">
-              <Button
-                type="submit"
-                raised
-                color="primary"
-              >
+              <Button type="submit" raised color="primary">
                 Answer in thread
               </Button>
             </div>
