@@ -8,19 +8,14 @@ const parseFormData = async (req) => {
   const { fields, files } = await asyncBusboy(req);
   const post = fields;
 
-  post.files = await files.map(async (file) => {
-    const newFullFileName = `${config.app
-      .uploadDir}/${boardId}/${file.path.split('/')[2]}`;
-    file.pipe(fs.createWriteStream(newFullFileName));
-    // const stream = file.pipe(fs.createWriteStream(newFullFileName));
-    // stream.on('finish', () => {
-    //   thumbsMaker.makeImageThumb(`${config.app.uploadDir}/${boardId}`, file.path.split('/')[2]);
-    // });
-
+  post.files = await files.map((file) => {
+    const newFullFileName = `${config.app.uploadDir}/${boardId}/${file.path.split('/')[2]}`;
+    file.pipe(fs.createWriteStream(newFullFileName))
+      .on('finish', () => {
+        thumbsMaker.makeImageThumb(`${config.app.uploadDir}/${boardId}`, file.path.split('/')[2]);
+      });
     return file.path.split('/')[2];
   });
-
-  debugger;
   return post;
 };
 
