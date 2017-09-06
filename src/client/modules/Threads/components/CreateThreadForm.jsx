@@ -4,6 +4,8 @@ import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import Dropzone from 'react-dropzone';
 
+import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/actions';
+
 import './CreateThreadForm.scss';
 
 class CreateThreadForm extends React.PureComponent {
@@ -30,11 +32,21 @@ class CreateThreadForm extends React.PureComponent {
   }
 
   handleSubmit(event) {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, dispatch } = this.props;
     const { text, files } = this.state;
     event.preventDefault();
     if (text === '' && files.length === 0) {
-      // error
+      dispatch({
+        type: OPEN_SNACKBAR,
+        message: 'Post text or files can\'t be empty',
+      });
+      setTimeout(
+        () =>
+          dispatch({
+            type: CLOSE_SNACKBAR,
+          }),
+        5000
+      );
     } else {
       handleSubmit(this.state);
     }

@@ -47,13 +47,13 @@ class CreateThreadForm extends React.PureComponent {
     if (text === '' && files.length === 0) {
       dispatch({
         type: OPEN_SNACKBAR,
-        message: 'Post text or files cant be empty',
+        message: 'Post text or files can\'t be empty',
       });
-      setTimeout(() =>
-        dispatch({
-          type: CLOSE_SNACKBAR,
-          message: 'Post text or files cant be empty',
-        }),
+      setTimeout(
+        () =>
+          dispatch({
+            type: CLOSE_SNACKBAR,
+          }),
         5000
       );
     } else {
