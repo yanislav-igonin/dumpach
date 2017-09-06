@@ -50,6 +50,9 @@ function* answerInThread({ boardId, threadId, post, callback }) {
 
     yield call(callback);
     yield put({ type: ANSWER_IN_THREAD_SUCCEEDED, thread });
+    yield put({ type: OPEN_SNACKBAR, message: 'Answer posted' });
+    yield delay(5000);
+    yield put({ type: CLOSE_SNACKBAR });
   } catch (e) {
     yield put({ type: ANSWER_IN_THREAD_FAILED, message: e.message });
     yield put({ type: OPEN_SNACKBAR, message: 'Can\'t answer in thread' });

@@ -51,6 +51,9 @@ function* createThread({ boardId, thread }) {
     yield browserHistory.replace(`${window.location.href}/${threadId}`);
 
     yield put({ type: CREATE_THREAD_SUCCEEDED });
+    yield put({ type: OPEN_SNACKBAR, message: 'Thread created' });
+    yield delay(5000);
+    yield put({ type: CLOSE_SNACKBAR });
   } catch (e) {
     yield put({ type: CREATE_THREAD_FAILED, message: e.message });
     yield put({ type: OPEN_SNACKBAR, message: 'Can\'t create thread' });
