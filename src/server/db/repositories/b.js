@@ -95,7 +95,7 @@ const answerInThread = async (db, threadId, post) => {
     [threadId]
   );
 
-  if (post.sage === false && posts.length < 500) {
+  if (post.sage === 'false' && posts.length < 500) {
     await db.query('UPDATE b_threads SET updated_at=DEFAULT WHERE id=$1', [
       threadId,
     ]);
