@@ -35,7 +35,6 @@ function* createThread({ boardId, thread }) {
 
     const threadId = yield fetch(`/api/boards/${boardId}`, {
       method: 'POST',
-      // headers,
       body: formData,
     })
       .then(res => res.json())

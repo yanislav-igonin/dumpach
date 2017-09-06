@@ -35,7 +35,6 @@ function* answerInThread({ boardId, threadId, post, callback }) {
 
     const thread = yield fetch(`/api/boards/${boardId}/${threadId}`, {
       method: 'POST',
-      // headers,
       body: formData,
     })
       .then(res => res.json())
@@ -43,7 +42,6 @@ function* answerInThread({ boardId, threadId, post, callback }) {
         throw { message: err.message };
       });
 
-    debugger
     yield call(callback);
     yield put({ type: ANSWER_IN_THREAD_SUCCEEDED, thread });
   } catch (e) {

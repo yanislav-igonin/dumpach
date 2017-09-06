@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+import Snackbar from '../Snackbar';
+
 import './index.scss';
 
 const MainPage = ({ children }) => (
@@ -30,6 +32,8 @@ const MainPage = ({ children }) => (
     </ul>
 
     {children}
+
+    <Snackbar />
   </div>
 );
 
