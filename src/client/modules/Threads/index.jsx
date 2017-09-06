@@ -9,13 +9,18 @@ const Threads = ({ children, params, dispatch, threads }) => (
   <div className="threads">
     <h1 className="main-page__title">{location.pathname}</h1>
     <CreateThreadForm
+      dispatch={dispatch}
       handleSubmit={(thread) => {
         dispatch(createThread(params.boardId, thread));
       }}
     />
 
     {threads.map(thread => (
-      <ThreadPreview thread={thread} boardId={params.boardId} key={location.pathname + thread.id} />
+      <ThreadPreview
+        thread={thread}
+        boardId={params.boardId}
+        key={location.pathname + thread.id}
+      />
     ))}
   </div>
 );

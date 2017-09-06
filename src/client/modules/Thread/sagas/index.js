@@ -1,4 +1,5 @@
 import { put, call, takeEvery } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
 
 import {
   GET_THREAD,
@@ -8,6 +9,8 @@ import {
   ANSWER_IN_THREAD_SUCCEEDED,
   ANSWER_IN_THREAD_FAILED,
 } from '../actions';
+
+import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/actions';
 
 function* getThread({ boardId, threadId }) {
   try {
@@ -20,6 +23,9 @@ function* getThread({ boardId, threadId }) {
     yield put({ type: GET_THREAD_SUCCEEDED, thread });
   } catch (e) {
     yield put({ type: GET_THREAD_FAILED, message: e.message });
+    yield put({ type: OPEN_SNACKBAR, message: 'Can\'t get thread' });
+    yield delay(5000);
+    yield put({ type: CLOSE_SNACKBAR });
   }
 }
 
@@ -35,7 +41,6 @@ function* answerInThread({ boardId, threadId, post, callback }) {
 
     const thread = yield fetch(`/api/boards/${boardId}/${threadId}`, {
       method: 'POST',
-      // headers,
       body: formData,
     })
       .then(res => res.json())
@@ -43,11 +48,16 @@ function* answerInThread({ boardId, threadId, post, callback }) {
         throw { message: err.message };
       });
 
-    debugger
     yield call(callback);
     yield put({ type: ANSWER_IN_THREAD_SUCCEEDED, thread });
+    yield put({ type: OPEN_SNACKBAR, message: 'Answer posted' });
+    yield delay(5000);
+    yield put({ type: CLOSE_SNACKBAR });
   } catch (e) {
     yield put({ type: ANSWER_IN_THREAD_FAILED, message: e.message });
+    yield put({ type: OPEN_SNACKBAR, message: 'Can\'t answer in thread' });
+    yield delay(5000);
+    yield put({ type: CLOSE_SNACKBAR });
   }
 }
 

@@ -1,4 +1,5 @@
 import { put, takeLatest } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
 import { browserHistory } from 'react-router';
 
 import {
@@ -9,6 +10,8 @@ import {
   CREATE_THREAD_SUCCEEDED,
   CREATE_THREAD_FAILED,
 } from '../actions';
+
+import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/actions';
 
 function* getThreads(action) {
   try {
@@ -21,6 +24,9 @@ function* getThreads(action) {
     yield put({ type: GET_THREADS_SUCCEEDED, threads });
   } catch (e) {
     yield put({ type: GET_THREADS_FAILED, message: e.message });
+    yield put({ type: OPEN_SNACKBAR, message: 'Can\'t get threads' });
+    yield delay(5000);
+    yield put({ type: CLOSE_SNACKBAR });
   }
 }
 
@@ -35,7 +41,6 @@ function* createThread({ boardId, thread }) {
 
     const threadId = yield fetch(`/api/boards/${boardId}`, {
       method: 'POST',
-      // headers,
       body: formData,
     })
       .then(res => res.json())
@@ -46,8 +51,14 @@ function* createThread({ boardId, thread }) {
     yield browserHistory.replace(`${window.location.href}/${threadId}`);
 
     yield put({ type: CREATE_THREAD_SUCCEEDED });
+    yield put({ type: OPEN_SNACKBAR, message: 'Thread created' });
+    yield delay(5000);
+    yield put({ type: CLOSE_SNACKBAR });
   } catch (e) {
     yield put({ type: CREATE_THREAD_FAILED, message: e.message });
+    yield put({ type: OPEN_SNACKBAR, message: 'Can\'t create thread' });
+    yield delay(5000);
+    yield put({ type: CLOSE_SNACKBAR });
   }
 }
 

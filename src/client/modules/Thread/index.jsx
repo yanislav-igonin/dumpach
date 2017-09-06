@@ -10,6 +10,7 @@ const Thread = ({ params, dispatch, thread }) => (
   <div className="thread">
     <h1 className="main-page__title">{location.pathname}</h1>
     <AnswerIntThreadForm
+      dispatch={dispatch}
       handleSubmit={(post, callback) => {
         dispatch(answerInThread(params, post, callback));
       }}
