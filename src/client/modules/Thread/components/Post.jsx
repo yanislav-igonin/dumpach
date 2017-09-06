@@ -34,11 +34,13 @@ const Post = ({ post, index, boardId }) => (
         </div>
       ) : null}
 
-      {post.text.split('\n').map(row => (
-        <p className="post__text" key={row}>
-          {row}
-        </p>
-      ))}
+      {post.text !== null || post.text !== '' ? (
+        post.text.split('\n').map(row => (
+          <p className="post-__text" key={row}>
+            {row}
+          </p>
+        ))
+      ) : null}
     </Paper>
   </div>
 );
