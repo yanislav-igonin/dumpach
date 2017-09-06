@@ -10,7 +10,7 @@ const Post = ({ post, index, boardId }) => (
       <p className="post__title">{post.title}</p>
       <p
         className="post__time"
-        style={post.title !== '' ? { marginLeft: 5 } : null}
+        style={post.title !== '' || post.title === null ? { marginLeft: 5 } : null}
       >
         {new Date(post.created_at).toLocaleTimeString()}
       </p>
@@ -36,7 +36,7 @@ const Post = ({ post, index, boardId }) => (
 
       {post.text !== null && post.text !== '' ? (
         post.text.split('\n').map(row => (
-          <p className="post-__text" key={row}>
+          <p className="post__text" key={row}>
             {row}
           </p>
         ))

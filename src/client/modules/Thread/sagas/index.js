@@ -1,4 +1,5 @@
-import { put, takeEvery } from 'redux-saga/effects';
+import { put, call, takeEvery } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
 
 import {
   GET_THREAD,
@@ -8,6 +9,8 @@ import {
   ANSWER_IN_THREAD_SUCCEEDED,
   ANSWER_IN_THREAD_FAILED,
 } from '../actions';
+
+import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/actions';
 
 function* getThread({ boardId, threadId }) {
   try {
@@ -20,14 +23,14 @@ function* getThread({ boardId, threadId }) {
     yield put({ type: GET_THREAD_SUCCEEDED, thread });
   } catch (e) {
     yield put({ type: GET_THREAD_FAILED, message: e.message });
+    yield put({ type: OPEN_SNACKBAR, message: 'Can\'t get thread' });
+    yield delay(5000);
+    yield put({ type: CLOSE_SNACKBAR });
   }
 }
 
-function* answerInThread({ boardId, threadId, post }) {
+function* answerInThread({ boardId, threadId, post, callback }) {
   try {
-    // const headers = new Headers();
-    // headers.append('Content-Type', 'application/json');
-    // headers.append('Accept', 'application/json, text/plain, */*');
     const formData = new FormData();
     formData.append('title', post.title);
     formData.append('text', post.text);
@@ -38,7 +41,6 @@ function* answerInThread({ boardId, threadId, post }) {
 
     const thread = yield fetch(`/api/boards/${boardId}/${threadId}`, {
       method: 'POST',
-      // headers,
       body: formData,
     })
       .then(res => res.json())
@@ -46,9 +48,16 @@ function* answerInThread({ boardId, threadId, post }) {
         throw { message: err.message };
       });
 
+    yield call(callback);
     yield put({ type: ANSWER_IN_THREAD_SUCCEEDED, thread });
+    yield put({ type: OPEN_SNACKBAR, message: 'Answer posted' });
+    yield delay(5000);
+    yield put({ type: CLOSE_SNACKBAR });
   } catch (e) {
     yield put({ type: ANSWER_IN_THREAD_FAILED, message: e.message });
+    yield put({ type: OPEN_SNACKBAR, message: 'Can\'t answer in thread' });
+    yield delay(5000);
+    yield put({ type: CLOSE_SNACKBAR });
   }
 }
 

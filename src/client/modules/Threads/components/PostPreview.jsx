@@ -10,7 +10,7 @@ const PostPreview = ({ post, index, boardId, threadId, allPosts }) => (
       <p className="post-preview__title">{post.title}</p>
       <p
         className="post-preview__time"
-        style={post.title !== '' ? { marginLeft: 5 } : null}
+        style={post.title !== '' || post.title === null ? { marginLeft: 5 } : null}
       >
         {new Date(post.created_at).toLocaleTimeString()}
       </p>
