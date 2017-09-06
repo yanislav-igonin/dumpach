@@ -26,9 +26,6 @@ function* getThreads(action) {
 
 function* createThread({ boardId, thread }) {
   try {
-    // const headers = new Headers();
-    // headers.append('Content-Type', 'application/json');
-    // headers.append('Accept', 'application/json, text/plain, */*');
     const formData = new FormData();
     formData.append('title', thread.title);
     formData.append('text', thread.text);

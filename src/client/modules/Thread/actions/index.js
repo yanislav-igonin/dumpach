@@ -12,9 +12,10 @@ export const getThread = ({ boardId, threadId }) => ({
   threadId,
 });
 
-export const answerInThread = ({ boardId, threadId }, post) => ({
+export const answerInThread = ({ boardId, threadId }, post, callback) => ({
   type: ANSWER_IN_THREAD,
   boardId,
   threadId,
   post,
+  callback,
 });

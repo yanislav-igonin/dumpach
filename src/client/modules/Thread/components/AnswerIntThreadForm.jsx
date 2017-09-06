@@ -23,6 +23,7 @@ class CreateThreadForm extends React.PureComponent {
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.handleDrop = this.handleDrop.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.clearForm = this.clearForm.bind(this);
   }
 
   handleInputChange(event) {
@@ -44,8 +45,17 @@ class CreateThreadForm extends React.PureComponent {
     if (text === '' && files.length === 0) {
       // error
     } else {
-      handleSubmit(this.state);
+      handleSubmit(this.state, this.clearForm);
     }
+  }
+
+  clearForm() {
+    this.setState({
+      title: '',
+      text: '',
+      sage: false,
+      files: [],
+    });
   }
 
   renderDropzoneContent() {
@@ -75,6 +85,7 @@ class CreateThreadForm extends React.PureComponent {
             <TextField
               name="title"
               label="Title"
+              value={this.state.title}
               onChange={this.handleInputChange}
               fullWidth
               className="post-text-input"
@@ -82,6 +93,7 @@ class CreateThreadForm extends React.PureComponent {
             <TextField
               name="text"
               label="Post"
+              value={this.state.text}
               onChange={this.handleInputChange}
               fullWidth
               multiline
