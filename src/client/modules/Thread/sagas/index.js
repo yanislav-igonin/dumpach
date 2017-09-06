@@ -1,4 +1,4 @@
-import { put, takeEvery } from 'redux-saga/effects';
+import { put, call, takeEvery } from 'redux-saga/effects';
 
 import {
   GET_THREAD,
@@ -23,11 +23,8 @@ function* getThread({ boardId, threadId }) {
   }
 }
 
-function* answerInThread({ boardId, threadId, post }) {
+function* answerInThread({ boardId, threadId, post, callback }) {
   try {
-    // const headers = new Headers();
-    // headers.append('Content-Type', 'application/json');
-    // headers.append('Accept', 'application/json, text/plain, */*');
     const formData = new FormData();
     formData.append('title', post.title);
     formData.append('text', post.text);
@@ -46,6 +43,8 @@ function* answerInThread({ boardId, threadId, post }) {
         throw { message: err.message };
       });
 
+    debugger
+    yield call(callback);
     yield put({ type: ANSWER_IN_THREAD_SUCCEEDED, thread });
   } catch (e) {
     yield put({ type: ANSWER_IN_THREAD_FAILED, message: e.message });

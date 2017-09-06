@@ -18,6 +18,7 @@ class CreateThreadForm extends React.PureComponent {
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleDrop = this.handleDrop.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleInputChange(event) {
@@ -25,7 +26,18 @@ class CreateThreadForm extends React.PureComponent {
   }
 
   handleDrop(acceptedFiles, rejectedFiles) {
-    this.setState({ files: acceptedFiles });
+    this.setState({ files: acceptedFiles.slice(0, 6) });
+  }
+
+  handleSubmit(event) {
+    const { handleSubmit } = this.props;
+    const { text, files } = this.state;
+    event.preventDefault();
+    if (text === '' && files.length === 0) {
+      // error
+    } else {
+      handleSubmit(this.state);
+    }
   }
 
   renderDropzoneContent() {
@@ -47,17 +59,10 @@ class CreateThreadForm extends React.PureComponent {
   }
 
   render() {
-    const { handleSubmit } = this.props;
-
     return (
       <div className="create-thread-form">
         <Paper className="create-thread-form__container">
-          <form
-            onSubmit={(event) => {
-              event.preventDefault();
-              handleSubmit(this.state);
-            }}
-          >
+          <form onSubmit={this.handleSubmit}>
             <h3 className="header">Take a dump, please</h3>
             <TextField
               name="title"
