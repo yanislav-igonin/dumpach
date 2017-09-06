@@ -41,11 +41,13 @@ const PostPreview = ({ post, index, boardId, threadId, allPosts }) => (
         </div>
       ) : null}
 
-      {post.text.split('\n').map(row => (
-        <p className="post-preview__text" key={row}>
-          {row}
-        </p>
-      ))}
+      {post.text !== null || post.text !== '' ? (
+        post.text.split('\n').map(row => (
+          <p className="post-preview__text" key={row}>
+            {row}
+          </p>
+        ))
+      ) : null}
 
       {index === 0 ? (
         <p className="post-preview__all-posts">All posts: {allPosts}</p>
