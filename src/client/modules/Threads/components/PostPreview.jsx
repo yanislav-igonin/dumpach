@@ -41,7 +41,7 @@ const PostPreview = ({ post, index, boardId, threadId, allPosts }) => (
         </div>
       ) : null}
 
-      {post.text !== null || post.text !== '' ? (
+      {post.text !== null && post.text !== '' ? (
         post.text.split('\n').map(row => (
           <p className="post-preview__text" key={row}>
             {row}
