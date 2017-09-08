@@ -115,6 +115,7 @@ class CreateThreadForm extends React.PureComponent {
               className="dropzone"
               accept={'image/*'}
               onDrop={this.handleDrop}
+              maxSize={6291456}
             >
               <div className="dropzone__content">
                 {this.renderDropzoneContent()}

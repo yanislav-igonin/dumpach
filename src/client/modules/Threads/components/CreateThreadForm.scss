@@ -23,8 +23,10 @@
       padding: 40px 0;
       position: relative;
       margin-bottom: 20px;
+      cursor: pointer;
 
-      &__content {    
+      &__content {
+        user-select: none;
 
         .file-preview-container{
             display: inline-block;
