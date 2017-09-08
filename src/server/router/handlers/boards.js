@@ -54,7 +54,7 @@ module.exports = {
         res.send(await b.answerInThread(db, req.params.threadId, post));
         break;
       case 'dev':
-        res.send(await dev.answerInThread(db, req.params.threadId, req.body));
+        res.send(await dev.answerInThread(db, req.params.threadId, post));
         break;
       default:
         res.sendStatus(404);
