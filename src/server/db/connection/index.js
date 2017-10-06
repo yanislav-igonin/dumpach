@@ -13,7 +13,7 @@ const options = {
 };
 
 const pgp = require('pg-promise')(options);
-const config = require('../../../../config/config');
+const config = require('../../config/config');
 
 const cn = {
   host: config.db.host,

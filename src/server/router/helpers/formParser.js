@@ -1,7 +1,7 @@
 const fs = require('fs');
 const asyncBusboy = require('async-busboy');
 const thumbsMaker = require('./thumbsMaker');
-const config = require('../../../../config/config');
+const config = require('../../config/config');
 
 const parseFormData = async (req) => {
   const { boardId } = req.params;

@@ -12,9 +12,9 @@ const SnackbarComponent = ({ opened, message }) => (
     }}
     message={<span id="message-id">{message}</span>}
   />
-  );
+);
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   opened: state.get('snackbar').get('opened'),
   message: state.get('snackbar').get('message'),
 });

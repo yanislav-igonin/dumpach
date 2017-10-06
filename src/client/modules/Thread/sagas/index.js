@@ -15,9 +15,9 @@ import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/actions';
 function* getThread({ boardId, threadId }) {
   try {
     const thread = yield fetch(`/api/boards/${boardId}/${threadId}`)
-      .then(res => res.json())
+      .then((res) => res.json())
       .catch((err) => {
-        throw { message: err.message };
+        throw new Error(err.message);
       });
 
     yield put({ type: GET_THREAD_SUCCEEDED, thread });
@@ -43,9 +43,9 @@ function* answerInThread({ boardId, threadId, post, callback }) {
       method: 'POST',
       body: formData,
     })
-      .then(res => res.json())
+      .then((res) => res.json())
       .catch((err) => {
-        throw { message: err.message };
+        throw new Error(err.message);
       });
 
     yield call(callback);

@@ -20,7 +20,7 @@ const Post = ({ post, index, boardId }) => (
 
       {post.files.length !== 0 ? (
         <div className="post__files">
-          {post.files.map(file => (
+          {post.files.map((file) => (
             <div className="file-preview" key={file.post + file.name}>
               <Link to={`/uploads/${boardId}/${file.name}`} target="__blank">
                 <img
@@ -34,13 +34,13 @@ const Post = ({ post, index, boardId }) => (
         </div>
       ) : null}
 
-      {post.text !== null && post.text !== '' ? (
-        post.text.split('\n').map(row => (
-          <p className="post__text" key={row}>
-            {row}
-          </p>
-        ))
-      ) : null}
+      {post.text !== null && post.text !== ''
+        ? post.text.split('\n').map((row) => (
+            <p className="post__text" key={row}>
+              {row}
+            </p>
+          ))
+        : null}
     </Paper>
   </div>
 );

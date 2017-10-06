@@ -27,7 +27,7 @@ const PostPreview = ({ post, index, boardId, threadId, allPosts }) => (
 
       {post.files.length !== 0 ? (
         <div className="post-preview__files">
-          {post.files.map(file => (
+          {post.files.map((file) => (
             <div className="file-preview" key={file.post + file.name}>
               <Link to={`/uploads/${boardId}/${file.name}`} target="__blank">
                 <img
@@ -41,13 +41,13 @@ const PostPreview = ({ post, index, boardId, threadId, allPosts }) => (
         </div>
       ) : null}
 
-      {post.text !== null && post.text !== '' ? (
-        post.text.split('\n').map(row => (
-          <p className="post-preview__text" key={row}>
-            {row}
-          </p>
-        ))
-      ) : null}
+      {post.text !== null && post.text !== ''
+        ? post.text.split('\n').map((row) => (
+            <p className="post-preview__text" key={row}>
+              {row}
+            </p>
+          ))
+        : null}
 
       {index === 0 ? (
         <p className="post-preview__all-posts">All posts: {allPosts}</p>

@@ -7,7 +7,7 @@ import ThreadPreview from './components/ThreadPreview';
 
 const Threads = ({ children, params, dispatch, threads }) => (
   <div className="threads">
-    <h1 className="main-page__title">{location.pathname}</h1>
+    <h1 className="main-page__title">{params.pathname}</h1>
     <CreateThreadForm
       dispatch={dispatch}
       handleSubmit={(thread) => {
@@ -15,17 +15,13 @@ const Threads = ({ children, params, dispatch, threads }) => (
       }}
     />
 
-    {threads.map(thread => (
-      <ThreadPreview
-        thread={thread}
-        boardId={params.boardId}
-        key={location.pathname + thread.id}
-      />
+    {threads.map((thread) => (
+      <ThreadPreview thread={thread} boardId={params.boardId} key={thread.id} />
     ))}
   </div>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   threads: state.get('threads'),
 });
 

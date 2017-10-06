@@ -81,7 +81,7 @@ class CreateThreadForm extends React.PureComponent {
   }
 
   renderDropzoneFilesPreview() {
-    return this.state.files.map(file => (
+    return this.state.files.map((file) => (
       <div key={file.preview} className="file-preview-container">
         <img className="file-preview" src={file.preview} alt="file-preview" />
       </div>
@@ -117,9 +117,7 @@ class CreateThreadForm extends React.PureComponent {
               onDrop={this.handleDrop}
               maxSize={6291456}
             >
-              <div className="dropzone__content">
-                {this.renderDropzoneContent()}
-              </div>
+              <div className="dropzone__content">{this.renderDropzoneContent()}</div>
             </Dropzone>
             <FormControlLabel
               control={

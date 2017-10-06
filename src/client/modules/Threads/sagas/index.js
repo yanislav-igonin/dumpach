@@ -16,9 +16,9 @@ import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/actions';
 function* getThreads(action) {
   try {
     const threads = yield fetch(`/api/boards/${action.boardId}`)
-      .then(res => res.json())
+      .then((res) => res.json())
       .catch((err) => {
-        throw { message: err.message };
+        throw new Error(err.message);
       });
 
     yield put({ type: GET_THREADS_SUCCEEDED, threads });
@@ -43,9 +43,9 @@ function* createThread({ boardId, thread }) {
       method: 'POST',
       body: formData,
     })
-      .then(res => res.json())
+      .then((res) => res.json())
       .catch((err) => {
-        throw { message: err.message };
+        throw new Error(err.message);
       });
 
     yield browserHistory.replace(`${window.location.href}/${threadId}`);
