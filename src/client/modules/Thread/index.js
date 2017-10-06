@@ -6,9 +6,9 @@ import AnswerIntThreadForm from './components/AnswerIntThreadForm';
 import { answerInThread, getThread } from './actions';
 import ThreadContainer from './components/ThreadContainer';
 
-const Thread = ({ params, dispatch, thread }) => (
+const Thread = ({ params, location, dispatch, thread }) => (
   <div className="thread">
-    <h1 className="main-page__title">{params.pathname}</h1>
+    <h1 className="main-page__title">{location.pathname}</h1>
     <AnswerIntThreadForm
       dispatch={dispatch}
       handleSubmit={(post, callback) => {

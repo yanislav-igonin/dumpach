@@ -5,9 +5,9 @@ import CreateThreadForm from './components/CreateThreadForm';
 import { createThread } from './actions';
 import ThreadPreview from './components/ThreadPreview';
 
-const Threads = ({ children, params, dispatch, threads }) => (
+const Threads = ({ children, params, location, dispatch, threads }) => (
   <div className="threads">
-    <h1 className="main-page__title">{params.pathname}</h1>
+    <h1 className="main-page__title">{location.pathname}</h1>
     <CreateThreadForm
       dispatch={dispatch}
       handleSubmit={(thread) => {
