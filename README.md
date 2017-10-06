@@ -12,6 +12,8 @@ Backend: Express, PostgreSQL
 - [x] Bump limit
 - [x] Threads deleting
 - [x] UI [snackbar](https://material-ui-1dab0.firebaseapp.com/demos/snackbars/) for different error mesages
+- [ ] Rewritte all app on create-react-app
+- [ ] Rewritte all reducers on ducks
 - [ ] Markdown support
 - [ ] Answers on posts
 - [x] Image uploading and thumbs making(its done on previous version, but it was single board only, so less more images can be uploded)
