@@ -15,7 +15,6 @@
     "socket": true
   },
   "rules": {
-    "max-len": [2, 80],
     "react/prop-types": ["off"],
     "no-return-await": ["off"],
     "consistent-return": ["off"],
@@ -50,6 +49,8 @@
         "optionalDependencies": true,
         "peerDependencies": true
       }
-    ]
+    ],
+    "arrow-parens": ["error", "always"],
+    "max-len": ["error", 85]
   }
 }
