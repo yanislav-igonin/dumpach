@@ -3,7 +3,7 @@ const fs = require('fs');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
-const config = require('../../config/config');
+const config = require('./config/config');
 const router = require('./router');
 const db = require('./db/connection');
 

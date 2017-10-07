@@ -9,16 +9,16 @@ import {
   CREATE_THREAD,
   CREATE_THREAD_SUCCEEDED,
   CREATE_THREAD_FAILED,
-} from '../actions';
+} from '../duck';
 
-import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/actions';
+import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/duck';
 
 function* getThreads(action) {
   try {
     const threads = yield fetch(`/api/boards/${action.boardId}`)
-      .then(res => res.json())
+      .then((res) => res.json())
       .catch((err) => {
-        throw { message: err.message };
+        throw new Error(err.message);
       });
 
     yield put({ type: GET_THREADS_SUCCEEDED, threads });
@@ -43,9 +43,9 @@ function* createThread({ boardId, thread }) {
       method: 'POST',
       body: formData,
     })
-      .then(res => res.json())
+      .then((res) => res.json())
       .catch((err) => {
-        throw { message: err.message };
+        throw new Error(err.message);
       });
 
     yield browserHistory.replace(`${window.location.href}/${threadId}`);

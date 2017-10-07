@@ -8,16 +8,16 @@ import {
   ANSWER_IN_THREAD,
   ANSWER_IN_THREAD_SUCCEEDED,
   ANSWER_IN_THREAD_FAILED,
-} from '../actions';
+} from '../duck';
 
-import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/actions';
+import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/duck';
 
 function* getThread({ boardId, threadId }) {
   try {
     const thread = yield fetch(`/api/boards/${boardId}/${threadId}`)
-      .then(res => res.json())
+      .then((res) => res.json())
       .catch((err) => {
-        throw { message: err.message };
+        throw new Error(err.message);
       });
 
     yield put({ type: GET_THREAD_SUCCEEDED, thread });
@@ -43,9 +43,9 @@ function* answerInThread({ boardId, threadId, post, callback }) {
       method: 'POST',
       body: formData,
     })
-      .then(res => res.json())
+      .then((res) => res.json())
       .catch((err) => {
-        throw { message: err.message };
+        throw new Error(err.message);
       });
 
     yield call(callback);

@@ -1,8 +1,9 @@
 {
-  "extends": "airbnb",
+  "extends": "react-app",
   "parserOptions": {
     "ecmaFeatures": {
-      "experimentalObjectRestSpread": true
+      "experimentalObjectRestSpread": true,
+      "modules": true
     }
   },
   "env": {
@@ -15,7 +16,6 @@
     "socket": true
   },
   "rules": {
-    "max-len": [2, 80],
     "react/prop-types": ["off"],
     "no-return-await": ["off"],
     "consistent-return": ["off"],
@@ -32,6 +32,16 @@
     ],
     "no-param-reassign": ["error", { "props": false }],
     "quotes": ["error", "single", { "allowTemplateLiterals": true }],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true,
+        "optionalDependencies": true,
+        "peerDependencies": true
+      }
+    ],
+    "max-len": ["error", 85],
+    "arrow-parens": ["error", "always"],
     "comma-dangle": [
       "error",
       {
@@ -39,16 +49,7 @@
         "objects": "always-multiline",
         "imports": "always-multiline",
         "exports": "always-multiline",
-        "functions": "never",
-        "skipBlankLines": true
-      }
-    ],
-    "import/no-extraneous-dependencies": [
-      "error",
-      {
-        "devDependencies": true,
-        "optionalDependencies": true,
-        "peerDependencies": true
+        "functions": "ignore"
       }
     ]
   }

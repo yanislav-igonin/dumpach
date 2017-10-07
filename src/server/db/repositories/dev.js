@@ -2,9 +2,7 @@ const Promise = require('bluebird');
 
 const getThreads = async (db) => {
   const threadsWithPosts = [];
-  const threads = await db.any(
-    'SELECT * FROM dev_threads ORDER BY updated_at DESC'
-  );
+  const threads = await db.any('SELECT * FROM dev_threads ORDER BY updated_at DESC');
 
   await Promise.map(threads, async (thread) => {
     const posts = await db.any(
@@ -20,11 +18,7 @@ const getThreads = async (db) => {
     });
 
     if (posts.length > 2) {
-      thread.posts = [
-        posts[0],
-        posts[posts.length - 2],
-        posts[posts.length - 1],
-      ];
+      thread.posts = [posts[0], posts[posts.length - 2], posts[posts.length - 1]];
     } else if (posts.length > 1) {
       thread.posts = [posts[0], posts[posts.length - 1]];
     } else {
@@ -41,28 +35,23 @@ const getThreads = async (db) => {
 };
 
 const getThread = async (db, threadId) => {
-  const thread = await db.one('SELECT * FROM dev_threads WHERE id = $1', [
-    threadId,
-  ]);
+  const thread = await db.one('SELECT * FROM dev_threads WHERE id = $1', [threadId]);
   thread.posts = await db.any(
     'SELECT * FROM dev_posts WHERE thread_id = $1 ORDER BY created_at ASC',
     [threadId]
   );
 
   await Promise.map(thread.posts, async (post) => {
-    post.files = await db.any(
-      `SELECT * FROM dev_files WHERE dev_files.post_id=$1`,
-      [post.id]
-    );
+    post.files = await db.any(`SELECT * FROM dev_files WHERE dev_files.post_id=$1`, [
+      post.id,
+    ]);
   });
 
   return thread;
 };
 
 const createThread = async (db, post) => {
-  const threads = await db.any(
-    'SELECT * FROM dev_threads ORDER BY updated_at DESC'
-  );
+  const threads = await db.any('SELECT * FROM dev_threads ORDER BY updated_at DESC');
 
   if (threads.length > 49) {
     await deleteOldThreads(db);
@@ -70,9 +59,7 @@ const createThread = async (db, post) => {
     console.log('threads: ', threads.length);
   }
 
-  const thread = await db.one(
-    'INSERT INTO dev_threads DEFAULT VALUES RETURNING id'
-  );
+  const thread = await db.one('INSERT INTO dev_threads DEFAULT VALUES RETURNING id');
 
   const postId = await db.one(
     'INSERT INTO dev_posts(thread_id, title, text) VALUES($1, $2, $3) RETURNING id',
@@ -102,7 +89,8 @@ const answerInThread = async (db, threadId, post) => {
   }
 
   const postId = await db.one(
-    'INSERT INTO dev_posts(thread_id, title, text, sage) VALUES($1, $2, $3, $4) RETURNING id',
+    'INSERT INTO dev_posts(thread_id, title, text, sage) ' +
+      'VALUES($1, $2, $3, $4) RETURNING id',
     [threadId, post.title, post.text, post.sage]
   );
 
@@ -118,7 +106,8 @@ const answerInThread = async (db, threadId, post) => {
 
 const deleteOldThreads = async (db) => {
   await db.query(
-    'DELETE FROM dev_threads WHERE id=(SELECT id FROM dev_threads ORDER BY updated_at ASC LIMIT 1)'
+    'DELETE FROM dev_threads ' +
+      'WHERE id=(SELECT id FROM dev_threads ORDER BY updated_at ASC LIMIT 1)'
   );
 };
 
