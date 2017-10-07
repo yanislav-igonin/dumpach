@@ -1,15 +1,10 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-
-import Routes from './router/Routes';
-import store from './store';
-
 import './index.scss';
-
-if (module.hot) {
-  module.hot.accept();
-}
+import Routes from './router/Routes';
+import registerServiceWorker from './registerServiceWorker';
+import store from './store';
 
 render(
   <Provider store={store}>
@@ -17,3 +12,4 @@ render(
   </Provider>,
   document.getElementById('root')
 );
+registerServiceWorker();

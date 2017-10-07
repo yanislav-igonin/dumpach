@@ -19,7 +19,8 @@ CREATE TABLE b_posts (
 );
 
 CREATE TABLE b_files (
-    post_id INT REFERENCES b_posts(id) ON DELETE CASCADE,
+    thread_id INT REFERENCES b_threads(id) ON DELETE CASCADE,
+    post_id INT REFERENCES b_posts(id),
     name TEXT PRIMARY KEY
 );
 
@@ -39,6 +40,7 @@ CREATE TABLE dev_posts (
 );
 
 CREATE TABLE dev_files (
-    post_id INT REFERENCES b_posts(id) ON DELETE CASCADE,
+    thread_id INT REFERENCES dev_threads(id) ON DELETE CASCADE,
+    post_id INT REFERENCES dev_posts(id),
     name TEXT PRIMARY KEY
 );
