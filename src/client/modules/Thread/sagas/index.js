@@ -1,5 +1,6 @@
 import { put, call, takeEvery } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
+import { browserHistory } from 'react-router';
 
 import {
   GET_THREAD,
@@ -20,7 +21,11 @@ function* getThread({ boardId, threadId }) {
         throw new Error(err.message);
       });
 
-    yield put({ type: GET_THREAD_SUCCEEDED, thread });
+    if(thread.id === undefined) {
+      yield browserHistory.push(`/not_found`);
+    } else {
+      yield put({ type: GET_THREAD_SUCCEEDED, thread });
+    }
   } catch (e) {
     yield put({ type: GET_THREAD_FAILED, message: e.message });
     yield put({ type: OPEN_SNACKBAR, message: 'Can\'t get thread' });

@@ -4,12 +4,17 @@ import { connect } from 'react-redux';
 import MainPage from '../modules/MainPage';
 import Threads from '../modules/Threads';
 import Thread from '../modules/Thread';
+import NotFound from '../modules/NotFound';
 import { getThreads } from '../modules/Threads/duck';
 import { getThread } from '../modules/Thread/duck';
 
 const Routes = ({ dispatch }) => (
   <Router history={browserHistory}>
     <Route path="/" component={MainPage}>
+      <Route
+        path="not_found"
+        component={NotFound}
+      />
       <Route
         path=":boardId"
         component={Threads}
