@@ -6,7 +6,7 @@ import { FormControlLabel } from 'material-ui/Form';
 import Button from 'material-ui/Button';
 import Dropzone from 'react-dropzone';
 
-import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/actions';
+import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/duck';
 
 import './AnswerIntThreadForm.scss';
 

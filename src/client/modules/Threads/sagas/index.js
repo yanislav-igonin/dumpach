@@ -11,7 +11,7 @@ import {
   CREATE_THREAD_FAILED,
 } from '../duck';
 
-import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/actions';
+import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/duck';
 
 function* getThreads(action) {
   try {
