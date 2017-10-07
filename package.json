@@ -1,6 +1,6 @@
 {
-  "name": "react-app-boilerplate",
-  "version": "0.1.0",
+  "name": "dumpach",
+  "version": "8.0.0",
   "private": true,
   "proxy": {
     "/api": {
