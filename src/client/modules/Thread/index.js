@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Button from 'material-ui/Button';
 
 import AnswerIntThreadForm from './components/AnswerIntThreadForm';
-import { answerInThread, getThread } from './actions';
+import { answerInThread, getThread } from './duck';
 import ThreadContainer from './components/ThreadContainer';
 
 const Thread = ({ params, location, dispatch, thread }) => (

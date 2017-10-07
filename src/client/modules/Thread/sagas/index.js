@@ -8,7 +8,7 @@ import {
   ANSWER_IN_THREAD,
   ANSWER_IN_THREAD_SUCCEEDED,
   ANSWER_IN_THREAD_FAILED,
-} from '../actions';
+} from '../duck';
 
 import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/actions';
 

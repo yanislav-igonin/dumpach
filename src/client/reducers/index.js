@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux-immutable';
 import threads from '../modules/Threads/reducers';
-import thread from '../modules/Thread/reducers';
+import thread from '../modules/Thread/duck';
 import snackbar from '../modules/Snackbar/reducers';
 
 const rootReducer = combineReducers({
