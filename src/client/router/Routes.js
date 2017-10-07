@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import MainPage from '../modules/MainPage';
 import Threads from '../modules/Threads';
 import Thread from '../modules/Thread';
-import { getThreads } from '../modules/Threads/actions';
+import { getThreads } from '../modules/Threads/duck';
 import { getThread } from '../modules/Thread/duck';
 
 const Routes = ({ dispatch }) => (
