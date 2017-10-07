@@ -12,8 +12,9 @@ const Post = ({ post, index, boardId }) => (
         className="post__time"
         style={post.title !== '' || post.title === null ? { marginLeft: 5 } : null}
       >
-        {new Date(post.created_at).toLocaleTimeString()}
-      </p>
+      {new Date(post.created_at).toLocaleDateString()}{' '}
+      {new Date(post.created_at).toLocaleTimeString()}
+    </p>
       {post.sage === true ? <p className="post__sage">SAGE</p> : null}
       <p className="post__index">#{index + 1}</p>
       <p className="post__id">№{post.id}</p>
