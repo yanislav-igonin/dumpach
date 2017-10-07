@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Button from 'material-ui/Button';
+import { Link } from 'react-router';
 
 import AnswerIntThreadForm from './components/AnswerIntThreadForm';
 import { answerInThread, getThread } from './duck';
@@ -17,9 +17,12 @@ const Thread = ({ params, location, dispatch, thread }) => (
     />
     <ThreadContainer thread={thread} boardId={params.boardId} />
 
-    <Button color="primary" onClick={() => dispatch(getThread(params))}>
+    <Link to="#" style={{ cursor: 'pointer' }} onClick={(e) => {
+      e.preventDefault();
+      dispatch(getThread(params)
+    )}}>
       Update thread
-    </Button>
+    </Link>
   </div>
 );
 
