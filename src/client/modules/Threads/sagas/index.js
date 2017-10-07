@@ -21,10 +21,13 @@ function* getThreads(action) {
         throw new Error(err.message);
       });
 
+      console.log(threads)
+
     yield put({ type: GET_THREADS_SUCCEEDED, threads });
   } catch (e) {
     yield put({ type: GET_THREADS_FAILED, message: e.message });
     yield put({ type: OPEN_SNACKBAR, message: 'Can\'t get threads' });
+    yield browserHistory.push(`/not_found`);
     yield delay(5000);
     yield put({ type: CLOSE_SNACKBAR });
   }
