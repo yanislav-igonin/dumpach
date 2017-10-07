@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import CreateThreadForm from './components/CreateThreadForm';
-import { createThread } from './actions';
+import { createThread } from './duck';
 import ThreadPreview from './components/ThreadPreview';
 
 const Threads = ({ children, params, location, dispatch, threads }) => (
