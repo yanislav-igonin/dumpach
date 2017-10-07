@@ -1,4 +1,6 @@
 const Promise = require('bluebird');
+const fs = require('fs');
+const config = require('../../config/config');
 
 const getThreads = async (db) => {
   const threadsWithPosts = [];
@@ -11,10 +13,9 @@ const getThreads = async (db) => {
     );
 
     await Promise.map(posts, async (post) => {
-      post.files = await db.any(
-        `SELECT * FROM dev_files WHERE dev_files.post_id=$1`,
-        [post.id]
-      );
+      post.files = await db.any(`SELECT * FROM dev_files WHERE dev_files.post_id=$1`, [
+        post.id,
+      ]);
     });
 
     if (posts.length > 2) {
@@ -51,15 +52,15 @@ const getThread = async (db, threadId) => {
 };
 
 const createThread = async (db, post) => {
+  const thread = await db.one('INSERT INTO dev_threads DEFAULT VALUES RETURNING id');
+
   const threads = await db.any('SELECT * FROM dev_threads ORDER BY updated_at DESC');
 
   if (threads.length > 49) {
-    await deleteOldThreads(db);
+    await deleteOldThreads(db, thread.id);
   } else {
     console.log('threads: ', threads.length);
   }
-
-  const thread = await db.one('INSERT INTO dev_threads DEFAULT VALUES RETURNING id');
 
   const postId = await db.one(
     'INSERT INTO dev_posts(thread_id, title, text) VALUES($1, $2, $3) RETURNING id',
@@ -67,10 +68,10 @@ const createThread = async (db, post) => {
   );
 
   await post.files.forEach(async (file) => {
-    await db.query('INSERT INTO dev_files(post_id, name) VALUES($1, $2)', [
-      postId.id,
-      file,
-    ]);
+    await db.query(
+      'INSERT INTO dev_files(thread_id, post_id, name) VALUES($1, $2, $3)',
+      [thread.id, postId.id, file]
+    );
   });
 
   return thread.id;
@@ -90,25 +91,47 @@ const answerInThread = async (db, threadId, post) => {
 
   const postId = await db.one(
     'INSERT INTO dev_posts(thread_id, title, text, sage) ' +
-      'VALUES($1, $2, $3, $4) RETURNING id',
+      'VALUES($1, $2, $3, $4) ' +
+      'RETURNING id',
     [threadId, post.title, post.text, post.sage]
   );
 
   await post.files.forEach(async (file) => {
-    await db.query('INSERT INTO dev_files(post_id, name) VALUES($1, $2)', [
-      postId.id,
-      file,
-    ]);
+    await db.query(
+      'INSERT INTO dev_files(thread_id, post_id, name) VALUES($1, $2, $3)',
+      [threadId, postId.id, file]
+    );
   });
 
   return await getThread(db, threadId);
 };
 
 const deleteOldThreads = async (db) => {
-  await db.query(
-    'DELETE FROM dev_threads ' +
-      'WHERE id=(SELECT id FROM dev_threads ORDER BY updated_at ASC LIMIT 1)'
-  );
+  try {
+    const thread = await db.one(
+      'SELECT id FROM dev_threads ORDER BY updated_at ASC LIMIT 1'
+    );
+
+    const files = await db.query(
+      'SELECT name from dev_files WHERE dev_files.thread_id=$1',
+      [thread.id]
+    );
+    
+    files.forEach(async (file) => {
+      fs.unlink(
+        `${config.app.uploadDir}/b/${file.name}`,
+        (err) => console.log(`${file.name} deleted`)
+      );
+      fs.unlink(
+        `${config.app.uploadDir}/b/thumbs/${file.name}`,
+        (err) => console.log(`${file.name} thumb deleted`)
+      );
+    });
+
+    db.query('DELETE FROM dev_threads WHERE id=$1', [thread.id]);
+  } catch (e) {
+    throw new Error(e.message);
+  }
 };
 
 module.exports = {

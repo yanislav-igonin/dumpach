@@ -48,7 +48,7 @@ function* createThread({ boardId, thread }) {
         throw new Error(err.message);
       });
 
-    yield browserHistory.replace(`${window.location.href}/${threadId}`);
+    yield browserHistory.push(`${window.location.pathname}/${threadId}`);
 
     yield put({ type: CREATE_THREAD_SUCCEEDED });
     yield put({ type: OPEN_SNACKBAR, message: 'Thread created' });
