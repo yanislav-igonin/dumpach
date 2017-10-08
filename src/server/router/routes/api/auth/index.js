@@ -1,6 +1,8 @@
 const router = require('express').Router();
+const authHandlers = require('../../../handlers/auth');
 
-// router.get('/:boardId', boardsHandlers.getThreads);
+router.post('/login', authHandlers.login);
 
-router.post('/signin', (req, res) => console.log(req));
+router.get('/logout', authHandlers.logout);
+
 module.exports = router;
