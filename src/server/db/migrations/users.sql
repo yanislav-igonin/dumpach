@@ -1,6 +1,6 @@
 \c dumpach
 
-CREATE TABLE users {
+CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   login TEXT,
   password_hash TEXT,
@@ -8,4 +8,4 @@ CREATE TABLE users {
   last_login_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   active BOOLEAN,
   role_id INT REFERENCES roles(id)
-}
+);
