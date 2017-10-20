@@ -25,10 +25,13 @@
         display: inline-block;
         margin: 0 5px 5px 0;
         vertical-align: middle;
+        cursor: pointer;
 
         &__file{
-          max-height: 200px;
-          max-width: 200px;
+          &--preview {
+            max-height: 200px;
+            max-width: 200px;
+          }
         }
       }
     }
