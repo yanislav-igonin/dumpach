@@ -30,13 +30,7 @@ const PostPreview = ({ post, index, boardId, threadId, allPosts }) => (
         <div className="post-preview__files">
           {post.files.map((file) => (
             <div className="file-preview" key={file.post + file.name}>
-              <Link to={`/uploads/${boardId}/${file.name}`} target="__blank">
-                <img
-                  className="file-preview__file"
-                  src={`/uploads/${boardId}/thumbs/${file.name}`}
-                  alt={file.name}
-                />
-              </Link>
+              <File file={file} boardId={boardId} />
             </div>
           ))}
         </div>
@@ -58,3 +52,37 @@ const PostPreview = ({ post, index, boardId, threadId, allPosts }) => (
 );
 
 export default PostPreview;
+
+class File extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      enlarged: false,
+    };
+  }
+
+  toggleEnlarge = () => {
+    this.setState({ enlarged: !this.state.enlarged });
+  };
+
+  render() {
+    const { file, boardId } = this.props;
+    const { enlarged } = this.state;
+
+    return (
+      <img
+        onClick={this.toggleEnlarge}
+        className={
+          enlarged === false ? 'file-preview__file--preview' : 'file-preview__file'
+        }
+        src={
+          enlarged === false
+            ? `/uploads/${boardId}/thumbs/${file.name}`
+            : `/uploads/${boardId}/${file.name}`
+        }
+        alt={file.name}
+      />
+    );
+  }
+}
