@@ -12,6 +12,3 @@ INSERT INTO roles_permissions(role_id, action_id) VALUES (1, 1); --admin - read
 INSERT INTO roles_permissions(role_id, action_id) VALUES (1, 2); --admin - delete
 INSERT INTO roles_permissions(role_id, action_id) VALUES (1, 3); --admin - add_user
 INSERT INTO roles_permissions(role_id, action_id) VALUES (1, 4); --admin - delete_user
-
-INSERT INTO roles_permissions(role_id, action_id) VALUES (2, 1); --moderator - read
-INSERT INTO roles_permissions(role_id, action_id) VALUES (2, 2); --moderator - delete

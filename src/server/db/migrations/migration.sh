@@ -6,5 +6,5 @@ psql -U postgres < actions.sql;
 echo "actions migrated"
 psql -U postgres < users.sql;
 echo "users migrated"
-psql -U postgres < roles_permissions.sql;
-echo "roles_permissions migrated"
+# psql -U postgres < roles_permissions.sql;
+# echo "roles_permissions migrated"
