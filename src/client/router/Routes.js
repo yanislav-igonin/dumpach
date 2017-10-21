@@ -11,11 +11,19 @@ import Dashboard from '../modules/Admin/components/Dashboard';
 import { getThreads } from '../modules/Threads/duck';
 import { getThread } from '../modules/Thread/duck';
 
-const Routes = ({ dispatch }) => (
+const Routes = ({ dispatch, user }) => (
   <Router history={browserHistory}>
     <Route path="admin" component={Admin}>
-      <Route path="login" component={Login} />
-      <Route path="dashboard" component={Dashboard} />
+      <Route
+        path="login"
+        component={Login}
+        onEnter={(nextState, replace) => Admin.onEnter(nextState, replace, user)}
+      />
+      <Route
+        path="dashboard"
+        component={Dashboard}
+        onEnter={(nextState, replace) => Admin.onEnter(nextState, replace, user)}
+      />
     </Route>
 
     <Route path="/" component={MainPage}>
@@ -34,4 +42,8 @@ const Routes = ({ dispatch }) => (
   </Router>
 );
 
-export default connect()(Routes);
+const mapStateToProps = (state) => ({
+  user: state.get('user'),
+});
+
+export default connect(mapStateToProps)(Routes);
