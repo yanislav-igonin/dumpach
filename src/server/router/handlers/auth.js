@@ -3,6 +3,7 @@ const user = require('../../db/repositories/user');
 
 module.exports = {
   async login(req, res) {
+    console.log(req);
     try {
       const userData = await user.authenticate(req.body);
       userData.password_hash = undefined;
