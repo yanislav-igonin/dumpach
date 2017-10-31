@@ -5,6 +5,8 @@ import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import { login } from '../duck';
 
+import './Login.scss';
+
 class Login extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -26,12 +28,12 @@ class Login extends React.PureComponent {
 
   render() {
     return (
-      <div className="login">
+      <div className="login-form">
         <Paper className="login-form__container">
           <form onSubmit={this.handleSubmit}>
             <TextField
               name="login"
-              label="Title"
+              label="Login"
               value={this.state.title}
               onChange={this.handleInputChange}
               fullWidth
@@ -40,7 +42,7 @@ class Login extends React.PureComponent {
             <TextField
               name="password"
               type="password"
-              label="Title"
+              label="Password"
               value={this.state.title}
               onChange={this.handleInputChange}
               fullWidth

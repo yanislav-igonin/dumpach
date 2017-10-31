@@ -7,7 +7,7 @@ import Thread from '../modules/Thread';
 import NotFound from '../modules/NotFound';
 import Admin from '../modules/Admin';
 import Login from '../modules/Admin/components/Login';
-import Dashboard from '../modules/Admin/components/Dashboard';
+import Dashboard from '../modules/Admin/modules/Dashboard';
 import { getThreads } from '../modules/Threads/duck';
 import { getThread } from '../modules/Thread/duck';
 
