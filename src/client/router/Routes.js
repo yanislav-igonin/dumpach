@@ -32,12 +32,12 @@ const Routes = ({ getThread, getThreads }) => (
       <Route
         path=":boardId"
         component={Threads}
-        onEnter={({ params }) => this.props.getThreads(params)}
+        onEnter={({ params }) => getThreads(params)}
       />
       <Route
         path=":boardId/:threadId"
         component={Thread}
-        onEnter={({ params }) => this.propsgetThread(params)}
+        onEnter={({ params }) => getThread(params)}
       />
     </Route>
   </Router>
@@ -45,9 +45,4 @@ const Routes = ({ getThread, getThreads }) => (
 
 const mapStateToProps = (state) => ({});
 
-const mapDispatchToProps = (dispatch) => ({
-  getThread,
-  getThreads,
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Routes);
+export default connect(mapStateToProps, { getThread, getThreads })(Routes);
