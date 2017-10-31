@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, browserHistory, Route } from 'react-router';
+import { Router, browserHistory, Route, IndexRedirect } from 'react-router';
 import { connect } from 'react-redux';
 import MainPage from '../modules/MainPage';
 import Threads from '../modules/Threads';
@@ -11,18 +11,19 @@ import Dashboard from '../modules/Admin/components/Dashboard';
 import { getThreads } from '../modules/Threads/duck';
 import { getThread } from '../modules/Thread/duck';
 
-const Routes = ({ dispatch, user }) => (
+const Routes = ({ getThread, getThreads }) => (
   <Router history={browserHistory}>
     <Route path="admin" component={Admin}>
+      <IndexRedirect to="login" />
       <Route
         path="login"
         component={Login}
-        onEnter={(nextState, replace) => Admin.onEnter(nextState, replace, user)}
+        onEnter={(nextState, replace) => Admin.onEnter(nextState, replace)}
       />
       <Route
         path="dashboard"
         component={Dashboard}
-        onEnter={(nextState, replace) => Admin.onEnter(nextState, replace, user)}
+        onEnter={(nextState, replace) => Admin.onEnter(nextState, replace)}
       />
     </Route>
 
@@ -31,19 +32,22 @@ const Routes = ({ dispatch, user }) => (
       <Route
         path=":boardId"
         component={Threads}
-        onEnter={({ params }) => dispatch(getThreads(params))}
+        onEnter={({ params }) => this.props.getThreads(params)}
       />
       <Route
         path=":boardId/:threadId"
         component={Thread}
-        onEnter={({ params }) => dispatch(getThread(params))}
+        onEnter={({ params }) => this.propsgetThread(params)}
       />
     </Route>
   </Router>
 );
 
-const mapStateToProps = (state) => ({
-  user: state.get('user'),
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = (dispatch) => ({
+  getThread,
+  getThreads,
 });
 
-export default connect(mapStateToProps)(Routes);
+export default connect(mapStateToProps, mapDispatchToProps)(Routes);

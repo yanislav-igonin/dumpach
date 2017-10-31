@@ -118,6 +118,6 @@
     "jsonwebtoken": "^8.1.0",
     "morgan": "^1.8.2",
     "pg-promise": "^6.5.1",
-    "sharp": "^0.18.2"
+    "sharp": "^0.18.4"
   }
 }

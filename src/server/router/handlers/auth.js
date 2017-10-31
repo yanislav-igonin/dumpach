@@ -3,7 +3,6 @@ const user = require('../../db/repositories/user');
 
 module.exports = {
   async login(req, res) {
-    console.log(req);
     try {
       const userData = await user.authenticate(req.body);
       userData.password_hash = undefined;
@@ -11,7 +10,7 @@ module.exports = {
       userData.id = undefined;
       res.cookie('token', await token.create(userData, '1h'), {
         httpOnly: false,
-        maxAge: 1000 * 60 * 60,
+        expires: new Date(Date.now() + 900000),
       });
       res.send(userData);
     } catch (e) {
@@ -22,7 +21,6 @@ module.exports = {
   },
 
   async logout(req, res) {
-    console.log(req);
     res.clearCookie('token');
     res.send('ok');
   },

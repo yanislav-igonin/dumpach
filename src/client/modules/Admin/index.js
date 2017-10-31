@@ -3,13 +3,15 @@ import Snackbar from '../Snackbar';
 
 export default class Admin extends PureComponent {
   static onEnter = (nextState, replace, user) => {
-    const { login } = user.toJS();
-    if (login === undefined) {
+    const token = getCookie('token');
+    if (token === undefined) {
       if (nextState.location.pathname !== '/admin/login') {
         replace('/admin/login');
       }
     } else {
-      replace('/admin/dashboard');
+      if (nextState.location.pathname !== '/admin/dashboard') {
+        replace('/admin/dashboard');
+      }
     }
   };
 
@@ -24,3 +26,12 @@ export default class Admin extends PureComponent {
     );
   }
 }
+
+const getCookie = (name) => {
+  const matches = document.cookie.match(
+    new RegExp(
+      '(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)'
+    )
+  );
+  return matches ? decodeURIComponent(matches[1]) : undefined;
+};
