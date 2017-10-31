@@ -2,7 +2,14 @@ import { put, takeLatest } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 import { browserHistory } from 'react-router';
 
-import { LOGIN, LOGIN_SUCCEEDED, LOGIN_FAILED } from '../duck';
+import {
+  LOGIN,
+  LOGIN_SUCCEEDED,
+  LOGIN_FAILED,
+  LOGOUT,
+  LOGOUT_SUCCEEDED,
+  LOGOUT_FAILED,
+} from '../duck';
 import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/duck';
 
 function* login({ login, password }) {
@@ -12,7 +19,7 @@ function* login({ login, password }) {
       credentials: 'include',
       body: JSON.stringify({ login, password }),
       headers: {
-        'Accept': 'application/json, text/plain, */*',
+        Accept: 'application/json, text/plain, */*',
         'Content-Type': 'application/json',
       },
     })
@@ -21,11 +28,11 @@ function* login({ login, password }) {
         throw new Error(err.message);
       });
 
-    if(user !== undefined) {
+    if (user !== undefined) {
       yield put({ type: LOGIN_SUCCEEDED, user });
       yield browserHistory.push('/admin/dashboard');
     } else {
-      throw new Error('Wrong login or password')
+      throw new Error('Wrong login or password');
     }
   } catch (e) {
     yield put({ type: LOGIN_FAILED, message: e.message });
@@ -35,8 +42,34 @@ function* login({ login, password }) {
   }
 }
 
+function* logout() {
+  try {
+    const status = yield fetch('/api/auth/logout', {
+      method: 'GET',
+      credentials: 'include',
+    })
+      .then((res) => res.status)
+      .catch((err) => {
+        throw new Error(err.message);
+      });
+      
+    if (status === 200) {
+      yield put({ type: LOGOUT_SUCCEEDED });
+      yield browserHistory.push('/admin/login');
+    } else {
+      throw new Error('Logout failed');
+    }
+  } catch (e) {
+    yield put({ type: LOGOUT_FAILED, message: e.message });
+    yield put({ type: OPEN_SNACKBAR, message: e.message });
+    yield delay(5000);
+    yield put({ type: CLOSE_SNACKBAR });
+  }
+}
+
 function* userSaga() {
   yield takeLatest(LOGIN, login);
+  yield takeLatest(LOGOUT, logout);
 }
 
 export default userSaga;
