@@ -40,7 +40,10 @@
         vertical-align: top;
         cursor: pointer;
 
+        
         .file {
+          max-width: calc(100vw - 47px);
+          
           &--preview {
             @include phone {
               max-height: 50px;
