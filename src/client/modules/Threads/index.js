@@ -5,9 +5,8 @@ import ThreadsList from './components/ThreadsList';
 import CreateThreadForm from './components/CreateThreadForm';
 import { createThread } from './duck';
 
-const Threads = ({ match, location, dispatch }) => (
+const Threads = ({ match, dispatch }) => (
   <div className="threads">
-    <h1 className="main-page__title">{location.pathname}</h1>
     <CreateThreadForm
       dispatch={dispatch}
       handleSubmit={(thread) => {

@@ -8,13 +8,13 @@ export const ANSWER_IN_THREAD_SUCCEEDED = 'ANSWER_IN_THREAD_SUCCEEDED';
 export const ANSWER_IN_THREAD_FAILED = 'ANSWER_IN_THREAD_FAILED';
 
 //ACTION CREATORS
-export const getThread = ({ boardId, threadId }) => ({
+export const getThread = ( boardId, threadId ) => ({
   type: GET_THREAD,
   boardId,
   threadId,
 });
 
-export const answerInThread = ({ boardId, threadId }, post, callback) => ({
+export const answerInThread = ( boardId, threadId, post, callback) => ({
   type: ANSWER_IN_THREAD,
   boardId,
   threadId,

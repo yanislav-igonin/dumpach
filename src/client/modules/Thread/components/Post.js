@@ -1,41 +1,59 @@
 import React from 'react';
-import Paper from 'material-ui/Paper';
 
 import './Post.scss';
 
 const Post = ({ post, index, boardId }) => (
-  <div className="post-container">
-    <Paper className="post">
-      <p className="post__title">{post.title}</p>
-      <p
-        className="post__time"
-        style={post.title !== '' || post.title === null ? { marginLeft: 5 } : null}
-      >
-        {new Date(post.created_at).toLocaleDateString()}{' '}
-        {new Date(post.created_at).toLocaleTimeString()}
-      </p>
-      {post.sage === true ? <p className="post__sage">SAGE</p> : null}
-      <p className="post__index">#{index + 1}</p>
-      <p className="post__id">№{post.id}</p>
+  <div className="post">
+    <div className="post__content">
+
+
+
+      <div className="post-info">
+        <p className="post-info__title">{post.title}</p>
+        <p
+          className="post-info__time"
+          style={post.title !== '' || post.title === null ? { marginLeft: 5 } : null}
+        >
+          {new Date(post.created_at).toLocaleDateString()}{' '}
+          {new Date(post.created_at).toLocaleTimeString()}
+        </p>
+        {post.sage === true ? <p className="post-info__sage">SAGE</p> : null}
+        <p className="post-info__index">#{index + 1}</p>
+        <p className="post-info__id" style={index === 0 ? { marginRight: 5 } : null}>
+          №{post.id}
+        </p>
+      </div>
+
 
       {post.files.length !== 0 ? (
-        <div className="post__files">
+        <div
+          className="files"
+          style={post.files.length < 3 ? { display: 'inline-block' } : null}
+        >
           {post.files.map((file) => (
-            <div className="file-preview" key={file.post + file.name}>
+            <div className="files__preview" key={file.post + file.name}>
               <File file={file} boardId={boardId} />
             </div>
           ))}
         </div>
       ) : null}
 
-      {post.text !== null && post.text !== ''
-        ? post.text.split('\n').map((row) => (
-            <p className="post__text" key={row}>
-              {row}
-            </p>
-          ))
-        : null}
-    </Paper>
+      <div
+        style={
+          post.files.length < 3
+            ? { display: 'inline-block', verticalAlign: 'top' }
+            : null
+        }
+      >
+        {post.text !== null && post.text !== ''
+          ? post.text.split('\n').map((row) => (
+              <p className="text" key={row}>
+                {row}
+              </p>
+            ))
+          : null}
+      </div>
+    </div>
   </div>
 );
 
@@ -62,7 +80,7 @@ class File extends React.PureComponent {
       <img
         onClick={this.toggleEnlarge}
         className={
-          enlarged === false ? 'file-preview__file--preview' : 'file-preview__file'
+          enlarged === false ? 'file--preview' : 'file'
         }
         src={
           enlarged === false

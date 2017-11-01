@@ -1,13 +1,15 @@
 import React from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Switch, Route, Link } from 'react-router-dom';
 import { Icon } from 'semantic-ui-react';
+
 import Threads from '../Threads';
+import Thread from '../Thread';
 
 // import Snackbar from '../Snackbar';
 
 import './index.scss';
 
-const MainPage = ({ match }) => (
+const MainPage = ({ match, location }) => (
   <div className="main-page">
     <h1 className="main-page__title">Dumpach</h1>
     <div className="main-page__source-link-container">
@@ -33,8 +35,12 @@ const MainPage = ({ match }) => (
       </li>
     </ul>
 
-    <Route path={`/:boardId`} component={Threads} />
+    <h1 className="main-page__title">{location.pathname}</h1>
 
+    <Switch>
+      <Route path={`/:boardId/:threadId`} component={Thread} />
+      <Route path={`/:boardId`} component={Threads} />
+    </Switch>
     {/* <Snackbar /> */}
   </div>
 );
