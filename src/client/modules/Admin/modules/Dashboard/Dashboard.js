@@ -10,7 +10,7 @@ import IconButton from 'material-ui/IconButton';
 import Icon from 'material-ui/Icon';
 import Drawer from 'material-ui/Drawer';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
-import { logout } from '../duck';
+import { logout } from '../../duck';
 
 const styles = (theme) => ({
   root: {
@@ -44,7 +44,7 @@ class ButtonAppBar extends React.PureComponent {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, children } = this.props;
 
     return (
       <div className={classes.root}>
@@ -75,15 +75,17 @@ class ButtonAppBar extends React.PureComponent {
               <ListItemText primary="Boards" />
             </ListItem>
             
-            <ListItem button onClick={() => this.goTo('boards')}>
+            {/* <ListItem button onClick={() => this.goTo('boards')}>
               <ListItemIcon>
                 <Icon>accessible</Icon>
               </ListItemIcon>
               <ListItemText primary="Users" />
-            </ListItem>
+            </ListItem> */}
             
           </List>
         </Drawer>
+
+        {children}
       </div>
     );
   }

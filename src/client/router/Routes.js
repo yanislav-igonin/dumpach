@@ -7,7 +7,9 @@ import Thread from '../modules/Thread';
 import NotFound from '../modules/NotFound';
 import Admin from '../modules/Admin';
 import Login from '../modules/Admin/components/Login';
-import Dashboard from '../modules/Admin/modules/Dashboard';
+import Dashboard from '../modules/Admin/modules/Dashboard/Dashboard';
+import Boards from '../modules/Admin/modules/Dashboard/Boards';
+import ThreadsList from '../modules/Admin/modules/Dashboard/ThreadsList';
 import { getThreads } from '../modules/Threads/duck';
 import { getThread } from '../modules/Thread/duck';
 
@@ -24,7 +26,16 @@ const Routes = ({ getThread, getThreads }) => (
         path="dashboard"
         component={Dashboard}
         onEnter={(nextState, replace) => Admin.onEnter(nextState, replace)}
-      />
+      >
+        <Route path="boards" component={Boards}>
+          <IndexRedirect to="b" />
+          <Route
+            path=":boardId"
+            component={ThreadsList}
+            onEnter={({ params }) => getThreads(params)}
+          />
+        </Route>
+      </Route>
     </Route>
 
     <Route path="/" component={MainPage}>
