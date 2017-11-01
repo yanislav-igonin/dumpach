@@ -17,7 +17,7 @@ class ThreadsList extends Component {
   render() {
     const { threads, boardId } = this.props;
     return (
-      <div>
+      <div style={{ padding: '0 10px 0 10px' }}>
         {threads.map((thread) => (
           <ThreadPreview key={thread.id} boardId={boardId} thread={thread} />
         ))}

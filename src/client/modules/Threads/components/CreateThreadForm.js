@@ -1,6 +1,6 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
-import {  TextArea, Input, Button } from 'semantic-ui-react'
+import { Form, TextArea, Input, Button, Icon } from 'semantic-ui-react'
 
 import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/duck';
 
@@ -52,7 +52,7 @@ class CreateThreadForm extends React.PureComponent {
   }
 
   renderDropzoneContent() {
-    let content = <i className="material-icons">attach_file</i>;
+    let content = <Icon name="attach" size="huge" className="attach-icon" />;
 
     if (this.state.files.length > 0) {
       content = this.renderDropzoneFilesPreview();
@@ -73,7 +73,7 @@ class CreateThreadForm extends React.PureComponent {
     return (
       <div className="create-thread-form">
         <div className="create-thread-form__content">
-          <form onSubmit={this.handleSubmit}>
+          <Form onSubmit={this.handleSubmit}>
             <h3 className="header">Take a dump, please</h3>
             <Input
               name="title"
@@ -102,7 +102,7 @@ class CreateThreadForm extends React.PureComponent {
                 Create thread
               </Button>
             </div>
-          </form>
+          </Form>
         </div>
       </div>
     );

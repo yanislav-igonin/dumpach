@@ -15,10 +15,7 @@ const PostPreview = ({ post, index, boardId, threadId, allPosts }) => (
           {new Date(post.created_at).toLocaleDateString()}{' '}
           {new Date(post.created_at).toLocaleTimeString()}
         </p>
-        <p
-          className="post-info__id"
-          style={index === 0 ? { marginRight: 5 } : null}
-        >
+        <p className="post-info__id" style={index === 0 ? { marginRight: 5 } : null}>
           №{post.id}
         </p>
         {index === 0 ? (
@@ -28,25 +25,36 @@ const PostPreview = ({ post, index, boardId, threadId, allPosts }) => (
       </div>
 
       {post.files.length !== 0 ? (
-        <div className="post-preview__files">
+        <div
+          className="files"
+          style={post.files.length < 3 ? { display: 'inline-block' } : null}
+        >
           {post.files.map((file) => (
-            <div className="file-preview" key={file.post + file.name}>
+            <div className="files__preview" key={file.post + file.name}>
               <File file={file} boardId={boardId} />
             </div>
           ))}
         </div>
       ) : null}
 
-      {post.text !== null && post.text !== ''
-        ? post.text.split('\n').map((row) => (
-            <p className="post-preview__text" key={row}>
-              {row}
-            </p>
-          ))
-        : null}
+      <div
+        style={
+          post.files.length < 3
+            ? { display: 'inline-block', verticalAlign: 'top' }
+            : null
+        }
+      >
+        {post.text !== null && post.text !== ''
+          ? post.text.split('\n').map((row) => (
+              <p className="text" key={row}>
+                {row}
+              </p>
+            ))
+          : null}
+      </div>
 
       {index === 0 ? (
-        <p className="post-preview__all-posts">All posts: {allPosts}</p>
+        <p className="all-posts-count">All posts: {allPosts}</p>
       ) : null}
     </div>
   </div>
@@ -75,7 +83,7 @@ class File extends React.PureComponent {
       <img
         onClick={this.toggleEnlarge}
         className={
-          enlarged === false ? 'file-preview__file--preview' : 'file-preview__file'
+          enlarged === false ? 'file--preview' : 'file'
         }
         src={
           enlarged === false
