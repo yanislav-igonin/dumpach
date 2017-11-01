@@ -6,24 +6,26 @@ import './PostPreview.scss';
 const PostPreview = ({ post, index, boardId, threadId, allPosts }) => (
   <div className="post-preview">
     <div className="post-preview__content">
-      <p className="post-preview__title">{post.title}</p>
-      <p
-        className="post-preview__time"
-        style={post.title !== '' || post.title === null ? { marginLeft: 5 } : null}
-      >
-        {new Date(post.created_at).toLocaleDateString()}{' '}
-        {new Date(post.created_at).toLocaleTimeString()}
-      </p>
-      <p
-        className="post-preview__id"
-        style={index === 0 ? { marginRight: 5 } : null}
-      >
-        №{post.id}
-      </p>
-      {index === 0 ? (
-        <Link to={`${window.location.pathname}/${threadId}`}>Open</Link>
-      ) : null}
-      <br />
+      <div className="post-info">
+        <p className="post-info__title">{post.title}</p>
+        <p
+          className="post-info__time"
+          style={post.title !== '' || post.title === null ? { marginLeft: 5 } : null}
+        >
+          {new Date(post.created_at).toLocaleDateString()}{' '}
+          {new Date(post.created_at).toLocaleTimeString()}
+        </p>
+        <p
+          className="post-info__id"
+          style={index === 0 ? { marginRight: 5 } : null}
+        >
+          №{post.id}
+        </p>
+        {index === 0 ? (
+          <Link to={`${window.location.pathname}/${threadId}`}>Open</Link>
+        ) : null}
+        <br />
+      </div>
 
       {post.files.length !== 0 ? (
         <div className="post-preview__files">

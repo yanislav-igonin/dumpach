@@ -1,8 +1,6 @@
 import React from 'react';
-import Paper from 'material-ui/Paper';
-import TextField from 'material-ui/TextField';
-import Button from 'material-ui/Button';
 import Dropzone from 'react-dropzone';
+import {  TextArea, Input, Button } from 'semantic-ui-react'
 
 import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/duck';
 
@@ -35,6 +33,7 @@ class CreateThreadForm extends React.PureComponent {
     const { handleSubmit, dispatch } = this.props;
     const { text, files } = this.state;
     event.preventDefault();
+    debugger
     if (text === '' && files.length === 0) {
       dispatch({
         type: OPEN_SNACKBAR,
@@ -73,22 +72,21 @@ class CreateThreadForm extends React.PureComponent {
   render() {
     return (
       <div className="create-thread-form">
-        <Paper className="create-thread-form__container">
+        <div className="create-thread-form__content">
           <form onSubmit={this.handleSubmit}>
             <h3 className="header">Take a dump, please</h3>
-            <TextField
+            <Input
               name="title"
-              label="Title"
+              placeholder="Title"
               onChange={this.handleInputChange}
-              fullWidth
+              fluid
               className="post-text-input"
             />
-            <TextField
+            <TextArea
               name="text"
-              label="Post"
+              placeholder="Post"
               onChange={this.handleInputChange}
-              fullWidth
-              multiline
+              autoHeight
               className="post-text-input"
             />
             <Dropzone
@@ -100,12 +98,12 @@ class CreateThreadForm extends React.PureComponent {
               <div className="dropzone__content">{this.renderDropzoneContent()}</div>
             </Dropzone>
             <div className="submit-button-container">
-              <Button type="submit" raised color="primary">
+              <Button type="submit" primary>
                 Create thread
               </Button>
             </div>
           </form>
-        </Paper>
+        </div>
       </div>
     );
   }

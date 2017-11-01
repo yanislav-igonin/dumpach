@@ -9,17 +9,18 @@ class ThreadsList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // or componentDidUpdate
     if (nextProps.boardId !== this.props.boardId) {
       this.props.getThreads(nextProps.boardId);
     }
   }
 
   render() {
-    const { threads } = this.props;
+    const { threads, boardId } = this.props;
     return (
       <div>
-        {threads.map((thread) => <ThreadPreview key={thread.id} thread={thread} />)}
+        {threads.map((thread) => (
+          <ThreadPreview key={thread.id} boardId={boardId} thread={thread} />
+        ))}
       </div>
     );
   }
