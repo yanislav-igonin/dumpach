@@ -1,12 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router';
-import Paper from 'material-ui/Paper';
+import { Link } from 'react-router-dom';
 
 import './PostPreview.scss';
 
 const PostPreview = ({ post, index, boardId, threadId, allPosts }) => (
-  <div className="post-preview-container">
-    <Paper className="post-preview">
+  <div className="post-preview">
+    <div className="post-preview__content">
       <p className="post-preview__title">{post.title}</p>
       <p
         className="post-preview__time"
@@ -47,7 +46,7 @@ const PostPreview = ({ post, index, boardId, threadId, allPosts }) => (
       {index === 0 ? (
         <p className="post-preview__all-posts">All posts: {allPosts}</p>
       ) : null}
-    </Paper>
+    </div>
   </div>
 );
 

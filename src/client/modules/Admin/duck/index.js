@@ -1,5 +1,3 @@
-import { Map } from 'immutable';
-
 //TYPES
 export const LOGIN = 'LOGIN';
 export const LOGIN_SUCCEEDED = 'LOGIN_SUCCEEDED';
@@ -21,13 +19,13 @@ export const logout = () => ({
 });
 
 //REDUCER
-const user = (state = Map(), action) => {
+const user = (state = {}, action) => {
   switch (action.type) {
     case LOGIN_SUCCEEDED:
-      return Map(action.user);
+      return action.user;
 
     case LOGOUT_SUCCEEDED:
-      return Map({});
+      return {};
 
     default:
       return state;

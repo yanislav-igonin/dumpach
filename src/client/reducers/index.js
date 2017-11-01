@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux-immutable';
+import { combineReducers } from 'redux';
 import threads from '../modules/Threads/duck';
 import thread from '../modules/Thread/duck';
 import snackbar from '../modules/Snackbar/duck';

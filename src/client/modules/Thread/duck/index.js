@@ -1,5 +1,3 @@
-import { Map } from 'immutable';
-
 //TYPES
 export const GET_THREAD = 'GET_THREAD';
 export const GET_THREAD_SUCCEEDED = 'GET_THREAD_SUCCEEDED';
@@ -25,13 +23,13 @@ export const answerInThread = ({ boardId, threadId }, post, callback) => ({
 });
 
 //REDUCER
-const threads = (state = Map(), action) => {
+const threads = (state = {}, action) => {
   switch (action.type) {
     case GET_THREAD_SUCCEEDED:
-      return Map(action.thread);
+      return action.thread;
       
     case ANSWER_IN_THREAD_SUCCEEDED:
-      return Map(action.thread);
+      return action.thread;
 
     default:
       return state;
