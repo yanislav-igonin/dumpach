@@ -2,22 +2,26 @@ const Promise = require('bluebird');
 const fs = require('fs');
 const config = require('../../config/config');
 
-const getThreads = async (db) => {
+const getThreads = async (db, boardId) => {
   try {
     const threadsWithPosts = [];
     const threads = await db.any(
-      'SELECT * FROM dev_threads ORDER BY updated_at DESC'
+      `SELECT * FROM ${boardId}_threads 
+      ORDER BY updated_at DESC`
     );
 
     await Promise.map(threads, async (thread) => {
       const posts = await db.any(
-        `SELECT * FROM dev_posts WHERE dev_posts.thread_id=$1 ORDER BY created_at ASC`,
+        `SELECT * FROM ${boardId}_posts 
+        WHERE ${boardId}_posts.thread_id=$1 
+        ORDER BY created_at ASC`,
         [thread.id]
       );
 
       await Promise.map(posts, async (post) => {
         post.files = await db.any(
-          `SELECT * FROM dev_files WHERE dev_files.post_id=$1`,
+          `SELECT * FROM ${boardId}_files 
+          WHERE ${boardId}_files.post_id=$1`,
           [post.id]
         );
       });
@@ -38,113 +42,123 @@ const getThreads = async (db) => {
 
     return threads;
   } catch (e) {
-    return new Error(e.message);
+    throw new Error(e.message);
   }
 };
 
-const getThread = async (db, threadId) => {
+const getThread = async (db, boardId, threadId) => {
   try {
-    const thread = await db.one('SELECT * FROM dev_threads WHERE id = $1', [
+    const thread = await db.one(`SELECT * FROM ${boardId}_threads WHERE id = $1`, [
       threadId,
     ]);
     thread.posts = await db.any(
-      'SELECT * FROM dev_posts WHERE thread_id = $1 ORDER BY created_at ASC',
+      `SELECT * FROM ${boardId}_posts 
+      WHERE thread_id = $1 
+      ORDER BY created_at ASC`,
       [threadId]
     );
 
     await Promise.map(thread.posts, async (post) => {
       post.files = await db.any(
-        `SELECT * FROM dev_files WHERE dev_files.post_id=$1`,
+        `SELECT * FROM ${boardId}_files 
+        WHERE ${boardId}_files.post_id=$1`,
         [post.id]
       );
     });
     return thread;
   } catch (e) {
-    return new Error(e.message);
+    throw new Error(e.message);
   }
 };
 
-const createThread = async (db, post) => {
+const createThread = async (db, boardId, post) => {
   try {
     const thread = await db.one(
-      'INSERT INTO dev_threads DEFAULT VALUES RETURNING id'
+      `INSERT INTO ${boardId}_threads 
+      DEFAULT VALUES 
+      RETURNING id`
     );
 
     const threads = await db.any(
-      'SELECT * FROM dev_threads ORDER BY updated_at DESC'
+      `SELECT * FROM ${boardId}_threads 
+      ORDER BY updated_at DESC`
     );
 
     if (threads.length > 49) {
-      await deleteOldThreads(db, thread.id);
+      await deleteOldThreads(db, boardId);
     } else {
       console.log('threads: ', threads.length);
     }
 
     const postId = await db.one(
-      'INSERT INTO dev_posts(thread_id, title, text) VALUES($1, $2, $3) RETURNING id',
+      `INSERT INTO ${boardId}_posts(thread_id, title, text) 
+      VALUES($1, $2, $3) RETURNING id`,
       [thread.id, post.title, post.text]
     );
 
     await post.files.forEach(async (file) => {
       await db.query(
-        'INSERT INTO dev_files(thread_id, post_id, name) VALUES($1, $2, $3)',
+        `INSERT INTO ${boardId}_files(thread_id, post_id, name) 
+        VALUES($1, $2, $3)`,
         [thread.id, postId.id, file]
       );
     });
 
     return thread.id;
   } catch (e) {
-    return new Error(e.message);
+    throw new Error(e.message);
   }
 };
 
-const answerInThread = async (db, threadId, post) => {
+const answerInThread = async (db, boardId, threadId, post) => {
   try {
-    try {
-      await threadExists(db, threadId);
-    } catch (e) {
-      throw new Error(e.message);
-    }
+    await threadExists(db, threadId);
 
     const posts = await db.any(
-      'SELECT * FROM dev_posts WHERE thread_id = $1 ORDER BY created_at ASC',
+      `SELECT * FROM ${boardId}_posts 
+      WHERE thread_id = $1 
+      ORDER BY created_at ASC`,
       [threadId]
     );
 
     if (post.sage === 'false' && posts.length < 500) {
-      await db.query('UPDATE dev_threads SET updated_at=DEFAULT WHERE id=$1', [
-        threadId,
-      ]);
+      await db.query(
+        `UPDATE ${boardId}_threads 
+        SET updated_at=DEFAULT 
+        WHERE id=$1`,
+        [threadId]
+      );
     }
 
     const postId = await db.one(
-      'INSERT INTO dev_posts(thread_id, title, text, sage) ' +
-        'VALUES($1, $2, $3, $4) ' +
-        'RETURNING id',
+      `INSERT INTO ${boardId}_posts(thread_id, title, text, sage)
+      VALUES($1, $2, $3, $4)
+      RETURNING id`,
       [threadId, post.title, post.text, post.sage]
     );
 
     await post.files.forEach(async (file) => {
       await db.query(
-        'INSERT INTO dev_files(thread_id, post_id, name) VALUES($1, $2, $3)',
+        `INSERT INTO ${boardId}_files(thread_id, post_id, name) 
+        VALUES($1, $2, $3)`,
         [threadId, postId.id, file]
       );
     });
 
-    return await getThread(db, threadId);
+    return await getThread(db, boardId, threadId);
   } catch (e) {
-    return new Error(e.message);
+    throw new Error(e.message);
   }
 };
 
-const deleteOldThreads = async (db) => {
+const deleteOldThreads = async (db, boardId, threadId) => {
   try {
     const thread = await db.one(
       'SELECT id FROM dev_threads ORDER BY updated_at ASC LIMIT 1'
     );
 
     const files = await db.query(
-      'SELECT name from dev_files WHERE dev_files.thread_id=$1',
+      `SELECT name from ${boardId}_files WHERE ${boardId}_files.thread_id=$1`,
       [thread.id]
     );
 
@@ -157,7 +171,8 @@ const deleteOldThreads = async (db) => {
       );
     });
 
-    db.query('DELETE FROM dev_threads WHERE id=$1', [thread.id]);
+    await db.query(`DELETE FROM ${boardId}_threads WHERE id=$1`, [thread.id]);
+
   } catch (e) {
     throw new Error(e.message);
   }
@@ -165,14 +180,10 @@ const deleteOldThreads = async (db) => {
 
 const threadExists = async (db, threadID) => {
   try {
-    const thread = await db.one('SELECT id FROM dev_threads WHERE id=$1', [
-      threadID,
-    ]);
-    console.log(thread);
+    await db.one('SELECT id FROM dev_threads WHERE id=$1', [threadID]);
     return true;
   } catch (e) {
-    console.log(e.message);
-    return false;
+    throw new Error(e.message);
   }
 };
 
