@@ -1,6 +1,5 @@
 import 'babel-polyfill';
 import { createStore, applyMiddleware } from 'redux';
-import { Map, Iterable } from 'immutable';
 import { createLogger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 
@@ -11,15 +10,10 @@ const sagaMiddleware = createSagaMiddleware();
 
 const middlewares = [sagaMiddleware];
 
-const initialState = Map();
+const initialState = {};
 
 if (process.env.NODE_ENV === `development`) {
-  const logger = createLogger({
-    stateTransformer: (state) => {
-      if (Iterable.isIterable(state)) return state.toJS();
-      return state;
-    },
-  });
+  const logger = createLogger({});
   middlewares.push(logger);
 }
 

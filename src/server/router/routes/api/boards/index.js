@@ -1,12 +1,17 @@
 const router = require('express').Router();
+const allowedBoardsMiddleware = require('./allowedBoardsMiddleware');
 const boardsHandlers = require('../../../handlers/boards');
 
-router.get('/:boardId', boardsHandlers.getThreads);
+router.get('/:boardId', allowedBoardsMiddleware, boardsHandlers.getThreads);
 
-router.post('/:boardId', boardsHandlers.createThread);
+router.post('/:boardId', allowedBoardsMiddleware, boardsHandlers.createThread);
 
-router.get('/:boardId/:threadId', boardsHandlers.getThread);
+router.get('/:boardId/:threadId', allowedBoardsMiddleware, boardsHandlers.getThread);
 
-router.post('/:boardId/:threadId', boardsHandlers.answerInThread);
+router.post(
+  '/:boardId/:threadId',
+  allowedBoardsMiddleware,
+  boardsHandlers.answerInThread
+);
 
 module.exports = router;

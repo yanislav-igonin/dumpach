@@ -1,53 +1,62 @@
 import React from 'react';
-import { Link } from 'react-router';
-import Paper from 'material-ui/Paper';
+import { Link } from 'react-router-dom';
 
 import './PostPreview.scss';
 
 const PostPreview = ({ post, index, boardId, threadId, allPosts }) => (
-  <div className="post-preview-container">
-    <Paper className="post-preview">
-      <p className="post-preview__title">{post.title}</p>
-      <p
-        className="post-preview__time"
-        style={post.title !== '' || post.title === null ? { marginLeft: 5 } : null}
-      >
-        {new Date(post.created_at).toLocaleDateString()}{' '}
-        {new Date(post.created_at).toLocaleTimeString()}
-      </p>
-      <p
-        className="post-preview__id"
-        style={index === 0 ? { marginRight: 5 } : null}
-      >
-        №{post.id}
-      </p>
-      {index === 0 ? (
-        <Link to={`${window.location.pathname}/${threadId}`}>Open</Link>
-      ) : null}
-      <br />
+  <div className="post-preview">
+    <div className="post-preview__content">
+      <div className="post-info">
+        <p className="post-info__title">{post.title}</p>
+        <p
+          className="post-info__time"
+          style={post.title !== '' || post.title === null ? { marginLeft: 5 } : null}
+        >
+          {new Date(post.created_at).toLocaleDateString()}{' '}
+          {new Date(post.created_at).toLocaleTimeString()}
+        </p>
+        <p className="post-info__id" style={index === 0 ? { marginRight: 5 } : null}>
+          №{post.id}
+        </p>
+        {index === 0 ? (
+          <Link to={`${window.location.pathname}/${threadId}`}>Open</Link>
+        ) : null}
+        <br />
+      </div>
 
       {post.files.length !== 0 ? (
-        <div className="post-preview__files">
+        <div
+          className="files"
+          style={post.files.length < 3 ? { display: 'inline-block' } : null}
+        >
           {post.files.map((file) => (
-            <div className="file-preview" key={file.post + file.name}>
+            <div className="files__preview" key={file.post + file.name}>
               <File file={file} boardId={boardId} />
             </div>
           ))}
         </div>
       ) : null}
 
-      {post.text !== null && post.text !== ''
-        ? post.text.split('\n').map((row) => (
-            <p className="post-preview__text" key={row}>
-              {row}
-            </p>
-          ))
-        : null}
+      <div
+        style={
+          post.files.length < 3
+            ? { display: 'inline-block', verticalAlign: 'top' }
+            : null
+        }
+      >
+        {post.text !== null && post.text !== ''
+          ? post.text.split('\n').map((row) => (
+              <p className="text" key={row}>
+                {row}
+              </p>
+            ))
+          : null}
+      </div>
 
       {index === 0 ? (
-        <p className="post-preview__all-posts">All posts: {allPosts}</p>
+        <p className="all-posts-count">All posts: {allPosts}</p>
       ) : null}
-    </Paper>
+    </div>
   </div>
 );
 
@@ -74,7 +83,7 @@ class File extends React.PureComponent {
       <img
         onClick={this.toggleEnlarge}
         className={
-          enlarged === false ? 'file-preview__file--preview' : 'file-preview__file'
+          enlarged === false ? 'file--preview' : 'file'
         }
         src={
           enlarged === false

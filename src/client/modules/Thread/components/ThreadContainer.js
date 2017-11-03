@@ -1,17 +1,50 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
+import { getThread } from '../duck';
 import Post from './Post';
 
-const ThreadContainer = ({ thread, boardId }) => (
-  <div className="thread-conatiner">
-    {thread.get('posts') !== undefined ? (
-      thread
-        .get('posts')
-        .map((post, index) => (
-          <Post boardId={boardId} post={post} index={index} key={post.id} />
-        ))
-    ) : null}
-  </div>
-);
+class ThreadContainer extends Component {
+  componentDidMount() {
+    const { boardId, threadId } = this.props;
+    this.props.getThread(boardId, threadId);
+  }
+  componentWillReceiveProps(nextProps) {
+    const { boardId, threadId } = nextProps;
+    if (boardId !== this.props.boardId && threadId !== this.props.threadId) {
+      this.props.getThread(boardId, threadId);
+    }
+  }
 
-export default ThreadContainer;
+  render() {
+    const { boardId, threadId, thread, getThread } = this.props;
+    return (
+      <div className="thread" style={{ padding: '0 10px 0 10px' }}>
+        {thread.posts !== undefined
+          ? thread.posts.map((post, index) => (
+              <Post boardId={boardId} post={post} index={index} key={post.id} />
+            ))
+          : null}
+
+
+        <Link
+          to="#"
+          style={{ cursor: 'pointer' }}
+          onClick={(e) => {
+            e.preventDefault();
+            getThread(boardId, threadId);
+          }}
+        >
+          Update thread
+        </Link>
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = (state) => ({
+  thread: state.thread,
+});
+
+export default connect(mapStateToProps, { getThread })(ThreadContainer);

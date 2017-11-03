@@ -1,9 +1,5 @@
 import React from 'react';
-import Paper from 'material-ui/Paper';
-import TextField from 'material-ui/TextField';
-import Checkbox from 'material-ui/Checkbox';
-import { FormControlLabel } from 'material-ui/Form';
-import Button from 'material-ui/Button';
+import { Form, TextArea, Input, Button, Icon, Checkbox } from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
 
 import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/duck';
@@ -32,8 +28,8 @@ class CreateThreadForm extends React.PureComponent {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-  handleCheckboxChange(event, checked) {
-    this.setState({ [event.target.name]: checked });
+  handleCheckboxChange(event, { checked }) {
+    this.setState({ sage: checked });
   }
 
   handleDrop(acceptedFiles, rejectedFiles) {
@@ -44,6 +40,7 @@ class CreateThreadForm extends React.PureComponent {
     const { handleSubmit, dispatch } = this.props;
     const { text, files } = this.state;
     event.preventDefault();
+    
     if (text === '' && files.length === 0) {
       dispatch({
         type: OPEN_SNACKBAR,
@@ -71,7 +68,7 @@ class CreateThreadForm extends React.PureComponent {
   }
 
   renderDropzoneContent() {
-    let content = <i className="material-icons">attach_file</i>;
+    let content = <Icon name="attach" size="huge" className="attach-icon" />;
 
     if (this.state.files.length > 0) {
       content = this.renderDropzoneFilesPreview();
@@ -91,24 +88,21 @@ class CreateThreadForm extends React.PureComponent {
   render() {
     return (
       <div className="answer-in-thread-form">
-        <Paper className="answer-in-thread-form__container">
-          <form onSubmit={this.handleSubmit}>
+        <div className="answer-in-thread-form__content">
+          <Form onSubmit={this.handleSubmit}>
             <h3 className="header">Take a dump, please</h3>
-            <TextField
+            <Input
               name="title"
-              label="Title"
-              value={this.state.title}
+              placeholder="Title"
               onChange={this.handleInputChange}
-              fullWidth
+              fluid
               className="post-text-input"
             />
-            <TextField
+            <TextArea
               name="text"
-              label="Post"
-              value={this.state.text}
+              placeholder="Post"
               onChange={this.handleInputChange}
-              fullWidth
-              multiline
+              autoHeight
               className="post-text-input"
             />
             <Dropzone
@@ -119,23 +113,19 @@ class CreateThreadForm extends React.PureComponent {
             >
               <div className="dropzone__content">{this.renderDropzoneContent()}</div>
             </Dropzone>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  name="sage"
-                  checked={this.state.sage}
-                  onChange={this.handleCheckboxChange}
-                />
-              }
+            <Checkbox
+              name="sage"
+              checked={this.state.sage}
+              onChange={this.handleCheckboxChange}
               label="Sage"
             />
             <div className="submit-button-container">
-              <Button type="submit" raised color="primary">
+              <Button type="submit" primary>
                 Answer in thread
               </Button>
             </div>
-          </form>
-        </Paper>
+          </Form>
+        </div>
       </div>
     );
   }

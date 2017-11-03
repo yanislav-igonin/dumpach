@@ -1,5 +1,3 @@
-import { List } from 'immutable';
-
 //TYPES
 export const GET_THREADS = 'GET_THREADS';
 export const GET_THREADS_SUCCEEDED = 'GET_THREADS_SUCCEEDED';
@@ -10,7 +8,7 @@ export const CREATE_THREAD_SUCCEEDED = 'CREATE_THREAD_SUCCEEDED';
 export const CREATE_THREAD_FAILED = 'CREATE_THREAD_FAILED';
 
 //ACTION CREATORS
-export const getThreads = ({ boardId }) => ({
+export const getThreads = ( boardId ) => ({
   type: GET_THREADS,
   boardId,
 });
@@ -22,10 +20,10 @@ export const createThread = (boardId, thread) => ({
 });
 
 //REDUCER
-const threads = (state = List(), action) => {
+const threads = (state = [], action) => {
   switch (action.type) {
     case GET_THREADS_SUCCEEDED:
-      return List(action.threads);
+      return action.threads;
 
     default:
       return state;

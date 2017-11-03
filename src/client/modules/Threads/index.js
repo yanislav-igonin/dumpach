@@ -1,28 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import ThreadsList from './components/ThreadsList';
 import CreateThreadForm from './components/CreateThreadForm';
 import { createThread } from './duck';
-import ThreadPreview from './components/ThreadPreview';
 
-const Threads = ({ children, params, location, dispatch, threads }) => (
+const Threads = ({ match, dispatch }) => (
   <div className="threads">
-    <h1 className="main-page__title">{location.pathname}</h1>
     <CreateThreadForm
       dispatch={dispatch}
       handleSubmit={(thread) => {
-        dispatch(createThread(params.boardId, thread));
+        dispatch(createThread(match.params.boardId, thread));
       }}
     />
 
-    {threads.map((thread) => (
-      <ThreadPreview thread={thread} boardId={params.boardId} key={thread.id} />
-    ))}
+    <ThreadsList boardId={match.params.boardId} />
   </div>
 );
 
-const mapStateToProps = (state) => ({
-  threads: state.get('threads'),
-});
-
-export default connect(mapStateToProps)(Threads);
+export default connect()(Threads);

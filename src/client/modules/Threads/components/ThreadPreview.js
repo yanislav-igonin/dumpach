@@ -1,9 +1,8 @@
 import React from 'react';
-
 import PostPreview from './PostPreview';
 
 const ThreadPreview = ({ thread, boardId }) => (
-  <div className="thread-preview">
+  <div className="thread-preview" style={{marginBottom: 10}}>
     {thread.posts.map((post, index) => (
       <PostPreview
         post={post}
@@ -14,6 +13,7 @@ const ThreadPreview = ({ thread, boardId }) => (
         allPosts={thread.all_posts}
       />
     ))}
+    <hr />
   </div>
 );
 

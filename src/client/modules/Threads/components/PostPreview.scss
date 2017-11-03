@@ -1,34 +1,60 @@
-.post-preview-container {
-  .post-preview {
-    margin-bottom: 5px;
+@import "../../../styles-imports/sizes-mixins.scss";
+
+.post-preview {
+  margin-bottom: 5px;
+  &:first-child > &__content {
+    border: none;
+  }
+
+  &__content {
+    border: 1px solid #000;
+    border-radius: 5px;
     padding: 10px;
     display: inline-block;
 
-    &__title{
-      display: inline-block;
+    .post-info {
       margin: 0 0 5px 0;
-      font-weight: 500;
+      font-size: 16px;
+
+      &__title {
+        display: inline-block;
+        font-weight: 500;
+        margin-bottom: 0;
+      }
+
+      &__time {
+        display: inline-block;
+        margin: 0 10px 0 0;
+      }
+
+      &__id {
+        display: inline-block;
+        margin-bottom: 0;
+      }
     }
 
-    &__time {
-      display: inline-block;
-      margin: 0 10px 5px 0;
-    }
-    
-    &__id {
-      display: inline-block;
-      margin: 0 0 5px 0;
-    }
-
-    &__files{
-      .file-preview{
+    .files {
+      &__preview {
         display: inline-block;
         margin: 0 5px 5px 0;
-        vertical-align: middle;
+        vertical-align: top;
         cursor: pointer;
 
-        &__file{
+        
+        .file {
+          max-width: calc(100vw - 47px);
+          
           &--preview {
+            @include phone {
+              max-height: 50px;
+              max-width: 50px;
+            }
+
+            @include tablet {
+              max-height: 150px;
+              max-width: 150px;
+            }
+
             max-height: 200px;
             max-width: 200px;
           }
@@ -36,19 +62,14 @@
       }
     }
 
-    &__text {
+    .text {
+      font-size: 16px;
       margin: 0;
     }
 
-    &__all-posts{
+    .all-posts-count {
       margin: 5px 0 0 0;
-      color: rgba(0, 0, 0, 0.50)
+      color: rgba(0, 0, 0, 0.5);
     }
-  }
-
-  &:first-child > .post-preview {
-    background-color: rgba(0, 0, 0, 0);
-    box-shadow: none;
-    padding: 0;
   }
 }

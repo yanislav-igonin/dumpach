@@ -1,24 +1,40 @@
+@import '../../../styles-imports/sizes-mixins.scss';
+
 .create-thread-form{
+
+  @include phone {
+    padding: 0;
+  }
+
+  @include tablet {
+    padding: 0 5%;
+  }
+
   padding: 0 15%;
   margin-bottom: 20px;
+  background-color: rgba(75, 72, 72, 0.7);
+  background-blend-mode: overlay;
+  background-attachment: fixed;
 
-  &__container{
+  &__content{
     padding: 20px;
 
     .header{
       font-weight: 300;
       margin-top: 0;
       text-align: center;
+      color: #fff;
     }
 
     .post-text-input{
-      margin-bottom: 20px;
+      margin-bottom: 20px!important;
     }
 
     .dropzone{
       width: calc(100% - 4px);
-      border: 2px dashed #ccc;
-      border-radius: 5;
+      border: 2px dashed #000;
+      border-color: #fff;
+      border-radius: 5px;
       text-align: center;
       padding: 40px 0;
       position: relative;
@@ -27,6 +43,10 @@
 
       &__content {
         user-select: none;
+
+        .attach-icon {
+          color: #fff;
+        }
 
         .file-preview-container{
             display: inline-block;
