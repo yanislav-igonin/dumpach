@@ -170,9 +170,7 @@ const deleteOldThreads = async (db, boardId, threadId) => {
         console.log(`${file.name} thumb deleted`)
       );
     });
-
     await db.query(`DELETE FROM ${boardId}_threads WHERE id=$1`, [thread.id]);
-
   } catch (e) {
     throw new Error(e.message);
   }
