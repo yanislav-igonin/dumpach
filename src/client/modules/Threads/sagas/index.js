@@ -1,6 +1,6 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
-import { browserHistory } from 'react-router';
+// import { BrowserRouter as Router } from 'react-router-dom';
 
 import {
   GET_THREADS,
@@ -13,9 +13,9 @@ import {
 
 import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/duck';
 
-function* getThreads(action) {
+function* getThreads({ boardId }) {
   try {
-    const threads = yield fetch(`/api/boards/${action.boardId}`)
+    const threads = yield fetch(`/api/boards/${boardId}`)
       .then((res) => res.json())
       .catch((err) => {
         throw new Error(err.message);
@@ -27,7 +27,7 @@ function* getThreads(action) {
   } catch (e) {
     yield put({ type: GET_THREADS_FAILED, message: e.message });
     yield put({ type: OPEN_SNACKBAR, message: 'Can\'t get threads' });
-    yield browserHistory.push(`/not_found`);
+    // yield Router.push(`/not_found`);
     yield delay(5000);
     yield put({ type: CLOSE_SNACKBAR });
   }
@@ -51,7 +51,8 @@ function* createThread({ boardId, thread }) {
         throw new Error(err.message);
       });
 
-    yield browserHistory.push(`${window.location.pathname}/${threadId}`);
+    // yield Router.push(`${window.location.pathname}/${threadId}`);
+    yield window.location.pathname = `${window.location.pathname}/${threadId}`;
 
     yield put({ type: CREATE_THREAD_SUCCEEDED });
     yield put({ type: OPEN_SNACKBAR, message: 'Thread created' });

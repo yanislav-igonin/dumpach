@@ -1,11 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Switch, Route, Link } from 'react-router-dom';
+import { Icon } from 'semantic-ui-react';
 
-import Snackbar from '../Snackbar';
+import Threads from '../Threads';
+import Thread from '../Thread';
+
+// import Snackbar from '../Snackbar';
 
 import './index.scss';
 
-const MainPage = ({ children }) => (
+const MainPage = ({ match, location }) => (
   <div className="main-page">
     <h1 className="main-page__title">Dumpach</h1>
     <div className="main-page__source-link-container">
@@ -14,12 +18,12 @@ const MainPage = ({ children }) => (
         to="https://github.com/yanislav-igonin/dumpach/tree/master"
       >
         Sources
-        <i className="fa fa-github" aria-hidden="true" />
+        <Icon name="github" />
       </Link>
     </div>
     <h2 className="main-page__under-construction">
       Still under construction
-      <i className="fa fa-wrench" aria-hidden="true" />
+      <Icon className="wrench-icon" name="wrench" />
     </h2>
 
     <ul className="main-page__boards-list">
@@ -31,9 +35,13 @@ const MainPage = ({ children }) => (
       </li>
     </ul>
 
-    {children}
+    <h1 className="main-page__title">{location.pathname}</h1>
 
-    <Snackbar />
+    <Switch>
+      <Route path={`/:boardId/:threadId`} component={Thread} />
+      <Route path={`/:boardId`} component={Threads} />
+    </Switch>
+    {/* <Snackbar /> */}
   </div>
 );
 

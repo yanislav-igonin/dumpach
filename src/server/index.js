@@ -1,6 +1,8 @@
+require('dotenv').config()
 const express = require('express');
 const fs = require('fs');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser')
 const morgan = require('morgan');
 
 const config = require('./config/config');
@@ -29,6 +31,7 @@ boards.forEach((board) => {
 app
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }))
+  .use(cookieParser())
   .use('/', router)
   .use(morgan('dev'));
 
