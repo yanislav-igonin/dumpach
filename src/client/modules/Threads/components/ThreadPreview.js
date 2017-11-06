@@ -16,7 +16,9 @@ export default class ThreadPreview extends React.PureComponent {
     const threadMinimized = JSON.parse(localStorage.getItem(
       `threadMinimized-${boardId}-${thread.id}`
     ));
-    this.setState({ threadMinimized: threadMinimized });
+    if(threadMinimized !== null){
+      this.setState({ threadMinimized: threadMinimized });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -24,7 +26,9 @@ export default class ThreadPreview extends React.PureComponent {
     const threadMinimized = JSON.parse(localStorage.getItem(
       `threadMinimized-${boardId}-${thread.id}`
     ));
-    this.setState({ threadMinimized: threadMinimized });
+    if(threadMinimized !== null){
+      this.setState({ threadMinimized: threadMinimized });
+    }
   }
 
   minimizeThread = () => {
