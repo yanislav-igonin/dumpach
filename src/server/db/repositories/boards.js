@@ -112,7 +112,7 @@ const createThread = async (db, boardId, post) => {
 
 const answerInThread = async (db, boardId, threadId, post) => {
   try {
-    await threadExists(db, threadId);
+    await threadExists(db, boardId, threadId);
 
     const posts = await db.any(
       `SELECT * FROM ${boardId}_posts 
@@ -176,9 +176,9 @@ const deleteOldThreads = async (db, boardId, threadId) => {
   }
 };
 
-const threadExists = async (db, threadID) => {
+const threadExists = async (db, boardId, threadID) => {
   try {
-    await db.one('SELECT id FROM dev_threads WHERE id=$1', [threadID]);
+    await db.one(`SELECT id FROM ${boardId}_threads WHERE id=$1`, [threadID]);
     return true;
   } catch (e) {
     throw new Error(e.message);
