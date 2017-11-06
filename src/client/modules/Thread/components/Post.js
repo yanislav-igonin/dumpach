@@ -19,7 +19,7 @@ const Post = ({ post, index, boardId }) => (
         </p>
         {post.sage === true ? <p className="post-info__sage">SAGE</p> : null}
         <p className="post-info__index">#{index + 1}</p>
-        <p className="post-info__id" style={index === 0 ? { marginRight: 5 } : null}>
+        <p className="post-info__id" style={{ marginRight: 5 }}>
           №{post.id}
         </p>
       </div>

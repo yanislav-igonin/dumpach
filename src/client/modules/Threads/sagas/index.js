@@ -21,8 +21,6 @@ function* getThreads({ boardId }) {
         throw new Error(err.message);
       });
 
-      console.log(threads)
-
     yield put({ type: GET_THREADS_SUCCEEDED, threads });
   } catch (e) {
     yield put({ type: GET_THREADS_FAILED, message: e.message });
