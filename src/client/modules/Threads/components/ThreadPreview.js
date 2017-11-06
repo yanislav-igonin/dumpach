@@ -2,7 +2,7 @@ import React from 'react';
 import PostPreview from './PostPreview';
 import PostPreviewMinimized from './PostPreviewMinimized';
 
-export default class ThreadPreview extends React.Component {
+export default class ThreadPreview extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -11,8 +11,31 @@ export default class ThreadPreview extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const { boardId, thread } = this.props;
+    const threadMinimized = JSON.parse(localStorage.getItem(
+      `threadMinimized-${boardId}-${thread.id}`
+    ));
+    this.setState({ threadMinimized: threadMinimized });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { boardId, thread } = nextProps;
+    const threadMinimized = JSON.parse(localStorage.getItem(
+      `threadMinimized-${boardId}-${thread.id}`
+    ));
+    this.setState({ threadMinimized: threadMinimized });
+  }
+
   minimizeThread = () => {
     const { threadMinimized } = this.state;
+    const { thread, boardId } = this.props;
+
+    localStorage.setItem(
+      `threadMinimized-${boardId}-${thread.id}`,
+      !threadMinimized
+    );
+
     this.setState({ threadMinimized: !threadMinimized });
   };
 
@@ -21,7 +44,10 @@ export default class ThreadPreview extends React.Component {
     const { threadMinimized } = this.state;
 
     return (
-      <div className="thread-preview" style={{ marginBottom: 10 }}>
+      <div
+        className="thread-preview"
+        style={{ marginBottom: 10 }}
+      >
         {threadMinimized === false ? (
           <div className="thread-preview__content">
             {thread.posts.map((post, index) => (
