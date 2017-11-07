@@ -1,6 +1,8 @@
 # Dumpach
 ## SPA imageboard
 
+Hosted board: dumpach.anonymous.lv
+
 Hosted on Digital Ocean
 
 Front-end: React, Redux, React-Router, ImmutableJS, Redux Saga
