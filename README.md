@@ -1,7 +1,7 @@
 # Dumpach
 ## SPA imageboard
 
-Hosted board: dumpach.anonymous.lv
+Hosted board: [dumpach.anonymous.lv](dumpach.anonymous.lv)
 
 Hosted on Digital Ocean
 
