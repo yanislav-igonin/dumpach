@@ -16,8 +16,8 @@ Backend: Express, PostgreSQL
 - [x] Rewritte all app on create-react-app
 - [x] Rewritte all reducers on ducks
 - [x] Image uploading and thumbs making(its done on previous version, but it was single board only, so less more images can be uploded)
+- [x] Threads minimizing
  -[ ] Admin panel
 - [ ] UI errors hangling
 - [ ] Markdown support
-- [ ] Threads minimizing
 - [ ] Answers on posts
