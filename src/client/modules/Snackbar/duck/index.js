@@ -9,7 +9,7 @@ const snackbar = (state = { opened: false, message: '' }, action) => {
       return { opened: true, message: action.message };
 
     case CLOSE_SNACKBAR:
-      return { opened: false, message: '' };
+      return { opened: false, message: state.message };
 
     default:
       return state;

@@ -17,7 +17,8 @@ Backend: Express, PostgreSQL
 - [x] Rewritte all reducers on ducks
 - [x] Image uploading and thumbs making(its done on previous version, but it was single board only, so less more images can be uploded)
 - [x] Threads minimizing
+- [x] UI errors hangling
+- [ ] All users count wia websockets
  -[ ] Admin panel
-- [ ] UI errors hangling
 - [ ] Markdown support
 - [ ] Answers on posts
