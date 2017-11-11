@@ -24,6 +24,10 @@ class CreateThreadForm extends React.PureComponent {
     this.setState({ [event.target.name]: event.target.value });
   };
 
+  handleTextareaChange = (value) => {
+    this.setState({ text: value });
+  };
+
   handleCheckboxChange = (event, { checked }) => {
     this.setState({ sage: checked });
   };
@@ -61,10 +65,6 @@ class CreateThreadForm extends React.PureComponent {
       sage: false,
       files: [],
     });
-  };
-
-  handleChange = (value) => {
-    this.setState({ text: value });
   };
 
   renderDropzoneContent() {
@@ -105,7 +105,7 @@ class CreateThreadForm extends React.PureComponent {
             <ReactQuill
               value={text}
               placeholder="Text"
-              onChange={this.handleChange}
+              onChange={this.handleTextareaChange}
               modules={{
                 toolbar: [
                   ['bold', 'italic', 'underline', 'strike', 'blockquote'],

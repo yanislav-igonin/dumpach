@@ -61,11 +61,15 @@ const PostPreview = ({
         }
       >
         {post.text !== null && post.text !== ''
-          ? post.text.split('\n').map((row) => (
-              <p className="text" key={row}>
-                {row}
-              </p>
-            ))
+          ? post.text
+              .split('\n')
+              .map((row) => (
+                <div
+                  className="text"
+                  key={row}
+                  dangerouslySetInnerHTML={{ __html: row }}
+                />
+              ))
           : null}
       </div>
 
