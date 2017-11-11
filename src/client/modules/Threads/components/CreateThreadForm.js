@@ -15,21 +15,17 @@ class CreateThreadForm extends React.PureComponent {
       text: '',
       files: [],
     };
-
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleDrop = this.handleDrop.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleInputChange(event) {
+  handleInputChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-  handleDrop(acceptedFiles, rejectedFiles) {
+  handleDrop = (acceptedFiles, rejectedFiles) => {
     this.setState({ files: acceptedFiles.slice(0, 6) });
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     const { handleSubmit, dispatch } = this.props;
     const { text, files } = this.state;
     event.preventDefault();
@@ -70,6 +66,8 @@ class CreateThreadForm extends React.PureComponent {
   }
 
   render() {
+    const { title, text } = this.state;
+    
     return (
       <div className="create-thread-form">
         <div className="create-thread-form__content">
@@ -81,6 +79,7 @@ class CreateThreadForm extends React.PureComponent {
               onChange={this.handleInputChange}
               fluid
               className="post-text-input"
+              value={title}
             />
             <TextArea
               name="text"
@@ -88,6 +87,7 @@ class CreateThreadForm extends React.PureComponent {
               onChange={this.handleInputChange}
               autoHeight
               className="post-text-input"
+              value={text}
             />
             <Dropzone
               className="dropzone"
