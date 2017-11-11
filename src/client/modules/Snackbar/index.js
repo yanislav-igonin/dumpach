@@ -1,22 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Snackbar from 'material-ui/Snackbar';
-import Fade from 'material-ui/transitions/Fade';
+import './index.scss';
 
 const SnackbarComponent = ({ opened, message }) => (
-  <Snackbar
-    open={opened}
-    transition={Fade}
-    SnackbarContentProps={{
-      'aria-describedby': 'message-id',
-    }}
-    message={<span id="message-id">{message}</span>}
-  />
+  <div className={opened === true ? 'snackbar' : 'snackbar--closed'}>
+    <div className="snackbar__content">
+      <p className="message">{message}</p>
+    </div>
+  </div>
 );
 
 const mapStateToProps = (state) => ({
-  opened: state.get('snackbar').get('opened'),
-  message: state.get('snackbar').get('message'),
+  opened: state.snackbar.opened,
+  message: state.snackbar.message,
 });
 
 export default connect(mapStateToProps)(SnackbarComponent);

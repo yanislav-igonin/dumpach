@@ -4,8 +4,8 @@ import { Icon } from 'semantic-ui-react';
 
 import Threads from '../Threads';
 import Thread from '../Thread';
+import Snackbar from '../Snackbar';
 
-// import Snackbar from '../Snackbar';
 
 import './index.scss';
 
@@ -41,7 +41,8 @@ const MainPage = ({ match, location }) => (
       <Route path={`/:boardId/:threadId`} component={Thread} />
       <Route path={`/:boardId`} component={Threads} />
     </Switch>
-    {/* <Snackbar /> */}
+    
+    <Snackbar />
   </div>
 );
 
