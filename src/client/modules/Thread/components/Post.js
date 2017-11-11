@@ -5,9 +5,6 @@ import './Post.scss';
 const Post = ({ post, index, boardId }) => (
   <div className="post">
     <div className="post__content">
-
-
-
       <div className="post-info">
         <p className="post-info__title">{post.title}</p>
         <p
@@ -23,7 +20,6 @@ const Post = ({ post, index, boardId }) => (
           №{post.id}
         </p>
       </div>
-
 
       {post.files.length !== 0 ? (
         <div
@@ -46,11 +42,15 @@ const Post = ({ post, index, boardId }) => (
         }
       >
         {post.text !== null && post.text !== ''
-          ? post.text.split('\n').map((row) => (
-              <p className="text" key={row}>
-                {row}
-              </p>
-            ))
+          ? post.text
+              .split('\n')
+              .map((row) => (
+                <div
+                  className="text"
+                  key={row}
+                  dangerouslySetInnerHTML={{ __html: row }}
+                />
+              ))
           : null}
       </div>
     </div>
@@ -79,9 +79,7 @@ class File extends React.PureComponent {
     return (
       <img
         onClick={this.toggleEnlarge}
-        className={
-          enlarged === false ? 'file--preview' : 'file'
-        }
+        className={enlarged === false ? 'file--preview' : 'file'}
         src={
           enlarged === false
             ? `/uploads/${boardId}/thumbs/${file.name}`

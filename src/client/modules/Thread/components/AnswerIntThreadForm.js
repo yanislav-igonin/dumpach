@@ -1,6 +1,8 @@
 import React from 'react';
 import { Form, TextArea, Input, Button, Icon, Checkbox } from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/duck';
 
@@ -20,21 +22,21 @@ class CreateThreadForm extends React.PureComponent {
 
   handleInputChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
-  }
+  };
 
   handleCheckboxChange = (event, { checked }) => {
     this.setState({ sage: checked });
-  }
+  };
 
   handleDrop = (acceptedFiles, rejectedFiles) => {
     this.setState({ files: acceptedFiles.slice(0, 6) });
-  }
+  };
 
   handleSubmit = (event) => {
     const { handleSubmit, dispatch } = this.props;
     const { text, files } = this.state;
     event.preventDefault();
-    
+
     if (text === '' && files.length === 0) {
       dispatch({
         type: OPEN_SNACKBAR,
@@ -50,7 +52,7 @@ class CreateThreadForm extends React.PureComponent {
     } else {
       handleSubmit(this.state, this.clearForm);
     }
-  }
+  };
 
   clearForm = () => {
     this.setState({
@@ -59,7 +61,11 @@ class CreateThreadForm extends React.PureComponent {
       sage: false,
       files: [],
     });
-  }
+  };
+
+  handleChange = (value) => {
+    this.setState({text: value});
+  };
 
   renderDropzoneContent() {
     let content = <Icon name="attach" size="huge" className="attach-icon" />;
@@ -103,6 +109,34 @@ class CreateThreadForm extends React.PureComponent {
               className="post-text-input"
               value={text}
             />
+
+            <ReactQuill
+              value={text}
+              onChange={this.handleChange}
+              modules={{
+                toolbar: [
+                  ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                  [
+                    { list: 'ordered' },
+                    { list: 'bullet' },
+                    { indent: '-1' },
+                    { indent: '+1' },
+                  ],
+                ],
+              }}
+              formats={[
+                'header',
+                'bold',
+                'italic',
+                'underline',
+                'strike',
+                'blockquote',
+                'list',
+                'bullet',
+                'indent',
+              ]}
+            />
+
             <Dropzone
               className="dropzone"
               accept={'image/*'}
