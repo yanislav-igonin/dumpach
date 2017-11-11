@@ -34,6 +34,27 @@
       margin-bottom: 20px!important;
     }
 
+    .quill {
+      background-color: #fff;
+      border-radius: 5px;
+      margin-bottom: 20px!important;
+
+      .ql-toolbar {
+        border-radius: 5px 5px 0 0;
+      }
+      
+      .ql-container {
+        border-radius: 0 0 5px 5px;
+
+        .ql-blank {
+          &::before {
+            font-style: normal;
+            color: rgba(150, 141, 141, 0.6);
+          }
+        }
+      }
+    }
+
     .dropzone{
       width: calc(100% - 4px);
       border: 2px dashed #000;

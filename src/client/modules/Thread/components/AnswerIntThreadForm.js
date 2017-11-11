@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, TextArea, Input, Button, Icon, Checkbox } from 'semantic-ui-react';
+import { Form, Input, Button, Icon, Checkbox } from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -37,7 +37,7 @@ class CreateThreadForm extends React.PureComponent {
     const { text, files } = this.state;
     event.preventDefault();
 
-    if (text === '' && files.length === 0) {
+    if ((text === '' || text === '<p><br></p>') && files.length === 0) {
       dispatch({
         type: OPEN_SNACKBAR,
         message: 'Post text or files can\'t be empty',
@@ -64,7 +64,7 @@ class CreateThreadForm extends React.PureComponent {
   };
 
   handleChange = (value) => {
-    this.setState({text: value});
+    this.setState({ text: value });
   };
 
   renderDropzoneContent() {
@@ -101,31 +101,20 @@ class CreateThreadForm extends React.PureComponent {
               className="post-text-input"
               value={title}
             />
-            <TextArea
-              name="text"
-              placeholder="Post"
-              onChange={this.handleInputChange}
-              autoHeight
-              className="post-text-input"
-              value={text}
-            />
 
             <ReactQuill
               value={text}
+              placeholder="Text"
               onChange={this.handleChange}
               modules={{
                 toolbar: [
                   ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-                  [
-                    { list: 'ordered' },
-                    { list: 'bullet' },
-                    { indent: '-1' },
-                    { indent: '+1' },
-                  ],
+                  [{ list: 'ordered' }, { list: 'bullet' }],
+                  [{ script: 'sub' }, { script: 'super' }],
+                  ['video'],
                 ],
               }}
               formats={[
-                'header',
                 'bold',
                 'italic',
                 'underline',
@@ -133,7 +122,8 @@ class CreateThreadForm extends React.PureComponent {
                 'blockquote',
                 'list',
                 'bullet',
-                'indent',
+                'script',
+                'video',
               ]}
             />
 
