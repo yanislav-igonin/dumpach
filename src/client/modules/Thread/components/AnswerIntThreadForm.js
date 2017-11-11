@@ -1,6 +1,8 @@
 import React from 'react';
-import { Form, TextArea, Input, Button, Icon, Checkbox } from 'semantic-ui-react';
+import { Form, Input, Button, Icon, Checkbox } from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/duck';
 
@@ -20,22 +22,26 @@ class CreateThreadForm extends React.PureComponent {
 
   handleInputChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
-  }
+  };
+
+  handleTextareaChange = (value) => {
+    this.setState({ text: value });
+  };
 
   handleCheckboxChange = (event, { checked }) => {
     this.setState({ sage: checked });
-  }
+  };
 
   handleDrop = (acceptedFiles, rejectedFiles) => {
     this.setState({ files: acceptedFiles.slice(0, 6) });
-  }
+  };
 
   handleSubmit = (event) => {
     const { handleSubmit, dispatch } = this.props;
     const { text, files } = this.state;
     event.preventDefault();
-    
-    if (text === '' && files.length === 0) {
+
+    if ((text === '' || text === '<p><br></p>') && files.length === 0) {
       dispatch({
         type: OPEN_SNACKBAR,
         message: 'Post text or files can\'t be empty',
@@ -50,7 +56,7 @@ class CreateThreadForm extends React.PureComponent {
     } else {
       handleSubmit(this.state, this.clearForm);
     }
-  }
+  };
 
   clearForm = () => {
     this.setState({
@@ -59,7 +65,7 @@ class CreateThreadForm extends React.PureComponent {
       sage: false,
       files: [],
     });
-  }
+  };
 
   renderDropzoneContent() {
     let content = <Icon name="attach" size="huge" className="attach-icon" />;
@@ -95,14 +101,32 @@ class CreateThreadForm extends React.PureComponent {
               className="post-text-input"
               value={title}
             />
-            <TextArea
-              name="text"
-              placeholder="Post"
-              onChange={this.handleInputChange}
-              autoHeight
-              className="post-text-input"
+
+            <ReactQuill
               value={text}
+              placeholder="Text"
+              onChange={this.handleTextareaChange}
+              modules={{
+                toolbar: [
+                  ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                  [{ list: 'ordered' }, { list: 'bullet' }],
+                  [{ script: 'sub' }, { script: 'super' }],
+                  ['video'],
+                ],
+              }}
+              formats={[
+                'bold',
+                'italic',
+                'underline',
+                'strike',
+                'blockquote',
+                'list',
+                'bullet',
+                'script',
+                'video',
+              ]}
             />
+
             <Dropzone
               className="dropzone"
               accept={'image/*'}
