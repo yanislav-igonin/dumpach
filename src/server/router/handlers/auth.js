@@ -22,10 +22,8 @@ module.exports = {
 
   async authorize(req, res) {
     try {
-      const userData = await user.authenticate(req.body);
-      userData.password_hash = undefined;
-      userData.created_at = undefined;
-      userData.id = undefined;
+      const decoded = await token.validate(req.cookies.token);
+      const userData = await user.authorize(decoded.data);
       res.cookie('token', await token.create(userData, '1h'), {
         httpOnly: false,
         expires: new Date(Date.now() + 900000),
@@ -33,7 +31,7 @@ module.exports = {
       res.send(userData);
     } catch (e) {
       console.log(e.message);
-      res.status(404);
+      res.status(401);
       res.send(e.message);
     }
   },

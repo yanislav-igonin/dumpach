@@ -15,7 +15,6 @@ import {
 import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/duck';
 
 function* login({ login, password }) {
-  debugger
   try {
     const user = yield fetch('/api/auth/login', {
       method: 'POST',
@@ -47,7 +46,7 @@ function* login({ login, password }) {
 
 function* authorize({ token }) {
   try {
-    const user = yield fetch('/api/auth/authenticate', {
+    const user = yield fetch('/api/auth/authorize', {
       method: 'POST',
       credentials: 'include',
       body: JSON.stringify({ token }),

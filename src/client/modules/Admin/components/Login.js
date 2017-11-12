@@ -1,12 +1,14 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Input, Button } from 'semantic-ui-react';
 import { login } from '../duck';
 
+import './Login.scss';
+
 class Login extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    
+
     this.state = {
       login: '',
       password: '',
@@ -20,7 +22,7 @@ class Login extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     this.props.login(this.state);
-  }
+  };
 
   render() {
     const { login, password } = this.state;
@@ -28,7 +30,7 @@ class Login extends Component {
     return (
       <div className="login">
         <div className="login__content">
-        <Form onSubmit={this.handleSubmit}>
+          <Form onSubmit={this.handleSubmit}>
             <Input
               name="login"
               placeholder="Login"
@@ -52,13 +54,12 @@ class Login extends Component {
               </Button>
             </div>
           </Form>
-          </div>
-        
+        </div>
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state) => ({});
 
-export default connect(mapStateToProps, { login })(Login)
+export default connect(mapStateToProps, { login })(Login);

@@ -1,28 +1,40 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Login from './components/Login';
+import { authorize } from './duck';
 import Snackbar from '../Snackbar';
 
-export default class Admin extends PureComponent {
+class Admin extends PureComponent {
+  constructor(props){
+    super(props);
+
+    this.lastLocation = '';
+  }
   checkAuthorization() {
     const { match, location } = this.props;
     const token = getCookie('token');
-    
+
     if (token === undefined) {
-      if(location.pathname !== '/admin/login'){
+      if (location.pathname !== '/admin/login') {
         return <Redirect to={`${match.url}/login`} />;
       }
     } else {
-        // validate token
-        return <Redirect to={`${match.url}/dashboard`} />;
+      debugger
+      if (location.pathname !== this.lastLocation) {
+        this.props.authorize(token);
+        if(location.pathname === '/admin'){
+          return <Redirect to="/admin/dashboard" />;
+        }
+      }
+      this.lastLocation = location.pathname;
     }
-  };
+  }
 
   render() {
-    
-    
     return (
       <div className="admin">
+
         {this.checkAuthorization()}
 
         <Switch>
@@ -35,6 +47,12 @@ export default class Admin extends PureComponent {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
+
+export default connect(mapStateToProps, { authorize })(Admin);
 
 const getCookie = (name) => {
   const matches = document.cookie.match(
