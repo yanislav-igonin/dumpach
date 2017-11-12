@@ -16,14 +16,16 @@ const create = async (user) => {
 
 const authenticate = async (user) => {
   try {
+    debugger
     const data = await db.one('SELECT * FROM users WHERE login=$1', [user.login]);
     const compareResult = await bcrypt.compare(user.password, data.password_hash);
     if (compareResult === true) {
       return Object.assign(
         data,
-        await db.one('UPDATE users SET last_login_at=DEFAULT WHERE login=$1 RETURNING last_login_at', [
-          user.login,
-        ])
+        await db.one(
+          'UPDATE users SET last_login_at=DEFAULT WHERE login=$1 RETURNING last_login_at',
+          [user.login]
+        )
       );
     } else {
       throw new Error('Wrong username or password');
@@ -33,7 +35,9 @@ const authenticate = async (user) => {
   }
 };
 
-const authorize = async (user) => {};
+const authorize = async (user) => {
+
+};
 
 module.exports = {
   create,

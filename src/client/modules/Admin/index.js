@@ -1,26 +1,35 @@
 import React, { PureComponent } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import Login from './components/Login';
 import Snackbar from '../Snackbar';
 
 export default class Admin extends PureComponent {
-  static onEnter = (nextState, replace, user) => {
+  checkAuthorization() {
+    const { match, location } = this.props;
     const token = getCookie('token');
+    
     if (token === undefined) {
-      if (nextState.location.pathname !== '/admin/login') {
-        replace('/admin/login');
+      if(location.pathname !== '/admin/login'){
+        return <Redirect to={`${match.url}/login`} />;
       }
     } else {
-      if (nextState.location.pathname !== '/admin/dashboard') {
-        replace('/admin/dashboard');
-      }
+        // validate token
+        return <Redirect to={`${match.url}/dashboard`} />;
     }
   };
 
   render() {
-    const { children } = this.props;
-
+    
+    
     return (
       <div className="admin">
-        {children}
+        {this.checkAuthorization()}
+
+        <Switch>
+          <Route path="/admin/login" component={Login} />
+          {/* <Route path="/" component={} /> */}
+        </Switch>
+
         <Snackbar />
       </div>
     );

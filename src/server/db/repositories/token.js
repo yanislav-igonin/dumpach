@@ -16,7 +16,7 @@ const create = async (data, expiresIn) => {
 const validate = async (req, next) => {
   console.log(req);
   // try {
-  //   const decoded = await jwt.verify(ctx.cookies.get('token'), 'secret');
+  //   const decoded = await jwt.verify(ctx.cookies.get('token'), process.env.SECRET);
   //   if (decoded.exp > Date.now()) {
   //     throw new Error('token expired');
   //   }

@@ -3,6 +3,10 @@ export const LOGIN = 'LOGIN';
 export const LOGIN_SUCCEEDED = 'LOGIN_SUCCEEDED';
 export const LOGIN_FAILED = 'LOGIN_FAILED';
 
+export const AUTHORIZE = 'AUTHORIZE';
+export const AUTHORIZE_SUCCEEDED = 'AUTHORIZE_SUCCEEDED';
+export const AUTHORIZE_FAILED = 'AUTHORIZE_FAILED';
+
 export const LOGOUT = 'LOGOUT';
 export const LOGOUT_SUCCEEDED = 'LOGOUT_SUCCEEDED';
 export const LOGOUT_FAILED = 'LOGOUT_FAILED';
@@ -14,6 +18,11 @@ export const login = ({ login, password }) => ({
   password,
 });
 
+export const authorize = ({ token }) => ({
+  type: AUTHORIZE,
+  token,
+});
+
 export const logout = () => ({
   type: LOGOUT,
 });
@@ -22,6 +31,9 @@ export const logout = () => ({
 const user = (state = {}, action) => {
   switch (action.type) {
     case LOGIN_SUCCEEDED:
+      return action.user;
+
+    case AUTHORIZE_SUCCEEDED:
       return action.user;
 
     case LOGOUT_SUCCEEDED:
