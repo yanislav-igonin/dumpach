@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
 import Boards from './components/Boards';
+
+import { logout } from '../../duck';
 
 import './index.scss';
 
@@ -12,6 +15,11 @@ class Dashboard extends Component {
     const { history, match } = this.props;
     this.setState({ activeTab: name });
     history.replace(`${match.url}/${name}`);
+  };
+
+  handleLogout = () => {
+    const { logout } = this.props;
+    logout();
   };
 
   render() {
@@ -37,6 +45,10 @@ class Dashboard extends Component {
             >
               Users
             </Menu.Item>
+
+            <Menu.Menu position="right">
+              <Menu.Item name="logout" onClick={this.handleLogout} />
+            </Menu.Menu>
           </Menu>
 
           <Switch>
@@ -48,4 +60,6 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+const mapStateToProps = (state) => ({});
+
+export default connect(mapStateToProps, { logout })(Dashboard);

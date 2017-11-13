@@ -20,8 +20,6 @@ class Boards extends Component {
     const { match } = this.props;
     const { boardId } = this.state;
 
-    debugger
-
     return (
       <div className="boards">
         <div className="boards__content">
@@ -51,11 +49,7 @@ class Boards extends Component {
             <Route
               path={`${match.url}/:boardId`}
               component={({ match, history }) => (
-                <Threads
-                  match={match}
-                  history={history}
-                  boardId={boardId}
-                />
+                <Threads match={match} history={history} boardId={boardId} />
               )}
             />
           </Switch>
