@@ -1,4 +1,8 @@
 .dashboard {
+  .ui.menu {
+    border-radius: 0;
+  }
+  
   &__content {
     .menu {
       margin-bottom: 0;

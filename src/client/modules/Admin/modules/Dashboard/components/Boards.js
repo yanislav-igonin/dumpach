@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
+import ThreadsList from './ThreadsList';
 import { getThreads } from '../../../../Threads/duck';
 
 class Dashboard extends Component {
@@ -11,8 +12,8 @@ class Dashboard extends Component {
     const { getThreads } = this.props;
     const { boardId } = this.state;
     getThreads(boardId);
-  }
-  
+  };
+
   handleItemClick = (e, { name }) => {
     const { history, match, getThreads } = this.props;
     this.setState({ boardId: name });
@@ -21,6 +22,7 @@ class Dashboard extends Component {
   };
 
   render() {
+    const { match } = this.props;
     const { boardId } = this.state;
 
     return (
@@ -44,13 +46,19 @@ class Dashboard extends Component {
             </Menu.Item>
           </Menu>
 
-          <Switch />
+          <Route
+            path={`${match.url}/:boardId`}
+            component={() => <ThreadsList {...this.props}/>}
+            
+          />
         </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  threads: state.threads,
+});
 
 export default connect(mapStateToProps, { getThreads })(Dashboard);
