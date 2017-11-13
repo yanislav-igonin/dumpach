@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
-import ThreadsList from './ThreadsList';
+import Thread from './Thread';
+import Threads from './Threads';
 import { getThreads } from '../../../../Threads/duck';
 
-class Dashboard extends Component {
+class Boards extends Component {
   state = { boardId: 'b' };
 
   componentDidMount = () => {
@@ -22,7 +23,7 @@ class Dashboard extends Component {
   };
 
   render() {
-    const { match } = this.props;
+    const { match, threads } = this.props;
     const { boardId } = this.state;
 
     return (
@@ -46,11 +47,23 @@ class Dashboard extends Component {
             </Menu.Item>
           </Menu>
 
-          <Route
-            path={`${match.url}/:boardId`}
-            component={() => <ThreadsList {...this.props}/>}
-            
-          />
+          <Switch>
+            <Route
+              path={`${match.url}/:boardId/:threadId`}
+              component={({ match }) => <Thread match={match} boardId={boardId} />}
+            />
+            <Route
+              path={`${match.url}/:boardId`}
+              component={({ match, history }) => (
+                <Threads
+                  match={match}
+                  history={history}
+                  threads={threads}
+                  boardId={boardId}
+                />
+              )}
+            />
+          </Switch>
         </div>
       </div>
     );
@@ -61,4 +74,4 @@ const mapStateToProps = (state) => ({
   threads: state.threads,
 });
 
-export default connect(mapStateToProps, { getThreads })(Dashboard);
+export default connect(mapStateToProps, { getThreads })(Boards);

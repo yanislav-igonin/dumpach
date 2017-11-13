@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Table, Checkbox } from 'semantic-ui-react';
+import { getThread } from '../../../../Thread/duck';
 
-import './ThreadsList.scss';
+import './Threads.scss';
 
-export default class ThreadsList extends Component {
+class Thread extends Component {
+  componentDidMount = () => {
+    // const { getThread, boardId, boardId } = this.props;
+    // getThread(boardId, )
+  }
+  
+
   render() {
     const { threads } = this.props;
     return (
@@ -23,8 +31,8 @@ export default class ThreadsList extends Component {
 
             <Table.Body>
               {threads.map((thread) => (
-                <Table.Row>
-                  <Table.Cell collapsing>
+                <Table.Row key={thread.id}>
+                  <Table.Cell>
                     <Checkbox />
                   </Table.Cell>
                   <Table.Cell>{thread.id}</Table.Cell>
@@ -34,8 +42,14 @@ export default class ThreadsList extends Component {
                     />
                   </Table.Cell>
                   <Table.Cell>{thread.all_posts}</Table.Cell>
-                  <Table.Cell>{thread.created_at}</Table.Cell>
-                  <Table.Cell>{thread.updated_at}</Table.Cell>
+                  <Table.Cell>
+                    {new Date(thread.created_at).toLocaleDateString()}{' '}
+                    {new Date(thread.created_at).toLocaleTimeString()}
+                  </Table.Cell>
+                  <Table.Cell>
+                    {new Date(thread.updated_at).toLocaleDateString()}{' '}
+                    {new Date(thread.updated_at).toLocaleTimeString()}
+                  </Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>
@@ -45,3 +59,9 @@ export default class ThreadsList extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  thread: state.thread,
+});
+
+export default connect(mapStateToProps, { getThread })(Thread);
