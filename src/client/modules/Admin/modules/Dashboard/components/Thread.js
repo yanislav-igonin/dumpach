@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Table, Checkbox } from 'semantic-ui-react';
+// import { Table, Checkbox } from 'semantic-ui-react';
 import { getThread } from '../../../../Thread/duck';
 
 import './Threads.scss';
@@ -13,11 +13,12 @@ class Thread extends Component {
   
 
   render() {
-    const { threads } = this.props;
+    // const { threads } = this.props;
     return (
-      <div className="threads-list">
-        <div className="threads-list__content">
-          <Table celled>
+      <div className="thread">
+        <div className="thread__content">
+          thread
+          {/* <Table celled>
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell />
@@ -53,7 +54,7 @@ class Thread extends Component {
                 </Table.Row>
               ))}
             </Table.Body>
-          </Table>
+          </Table> */}
         </div>
       </div>
     );

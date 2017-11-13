@@ -4,27 +4,23 @@ import { Switch, Route } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
 import Thread from './Thread';
 import Threads from './Threads';
-import { getThreads } from '../../../../Threads/duck';
 
 class Boards extends Component {
   state = { boardId: 'b' };
 
-  componentDidMount = () => {
-    const { getThreads } = this.props;
-    const { boardId } = this.state;
-    getThreads(boardId);
-  };
-
   handleItemClick = (e, { name }) => {
-    const { history, match, getThreads } = this.props;
-    this.setState({ boardId: name });
-    history.replace(`${match.url}/${name}`);
-    getThreads(name);
+    const { history, match } = this.props;
+    this.setState({ boardId: name }, () => {
+      history.replace(`${match.url}/${name}`);
+      // getThreads(name);
+    });
   };
 
   render() {
-    const { match, threads } = this.props;
+    const { match } = this.props;
     const { boardId } = this.state;
+
+    debugger
 
     return (
       <div className="boards">
@@ -58,7 +54,6 @@ class Boards extends Component {
                 <Threads
                   match={match}
                   history={history}
-                  threads={threads}
                   boardId={boardId}
                 />
               )}
@@ -70,8 +65,6 @@ class Boards extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  threads: state.threads,
-});
+const mapStateToProps = (state) => ({});
 
-export default connect(mapStateToProps, { getThreads })(Boards);
+export default connect(mapStateToProps)(Boards);

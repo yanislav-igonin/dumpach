@@ -1,20 +1,27 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Table, Checkbox } from 'semantic-ui-react';
+import { getThreads } from '../../../../Threads/duck';
 
 import './Threads.scss';
 
-export default class Threads extends Component {
+class Threads extends Component {
+  componentDidMount = () => {
+    const { getThreads, match } = this.props;
+    getThreads(match.params.boardId);
+  };
+
   onThreadClick = (id) => {
     const { history, match } = this.props;
-    debugger
+    debugger;
     history.replace(`${match.url}/${id}`);
   };
 
   render() {
     const { threads } = this.props;
     return (
-      <div className="threads-list">
-        <div className="threads-list__content">
+      <div className="threads">
+        <div className="threads__content">
           <Table celled>
             <Table.Header>
               <Table.Row>
@@ -61,3 +68,9 @@ export default class Threads extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  threads: state.threads,
+});
+
+export default connect(mapStateToProps, { getThreads })(Threads);
