@@ -71,6 +71,29 @@ const getThread = async (db, boardId, threadId) => {
   }
 };
 
+const deleteThread = async (db, boardId, threadId) => {
+  try {
+    const files = await db.query(
+      `SELECT name from ${boardId}_files WHERE ${boardId}_files.thread_id=$1`,
+      [threadId]
+    );
+
+    files.forEach(async (file) => {
+      fs.unlink(`${config.app.uploadDir}/b/${file.name}`, (err) =>
+        console.log(`${file.name} deleted`)
+      );
+      fs.unlink(`${config.app.uploadDir}/b/thumbs/${file.name}`, (err) =>
+        console.log(`${file.name} thumb deleted`)
+      );
+    });
+    await db.query(`DELETE FROM ${boardId}_threads WHERE id=$1`, [threadId]);
+
+    return 'Thread deleted'
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};
+
 const createThread = async (db, boardId, post) => {
   try {
     const thread = await db.one(
@@ -151,10 +174,10 @@ const answerInThread = async (db, boardId, threadId, post) => {
   }
 };
 
-const deleteOldThreads = async (db, boardId, threadId) => {
+const deleteOldThreads = async (db, boardId) => {
   try {
     const thread = await db.one(
-      'SELECT id FROM dev_threads ORDER BY updated_at ASC LIMIT 1'
+      `SELECT id FROM ${boardId}_threads ORDER BY updated_at ASC LIMIT 1`
     );
 
     const files = await db.query(
@@ -188,6 +211,7 @@ const threadExists = async (db, boardId, threadID) => {
 module.exports = {
   getThreads,
   getThread,
+  deleteThread,
   createThread,
   answerInThread,
 };

@@ -8,6 +8,12 @@ router.post('/:boardId', allowedBoardsMiddleware, boardsHandlers.createThread);
 
 router.get('/:boardId/:threadId', allowedBoardsMiddleware, boardsHandlers.getThread);
 
+router.delete(
+  '/:boardId/:threadId',
+  allowedBoardsMiddleware,
+  boardsHandlers.deleteThread
+);
+
 router.post(
   '/:boardId/:threadId',
   allowedBoardsMiddleware,
