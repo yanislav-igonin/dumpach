@@ -1,5 +1,9 @@
-.thread{
+.thread {
   &__content {
     padding: 20px;
+
+    .delete-icon {
+      cursor: pointer;
+    }
   }
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Table, Checkbox } from 'semantic-ui-react';
+import { Table, Checkbox, Icon } from 'semantic-ui-react';
 import { getThread } from '../../../../Thread/duck';
 
 import './Thread.scss';
@@ -11,6 +11,10 @@ class Thread extends Component {
     getThread(match.params.boardId, match.params.threadId);
   };
 
+  handleDeleteClick(id) {
+    console.log(id);
+  }
+
   render() {
     const { thread } = this.props;
     debugger;
@@ -18,7 +22,7 @@ class Thread extends Component {
     return (
       <div className="thread">
         <div className="thread__content">
-          <Table celled>
+          <Table celled textAlign="center">
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell />
@@ -28,6 +32,7 @@ class Thread extends Component {
                 <Table.HeaderCell>Files</Table.HeaderCell>
                 <Table.HeaderCell>Sage</Table.HeaderCell>
                 <Table.HeaderCell>Created at</Table.HeaderCell>
+                <Table.HeaderCell />
               </Table.Row>
             </Table.Header>
 
@@ -48,6 +53,14 @@ class Thread extends Component {
                       <Table.Cell>
                         {new Date(thread.created_at).toLocaleDateString()}{' '}
                         {new Date(thread.created_at).toLocaleTimeString()}
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Icon
+                          name="delete"
+                          color="red"
+                          onClick={() => this.handleDeleteClick(post.id)}
+                          className="delete-icon"
+                        />
                       </Table.Cell>
                     </Table.Row>
                   ))
