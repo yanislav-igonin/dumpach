@@ -73,6 +73,10 @@ const getThread = async (db, boardId, threadId) => {
 
 const deleteThread = async (db, boardId, threadId) => {
   try {
+    await db.one(`SELECT * FROM ${boardId}_threads WHERE id = $1`, [
+      threadId,
+    ]);//checking thread existance
+
     const files = await db.query(
       `SELECT name from ${boardId}_files WHERE ${boardId}_files.thread_id=$1`,
       [threadId]
@@ -88,7 +92,7 @@ const deleteThread = async (db, boardId, threadId) => {
     });
     await db.query(`DELETE FROM ${boardId}_threads WHERE id=$1`, [threadId]);
 
-    return 'Thread deleted'
+    return 'Thread deleted';
   } catch (e) {
     throw new Error(e.message);
   }

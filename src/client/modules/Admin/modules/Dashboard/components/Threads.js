@@ -13,12 +13,12 @@ class Threads extends Component {
 
   onThreadClick = (id) => {
     const { history, match } = this.props;
-    debugger;
     history.replace(`${match.url}/${id}`);
   };
 
-  handleDeleteClick(id) {
-    console.log(id);
+  handleDeleteClick = (id) => {
+    const { match, handleThreadDelete } = this.props;
+    handleThreadDelete(match.params.boardId, id);
   }
 
   render() {

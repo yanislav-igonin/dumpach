@@ -5,6 +5,8 @@ import { Menu } from 'semantic-ui-react';
 import Thread from './Thread';
 import Threads from './Threads';
 
+import { deleteThread } from '../../../../Threads/duck';
+
 class Boards extends Component {
   state = { boardId: 'b' };
 
@@ -15,6 +17,10 @@ class Boards extends Component {
       // getThreads(name);
     });
   };
+
+  handleThreadDelete = (boardId, threadId) => {
+    this.props.deleteThread(boardId, threadId);
+  }
 
   render() {
     const { match } = this.props;
@@ -49,7 +55,12 @@ class Boards extends Component {
             <Route
               path={`${match.url}/:boardId`}
               component={({ match, history }) => (
-                <Threads match={match} history={history} boardId={boardId} />
+                <Threads
+                  match={match}
+                  history={history}
+                  handleThreadDelete={this.handleThreadDelete}
+                  boardId={boardId}
+                />
               )}
             />
           </Switch>
@@ -61,4 +72,4 @@ class Boards extends Component {
 
 const mapStateToProps = (state) => ({});
 
-export default connect(mapStateToProps)(Boards);
+export default connect(mapStateToProps, { deleteThread })(Boards);

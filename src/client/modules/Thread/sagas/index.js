@@ -6,9 +6,6 @@ import {
   GET_THREAD,
   GET_THREAD_SUCCEEDED,
   GET_THREAD_FAILED,
-  DELETE_THREAD,
-  DELETE_THREAD_SUCCEEDED,
-  DELETE_THREAD_FAILED,
   ANSWER_IN_THREAD,
   ANSWER_IN_THREAD_SUCCEEDED,
   ANSWER_IN_THREAD_FAILED,
@@ -29,26 +26,6 @@ function* getThread({ boardId, threadId }) {
     }
   } catch (e) {
     yield put({ type: GET_THREAD_FAILED, message: e.message });
-    yield put({ type: OPEN_SNACKBAR, message: 'Can\'t get thread' });
-    yield delay(5000);
-    yield put({ type: CLOSE_SNACKBAR });
-  }
-}
-
-function* deleteThread({ boardId, threadId }) {
-  try {
-    const res = yield fetch(`/api/boards/${boardId}/${threadId}`, {
-      method: 'DELETE',
-      credentials: 'include',
-    });
-
-    if (res.status === 200) {
-      yield put({ type: DELETE_THREAD_SUCCEEDED, threadId });
-    } else {
-      yield put({ type: DELETE_THREAD_FAILED, message: yield res.text() });
-    }
-  } catch (e) {
-    yield put({ type: DELETE_THREAD_FAILED, message: e.message });
     yield put({ type: OPEN_SNACKBAR, message: 'Can\'t get thread' });
     yield delay(5000);
     yield put({ type: CLOSE_SNACKBAR });
@@ -85,7 +62,6 @@ function* answerInThread({ boardId, threadId, post, callback }) {
 
 function* threadsSaga() {
   yield takeEvery(GET_THREAD, getThread);
-  yield takeEvery(DELETE_THREAD, deleteThread);
   yield takeEvery(ANSWER_IN_THREAD, answerInThread);
 }
 
