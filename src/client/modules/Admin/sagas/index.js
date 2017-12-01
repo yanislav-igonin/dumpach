@@ -16,7 +16,7 @@ import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/duck';
 
 function* login({ login, password }) {
   try {
-    const user = yield fetch('/api/auth/login', {
+    const user = yield fetch('/api/users/login', {
       method: 'POST',
       credentials: 'include',
       body: JSON.stringify({ login, password }),
@@ -46,7 +46,7 @@ function* login({ login, password }) {
 
 function* authorize({ token }) {
   try {
-    const user = yield fetch('/api/auth/authorize', {
+    const user = yield fetch('/api/users/authorize', {
       method: 'POST',
       credentials: 'include',
       body: JSON.stringify({ token }),
@@ -62,7 +62,6 @@ function* authorize({ token }) {
 
     if (user !== undefined) {
       yield put({ type: AUTHORIZE_SUCCEEDED, user });
-      // yield browserHistory.push('/admin/dashboard');
     } else {
       throw new Error('Wrong login or password');
     }
@@ -71,12 +70,13 @@ function* authorize({ token }) {
     yield put({ type: OPEN_SNACKBAR, message: 'Wrong login or password' });
     yield delay(5000);
     yield put({ type: CLOSE_SNACKBAR });
+    window.location = '/admin/login';
   }
 }
 
 function* logout() {
   try {
-    const status = yield fetch('/api/auth/logout', {
+    const status = yield fetch('/api/users/logout', {
       method: 'GET',
       credentials: 'include',
     })
@@ -87,7 +87,7 @@ function* logout() {
       
     if (status === 200) {
       yield put({ type: LOGOUT_SUCCEEDED });
-      // yield browserHistory.push('/admin/login');
+      window.location = '/admin/login';
     } else {
       throw new Error('Logout failed');
     }
