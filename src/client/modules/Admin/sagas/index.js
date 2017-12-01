@@ -32,7 +32,7 @@ function* login({ login, password }) {
 
     if (user !== undefined) {
       yield put({ type: LOGIN_SUCCEEDED, user });
-      // yield browserHistory.push('/admin/dashboard');
+      window.location = '/admin/dashboard';
     } else {
       throw new Error('Wrong login or password');
     }

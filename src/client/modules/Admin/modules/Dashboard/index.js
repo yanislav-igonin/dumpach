@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
 import Boards from './components/Boards';
+import Users from './components/Users';
 
 import { logout } from '../../duck';
 
@@ -53,6 +54,7 @@ class Dashboard extends Component {
 
           <Switch>
             <Route path={`${match.url}/boards`} component={Boards} />
+            <Route path={`${match.url}/users`} component={Users} />
           </Switch>
         </div>
       </div>

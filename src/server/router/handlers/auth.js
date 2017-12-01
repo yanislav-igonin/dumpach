@@ -1,10 +1,10 @@
 const token = require('../../db/repositories/token');
-const user = require('../../db/repositories/user');
+const users = require('../../db/repositories/users');
 
 module.exports = {
   async login(req, res) {
     try {
-      const userData = await user.authenticate(req.body);
+      const userData = await users.authenticate(req.body);
       userData.password_hash = undefined;
       userData.created_at = undefined;
       userData.id = undefined;
@@ -23,7 +23,7 @@ module.exports = {
   async authorize(req, res) {
     try {
       const decoded = await token.validate(req.cookies.token);
-      const userData = await user.authorize(decoded.data);
+      const userData = await users.authorize(decoded.data);
       res.cookie('token', await token.create(userData, '1h'), {
         httpOnly: false,
         expires: new Date(Date.now() + 900000),
