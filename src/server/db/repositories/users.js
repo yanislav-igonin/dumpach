@@ -1,6 +1,24 @@
 const bcrypt = require('bcrypt');
 const db = require('../../db/connection');
 
+const get = async () => {
+  try {
+    const users = await db.query('SELECT * FROM users')
+    return users;
+  } catch (e) {
+    throw new Error(e.message);
+  }
+}
+
+const remove = async (userId) => {
+  try {
+    db.query('DELETE FROM users WHERE id=$1', [userId])
+    return 'User deleted';
+  } catch (e) {
+    throw new Error(e.message);
+  }
+}
+
 const create = async (user) => {
   try {
     const passwordHash = await bcrypt.hash(user.password, 10);
@@ -57,6 +75,8 @@ const authorize = async (user) => {
 };
 
 module.exports = {
+  get,
+  remove,
   create,
   authenticate,
   authorize,
