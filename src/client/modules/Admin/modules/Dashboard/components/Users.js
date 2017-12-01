@@ -5,9 +5,12 @@ import { connect } from 'react-redux';
 // import Thread from './Thread';
 // import Threads from './Threads';
 
-// import { deleteThread } from '../../../../Threads/duck';
+import { getUsers } from '../../../duck/users';
 
 class Users extends Component {
+  componentDidMount = () => {
+    this.props.getUsers();
+  }
   
 
   render() {
@@ -21,6 +24,8 @@ class Users extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  users: state.users,
+});
 
-export default connect(mapStateToProps, { })(Users);
+export default connect(mapStateToProps, { getUsers })(Users);
