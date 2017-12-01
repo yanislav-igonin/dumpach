@@ -2,6 +2,26 @@ const token = require('../../db/repositories/token');
 const users = require('../../db/repositories/users');
 
 module.exports = {
+  async get(req,res) {
+    try {
+      await token.validate(req.cookies.token);
+      const usersList = await users.get();
+      res.send(usersList);
+    } catch (e) {
+      res.send(e.message);
+    }
+  },
+
+  async remove(req,res) {
+    try {
+      await token.validate(req.cookies.token);
+      const result = await users.remove(req.params.userId);
+      res.send(result);
+    } catch (e) {
+      res.send(e.message);
+    }
+  },
+
   async login(req, res) {
     try {
       const userData = await users.authenticate(req.body);
