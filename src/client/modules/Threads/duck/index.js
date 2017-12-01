@@ -36,7 +36,6 @@ const threads = (state = [], action) => {
       return action.threads;
 
     case DELETE_THREAD_SUCCEEDED:
-      debugger;
       return state.slice().filter((thread) => thread.id !== action.threadId);
 
     default:

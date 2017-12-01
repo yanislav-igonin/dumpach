@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Table, Checkbox, Icon } from 'semantic-ui-react';
+import { Table, Checkbox } from 'semantic-ui-react';
 import { getThread } from '../../../../Thread/duck';
 
 import './Thread.scss';
@@ -17,7 +17,6 @@ class Thread extends Component {
 
   render() {
     const { thread } = this.props;
-    debugger;
 
     return (
       <div className="thread">
@@ -32,7 +31,7 @@ class Thread extends Component {
                 <Table.HeaderCell>Files</Table.HeaderCell>
                 <Table.HeaderCell>Sage</Table.HeaderCell>
                 <Table.HeaderCell>Created at</Table.HeaderCell>
-                <Table.HeaderCell />
+                {/* <Table.HeaderCell /> */}
               </Table.Row>
             </Table.Header>
 
@@ -54,14 +53,14 @@ class Thread extends Component {
                         {new Date(thread.created_at).toLocaleDateString()}{' '}
                         {new Date(thread.created_at).toLocaleTimeString()}
                       </Table.Cell>
-                      <Table.Cell>
+                      {/* <Table.Cell>
                         <Icon
                           name="delete"
                           color="red"
                           onClick={() => this.handleDeleteClick(post.id)}
                           className="delete-icon"
                         />
-                      </Table.Cell>
+                      </Table.Cell> */}
                     </Table.Row>
                   ))
                 : null}

@@ -40,7 +40,6 @@ const authenticate = async (user) => {
 
 const authorize = async (user) => {
   try {
-    debugger
     const userData = Object.assign(
       user,
       await db.one(
