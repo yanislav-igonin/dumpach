@@ -3,21 +3,23 @@ const db = require('../../db/connection');
 
 const get = async () => {
   try {
-    const users = await db.query('SELECT * FROM users')
+    const users = await db.query(
+      'SELECT id, active, login, role_id, created_at, last_login_at FROM users'
+    );
     return users;
   } catch (e) {
     throw new Error(e.message);
   }
-}
+};
 
 const remove = async (userId) => {
   try {
-    db.query('DELETE FROM users WHERE id=$1', [userId])
+    db.query('DELETE FROM users WHERE id=$1', [userId]);
     return 'User deleted';
   } catch (e) {
     throw new Error(e.message);
   }
-}
+};
 
 const create = async (user) => {
   try {
