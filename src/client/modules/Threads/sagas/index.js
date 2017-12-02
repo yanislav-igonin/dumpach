@@ -6,6 +6,9 @@ import {
   GET_THREADS,
   GET_THREADS_SUCCEEDED,
   GET_THREADS_FAILED,
+  DELETE_THREAD,
+  DELETE_THREAD_SUCCEEDED,
+  DELETE_THREAD_FAILED,
   CREATE_THREAD,
   CREATE_THREAD_SUCCEEDED,
   CREATE_THREAD_FAILED,
@@ -31,6 +34,26 @@ function* getThreads({ boardId }) {
   }
 }
 
+function* deleteThread({ boardId, threadId }) {
+  try {
+    const res = yield fetch(`/api/boards/${boardId}/${threadId}`, {
+      method: 'DELETE',
+      credentials: 'include',
+    });
+
+    if (res.status === 200) {
+      yield put({ type: DELETE_THREAD_SUCCEEDED, threadId });
+    } else {
+      yield put({ type: DELETE_THREAD_FAILED, message: yield res.text() });
+    }
+  } catch (e) {
+    yield put({ type: DELETE_THREAD_FAILED, message: e.message });
+    yield put({ type: OPEN_SNACKBAR, message: 'Can\'t get thread' });
+    yield delay(5000);
+    yield put({ type: CLOSE_SNACKBAR });
+  }
+}
+
 function* createThread({ boardId, thread }) {
   try {
     const formData = new FormData();
@@ -50,7 +73,7 @@ function* createThread({ boardId, thread }) {
       });
 
     // yield Router.push(`${window.location.pathname}/${threadId}`);
-    yield window.location.pathname = `${window.location.pathname}/${threadId}`;
+    yield (window.location.pathname = `${window.location.pathname}/${threadId}`);
 
     yield put({ type: CREATE_THREAD_SUCCEEDED });
     yield put({ type: OPEN_SNACKBAR, message: 'Thread created' });
@@ -66,6 +89,7 @@ function* createThread({ boardId, thread }) {
 
 function* threadsSaga() {
   yield takeLatest(GET_THREADS, getThreads);
+  yield takeLatest(DELETE_THREAD, deleteThread);
   yield takeLatest(CREATE_THREAD, createThread);
 }
 

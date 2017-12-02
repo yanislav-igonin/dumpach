@@ -1,31 +1,51 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import Login from './components/Login';
+import Dashboard from './modules/Dashboard';
+import { authorize } from './duck';
 import Snackbar from '../Snackbar';
 
-export default class Admin extends PureComponent {
-  static onEnter = (nextState, replace, user) => {
+class Admin extends PureComponent {
+  checkAuthorization() {
+    const { match, location } = this.props;
     const token = getCookie('token');
+
     if (token === undefined) {
-      if (nextState.location.pathname !== '/admin/login') {
-        replace('/admin/login');
+      if (location.pathname !== '/admin/login') {
+        return <Redirect to={`${match.url}/login`} />;
       }
     } else {
-      if (nextState.location.pathname !== '/admin/dashboard') {
-        replace('/admin/dashboard');
+      this.props.authorize(token);
+      if (location.pathname === '/admin') {
+        return <Redirect to={`${match.url}/dashboard`} />;
       }
     }
-  };
+  }
 
   render() {
-    const { children } = this.props;
-
+    const { match } = this.props;
     return (
       <div className="admin">
-        {children}
+
+        {this.checkAuthorization()}
+
+        <Switch>
+          <Route path={`${match.url}/login`} component={Login} />
+          <Route path={`${match.url}/dashboard`} component={Dashboard} />
+        </Switch>
+
         <Snackbar />
       </div>
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  // user: state.user,
+});
+
+export default connect(mapStateToProps, { authorize })(Admin);
 
 const getCookie = (name) => {
   const matches = document.cookie.match(

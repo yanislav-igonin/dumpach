@@ -15,13 +15,11 @@ import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/duck';
 
 function* getThread({ boardId, threadId }) {
   try {
-    const thread = yield fetch(`/api/boards/${boardId}/${threadId}`)
-      .then((res) => res.json())
-      .catch((err) => {
-        throw new Error(err.message);
-      });
+    const thread = yield fetch(`/api/boards/${boardId}/${threadId}`).then((res) =>
+      res.json()
+    );
 
-    if(thread.id === undefined) {
+    if (thread.id === undefined) {
       // yield browserHistory.push(`/not_found`);
     } else {
       yield put({ type: GET_THREAD_SUCCEEDED, thread });
@@ -47,11 +45,7 @@ function* answerInThread({ boardId, threadId, post, callback }) {
     const thread = yield fetch(`/api/boards/${boardId}/${threadId}`, {
       method: 'POST',
       body: formData,
-    })
-      .then((res) => res.json())
-      .catch((err) => {
-        throw new Error(err.message);
-      });
+    }).then((res) => res.json());
 
     yield call(callback);
     yield put({ type: ANSWER_IN_THREAD_SUCCEEDED, thread });

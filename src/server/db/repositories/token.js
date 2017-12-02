@@ -13,18 +13,16 @@ const create = async (data, expiresIn) => {
   );
 };
 
-const validate = async (req, next) => {
-  console.log(req);
-  // try {
-  //   const decoded = await jwt.verify(ctx.cookies.get('token'), 'secret');
-  //   if (decoded.exp > Date.now()) {
-  //     throw new Error('token expired');
-  //   }
-  //   next(ctx);
-  // } catch (e) {
-  //   ctx.status = 401;
-  //   ctx.body = e.message;
-  // }
+const validate = async (token) => {
+  try {
+    const decoded = await jwt.verify(token, process.env.SECRET);
+    if (decoded.exp > Date.now()) {
+      throw new Error('token expired');
+    }
+    return decoded;
+  } catch (e) {
+    throw new Error(e.message);
+  }
 };
 
 module.exports = {

@@ -5,7 +5,7 @@ Hosted board: [dumpach.anonymous.lv](https://dumpach.anonymous.lv)
 
 Hosted on Digital Ocean
 
-Front-end: React, Redux, React-Router, ImmutableJS, Redux Saga
+Front-end: React, Redux, React-Router, Redux Saga
 
 Backend: Express, PostgreSQL
 
@@ -18,7 +18,7 @@ Backend: Express, PostgreSQL
 - [x] Image uploading and thumbs making(its done on previous version, but it was single board only, so less more images can be uploded)
 - [x] Threads minimizing
 - [x] UI errors hangling
+ -[x] Admin panel
 - [ ] All users count wia websockets
- -[ ] Admin panel
 - [ ] Markdown support
 - [ ] Answers on posts

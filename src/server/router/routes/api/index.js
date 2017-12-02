@@ -1,8 +1,8 @@
 const router = require('express').Router();
 const boards = require('./boards');
-const auth = require('./auth');
+const users = require('./users');
 
 router.use('/boards', boards);
-router.use('/auth', auth);
+router.use('/users', users);
 
 module.exports = router;

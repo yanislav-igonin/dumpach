@@ -1,0 +1,13 @@
+.threads {
+  &__content {
+    padding: 20px;
+
+    td:not(:first-child) {
+      cursor: pointer;
+    }
+
+    .delete-icon {
+      cursor: pointer;
+    }
+  }
+}
