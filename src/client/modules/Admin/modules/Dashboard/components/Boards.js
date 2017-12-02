@@ -8,19 +8,16 @@ import Threads from './Threads';
 import { deleteThread } from '../../../../Threads/duck';
 
 class Boards extends Component {
-  state = { boardId: 'b' };
+  state = { boardId: '' };
 
   handleItemClick = (e, { name }) => {
     const { history, match } = this.props;
-    this.setState({ boardId: name }, () => {
-      history.replace(`${match.url}/${name}`);
-      // getThreads(name);
-    });
+    this.setState({ boardId: name }, () => history.replace(`${match.url}/${name}`));
   };
 
   handleThreadDelete = (boardId, threadId) => {
     this.props.deleteThread(boardId, threadId);
-  }
+  };
 
   render() {
     const { match } = this.props;

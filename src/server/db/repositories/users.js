@@ -4,7 +4,10 @@ const db = require('../../db/connection');
 const get = async () => {
   try {
     const users = await db.query(
-      'SELECT id, active, login, role_id, created_at, last_login_at FROM users'
+      `SELECT users.id, users.login, users.created_at, users.last_login_at, users.active, users.role_id, roles.title AS role_title 
+      FROM users 
+      LEFT JOIN roles 
+      ON users.role_id=roles.id`
     );
     return users;
   } catch (e) {

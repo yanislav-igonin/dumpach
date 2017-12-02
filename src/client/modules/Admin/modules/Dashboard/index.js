@@ -10,7 +10,7 @@ import { logout } from '../../duck';
 import './index.scss';
 
 class Dashboard extends Component {
-  state = { activeTab: 'boards' };
+  state = { activeTab: '' };
 
   handleItemClick = (e, { name }) => {
     const { history, match } = this.props;
