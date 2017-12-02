@@ -1,6 +1,7 @@
 const db = require('../../db/connection/');
 const formParser = require('../helpers/formParser');
 const boards = require('../../db/repositories/boards');
+const token = require('../../db/repositories/token');
 
 module.exports = {
   async getThreads(req, res) {
@@ -16,6 +17,17 @@ module.exports = {
     try {
       const { boardId, threadId } = req.params;
       res.send(await boards.getThread(db, boardId, threadId));
+    } catch (e) {
+      res.status(404).send(e.message);
+    }
+  },
+
+  async deleteThread(req, res) {
+    try {
+      const { boardId, threadId } = req.params;
+      await token.validate(req.cookies.token);
+      
+      res.send(await boards.deleteThread(db, boardId, threadId));
     } catch (e) {
       res.status(404).send(e.message);
     }

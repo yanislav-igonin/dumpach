@@ -37,9 +37,9 @@ class CreateThreadForm extends React.PureComponent {
   };
 
   handleSubmit = (event) => {
+    event.preventDefault();
     const { handleSubmit, dispatch } = this.props;
     const { text, files } = this.state;
-    event.preventDefault();
 
     if ((text === '' || text === '<p><br></p>') && files.length === 0) {
       dispatch({

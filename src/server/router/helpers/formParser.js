@@ -9,11 +9,15 @@ const parseFormData = async (req) => {
   const post = fields;
 
   post.files = await files.map((file) => {
-    const newFullFileName = `${config.app.uploadDir}/${boardId}/${file.path.split('/')[2]}`;
-    file.pipe(fs.createWriteStream(newFullFileName))
-      .on('finish', () => {
-        thumbsMaker.makeImageThumb(`${config.app.uploadDir}/${boardId}`, file.path.split('/')[2]);
-      });
+    const newFullFileName = `${config.app.uploadDir}/${boardId}/${
+      file.path.split('/')[2]
+    }`;
+    file.pipe(fs.createWriteStream(newFullFileName)).on('finish', () => {
+      thumbsMaker.makeImageThumb(
+        `${config.app.uploadDir}/${boardId}`,
+        file.path.split('/')[2]
+      );
+    });
     return file.path.split('/')[2];
   });
   return post;

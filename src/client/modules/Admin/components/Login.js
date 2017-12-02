@@ -1,13 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Button from 'material-ui/Button';
-import Paper from 'material-ui/Paper';
-import TextField from 'material-ui/TextField';
+import { Form, Input, Button } from 'semantic-ui-react';
 import { login } from '../duck';
 
 import './Login.scss';
 
-class Login extends React.PureComponent {
+class Login extends Component {
   constructor(props) {
     super(props);
 
@@ -21,40 +19,42 @@ class Login extends React.PureComponent {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleSubmit = (e) => {
-    e.preventDefault();
+  handleSubmit = (event) => {
+    event.preventDefault();
     this.props.login(this.state);
   };
 
   render() {
+    const { login, password } = this.state;
+
     return (
-      <div className="login-form">
-        <Paper className="login-form__container">
-          <form onSubmit={this.handleSubmit}>
-            <TextField
+      <div className="login">
+        <div className="login__content">
+          <Form onSubmit={this.handleSubmit}>
+            <Input
               name="login"
-              label="Login"
-              value={this.state.title}
+              placeholder="Login"
               onChange={this.handleInputChange}
-              fullWidth
+              fluid
               className="post-text-input"
+              value={login}
             />
-            <TextField
+            <Input
               name="password"
+              placeholder="Password"
               type="password"
-              label="Password"
-              value={this.state.title}
               onChange={this.handleInputChange}
-              fullWidth
+              fluid
               className="post-text-input"
+              value={password}
             />
             <div className="submit-button-container">
-              <Button type="submit" raised color="primary">
+              <Button type="submit" primary>
                 Login
               </Button>
             </div>
-          </form>
-        </Paper>
+          </Form>
+        </div>
       </div>
     );
   }
