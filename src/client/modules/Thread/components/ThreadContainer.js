@@ -27,17 +27,21 @@ class ThreadContainer extends Component {
             ))
           : null}
 
-
-        <Link
-          to="#"
-          style={{ cursor: 'pointer' }}
-          onClick={(e) => {
-            e.preventDefault();
-            getThread(boardId, threadId);
-          }}
+        <div
+          className="thread__update-thread-link-container"
+          style={{ margin: '2em 0' }}
         >
-          Update thread
-        </Link>
+          <Link
+            to="#"
+            style={{ cursor: 'pointer', fontSize: '1.3em' }}
+            onClick={(e) => {
+              e.preventDefault();
+              getThread(boardId, threadId);
+            }}
+          >
+            Update thread
+          </Link>
+        </div>
       </div>
     );
   }
