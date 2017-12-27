@@ -5,22 +5,19 @@ import Dropzone from 'react-dropzone';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/duck';
-import { answerInThread } from '../duck';
+import { openSnackbar, closeSnackbar } from '../modules/Snackbar/duck';
+import { answerInThread } from '../modules/Thread/duck';
+import { createThread } from '../modules/Threads/duck';
 
-import './AnswerIntThreadForm.scss';
+import './AnswerForm.scss';
 
-class AnswerIntThreadForm extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      title: '',
-      text: '',
-      sage: false,
-      files: [],
-    };
-  }
+class AnswerForm extends React.PureComponent {
+  state = {
+    title: '',
+    text: '',
+    sage: false,
+    files: [],
+  };
 
   handleInputChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
@@ -40,29 +37,28 @@ class AnswerIntThreadForm extends React.PureComponent {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    debugger
-    const { match, dispatch } = this.props;
+    const {
+      match,
+      isAnswer,
+      openSnackbar,
+      closeSnackbar,
+      createThread,
+      answerInThread,
+    } = this.props;
     const { text, files } = this.state;
 
     if ((text === '' || text === '<p><br></p>') && files.length === 0) {
-      dispatch({
-        type: OPEN_SNACKBAR,
-        message: 'Post text or files can\'t be empty',
-      });
-      setTimeout(
-        () =>
-          dispatch({
-            type: CLOSE_SNACKBAR,
-          }),
-        5000
-      );
+      openSnackbar('Post text or files can\'t be empty');
+      setTimeout(() => closeSnackbar(), 5000);
     } else {
-      answerInThread(
-        match.params.boardId,
-        match.params.threadId,
-        this.state,
-        this.clearForm
-      );
+      isAnswer === true
+        ? answerInThread(
+            match.params.boardId,
+            match.params.threadId,
+            this.state,
+            this.clearForm
+          )
+        : createThread(match.params.boardId, this.state);
     }
   };
 
@@ -95,11 +91,12 @@ class AnswerIntThreadForm extends React.PureComponent {
 
   render() {
     const { title, text } = this.state;
+    const { isAnswer } = this.props;
 
     return (
-      <div className="answer-in-thread-form">
-        <div className="answer-in-thread-form__content">
-          <Form onSubmit={(event) => this.handleSubmit(event)}>
+      <div className="answer-form">
+        <div className="answer-form__content">
+          <Form onSubmit={this.handleSubmit}>
             <h3 className="header">Take a dump, please</h3>
             <Input
               name="title"
@@ -143,15 +140,17 @@ class AnswerIntThreadForm extends React.PureComponent {
             >
               <div className="dropzone__content">{this.renderDropzoneContent()}</div>
             </Dropzone>
-            <Checkbox
-              name="sage"
-              checked={this.state.sage}
-              onChange={this.handleCheckboxChange}
-              label="Sage"
-            />
+            {isAnswer === true ? (
+              <Checkbox
+                name="sage"
+                checked={this.state.sage}
+                onChange={this.handleCheckboxChange}
+                label="Sage"
+              />
+            ) : null}
             <div className="submit-button-container">
               <Button type="submit" primary>
-                Answer in thread
+                {isAnswer === true ? 'Answer in thread' : 'Create thread'}
               </Button>
             </div>
           </Form>
@@ -163,4 +162,9 @@ class AnswerIntThreadForm extends React.PureComponent {
 
 const mapStateToProps = (state) => ({});
 
-export default connect(mapStateToProps, { answerInThread })(AnswerIntThreadForm);
+export default connect(mapStateToProps, {
+  openSnackbar,
+  closeSnackbar,
+  answerInThread,
+  createThread,
+})(AnswerForm);

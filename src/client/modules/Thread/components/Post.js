@@ -1,6 +1,6 @@
 import React from 'react';
 import { Icon } from 'semantic-ui-react';
-import AnswerIntThreadForm from './AnswerIntThreadForm';
+// import AnswerIntThreadForm from './AnswerIntThreadForm';
 
 import './Post.scss';
 
@@ -58,7 +58,7 @@ const Post = ({ post, index, boardId, replyId, handleReplyClick }) => (
           : null}
       </div>
     </div>
-    {replyId === post.id ? <AnswerIntThreadForm /> : null}
+    {/* {replyId === post.id ? <AnswerIntThreadForm /> : null} */}
   </div>
 );
 

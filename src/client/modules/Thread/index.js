@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import AnswerIntThreadForm from './components/AnswerIntThreadForm';
+import AnswerForm from '../../components/AnswerForm';
 import ThreadContainer from './components/ThreadContainer';
 
-const Thread = ({ match, dispatch }) => (
+const Thread = ({ match }) => (
   <div className="thread">
-    <AnswerIntThreadForm match={match} />
+    <AnswerForm match={match} isAnswer={true} />
     <ThreadContainer
       boardId={match.params.boardId}
       threadId={match.params.threadId}
