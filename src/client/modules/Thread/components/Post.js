@@ -1,8 +1,10 @@
 import React from 'react';
+import { Icon } from 'semantic-ui-react';
+import AnswerIntThreadForm from './AnswerIntThreadForm';
 
 import './Post.scss';
 
-const Post = ({ post, index, boardId }) => (
+const Post = ({ post, index, boardId, replyId, handleReplyClick }) => (
   <div className="post">
     <div className="post__content">
       <div className="post-info">
@@ -19,6 +21,8 @@ const Post = ({ post, index, boardId }) => (
         <p className="post-info__id" style={{ marginRight: 5 }}>
           №{post.id}
         </p>
+
+        <Icon name="reply" onClick={() => handleReplyClick(post.id)} />
       </div>
 
       {post.files.length !== 0 ? (
@@ -54,6 +58,7 @@ const Post = ({ post, index, boardId }) => (
           : null}
       </div>
     </div>
+    {replyId === post.id ? <AnswerIntThreadForm /> : null}
   </div>
 );
 

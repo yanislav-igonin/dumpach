@@ -1,14 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Form, Input, Button, Icon, Checkbox } from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/duck';
+import { answerInThread } from '../duck';
 
 import './AnswerIntThreadForm.scss';
 
-class CreateThreadForm extends React.PureComponent {
+class AnswerIntThreadForm extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -38,7 +40,8 @@ class CreateThreadForm extends React.PureComponent {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const { handleSubmit, dispatch } = this.props;
+    debugger
+    const { match, dispatch } = this.props;
     const { text, files } = this.state;
 
     if ((text === '' || text === '<p><br></p>') && files.length === 0) {
@@ -54,7 +57,12 @@ class CreateThreadForm extends React.PureComponent {
         5000
       );
     } else {
-      handleSubmit(this.state, this.clearForm);
+      answerInThread(
+        match.params.boardId,
+        match.params.threadId,
+        this.state,
+        this.clearForm
+      );
     }
   };
 
@@ -91,7 +99,7 @@ class CreateThreadForm extends React.PureComponent {
     return (
       <div className="answer-in-thread-form">
         <div className="answer-in-thread-form__content">
-          <Form onSubmit={this.handleSubmit}>
+          <Form onSubmit={(event) => this.handleSubmit(event)}>
             <h3 className="header">Take a dump, please</h3>
             <Input
               name="title"
@@ -153,4 +161,6 @@ class CreateThreadForm extends React.PureComponent {
   }
 }
 
-export default CreateThreadForm;
+const mapStateToProps = (state) => ({});
+
+export default connect(mapStateToProps, { answerInThread })(AnswerIntThreadForm);

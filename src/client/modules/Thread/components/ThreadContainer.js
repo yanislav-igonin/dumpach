@@ -6,6 +6,10 @@ import { getThread } from '../duck';
 import Post from './Post';
 
 class ThreadContainer extends Component {
+  state = {
+    replyId: null,
+  };
+
   componentDidMount() {
     const { boardId, threadId } = this.props;
     this.props.getThread(boardId, threadId);
@@ -17,13 +21,29 @@ class ThreadContainer extends Component {
     }
   }
 
+  handleReplyClick = (replyId) => {
+    if (replyId === this.state.replyId) {
+      this.setState({ replyId: null });
+    } else {
+      this.setState({ replyId });
+    }
+  };
+
   render() {
     const { boardId, threadId, thread, getThread } = this.props;
+    const { replyId } = this.state;
     return (
       <div className="thread" style={{ padding: '0 10px 0 10px' }}>
         {thread.posts !== undefined
           ? thread.posts.map((post, index) => (
-              <Post boardId={boardId} post={post} index={index} key={post.id} />
+              <Post
+                boardId={boardId}
+                post={post}
+                index={index}
+                key={post.id}
+                replyId={replyId}
+                handleReplyClick={this.handleReplyClick}
+              />
             ))
           : null}
 
