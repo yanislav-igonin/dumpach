@@ -6,33 +6,27 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 import { openSnackbar, closeSnackbar } from '../modules/Snackbar/duck';
+import { editAnswerForm, clearAnswerForm } from './duck';
 import { answerInThread } from '../modules/Thread/duck';
 import { createThread } from '../modules/Threads/duck';
 
 import './AnswerForm.scss';
 
 class AnswerForm extends React.PureComponent {
-  state = {
-    title: '',
-    text: '',
-    sage: false,
-    files: [],
-  };
-
   handleInputChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+    this.props.editAnswerForm('title', event.target.value );
   };
 
   handleTextareaChange = (value) => {
-    this.setState({ text: value });
+    this.props.editAnswerForm('text', value );
   };
 
   handleCheckboxChange = (event, { checked }) => {
-    this.setState({ sage: checked });
+    this.props.editAnswerForm('sage', checked );
   };
 
   handleDrop = (acceptedFiles, rejectedFiles) => {
-    this.setState({ files: acceptedFiles.slice(0, 6) });
+    this.props.editAnswerForm('files', acceptedFiles.slice(0, 6) );
   };
 
   handleSubmit = (event) => {
@@ -44,8 +38,9 @@ class AnswerForm extends React.PureComponent {
       closeSnackbar,
       createThread,
       answerInThread,
+      clearAnswerForm,
     } = this.props;
-    const { text, files } = this.state;
+    const { text, files } = this.props.answerForm;
 
     if ((text === '' || text === '<p><br></p>') && files.length === 0) {
       openSnackbar('Post text or files can\'t be empty');
@@ -55,8 +50,8 @@ class AnswerForm extends React.PureComponent {
         ? answerInThread(
             match.params.boardId,
             match.params.threadId,
-            this.state,
-            this.clearForm
+            this.props.answerForm,
+            clearAnswerForm
           )
         : createThread(match.params.boardId, this.state);
     }
@@ -74,7 +69,7 @@ class AnswerForm extends React.PureComponent {
   renderDropzoneContent() {
     let content = <Icon name="attach" size="huge" className="attach-icon" />;
 
-    if (this.state.files.length > 0) {
+    if (this.props.answerForm.files.length > 0) {
       content = this.renderDropzoneFilesPreview();
     }
 
@@ -82,7 +77,7 @@ class AnswerForm extends React.PureComponent {
   }
 
   renderDropzoneFilesPreview() {
-    return this.state.files.map((file) => (
+    return this.props.answerForm.files.map((file) => (
       <div key={file.preview} className="file-preview-container">
         <img className="file-preview" src={file.preview} alt="file-preview" />
       </div>
@@ -90,7 +85,7 @@ class AnswerForm extends React.PureComponent {
   }
 
   render() {
-    const { title, text } = this.state;
+    const { title, text, sage } = this.props.answerForm;
     const { isAnswer } = this.props;
 
     return (
@@ -143,7 +138,7 @@ class AnswerForm extends React.PureComponent {
             {isAnswer === true ? (
               <Checkbox
                 name="sage"
-                checked={this.state.sage}
+                checked={sage}
                 onChange={this.handleCheckboxChange}
                 label="Sage"
               />
@@ -160,9 +155,13 @@ class AnswerForm extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  answerForm: state.answerForm,
+});
 
 export default connect(mapStateToProps, {
+  editAnswerForm,
+  clearAnswerForm,
   openSnackbar,
   closeSnackbar,
   answerInThread,
