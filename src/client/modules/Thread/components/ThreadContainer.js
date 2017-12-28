@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { getThread } from '../duck';
+import { addReplyAnswerForm } from '../../../components/duck';
 import Post from './Post';
 
 class ThreadContainer extends Component {
@@ -28,6 +29,7 @@ class ThreadContainer extends Component {
     if (replyId === this.state.replyId) {
       this.setState({ replyId: null });
     } else {
+      this.props.addReplyAnswerForm(replyId);
       this.setState({ replyId });
     }
   };
@@ -76,4 +78,6 @@ const mapStateToProps = (state) => ({
   thread: state.thread,
 });
 
-export default connect(mapStateToProps, { getThread })(ThreadContainer);
+export default connect(mapStateToProps, { getThread, addReplyAnswerForm })(
+  ThreadContainer
+);
