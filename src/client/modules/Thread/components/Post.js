@@ -5,7 +5,7 @@ import AnswerForm from '../../../components/AnswerForm';
 import './Post.scss';
 
 const Post = ({ post, index, boardId, match, replyId, handleReplyClick }) => (
-  <div className="post">
+  <div className="post" id={`post${post.id}`}>
     <div className="post__content">
       <div className="post-info">
         <p className="post-info__title">{post.title}</p>

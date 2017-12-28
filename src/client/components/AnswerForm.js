@@ -14,19 +14,19 @@ import './AnswerForm.scss';
 
 class AnswerForm extends React.PureComponent {
   handleInputChange = (event) => {
-    this.props.editAnswerForm('title', event.target.value );
+    this.props.editAnswerForm('title', event.target.value);
   };
 
   handleTextareaChange = (value) => {
-    this.props.editAnswerForm('text', value );
+    this.props.editAnswerForm('text', value);
   };
 
   handleCheckboxChange = (event, { checked }) => {
-    this.props.editAnswerForm('sage', checked );
+    this.props.editAnswerForm('sage', checked);
   };
 
   handleDrop = (acceptedFiles, rejectedFiles) => {
-    this.props.editAnswerForm('files', acceptedFiles.slice(0, 6) );
+    this.props.editAnswerForm('files', acceptedFiles.slice(0, 6));
   };
 
   handleSubmit = (event) => {
@@ -42,6 +42,11 @@ class AnswerForm extends React.PureComponent {
     } = this.props;
     const { text, files } = this.props.answerForm;
 
+    const repliesFindRegexp = /(&gt;&gt;\d+)/g;
+    const replies = text
+      .match(repliesFindRegexp)
+      .reduce((prev, curr) => [...prev, parseInt(curr.replace('&gt;&gt;', ''))], []);
+
     if ((text === '' || text === '<p><br></p>') && files.length === 0) {
       openSnackbar('Post text or files can\'t be empty');
       setTimeout(() => closeSnackbar(), 5000);
@@ -50,7 +55,7 @@ class AnswerForm extends React.PureComponent {
         ? answerInThread(
             match.params.boardId,
             match.params.threadId,
-            this.props.answerForm,
+            { ...this.props.answerForm, replies },
             clearAnswerForm
           )
         : createThread(match.params.boardId, this.state);

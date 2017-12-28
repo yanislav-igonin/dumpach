@@ -7,9 +7,7 @@ import ThreadContainer from './components/ThreadContainer';
 const Thread = ({ match }) => (
   <div className="thread">
     <AnswerForm match={match} isAnswer={true} />
-    <ThreadContainer
-      match={match}
-    />
+    <ThreadContainer match={match} />
   </div>
 );
 
