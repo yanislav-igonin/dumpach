@@ -1,10 +1,10 @@
 import React from 'react';
 import { Icon } from 'semantic-ui-react';
-// import AnswerIntThreadForm from './AnswerIntThreadForm';
+import AnswerForm from '../../../components/AnswerForm';
 
 import './Post.scss';
 
-const Post = ({ post, index, boardId, replyId, handleReplyClick }) => (
+const Post = ({ post, index, boardId, match, replyId, handleReplyClick }) => (
   <div className="post">
     <div className="post__content">
       <div className="post-info">
@@ -58,7 +58,7 @@ const Post = ({ post, index, boardId, replyId, handleReplyClick }) => (
           : null}
       </div>
     </div>
-    {/* {replyId === post.id ? <AnswerIntThreadForm /> : null} */}
+    {replyId === post.id ? <AnswerForm match={match} isAnswer /> : null}
   </div>
 );
 

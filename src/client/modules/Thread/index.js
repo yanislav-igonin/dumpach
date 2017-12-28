@@ -8,8 +8,7 @@ const Thread = ({ match }) => (
   <div className="thread">
     <AnswerForm match={match} isAnswer={true} />
     <ThreadContainer
-      boardId={match.params.boardId}
-      threadId={match.params.threadId}
+      match={match}
     />
   </div>
 );

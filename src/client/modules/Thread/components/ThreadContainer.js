@@ -11,12 +11,15 @@ class ThreadContainer extends Component {
   };
 
   componentDidMount() {
-    const { boardId, threadId } = this.props;
+    const { boardId, threadId } = this.props.match.params;
     this.props.getThread(boardId, threadId);
   }
   componentWillReceiveProps(nextProps) {
-    const { boardId, threadId } = nextProps;
-    if (boardId !== this.props.boardId && threadId !== this.props.threadId) {
+    const { boardId, threadId } = nextProps.match.params;
+    if (
+      boardId !== this.props.match.params.boardId &&
+      threadId !== this.props.match.params.threadId
+    ) {
       this.props.getThread(boardId, threadId);
     }
   }
@@ -30,7 +33,8 @@ class ThreadContainer extends Component {
   };
 
   render() {
-    const { boardId, threadId, thread, getThread } = this.props;
+    const { thread, getThread, match } = this.props;
+    const { boardId, threadId } = match.params;
     const { replyId } = this.state;
     return (
       <div className="thread" style={{ padding: '0 10px 0 10px' }}>
@@ -38,6 +42,7 @@ class ThreadContainer extends Component {
           ? thread.posts.map((post, index) => (
               <Post
                 boardId={boardId}
+                match={match}
                 post={post}
                 index={index}
                 key={post.id}
