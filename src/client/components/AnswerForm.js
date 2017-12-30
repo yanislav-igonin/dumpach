@@ -40,12 +40,23 @@ class AnswerForm extends React.PureComponent {
       answerInThread,
       clearAnswerForm,
     } = this.props;
+
     const { text, files } = this.props.answerForm;
 
     const repliesFindRegexp = /(&gt;&gt;\d+)/g;
-    const replies = text
-      .match(repliesFindRegexp)
-      .reduce((prev, curr) => [...prev, parseInt(curr.replace('&gt;&gt;', ''))], []);
+
+    const foundReplies = text.match(repliesFindRegexp);
+
+    let replies = [];
+
+    if (foundReplies !== null) {
+      replies = text
+        .match(repliesFindRegexp)
+        .reduce(
+          (prev, curr) => [...prev, parseInt(curr.replace('&gt;&gt;', ''))],
+          []
+        );
+    }
 
     if ((text === '' || text === '<p><br></p>') && files.length === 0) {
       openSnackbar('Post text or files can\'t be empty');
@@ -58,17 +69,8 @@ class AnswerForm extends React.PureComponent {
             { ...this.props.answerForm, replies },
             clearAnswerForm
           )
-        : createThread(match.params.boardId, this.state);
+        : createThread(match.params.boardId, this.props.answerForm);
     }
-  };
-
-  clearForm = () => {
-    this.setState({
-      title: '',
-      text: '',
-      sage: false,
-      files: [],
-    });
   };
 
   renderDropzoneContent() {
@@ -96,7 +98,7 @@ class AnswerForm extends React.PureComponent {
     return (
       <div className="answer-form">
         <div className="answer-form__content">
-          <Form onSubmit={this.handleSubmit}>
+          <Form onSubmit={(event) => this.handleSubmit(event)}>
             <h3 className="header">Take a dump, please</h3>
             <Input
               name="title"

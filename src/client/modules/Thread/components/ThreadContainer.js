@@ -29,7 +29,6 @@ class ThreadContainer extends Component {
     if (replyId === this.state.replyId) {
       this.setState({ replyId: null });
     } else {
-      console.log(replyId);
       this.props.addReplyAnswerForm(replyId);
       this.setState({ replyId });
     }
@@ -39,6 +38,7 @@ class ThreadContainer extends Component {
     const { thread, getThread, match } = this.props;
     const { boardId, threadId } = match.params;
     const { replyId } = this.state;
+
     return (
       <div className="thread" style={{ padding: '0 10px 0 10px' }}>
         {thread.posts !== undefined
@@ -52,6 +52,7 @@ class ThreadContainer extends Component {
                   boardId={boardId}
                   match={match}
                   post={{ ...post, text: textWithLinks }}
+                  posts={thread.posts}
                   index={index}
                   key={post.id}
                   replyId={replyId}
