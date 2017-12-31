@@ -24,7 +24,6 @@ const Post = ({ post, index, boardId, match, replyId, handleReplyClick }) => (
 
         <Icon name="reply" onClick={() => handleReplyClick(post.id)} />
       </div>
-
       {post.files.length !== 0 ? (
         <div
           className="files"
@@ -37,7 +36,6 @@ const Post = ({ post, index, boardId, match, replyId, handleReplyClick }) => (
           ))}
         </div>
       ) : null}
-
       <div
         style={
           post.files.length < 3
@@ -57,6 +55,21 @@ const Post = ({ post, index, boardId, match, replyId, handleReplyClick }) => (
               ))
           : null}
       </div>
+      {post.replies.length > 0 ? (
+        <div className="post_replies" style={{ marginTop: 10 }}>
+          {post.replies.map((replyId) => {
+            return (
+              <a
+                key={replyId + Date.now()}
+                href={`#post${replyId}`}
+                style={{ marginRight: 10 }}
+              >
+                >>{replyId}
+              </a>
+            );
+          })}
+        </div>
+      ) : null}
     </div>
     {replyId === post.id ? <AnswerForm match={match} isAnswer /> : null}
   </div>
