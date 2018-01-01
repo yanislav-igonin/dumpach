@@ -122,7 +122,7 @@ class Post extends React.Component {
                 index={index}
                 key={post.id}
                 replyId={replyId}
-                handleReplyClick={this.handleReplyClick}
+                handleReplyClick={handleReplyClick}
               />
             </div>
           ) : null}

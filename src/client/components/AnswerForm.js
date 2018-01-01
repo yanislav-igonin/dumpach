@@ -55,7 +55,8 @@ class AnswerForm extends React.PureComponent {
         .reduce(
           (prev, curr) => [...prev, parseInt(curr.replace('&gt;&gt;', ''))],
           []
-        );
+        )
+        .filter((reply, index, array) => array.indexOf(reply) === index);
     }
 
     if ((text === '' || text === '<p><br></p>') && files.length === 0) {
