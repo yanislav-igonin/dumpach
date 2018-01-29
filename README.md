@@ -19,6 +19,6 @@ Backend: Express, PostgreSQL
 - [x] Threads minimizing
 - [x] UI errors hangling
  -[x] Admin panel
+- [x] Markdown support
+- [x] Answers on posts
 - [ ] All users count wia websockets
-- [ ] Markdown support
-- [ ] Answers on posts
