@@ -7,5 +7,6 @@ CREATE TABLE roles (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+INSERT INTO roles(title) VALUES ('master');
 INSERT INTO roles(title) VALUES ('admin');
 INSERT INTO roles(title) VALUES ('moderator');

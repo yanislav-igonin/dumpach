@@ -18,6 +18,11 @@ CREATE TABLE b_posts (
     sage BOOLEAN
 );
 
+CREATE TABLE b_replies (
+    post_id INT REFERENCES b_posts(id) ON DELETE CASCADE,
+    reply_id INT REFERENCES b_posts(id)
+);
+
 CREATE TABLE b_files (
     thread_id INT REFERENCES b_threads(id) ON DELETE CASCADE,
     post_id INT REFERENCES b_posts(id),
@@ -43,4 +48,9 @@ CREATE TABLE dev_files (
     thread_id INT REFERENCES dev_threads(id) ON DELETE CASCADE,
     post_id INT REFERENCES dev_posts(id),
     name TEXT PRIMARY KEY
+);
+
+CREATE TABLE dev_replies (
+    post_id INT REFERENCES dev_posts(id) ON DELETE CASCADE,
+    reply_id INT REFERENCES dev_posts(id)
 );

@@ -1,19 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import AnswerForm from '../../components/AnswerForm';
 import ThreadsList from './components/ThreadsList';
-import CreateThreadForm from './components/CreateThreadForm';
-import { createThread } from './duck';
 
-const Threads = ({ match, dispatch }) => (
+const Threads = ({ match }) => (
   <div className="threads">
-    <CreateThreadForm
-      dispatch={dispatch}
-      handleSubmit={(thread) => {
-        dispatch(createThread(match.params.boardId, thread));
-      }}
-    />
-
+    <AnswerForm match={match} />
     <ThreadsList boardId={match.params.boardId} />
   </div>
 );

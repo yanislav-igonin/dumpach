@@ -1,6 +1,6 @@
-@import "../../../styles-imports/sizes-mixins.scss";
+@import "../styles-imports/sizes-mixins.scss";
 
-.answer-in-thread-form {
+.answer-form {
   @include phone {
     padding: 0;
   }
