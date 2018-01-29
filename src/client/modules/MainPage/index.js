@@ -11,6 +11,9 @@ import './index.scss';
 
 const MainPage = ({ match, location }) => (
   <div className="main-page">
+
+    <div className="main-page__overlay" />
+
     <h1 className="main-page__title">Dumpach</h1>
     <div className="main-page__source-link-container">
       <Link
