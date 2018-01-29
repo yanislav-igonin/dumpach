@@ -38,6 +38,7 @@ function* answerInThread({ boardId, threadId, post, callback }) {
     formData.append('title', post.title);
     formData.append('text', post.text);
     formData.append('sage', post.sage);
+    formData.append('replies', post.replies);
     post.files.forEach((file) => {
       formData.append('files', file, file.name);
     });

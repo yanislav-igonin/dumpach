@@ -1,76 +1,83 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Form, Input, Button, Icon, Checkbox } from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/duck';
+import { openSnackbar, closeSnackbar } from '../modules/Snackbar/duck';
+import { editAnswerForm, clearAnswerForm } from './duck';
+import { answerInThread } from '../modules/Thread/duck';
+import { createThread } from '../modules/Threads/duck';
 
-import './AnswerIntThreadForm.scss';
+import './AnswerForm.scss';
 
-class CreateThreadForm extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      title: '',
-      text: '',
-      sage: false,
-      files: [],
-    };
-  }
-
+class AnswerForm extends React.PureComponent {
   handleInputChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+    this.props.editAnswerForm('title', event.target.value);
   };
 
   handleTextareaChange = (value) => {
-    this.setState({ text: value });
+    this.props.editAnswerForm('text', value);
   };
 
   handleCheckboxChange = (event, { checked }) => {
-    this.setState({ sage: checked });
+    this.props.editAnswerForm('sage', checked);
   };
 
   handleDrop = (acceptedFiles, rejectedFiles) => {
-    this.setState({ files: acceptedFiles.slice(0, 6) });
+    this.props.editAnswerForm('files', acceptedFiles.slice(0, 6));
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const { handleSubmit, dispatch } = this.props;
-    const { text, files } = this.state;
+    const {
+      match,
+      isAnswer,
+      openSnackbar,
+      closeSnackbar,
+      createThread,
+      answerInThread,
+      clearAnswerForm,
+    } = this.props;
+
+    const { text, files } = this.props.answerForm;
+
+    const repliesFindRegexp = /(&gt;&gt;\d+)/g;
+
+    const foundReplies = text.match(repliesFindRegexp);
+
+    let replies = [];
+
+    if (foundReplies !== null) {
+      replies = text
+        .match(repliesFindRegexp)
+        .reduce(
+          (prev, curr) => [...prev, parseInt(curr.replace('&gt;&gt;', ''))],
+          []
+        )
+        .filter((reply, index, array) => array.indexOf(reply) === index);
+    }
 
     if ((text === '' || text === '<p><br></p>') && files.length === 0) {
-      dispatch({
-        type: OPEN_SNACKBAR,
-        message: 'Post text or files can\'t be empty',
-      });
-      setTimeout(
-        () =>
-          dispatch({
-            type: CLOSE_SNACKBAR,
-          }),
-        5000
-      );
+      openSnackbar('Post text or files can\'t be empty');
+      setTimeout(() => closeSnackbar(), 5000);
     } else {
-      handleSubmit(this.state, this.clearForm);
+      isAnswer === true
+        ? answerInThread(
+            match.params.boardId,
+            match.params.threadId,
+            { ...this.props.answerForm, replies },
+            clearAnswerForm
+          )
+        : createThread(match.params.boardId, this.props.answerForm);
     }
-  };
-
-  clearForm = () => {
-    this.setState({
-      title: '',
-      text: '',
-      sage: false,
-      files: [],
-    });
   };
 
   renderDropzoneContent() {
     let content = <Icon name="attach" size="huge" className="attach-icon" />;
 
-    if (this.state.files.length > 0) {
+    if (this.props.answerForm.files.length > 0) {
       content = this.renderDropzoneFilesPreview();
     }
 
@@ -78,7 +85,7 @@ class CreateThreadForm extends React.PureComponent {
   }
 
   renderDropzoneFilesPreview() {
-    return this.state.files.map((file) => (
+    return this.props.answerForm.files.map((file) => (
       <div key={file.preview} className="file-preview-container">
         <img className="file-preview" src={file.preview} alt="file-preview" />
       </div>
@@ -86,12 +93,13 @@ class CreateThreadForm extends React.PureComponent {
   }
 
   render() {
-    const { title, text } = this.state;
+    const { title, text, sage } = this.props.answerForm;
+    const { isAnswer } = this.props;
 
     return (
-      <div className="answer-in-thread-form">
-        <div className="answer-in-thread-form__content">
-          <Form onSubmit={this.handleSubmit}>
+      <div className="answer-form">
+        <div className="answer-form__content">
+          <Form onSubmit={(event) => this.handleSubmit(event)}>
             <h3 className="header">Take a dump, please</h3>
             <Input
               name="title"
@@ -135,15 +143,17 @@ class CreateThreadForm extends React.PureComponent {
             >
               <div className="dropzone__content">{this.renderDropzoneContent()}</div>
             </Dropzone>
-            <Checkbox
-              name="sage"
-              checked={this.state.sage}
-              onChange={this.handleCheckboxChange}
-              label="Sage"
-            />
+            {isAnswer === true ? (
+              <Checkbox
+                name="sage"
+                checked={sage}
+                onChange={this.handleCheckboxChange}
+                label="Sage"
+              />
+            ) : null}
             <div className="submit-button-container">
               <Button type="submit" primary>
-                Answer in thread
+                {isAnswer === true ? 'Answer in thread' : 'Create thread'}
               </Button>
             </div>
           </Form>
@@ -153,4 +163,15 @@ class CreateThreadForm extends React.PureComponent {
   }
 }
 
-export default CreateThreadForm;
+const mapStateToProps = (state) => ({
+  answerForm: state.answerForm,
+});
+
+export default connect(mapStateToProps, {
+  editAnswerForm,
+  clearAnswerForm,
+  openSnackbar,
+  closeSnackbar,
+  answerInThread,
+  createThread,
+})(AnswerForm);

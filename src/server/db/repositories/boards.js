@@ -64,6 +64,13 @@ const getThread = async (db, boardId, threadId) => {
         WHERE ${boardId}_files.post_id=$1`,
         [post.id]
       );
+
+      const repliesData = await db.any(
+        `SELECT reply_id from ${boardId}_replies WHERE post_id=$1`,
+        [post.id]
+      );
+
+      post.replies = repliesData.map((replyObject) => replyObject.reply_id);
     });
     return thread;
   } catch (e) {
@@ -73,9 +80,7 @@ const getThread = async (db, boardId, threadId) => {
 
 const deleteThread = async (db, boardId, threadId) => {
   try {
-    await db.one(`SELECT * FROM ${boardId}_threads WHERE id = $1`, [
-      threadId,
-    ]);//checking thread existance
+    await db.one(`SELECT * FROM ${boardId}_threads WHERE id = $1`, [threadId]); //checking thread existance
 
     const files = await db.query(
       `SELECT name from ${boardId}_files WHERE ${boardId}_files.thread_id=$1`,
@@ -157,18 +162,28 @@ const answerInThread = async (db, boardId, threadId, post) => {
       );
     }
 
-    const postId = await db.one(
+    const createdPost = await db.one(
       `INSERT INTO ${boardId}_posts(thread_id, title, text, sage)
       VALUES($1, $2, $3, $4)
-      RETURNING id`,
+      RETURNING *`,
       [threadId, post.title, post.text, post.sage]
+    );
+
+    await Promise.map(
+      post.replies.split(',').map((replyId) => parseInt(replyId)),
+      async (replyId) => {
+        return await db.query(
+          `INSERT INTO ${boardId}_replies(post_id, reply_id) VALUES($1, $2)`,
+          [replyId, createdPost.id]
+        );
+      }
     );
 
     await post.files.forEach(async (file) => {
       await db.query(
         `INSERT INTO ${boardId}_files(thread_id, post_id, name) 
         VALUES($1, $2, $3)`,
-        [threadId, postId.id, file]
+        [threadId, createdPost.id, file]
       );
     });
 

@@ -2,44 +2,44 @@
 
 .post {
   margin-bottom: 5px;
-  
-  &:first-child > &__content {
-    border: none;
-  }
 
   &__content {
+    &.post_index0 {
+      border: none;
+    }
+
     border: 1px solid #000;
     border-radius: 5px;
     padding: 10px;
     display: inline-block;
-    
+
     .post-info {
       margin: 0 0 5px 0;
       font-size: 16px;
-      
+
       &__title {
         display: inline-block;
         font-weight: bold;
         margin-bottom: 0;
       }
-      
+
       &__time {
         display: inline-block;
         margin: 0 10px 0 0;
       }
-  
-      &__sage{
+
+      &__sage {
         display: inline-block;
         color: red;
         margin: 0 10px 5px 0;
       }
-      
+
       &__index {
         display: inline-block;
         color: #303f9f;
         margin: 0 10px 5px 0;
       }
-      
+
       &__id {
         display: inline-block;
         margin-bottom: 0;
@@ -53,10 +53,9 @@
         vertical-align: top;
         cursor: pointer;
 
-        
         .file {
           max-width: calc(100vw - 47px);
-          
+
           &--preview {
             @include phone {
               max-height: 50px;
@@ -79,10 +78,9 @@
       font-size: 16px;
       margin: 0;
 
-      >p {
+      > p {
         margin-bottom: 0;
       }
     }
   }
 }
-

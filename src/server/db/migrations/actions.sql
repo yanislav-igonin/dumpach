@@ -8,6 +8,6 @@ CREATE TABLE actions (
 );
 
 INSERT INTO actions(title) VALUES ('read');
+INSERT INTO actions(title) VALUES ('create');
+INSERT INTO actions(title) VALUES ('edit');
 INSERT INTO actions(title) VALUES ('delete');
-INSERT INTO actions(title) VALUES ('add_user');
-INSERT INTO actions(title) VALUES ('delete_user');
