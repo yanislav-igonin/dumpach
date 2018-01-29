@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Login from './components/Login';
 import Dashboard from './modules/Dashboard';
-import { authorize } from './duck';
+import { authorize } from 'ducks/user';
 import Snackbar from '../Snackbar';
 
 class Admin extends PureComponent {

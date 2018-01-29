@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table, Icon } from 'semantic-ui-react';
 
-import { getUsers } from '../../../duck/users';
+import { getUsers } from 'ducks/users';
 
 import './Users.scss';
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table, Checkbox, Icon } from 'semantic-ui-react';
-import { getThreads } from '../../../../Threads/duck';
+import { getThreads } from 'ducks/threads';
 
 import './Threads.scss';
 

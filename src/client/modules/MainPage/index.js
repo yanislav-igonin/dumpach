@@ -6,7 +6,6 @@ import Threads from '../Threads';
 import Thread from '../Thread';
 import Snackbar from '../Snackbar';
 
-
 import './index.scss';
 
 const MainPage = ({ match, location }) => (

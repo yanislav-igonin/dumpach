@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { getThread } from '../duck';
-import { addReplyAnswerForm } from '../../../components/duck';
+import { getThread } from 'ducks/thread';
+import { addReplyAnswerForm } from '../../../shared/components/AnswerForm/duck';
 import Post from './Post';
 
 class ThreadContainer extends Component {

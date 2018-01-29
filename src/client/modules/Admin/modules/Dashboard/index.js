@@ -5,7 +5,7 @@ import { Menu } from 'semantic-ui-react';
 import Boards from './components/Boards';
 import Users from './components/Users';
 
-import { logout } from '../../duck';
+import { logout } from 'ducks/user';
 
 import './index.scss';
 

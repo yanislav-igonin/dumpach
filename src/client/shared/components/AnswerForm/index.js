@@ -5,12 +5,12 @@ import Dropzone from 'react-dropzone';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-import { openSnackbar, closeSnackbar } from '../modules/Snackbar/duck';
+import { openSnackbar, closeSnackbar } from 'ducks/snackbar';
 import { editAnswerForm, clearAnswerForm } from './duck';
-import { answerInThread } from '../modules/Thread/duck';
-import { createThread } from '../modules/Threads/duck';
+import { answerInThread } from 'ducks/thread';
+import { createThread } from 'ducks/threads';
 
-import './AnswerForm.scss';
+import './index.scss';
 
 class AnswerForm extends React.PureComponent {
   handleInputChange = (event) => {
