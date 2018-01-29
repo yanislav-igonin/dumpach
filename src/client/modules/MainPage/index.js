@@ -12,8 +12,6 @@ import './index.scss';
 const MainPage = ({ match, location }) => (
   <div className="main-page">
 
-    <div className="main-page__overlay" />
-
     <h1 className="main-page__title">Dumpach</h1>
     <div className="main-page__source-link-container">
       <Link
@@ -28,7 +26,7 @@ const MainPage = ({ match, location }) => (
       Still under construction
       <Icon className="wrench-icon" name="wrench" />
 
-      Build: 20
+      Build: 21
     </h2>
 
     <ul className="main-page__boards-list">
