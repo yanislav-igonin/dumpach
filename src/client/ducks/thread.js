@@ -23,7 +23,7 @@ export const answerInThread = (boardId, threadId, post, callback) => ({
 });
 
 //REDUCER
-const threads = (state = {}, action) => {
+const thread = (state = {}, action) => {
   switch (action.type) {
     case GET_THREAD_SUCCEEDED:
       return action.thread;
@@ -36,4 +36,4 @@ const threads = (state = {}, action) => {
   }
 };
 
-export default threads;
+export default thread;

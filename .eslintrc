@@ -32,16 +32,7 @@
     ],
     "no-param-reassign": ["error", { "props": false }],
     "quotes": ["error", "single", { "allowTemplateLiterals": true }],
-    "import/no-extraneous-dependencies": [
-      "error",
-      {
-        "devDependencies": true,
-        "optionalDependencies": true,
-        "peerDependencies": true
-      }
-    ],
     "max-len": ["error", 85],
-    "arrow-parens": ["error", "always"],
     "comma-dangle": [
       "error",
       {
@@ -51,6 +42,9 @@
         "exports": "always-multiline",
         "functions": "ignore"
       }
-    ]
+    ],
+    "jsx-a11y/href-no-hash": "off",
+    "arrow-parens": ["error", "always"],
+    "curly": "error"
   }
 }

@@ -11,8 +11,9 @@ import {
   LOGOUT,
   LOGOUT_SUCCEEDED,
   LOGOUT_FAILED,
-} from '../duck';
-import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/duck';
+} from 'ducks/user';
+
+import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from 'ducks/snackbar';
 
 function* login({ login, password }) {
   try {

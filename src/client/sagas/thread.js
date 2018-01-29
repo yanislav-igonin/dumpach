@@ -9,9 +9,9 @@ import {
   ANSWER_IN_THREAD,
   ANSWER_IN_THREAD_SUCCEEDED,
   ANSWER_IN_THREAD_FAILED,
-} from '../duck';
+} from 'ducks/thread';
 
-import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/duck';
+import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from 'ducks/snackbar';
 
 function* getThread({ boardId, threadId }) {
   try {

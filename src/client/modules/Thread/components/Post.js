@@ -1,6 +1,6 @@
 import React from 'react';
 import { Icon } from 'semantic-ui-react';
-import AnswerForm from '../../../components/AnswerForm';
+import AnswerForm from 'shared/components/AnswerForm';
 
 import './Post.scss';
 

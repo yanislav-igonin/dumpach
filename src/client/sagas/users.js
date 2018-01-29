@@ -5,8 +5,9 @@ import {
   GET_USERS,
   GET_USERS_SUCCEEDED,
   GET_USERS_FAILED,
-} from '../duck/users';
-import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/duck';
+} from 'ducks/users';
+
+import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from 'ducks/snackbar';
 
 function* getUsers() {
   try {

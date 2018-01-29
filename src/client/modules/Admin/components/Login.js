@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Input, Button } from 'semantic-ui-react';
-import { login } from '../duck';
+import { login } from 'ducks/user';
 
 import './Login.scss';
 

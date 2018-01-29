@@ -5,7 +5,7 @@ import { Menu } from 'semantic-ui-react';
 import Thread from './Thread';
 import Threads from './Threads';
 
-import { deleteThread } from '../../../../Threads/duck';
+import { deleteThread } from 'ducks/threads';
 
 class Boards extends Component {
   state = { boardId: '' };

@@ -1,6 +1,5 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
-// import { BrowserRouter as Router } from 'react-router-dom';
 
 import {
   GET_THREADS,
@@ -12,9 +11,9 @@ import {
   CREATE_THREAD,
   CREATE_THREAD_SUCCEEDED,
   CREATE_THREAD_FAILED,
-} from '../duck';
+} from 'ducks/threads';
 
-import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../../Snackbar/duck';
+  import { OPEN_SNACKBAR, CLOSE_SNACKBAR } from 'ducks/snackbar';
 
 function* getThreads({ boardId }) {
   try {

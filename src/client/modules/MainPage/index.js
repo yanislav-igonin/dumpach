@@ -6,7 +6,6 @@ import Threads from '../Threads';
 import Thread from '../Thread';
 import Snackbar from '../Snackbar';
 
-
 import './index.scss';
 
 const MainPage = ({ match, location }) => (
@@ -26,7 +25,7 @@ const MainPage = ({ match, location }) => (
       Still under construction
       <Icon className="wrench-icon" name="wrench" />
 
-      Build: 21
+      Build: 22
     </h2>
 
     <ul className="main-page__boards-list">

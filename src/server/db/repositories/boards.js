@@ -169,8 +169,10 @@ const answerInThread = async (db, boardId, threadId, post) => {
       [threadId, post.title, post.text, post.sage]
     );
 
+    console.log(post);
+
     await Promise.map(
-      post.replies.split(',').map((replyId) => parseInt(replyId)),
+      post.replies.map((replyId) => parseInt(replyId)),
       async (replyId) => {
         return await db.query(
           `INSERT INTO ${boardId}_replies(post_id, reply_id) VALUES($1, $2)`,

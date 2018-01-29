@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getThreads } from '../duck';
+import { getThreads } from 'ducks/threads';
 import ThreadPreview from './ThreadPreview';
 
 class ThreadsList extends Component {
