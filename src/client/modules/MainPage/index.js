@@ -27,6 +27,8 @@ const MainPage = ({ match, location }) => (
     <h2 className="main-page__under-construction">
       Still under construction
       <Icon className="wrench-icon" name="wrench" />
+
+      Build: 20
     </h2>
 
     <ul className="main-page__boards-list">
