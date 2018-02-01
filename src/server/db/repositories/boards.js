@@ -169,8 +169,6 @@ const answerInThread = async (db, boardId, threadId, post) => {
       [threadId, post.title, post.text, post.sage]
     );
 
-    console.log(post);
-
     await Promise.map(
       post.replies.map((replyId) => parseInt(replyId)),
       async (replyId) => {

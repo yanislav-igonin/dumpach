@@ -8,15 +8,10 @@ const parseFormData = async (req) => {
   const { fields, files } = await asyncBusboy(req);
   const post = fields;
 
-  console.log(post);
-
-  console.log(post.replies !== '');
-
   post.replies =
-    post.replies !== ''
+    post.replies !== undefined && post.replies !== ''
       ? post.replies.split(',').map((reply) => parseInt(reply))
       : [];
-  console.log(post);
 
   post.files = await files.map((file) => {
     const newFullFileName = `${config.app.uploadDir}/${boardId}/${
