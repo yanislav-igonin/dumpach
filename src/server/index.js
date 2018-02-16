@@ -4,6 +4,7 @@ const fs = require('fs');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser')
 const morgan = require('morgan');
+const axios = require('axios');
 
 const config = require('./config/config');
 const router = require('./router');
@@ -43,6 +44,12 @@ db
 
     app.listen(config.app.port, () => {
       console.log('Server listening port %d', config.app.port);
+
+      
+      setInterval(() => {
+        axios.get('https://ps-tg-bot.herokuapp.com')
+        .then((response) => console.log(response.data));
+      }, 300000)
     });
   })
   .catch((error) => {
