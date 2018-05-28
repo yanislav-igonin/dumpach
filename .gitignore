@@ -23,3 +23,7 @@ yarn-error.log*
 /public/uploads
 
 .env
+
+server/db
+server/router_old
+server/node_modules
