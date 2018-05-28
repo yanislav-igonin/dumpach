@@ -8,6 +8,7 @@
     "caminte": "^0.4.1",
     "koa": "^2.5.1",
     "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
     "pino": "^4.17.0"
   },
   "devDependencies": {
