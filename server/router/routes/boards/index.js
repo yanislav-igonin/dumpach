@@ -6,8 +6,8 @@ router.get('/', async (ctx) => {
     const boards = await handlers.boards.getBoards();
 
     ctx.body = { data: boards };
-  } catch (e) {
-    throw new Error(e);
+  } catch (err) {
+    throw new Error(err);
   }
 });
 
@@ -16,8 +16,8 @@ router.get('/:boardId', async (ctx) => {
     const threads = await handlers.boards.getThreads();
 
     ctx.body = { data: threads };
-  } catch (e) {
-    throw new Error(e);
+  } catch (err) {
+    throw new Error(err);
   }
 });
 
