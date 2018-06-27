@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../connection');
-const Post = require('./Post')
+const Post = require('./Post');
 
 const Thread = db.define(
   'threads',
@@ -15,6 +15,6 @@ const Thread = db.define(
   { underscored: true },
 );
 
-Thread.hasMany(Post)
+Thread.hasMany(Post, { foreignKey: 'thread_id', onDelete: 'cascade' });
 
 module.exports = Thread;
