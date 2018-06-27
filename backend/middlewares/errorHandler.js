@@ -1,20 +1,20 @@
 const status = require('http-status');
 const logger = require('../modules/logger');
+const { HttpNotFoundException } = require('../modules/errors');
 
 module.exports = async (ctx, next) => {
   try {
     await next();
   } catch (err) {
-    logger.error('ERROR HANDLER');
-    logger.error(err.message);
-    logger.error(err.stack);
-
-    ctx.body = {
-      error: {
-        code: status.INTERNAL_SERVER_ERROR,
-        message: err.message,
-        stack: err.stack,
-      },
-    };
+    console.log(err.name);
+    console.log(err instanceof HttpNotFoundException);
+    // if (err instanceof HttpNotFoundException) {
+      ctx.body = {
+        error: {
+          code: status.NOT_FOUND,
+          message: err.message,
+        },
+      };
+    // }
   }
 };

@@ -1,4 +1,5 @@
 const repositories = require('../../db/repositories');
+const { HttpNotFoundException } = require('../../modules/errors');
 
 module.exports = {
   async list(ctx) {
@@ -6,6 +7,10 @@ module.exports = {
 
     try {
       const threads = await repositories.threads.list(boardId);
+
+      if (!threads) {
+        throw new HttpNotFoundException('Threads not found!');
+      }
 
       ctx.body = { data: threads };
     } catch (err) {
@@ -17,6 +22,10 @@ module.exports = {
 
     try {
       const thread = await repositories.threads.read(threadId);
+
+      if (!thread) {
+        throw new HttpNotFoundException();
+      }
 
       ctx.body = { data: thread };
     } catch (err) {
