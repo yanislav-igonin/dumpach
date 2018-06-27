@@ -1,9 +1,6 @@
-const repositories = require('../../../db/repositories')
+// const repositories = require('../../../db/repositories')
 
 module.exports = {
-  // getBoards: async () => {
-  //   return ['b', 'dev'];
-  // }
   async getBoards() {
     return ['b', 'dev'];
   },

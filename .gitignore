@@ -24,6 +24,4 @@ yarn-error.log*
 
 .env
 
-server/db
-server/router_old
-server/node_modules
+backend/node_modules

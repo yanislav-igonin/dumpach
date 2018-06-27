@@ -10,13 +10,15 @@
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
     "pg": "^7.4.3",
-    "pino": "^4.17.0"
+    "pg-hstore": "^2.3.2",
+    "pino": "^4.17.0",
+    "sequelize": "^4.38.0"
   },
   "devDependencies": {
     "nodemon": "^1.17.5"
   },
   "scripts": {
-    "start": "NODEENV=production node index.js",
-    "dev": "NODEENV=development nodemon index.js"
+    "start": "NODE_ENV=production node index.js",
+    "dev": "NODE_ENV=development nodemon --inspect index.js"
   }
 }
