@@ -1,6 +1,6 @@
 import types from '../types';
 
-const getBoards = () => ({
+export const getBoards = () => ({
   type: types.boards.GET_BOARDS,
 });
 

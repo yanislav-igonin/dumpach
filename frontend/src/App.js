@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { getBoards } from './store/actions/boards';
 import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  componentDidMount = () => {
+    this.props.getBoards();
+  };
+
   render() {
     return (
       <div className="App">
@@ -18,12 +25,17 @@ class App extends Component {
   }
 }
 
-// const mapStateToProps = ({ boards }) => ({
-//   boards,
-// });
+const mapStateToProps = ({ boards }) => ({
+  boards,
+});
 
-// const mapDispatchToProps = (dispatch) => ({
-//   getBoards: dispatch()
-// })
+const mapDispatchToProps = (dispatch) => ({
+  getBoards: () => {
+    dispatch(getBoards());
+  },
+});
 
-export default App;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);

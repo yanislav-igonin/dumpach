@@ -1,4 +1,4 @@
-import { put, call, takeLatest } from 'redux-saga/effects';
+import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
 import types from '../types';
@@ -8,7 +8,7 @@ function* getBoards() {
     const response = yield axios.get('/api/boards');
 
     if (response.status === 200) {
-      yield put({ typs: types.boards.GET_BOARDS_SUCCESS, data: response.data.data });
+      yield put({ type: types.boards.GET_BOARDS_SUCCESS, data: response.data.data });
     }
   } catch (err) {
     console.log(err);
