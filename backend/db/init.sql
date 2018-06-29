@@ -34,16 +34,30 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: boards; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.boards (
+    id character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.boards OWNER TO postgres;
+
+--
 -- Name: posts; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.posts (
     id integer NOT NULL,
-    thread_id integer,
-    created_at timestamp with time zone DEFAULT now(),
     title text,
     text text,
-    sage boolean
+    is_sage boolean,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    thread_id integer
 );
 
 
@@ -77,8 +91,9 @@ ALTER SEQUENCE public.posts_id_seq OWNED BY public.posts.id;
 
 CREATE TABLE public.threads (
     id integer NOT NULL,
-    created_at timestamp with time zone DEFAULT now(),
-    updated_at timestamp with time zone DEFAULT now()
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    board_id character varying(255)
 );
 
 
@@ -121,10 +136,20 @@ ALTER TABLE ONLY public.threads ALTER COLUMN id SET DEFAULT nextval('public.thre
 
 
 --
+-- Data for Name: boards; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.boards (id, created_at, updated_at) FROM stdin;
+b	2018-06-29 12:43:20.36916+03	2018-06-29 12:43:20.36916+03
+dev	2018-06-29 12:43:23.825434+03	2018-06-29 12:43:23.825434+03
+\.
+
+
+--
 -- Data for Name: posts; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.posts (id, thread_id, created_at, title, text, sage) FROM stdin;
+COPY public.posts (id, title, text, is_sage, created_at, updated_at, thread_id) FROM stdin;
 \.
 
 
@@ -132,7 +157,7 @@ COPY public.posts (id, thread_id, created_at, title, text, sage) FROM stdin;
 -- Data for Name: threads; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.threads (id, created_at, updated_at) FROM stdin;
+COPY public.threads (id, created_at, updated_at, board_id) FROM stdin;
 \.
 
 
@@ -148,6 +173,14 @@ SELECT pg_catalog.setval('public.posts_id_seq', 1, false);
 --
 
 SELECT pg_catalog.setval('public.threads_id_seq', 1, false);
+
+
+--
+-- Name: boards boards_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.boards
+    ADD CONSTRAINT boards_pkey PRIMARY KEY (id);
 
 
 --
@@ -171,7 +204,15 @@ ALTER TABLE ONLY public.threads
 --
 
 ALTER TABLE ONLY public.posts
-    ADD CONSTRAINT posts_thread_id_fkey FOREIGN KEY (thread_id) REFERENCES public.threads(id) ON DELETE CASCADE;
+    ADD CONSTRAINT posts_thread_id_fkey FOREIGN KEY (thread_id) REFERENCES public.threads(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: threads threads_board_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.threads
+    ADD CONSTRAINT threads_board_id_fkey FOREIGN KEY (board_id) REFERENCES public.boards(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
