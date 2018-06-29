@@ -18,4 +18,12 @@ class App extends Component {
   }
 }
 
+// const mapStateToProps = ({ boards }) => ({
+//   boards,
+// });
+
+// const mapDispatchToProps = (dispatch) => ({
+//   getBoards: dispatch()
+// })
+
 export default App;
