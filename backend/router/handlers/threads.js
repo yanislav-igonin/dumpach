@@ -18,13 +18,30 @@ module.exports = {
       throw new Error(err);
     }
   },
-  
+
   async read(ctx) {
     const { threadId } = ctx.params;
 
     try {
       const thread = await threadsRepo.read(threadId);
 
+      if (!thread) {
+        throw new HttpNotFoundException();
+      }
+
+      ctx.body = { data: thread };
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+
+  async create(ctx) {
+    const { boardId } = ctx.params;
+    const { body: post } = ctx.request;
+
+    try {
+      const thread = await threadsRepo.create(boardId, post);
+      
       if (!thread) {
         throw new HttpNotFoundException();
       }

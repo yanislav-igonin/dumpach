@@ -1,21 +1,41 @@
-const Thread = require('../models/Thread');
+const { Thread, Post } = require('../models');
 
 module.exports = {
   async list(boardId, query) {
-    const threads = await Thread.findAll({
-      limit: query.limit,
-      offset: query.offset,
-      where: {
-        board_id: boardId,
-      },
-    });
+    try {
+      const threads = await Thread.findAll({
+        limit: query.limit,
+        offset: query.offset,
+        where: {
+          board_id: boardId,
+        },
+      });
 
-    return threads;
+      return threads;
+    } catch (err) {
+      throw new Error(err);
+    }
   },
 
   async read(threadId) {
-    const thread = await Thread.findById(threadId);
+    try {
+      const thread = await Thread.findById(threadId);
 
-    return thread;
+      return thread;
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+
+  async create(boardId, postFields) {
+    try {
+      const thread = (await Thread.create({ board_id: boardId })).toJSON();
+      const post = (await Post.create(postFields)).toJSON();
+      thread.posts = [post];
+      
+      return thread;
+    } catch (err) {
+      throw new Error(err);
+    }
   },
 };
