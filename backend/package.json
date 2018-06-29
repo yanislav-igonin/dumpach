@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "ajv": "^6.5.1",
     "bluebird": "^3.5.1",
     "http-status": "^1.2.0",
     "koa": "^2.5.1",
