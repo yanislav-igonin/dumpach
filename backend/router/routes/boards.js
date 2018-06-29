@@ -1,6 +1,6 @@
 const router = require('koa-router')();
-const handlers = require('../handlers');
+const { boards } = require('../handlers');
 
-router.get('/', handlers.boards.list);
+router.get('/', boards.list);
 
 module.exports = router.routes();

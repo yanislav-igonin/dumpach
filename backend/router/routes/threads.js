@@ -1,8 +1,8 @@
 const router = require('koa-router')();
-const handlers = require('../handlers');
+const { threads } = require('../handlers');
 
-router.get('/:boardId', handlers.threads.list);
+router.get('/:boardId', threads.list);
 
-router.get('/:boardId/:threadId', handlers.threads.read);
+router.get('/:boardId/:threadId', threads.read);
 
 module.exports = router.routes();
