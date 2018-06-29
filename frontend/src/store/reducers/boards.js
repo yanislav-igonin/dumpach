@@ -12,6 +12,11 @@ const boards = (state = initialState, action) => {
         isFetching: true,
         list: [],
       };
+    case types.boards.GET_BOARDS_SUCCESS:
+      return {
+        isFetching: false,
+        list: action.data,
+      };
     default:
       return state;
   }
