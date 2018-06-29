@@ -51,4 +51,21 @@ module.exports = {
       throw new Error(err);
     }
   },
+
+  async update(ctx) {
+    const { threadId } = ctx.params;
+    const { body: post } = ctx.request;
+
+    try {
+      const posts = await threadsRepo.update(threadId, post);
+      
+      if (!posts) {
+        throw new HttpNotFoundException();
+      }
+
+      ctx.body = { data: posts };
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
 };
