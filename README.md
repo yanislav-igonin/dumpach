@@ -1,24 +1,13 @@
 # Dumpach
 ## SPA imageboard
 
-Hosted board: [dumpach.anonymous.lv](https://dumpach.anonymous.lv)
+### Quick start
 
-Hosted on Digital Ocean
+Install Docker and Docker Compose on your machine.
 
-Front-end: React, Redux, React-Router, Redux Saga
+#### Local development
 
-Backend: Express, PostgreSQL
-
-### TODO
-- [x] Thread form cleaning after posting
-- [x] Bump limit
-- [x] Threads deleting
-- [x] Rewritte all app on create-react-app
-- [x] Rewritte all reducers on ducks
-- [x] Image uploading and thumbs making(its done on previous version, but it was single board only, so less more images can be uploded)
-- [x] Threads minimizing
-- [x] UI errors hangling
- -[x] Admin panel
-- [x] Markdown support
-- [x] Answers on posts
-- [ ] All users count wia websockets
+Run from project root
+```
+docker-compose -f docker-compose-dev.yml up --build
+```
