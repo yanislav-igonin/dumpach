@@ -4,9 +4,10 @@ const { HttpNotFoundException } = require('../../modules/errors');
 module.exports = {
   async list(ctx) {
     const { boardId } = ctx.params;
+    const { query } = ctx;
 
     try {
-      const threads = await repositories.threads.list(boardId);
+      const threads = await repositories.threads.list(boardId, query);
 
       if (!threads) {
         throw new HttpNotFoundException('Threads not found!');

@@ -18,7 +18,7 @@ db.authenticate().then(async () => {
   logger.info('database - online');
 
   try {
-    await db.sync({ force: true });
+    await db.sync();
     logger.info(`database - models syncing - success`);
   } catch (e) {
     logger.error(`database - models syncing - failure`);
