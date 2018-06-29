@@ -16,6 +16,7 @@ services:
       - postgres
     links: 
       - postgres
+    restart: always
     volumes:
       - ./upload:/usr/src/app/upload
       - ./backend:/usr/src/app/
