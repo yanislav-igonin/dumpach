@@ -2,8 +2,12 @@ const { Board } = require('../models');
 
 module.exports = {
   async list() {
-    const boards = await Board.findAll();
+    try {
+      const boards = await Board.findAll();
 
-    return boards;
+      return boards;
+    } catch (err) {
+      throw new Error(err);
+    }
   },
 };
