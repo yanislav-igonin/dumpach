@@ -4,12 +4,12 @@ import { Provider } from 'react-redux';
 import store from './store';
 
 import './index.css';
-import App from './App';
+import MainPage from './containers/MainPage';
 // import registerServiceWorker from './registerServiceWorker';
 
 render(
   <Provider store={store}>
-    <App />
+    <MainPage />
   </Provider>,
   document.getElementById('root'),
 );
