@@ -1,18 +1,28 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-// import Paper from '@material-ui/core/Paper';
-// import IconButton from '@material-ui/core/IconButton';
-// import MenuIcon from '@material-ui/icons/Menu';
+
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+
 import DrawerMenu from '../components/DrawerMenu';
 
 import { getBoards } from '../store/actions/boards';
 
+const styles = (theme) => ({
+  appBarColor: {
+    backgroundColor: 'rgba(0, 0, 0, 0)',
+    boxShadow: 'none'
+  }
+});
+
 class MainPage extends Component {
   state = {
-    isMenuOpened: true,
+    isMenuOpened: false,
   };
 
   componentDidMount = () => {
@@ -26,7 +36,7 @@ class MainPage extends Component {
   };
 
   render() {
-    const { boards } = this.props;
+    const { boards, classes } = this.props;
     const { isMenuOpened } = this.state;
 
     return (
@@ -34,19 +44,27 @@ class MainPage extends Component {
         <div className="main-page-container">
           <div className="main-page-content" />
 
-          <IconButton
-            color="secondary"
-            aria-label="open drawer"
-            onClick={this.toggleDrawer}
-          >
-            <MenuIcon />
-          </IconButton>
+          <AppBar position="static" className={classes.appBarColor} >
+            <Toolbar disableGutters={true}>
+              <IconButton
+                color="secondary"
+                aria-label="open drawer"
+                onClick={this.toggleDrawer}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="title" color="secondary">
+                Dumpach
+              </Typography>
+            </Toolbar>
+          </AppBar>
 
           <DrawerMenu
             open={isMenuOpened}
             onClose={this.toggleDrawer}
             boards={boards.list}
           />
+
           <Switch />
         </div>
       </Router>
@@ -64,7 +82,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(MainPage);
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(MainPage),
+);
