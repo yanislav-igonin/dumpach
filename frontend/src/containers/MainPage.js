@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, NavLink } from 'react-router-dom';
 
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -9,6 +9,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
+import IndexPage from '../components/IndexPage';
 import DrawerMenu from '../components/DrawerMenu';
 
 import { getBoards } from '../store/actions/boards';
@@ -16,8 +17,8 @@ import { getBoards } from '../store/actions/boards';
 const styles = (theme) => ({
   appBarColor: {
     backgroundColor: 'rgba(0, 0, 0, 0)',
-    boxShadow: 'none'
-  }
+    boxShadow: 'none',
+  },
 });
 
 class MainPage extends Component {
@@ -42,9 +43,7 @@ class MainPage extends Component {
     return (
       <Router>
         <div className="main-page-container">
-          <div className="main-page-content" />
-
-          <AppBar position="static" className={classes.appBarColor} >
+          <AppBar position="sticky" className={classes.appBarColor}>
             <Toolbar disableGutters={true}>
               <IconButton
                 color="secondary"
@@ -53,9 +52,20 @@ class MainPage extends Component {
               >
                 <MenuIcon />
               </IconButton>
-              <Typography variant="title" color="secondary">
-                Dumpach
-              </Typography>
+
+              <NavLink
+                to="/"
+                style={{
+                  textDecoration: 'none',
+                }}
+                activeStyle={{
+                  textDecoration: 'none',
+                }}
+              >
+                <Typography variant="title" color="secondary">
+                  dumpach
+                </Typography>
+              </NavLink>
             </Toolbar>
           </AppBar>
 
@@ -65,7 +75,12 @@ class MainPage extends Component {
             boards={boards.list}
           />
 
-          <Switch />
+          <div className="main-page-content">
+            <Switch>
+              <Route exact={true} path="/" component={IndexPage} />
+              {/* <Route exact={true} path="/:boardId" component={IndexPage} /> */}
+            </Switch>
+          </div>
         </div>
       </Router>
     );

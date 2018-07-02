@@ -43,10 +43,10 @@ class DrawerMenu extends Component {
 
           <ListItem button onClick={this.openBoards}>
             <ListItemIcon>
-                <Sms />
+                <Sms color="secondary"/>
               </ListItemIcon>
 
-            <ListItemText inset primary="Boards" />
+            <ListItemText inset primary="boards" />
             {isBoardsOpened ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
           <Collapse in={isBoardsOpened} timeout="auto" unmountOnExit>
