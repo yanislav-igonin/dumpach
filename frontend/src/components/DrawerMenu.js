@@ -1,22 +1,47 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import ListItem from '@material-ui/core/ListItem';
 
-const DrawerMenu = ({ open, onClose, boards }) => (
-  <Drawer open={open} style={{ width: 240 }} onClose={onClose}>
-    <Typography variant="display1">Boards</Typography>
+const styles = (theme) => {
+  console.log(theme);
+  return {
+    drawerPaper: {
+      position: 'relative',
+      width: 240,
+    },
+  };
+};
+
+const DrawerMenu = ({ open, onClose, boards, classes }) => (
+  <Drawer open={open} classes={{ paper: classes.drawerPaper }} onClose={onClose}>
+    <Typography variant="display1" align="center">
+      Boards
+    </Typography>
 
     <Divider />
 
     {boards.map((board) => (
-      <Link key={board.id} to={`/boards/${board.id}`}>
+      <NavLink
+        key={board.id}
+        to={`/${board.id}`}
+        style={{
+          textDecoration: 'none',
+          color: 'rgba(0, 0, 0, 0.54)'
+        }}
+        activeStyle={{
+          fontWeight: 'bold',
+          color: '#f50057',
+          textDecoration: 'none',
+        }}
+      >
         <ListItem button>{board.id}</ListItem>
-      </Link>
+      </NavLink>
     ))}
   </Drawer>
 );
 
-export default DrawerMenu;
+export default withStyles(styles)(DrawerMenu);
