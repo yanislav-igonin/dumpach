@@ -50,9 +50,7 @@ class MainPage extends Component {
                 aria-label="open drawer"
                 onClick={this.toggleDrawer}
               >
-                <Icon>
-                  menu
-                </Icon>
+                <Icon>menu</Icon>
               </IconButton>
 
               <NavLink

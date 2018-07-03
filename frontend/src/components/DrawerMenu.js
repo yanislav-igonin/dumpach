@@ -17,8 +17,8 @@ const styles = (theme) => {
       width: 240,
     },
     smsIcon: {
-      color: theme.palette.secondary.main
-    }
+      color: theme.palette.secondary.main,
+    },
   };
 };
 
@@ -40,7 +40,7 @@ class DrawerMenu extends Component {
       <Drawer open={open} classes={{ paper: classes.drawerPaper }} onClose={onClose}>
         <List component="nav">
           <ListItem button onClick={this.openBoards}>
-            <ListItemIcon classes={{root: classes.smsIcon}}>
+            <ListItemIcon classes={{ root: classes.smsIcon }}>
               <Icon>sms</Icon>
             </ListItemIcon>
 
