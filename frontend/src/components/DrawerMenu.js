@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/SwipeableDrawer';
+import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Collapse from '@material-ui/core/Collapse';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import Sms from '@material-ui/icons/Sms';
+import Icon from '@material-ui/core/Icon';
 
 const styles = (theme) => {
   console.log(theme);
@@ -18,6 +16,9 @@ const styles = (theme) => {
       position: 'relative',
       width: 240,
     },
+    smsIcon: {
+      color: theme.palette.secondary.main
+    }
   };
 };
 
@@ -37,17 +38,18 @@ class DrawerMenu extends Component {
 
     return (
       <Drawer open={open} classes={{ paper: classes.drawerPaper }} onClose={onClose}>
-        <List
-          component="nav"
-        >
-
+        <List component="nav">
           <ListItem button onClick={this.openBoards}>
-            <ListItemIcon>
-                <Sms color="secondary"/>
-              </ListItemIcon>
+            <ListItemIcon classes={{root: classes.smsIcon}}>
+              <Icon>sms</Icon>
+            </ListItemIcon>
 
             <ListItemText inset primary="boards" />
-            {isBoardsOpened ? <ExpandLess /> : <ExpandMore />}
+            {isBoardsOpened ? (
+              <Icon color="secondary">expand_less</Icon>
+            ) : (
+              <Icon color="secondary">expand_more</Icon>
+            )}
           </ListItem>
           <Collapse in={isBoardsOpened} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
@@ -57,7 +59,7 @@ class DrawerMenu extends Component {
                   to={`/${board.id}`}
                   style={{
                     textDecoration: 'none',
-                    color: 'rgba(0, 0, 0, 0.54)',
+                    color: '#fff',
                   }}
                   activeStyle={{
                     fontWeight: 'bold',

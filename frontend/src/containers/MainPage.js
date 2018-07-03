@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import Icon from '@material-ui/core/Icon';
 
 import IndexPage from '../components/IndexPage';
 import DrawerMenu from '../components/DrawerMenu';
@@ -50,7 +50,9 @@ class MainPage extends Component {
                 aria-label="open drawer"
                 onClick={this.toggleDrawer}
               >
-                <MenuIcon />
+                <Icon>
+                  menu
+                </Icon>
               </IconButton>
 
               <NavLink
