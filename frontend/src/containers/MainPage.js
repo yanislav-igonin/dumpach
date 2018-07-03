@@ -11,6 +11,7 @@ import Icon from '@material-ui/core/Icon';
 
 import IndexPage from '../components/IndexPage';
 import DrawerMenu from '../components/DrawerMenu';
+import Board from './Board';
 
 import { getBoards } from '../store/actions/boards';
 
@@ -75,10 +76,10 @@ class MainPage extends Component {
             boards={boards.list}
           />
 
-          <div className="main-page-content">
+          <div className="main-page-content" style={{padding: 10}}>
             <Switch>
               <Route exact={true} path="/" component={IndexPage} />
-              {/* <Route exact={true} path="/:boardId" component={IndexPage} /> */}
+              <Route exact={true} path="/:boardId" component={Board} />
             </Switch>
           </div>
         </div>
