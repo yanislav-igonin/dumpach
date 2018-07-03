@@ -6,6 +6,7 @@ module.exports = {
       const threads = await Thread.findAll({
         limit: query.limit,
         offset: query.offset,
+        order: [['updated_at', 'desc']],
         where: {
           board_id: boardId,
         },
