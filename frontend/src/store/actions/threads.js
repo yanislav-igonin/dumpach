@@ -2,7 +2,7 @@ import types from '../types';
 
 export const getThreads = (boardId) => ({
   type: types.threads.GET_THREADS,
-  boardId
+  boardId,
 });
 
 const actions = {
