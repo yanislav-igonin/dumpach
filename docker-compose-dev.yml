@@ -1,29 +1,29 @@
 version: '3'
 services:
   postgres:
-    build: 
+    build:
       context: ./backend/db/
       dockerfile: dev.Dockerfile
 
   backend:
-    build: 
+    build:
       context: ./backend
       dockerfile: dev.Dockerfile
-    ports: 
+    ports:
       - "3000:3000"
       - "9229:9229"
     depends_on:
       - postgres
-    links: 
+    links:
       - postgres
     restart: always
     volumes:
       - ./uploads:/usr/src/app/uploads
       - ./backend:/usr/src/app/
       - /usr/src/app/node_modules
-    
+
   frontend:
-    build: 
+    build:
       context: ./frontend
       dockerfile: dev.Dockerfile
     ports:
