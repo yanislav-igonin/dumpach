@@ -18,7 +18,7 @@ services:
       - postgres
     restart: always
     volumes:
-      - ./upload:/usr/src/app/upload
+      - ./uploads:/usr/src/app/uploads
       - ./backend:/usr/src/app/
       - /usr/src/app/node_modules
     
@@ -29,7 +29,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./upload:/usr/src/app/public/upload
+      - ./uploads:/usr/src/app/public/uploads
       - ./frontend:/usr/src/app/
       - /usr/src/app/node_modules
     depends_on:
