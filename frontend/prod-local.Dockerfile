@@ -1,7 +1,7 @@
 # Stage 1 - the build process
 FROM node:9 as build-deps
 WORKDIR /client
-COPY package.json package-json.lock ./
+COPY package.json ./
 RUN npm install
 COPY . ./
 RUN npm run build
