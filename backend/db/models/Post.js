@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../connection');
+const Attachment = require('./Attachment');
 
 const Post = db.define(
   'posts',
@@ -22,5 +23,7 @@ const Post = db.define(
   },
   { underscored: true },
 );
+
+Post.hasMany(Attachment, { foreignKey: 'post_id', onDelete: 'cascade' });
 
 module.exports = Post;
