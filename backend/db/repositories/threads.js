@@ -91,9 +91,7 @@ module.exports = {
         post_id: post.id,
       }));
 
-      const attachments = await Promise.all(
-        preparedFiles.map((file) => Attachment.create(file)),
-      );
+      await Promise.all(preparedFiles.map((file) => Attachment.create(file)));
 
       const posts = await Post.findAll({
         where: { thread_id: threadId },
