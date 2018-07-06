@@ -1,15 +1,20 @@
-class HttpException extends Error {
-  toJSON() {
-    const { type, message } = this;
-    return { error: { type, message } };
+const status = require('http-status');
+
+class AppError extends Error {
+  constructor(message, status) {
+    super(message);
+
+    this.name = this.constructor.name;
+
+    Error.captureStackTrace(this, this.constructor);
+
+    this.status = status || 500;
   }
 }
 
-class HttpNotFoundException extends HttpException {
-  constructor(msg) {
-    super(msg);
-
-    this.type = 'not_found_error';
+class HttpNotFoundException extends AppError {
+  constructor(message) {
+    super(message || 'Not found!', status.NOT_FOUND);
   }
 }
 

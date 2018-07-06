@@ -25,6 +25,10 @@ module.exports = {
         Post.findAll({ where: { thread_id: threadId } }),
       ]);
 
+      if(!data[0]){
+        return null;
+      }
+
       const thread = data[0].toJSON();
       thread.posts = data[1].map((post) => post.toJSON());
 

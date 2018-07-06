@@ -3,19 +3,24 @@ const logger = require('../modules/logger');
 const { HttpNotFoundException } = require('../modules/errors');
 const env = process.env.NODE_ENV;
 
-// console.log(HttpNotFoundException);
 module.exports = async (ctx, next) => {
   try {
     await next();
   } catch (err) {
+    const error = {
+      message: err.message,
+      code: err.status,
+    };
+
     if (env === 'development') {
-      ctx.body = {
-        error: {
-          code: status.INTERNAL_SERVER_ERROR,
-          message: err.message,
-          stack: err.stack,
-        },
-      };
+      error.stack = err.stack;
+
+      logger.error(err);
     }
+
+    ctx.status = err.status;
+    ctx.body = {
+      error,
+    };
   }
 };

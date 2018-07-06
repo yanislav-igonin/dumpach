@@ -6,66 +6,50 @@ module.exports = {
     const { boardId } = ctx.params;
     const { query } = ctx;
 
-    try {
-      const threads = await threadsRepo.list(boardId, query);
+    const threads = await threadsRepo.list(boardId, query);
 
-      if (!threads) {
-        throw new HttpNotFoundException('Threads not found!');
-      }
-
-      ctx.body = { data: threads };
-    } catch (err) {
-      throw new Error(err);
+    if (!threads) {
+      throw new HttpNotFoundException('Threads not found!');
     }
+
+    ctx.body = { data: threads };
   },
 
   async read(ctx) {
     const { threadId } = ctx.params;
 
-    try {
-      const thread = await threadsRepo.read(threadId);
+    const thread = await threadsRepo.read(threadId);
 
-      if (!thread) {
-        throw new HttpNotFoundException();
-      }
-
-      ctx.body = { data: thread };
-    } catch (err) {
-      throw new Error(err);
+    if (!thread) {
+      throw new HttpNotFoundException('Thread not found!');
     }
+
+    ctx.body = { data: thread };
   },
 
   async create(ctx) {
     const { boardId } = ctx.params;
     const { body: post } = ctx.request;
 
-    try {
-      const thread = await threadsRepo.create(boardId, post);
-      
-      if (!thread) {
-        throw new HttpNotFoundException();
-      }
+    const thread = await threadsRepo.create(boardId, post);
 
-      ctx.body = { data: thread };
-    } catch (err) {
-      throw new Error(err);
+    if (!thread) {
+      throw new HttpNotFoundException();
     }
+
+    ctx.body = { data: thread };
   },
 
   async update(ctx) {
     const { threadId } = ctx.params;
     const { body: post } = ctx.request;
 
-    try {
-      const posts = await threadsRepo.update(threadId, post);
-      
-      if (!posts) {
-        throw new HttpNotFoundException();
-      }
+    const posts = await threadsRepo.update(threadId, post);
 
-      ctx.body = { data: posts };
-    } catch (err) {
-      throw new Error(err);
+    if (!posts) {
+      throw new HttpNotFoundException();
     }
+
+    ctx.body = { data: posts };
   },
 };
