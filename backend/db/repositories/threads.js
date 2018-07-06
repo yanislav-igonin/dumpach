@@ -1,4 +1,4 @@
-const { Thread, Post } = require('../models');
+const { Thread, Post, Attachment } = require('../models');
 
 module.exports = {
   async list(boardId, query) {
@@ -38,13 +38,24 @@ module.exports = {
     }
   },
 
-  async create(boardId, postFields) {
+  async create(boardId, fields, files) {
     try {
       const thread = (await Thread.create({ board_id: boardId })).toJSON();
       const post = (await Post.create({
-        ...postFields,
+        ...fields,
         thread_id: thread.id,
       })).toJSON();
+
+      const preparedFiles = files.map((file) => ({
+        name: file,
+        thread_id: thread.id,
+        post_id: post.id,
+      }));
+      const attachments = await Promise.all(
+        preparedFiles.map((file) => Attachment.create(file)),
+      );
+
+      post.attachments = attachments;
       thread.posts = [post];
 
       return thread;

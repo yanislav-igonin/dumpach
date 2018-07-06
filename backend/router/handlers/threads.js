@@ -1,5 +1,6 @@
 const { threads: threadsRepo } = require('../../db/repositories');
 const { HttpNotFoundException } = require('../../modules/errors');
+const parseFormData = require('../../modules/formDataParser');
 
 module.exports = {
   async list(ctx) {
@@ -25,13 +26,10 @@ module.exports = {
 
   async create(ctx) {
     const { boardId } = ctx.params;
-    const { body: post } = ctx.request;
 
-    const thread = await threadsRepo.create(boardId, post);
+    const { files, fields: post } = await parseFormData(ctx.req);
 
-    if (!thread) {
-      throw new HttpNotFoundException();
-    }
+    const thread = await threadsRepo.create(boardId, post, files);
 
     ctx.body = { data: thread };
   },

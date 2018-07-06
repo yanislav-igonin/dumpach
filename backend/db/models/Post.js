@@ -19,6 +19,7 @@ const Post = db.define(
     },
     is_sage: {
       type: Sequelize.BOOLEAN,
+      defaultValue: false,
     },
   },
   { underscored: true },
