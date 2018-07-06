@@ -5,7 +5,7 @@ const env = process.env.NODE_ENV;
 const development = {
   app: {
     port: parseInt(process.env.PORT) || 3000,
-    uploadDir: path.join(__dirname, '../../../public/uploads'),
+    uploads: path.join(__dirname, '../../frontend/public/uploads'),
   },
   db: {
     database: 'dumpach',
@@ -24,7 +24,7 @@ const development = {
 const production = {
   app: {
     port: parseInt(process.env.PORT) || 3000,
-    uploadDir: path.join(__dirname, '../../uploads'),
+    uploads: path.join(__dirname, '../../uploads'),
   },
   db: {
     database: 'dumpach',
