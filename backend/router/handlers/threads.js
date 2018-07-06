@@ -8,10 +8,6 @@ module.exports = {
 
     const threads = await threadsRepo.list(boardId, query);
 
-    if (!threads) {
-      throw new HttpNotFoundException('Threads not found!');
-    }
-
     ctx.body = { data: threads };
   },
 

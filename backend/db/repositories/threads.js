@@ -25,7 +25,7 @@ module.exports = {
         Post.findAll({ where: { thread_id: threadId } }),
       ]);
 
-      if(!data[0]){
+      if (!data[0]) {
         return null;
       }
 
