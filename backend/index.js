@@ -3,6 +3,7 @@ global.Promise = require('bluebird');
 const logger = require('./modules/logger');
 const router = require('./router');
 const db = require('./db/connection');
+const seedAll = require('./db/seeders');
 
 const server = new Koa();
 
@@ -19,6 +20,7 @@ db.authenticate().then(async () => {
 
   try {
     await db.sync();
+    await seedAll();
     logger.info(`database - models syncing - success`);
   } catch (e) {
     logger.error(`database - models syncing - failure`);
