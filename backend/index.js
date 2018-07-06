@@ -20,8 +20,9 @@ db.authenticate().then(async () => {
 
   try {
     await db.sync();
-    await seedAll();
     logger.info(`database - models syncing - success`);
+    await seedAll();
+    logger.info(`database - seeding - success`);
   } catch (e) {
     logger.error(`database - models syncing - failure`);
     logger.error('message:', e.message);
