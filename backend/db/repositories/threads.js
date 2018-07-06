@@ -10,6 +10,17 @@ module.exports = {
         where: {
           board_id: boardId,
         },
+        include: [
+          {
+            limit: 4,
+            model: Post,
+            include: [
+              {
+                model: Attachment,
+              },
+            ],
+          },
+        ],
       });
 
       return threads;
@@ -22,7 +33,10 @@ module.exports = {
     try {
       const data = await Promise.all([
         Thread.findById(threadId),
-        Post.findAll({ where: { thread_id: threadId } }),
+        Post.findAll({
+          where: { thread_id: threadId },
+          include: [{ model: Attachment }],
+        }),
       ]);
 
       if (!data[0]) {
@@ -64,14 +78,31 @@ module.exports = {
     }
   },
 
-  async update(threadId, postFields) {
+  async update(threadId, fields, files) {
     try {
-      await Post.create({
-        ...postFields,
+      const post = await Post.create({
+        ...fields,
         thread_id: threadId,
       });
 
-      const posts = await Post.findAll({ where: { thread_id: threadId } });
+      const preparedFiles = files.map((file) => ({
+        name: file,
+        thread_id: threadId,
+        post_id: post.id,
+      }));
+
+      const attachments = await Promise.all(
+        preparedFiles.map((file) => Attachment.create(file)),
+      );
+
+      const posts = await Post.findAll({
+        where: { thread_id: threadId },
+        include: [
+          {
+            model: Attachment,
+          },
+        ],
+      });
 
       return posts;
     } catch (err) {

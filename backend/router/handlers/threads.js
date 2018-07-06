@@ -27,22 +27,19 @@ module.exports = {
   async create(ctx) {
     const { boardId } = ctx.params;
 
-    const { files, fields: post } = await parseFormData(ctx.req);
+    const { files, fields } = await parseFormData(ctx.req);
 
-    const thread = await threadsRepo.create(boardId, post, files);
+    const thread = await threadsRepo.create(boardId, fields, files);
 
     ctx.body = { data: thread };
   },
 
   async update(ctx) {
     const { threadId } = ctx.params;
-    const { body: post } = ctx.request;
 
-    const posts = await threadsRepo.update(threadId, post);
+    const { files, fields } = await parseFormData(ctx.req);
 
-    if (!posts) {
-      throw new HttpNotFoundException();
-    }
+    const posts = await threadsRepo.update(threadId, fields, files);
 
     ctx.body = { data: posts };
   },
