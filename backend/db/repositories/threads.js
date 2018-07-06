@@ -31,20 +31,14 @@ module.exports = {
 
   async read(threadId) {
     try {
-      const data = await Promise.all([
-        Thread.findById(threadId),
-        Post.findAll({
-          where: { thread_id: threadId },
-          include: [{ model: Attachment }],
-        }),
-      ]);
-
-      if (!data[0]) {
-        return null;
-      }
-
-      const thread = data[0].toJSON();
-      thread.posts = data[1].map((post) => post.toJSON());
+      const thread = await Thread.findById(threadId, {
+        include: [
+          {
+            model: Post,
+            include: [{ model: Attachment }],
+          },
+        ],
+      });
 
       return thread;
     } catch (err) {
