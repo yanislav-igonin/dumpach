@@ -17,6 +17,14 @@ class Board extends Component {
     this.props.getThreads(boardId);
   };
 
+  componentDidUpdate = (prevProps) => {
+    const { boardId } = this.props.match.params;
+    const { boardId: prevBoardId } = prevProps.match.params;
+    if (boardId !== prevBoardId) {
+      this.props.getThreads(boardId);
+    }
+  };
+
   render() {
     return <div className="board-container">board</div>;
   }
