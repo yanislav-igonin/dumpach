@@ -1,6 +1,6 @@
 const { threads: threadsRepo } = require('../../db/repositories');
 const { HttpNotFoundException } = require('../../modules/errors');
-const parseFormData = require('../../modules/formDataParser');
+const mediaFiles = require('../../modules/mediaFiles');
 
 module.exports = {
   async list(ctx) {
@@ -25,19 +25,24 @@ module.exports = {
   },
 
   async create(ctx) {
-    const { boardId } = ctx.params;
-
-    const { files, fields } = await parseFormData(ctx.req);
-
-    const thread = await threadsRepo.create(boardId, fields, files);
-
-    ctx.body = { data: thread };
+    try {
+      const { boardId } = ctx.params;
+  
+      const { files, fields } = await mediaFiles.parseFormData(ctx.req);
+  
+      // const thread = await threadsRepo.create(boardId, fields, files);
+  
+      // ctx.body = { data: thread };
+      ctx.body = { data: 'shit' };
+    } catch (err) {
+      throw err;
+    }
   },
 
   async update(ctx) {
     const { threadId } = ctx.params;
 
-    const { files, fields } = await parseFormData(ctx.req);
+    const { files, fields } = await mediaFiles.parseFormData(ctx.req);
 
     const posts = await threadsRepo.update(threadId, fields, files);
 

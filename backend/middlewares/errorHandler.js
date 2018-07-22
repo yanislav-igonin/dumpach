@@ -13,12 +13,10 @@ module.exports = async (ctx, next) => {
     };
 
     if (env === 'development') {
-      error.stack = err.stack;
-
-      logger.error(err);
+s      logger.error(err);
     }
 
-    ctx.status = err.status;
+    ctx.status = err.status || 500;
     ctx.body = {
       error,
     };
