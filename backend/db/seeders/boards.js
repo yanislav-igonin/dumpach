@@ -1,9 +1,15 @@
 const boards = [
   {
-    id: 'b',
+    id: 1,
+    identifier: 'b',
+    title: 'Random',
+    section_id: 1,
   },
   {
-    id: 'dev',
+    id: 2,
+    identifier: 'dev',
+    title: 'Development',
+    section_id: 2,
   },
 ];
 
