@@ -1,14 +1,20 @@
-const { Thread, Post, Attachment } = require('../models');
+const { Board, Thread, Post, Attachment } = require('../models');
 
 module.exports = {
   async list(boardId, query) {
     try {
+      const board = await Board.findOne({
+        where: {
+          identifier: boardId,
+        },
+      });
+
       const threads = await Thread.findAll({
         limit: query.limit,
         offset: query.offset,
         order: [['updated_at', 'desc']],
         where: {
-          board_id: boardId,
+          board_id: board.id,
         },
         include: [
           {
@@ -54,13 +60,13 @@ module.exports = {
         thread_id: thread.id,
       })).toJSON();
 
-      const preparedFiles = files.map((file) => ({
+      const preparedFiles = files.map(file => ({
         name: file,
         thread_id: thread.id,
         post_id: post.id,
       }));
       const attachments = await Promise.all(
-        preparedFiles.map((file) => Attachment.create(file)),
+        preparedFiles.map(file => Attachment.create(file))
       );
 
       post.attachments = attachments;
@@ -79,13 +85,13 @@ module.exports = {
         thread_id: threadId,
       });
 
-      const preparedFiles = files.map((file) => ({
+      const preparedFiles = files.map(file => ({
         name: file,
         thread_id: threadId,
         post_id: post.id,
       }));
 
-      await Promise.all(preparedFiles.map((file) => Attachment.create(file)));
+      await Promise.all(preparedFiles.map(file => Attachment.create(file)));
 
       const posts = await Post.findAll({
         where: { thread_id: threadId },
