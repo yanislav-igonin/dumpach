@@ -12,13 +12,14 @@ module.exports = {
       const threads = await Thread.findAll({
         limit: query.limit,
         offset: query.offset,
-        order: [['updated_at', 'desc']],
+        logging: console.log,
         where: {
           board_id: board.id,
         },
         include: [
           {
-            limit: 4,
+            limit: 4, // TODO: Make first post and last three
+            // order: [['created_at', 'asc']], // TODO: Fix posts ordering
             model: Post,
             include: [
               {
@@ -27,6 +28,7 @@ module.exports = {
             ],
           },
         ],
+        order: [['updated_at', 'desc']], // TODO: Add Posts ordering
       });
 
       return threads;
@@ -43,6 +45,10 @@ module.exports = {
             model: Post,
             include: [{ model: Attachment }],
           },
+        ],
+        order: [
+          [Post, 'created_at', 'asc'],
+          [Post, Attachment, 'created_at', 'asc'], //TODO: Check attachments ordering
         ],
       });
 

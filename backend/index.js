@@ -19,7 +19,7 @@ db.authenticate().then(async () => {
   logger.info('database - online');
 
   try {
-    await db.sync({force: true}); // TODO: remove force sync
+    await db.sync();
     logger.info(`database - models syncing - success`);
     await seedAll();
     logger.info(`database - seeding - success`);
