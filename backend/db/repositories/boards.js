@@ -1,11 +1,13 @@
-const { Board } = require('../models');
+const { Section, Board } = require('../models');
 
 module.exports = {
   async list() {
     try {
-      const boards = await Board.findAll();
+      const sections = await Section.findAll({
+        include: [{ model: Board }],
+      });
 
-      return boards;
+      return sections;
     } catch (err) {
       throw new Error(err);
     }

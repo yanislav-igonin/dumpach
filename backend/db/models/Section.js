@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize');
 const db = require('../connection');
-const Thread = require('./Thread');
+const Board = require('./Board');
 
-const Board = db.define(
-  'boards',
+const Section = db.define(
+  'section',
   {
     id: {
       type: Sequelize.INTEGER,
@@ -11,18 +11,14 @@ const Board = db.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    identifier: {
-      type: Sequelize.STRING,
-      unique: true,
-    },
     title: {
       type: Sequelize.STRING,
       unique: true,
-    }
+    },
   },
   { underscored: true }
 );
 
-Board.hasMany(Thread, { foreignKey: 'board_id', onDelete: 'cascade' });
+Section.hasMany(Board, { foreignKey: 'section_id', onDelete: 'cascade' });
 
-module.exports = Board;
+module.exports = Section;
