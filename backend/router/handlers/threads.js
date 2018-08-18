@@ -30,10 +30,9 @@ module.exports = {
   
       const { files, fields } = await mediaFiles.parseFormData(ctx.req);
   
-      // const thread = await threadsRepo.create(boardId, fields, files);
+      const thread = await threadsRepo.create(boardId, fields, files);
   
-      // ctx.body = { data: thread };
-      ctx.body = { data: 'shit' };
+      ctx.body = { data: thread };
     } catch (err) {
       throw err;
     }

@@ -54,7 +54,12 @@ module.exports = {
 
   async create(boardId, fields, files) {
     try {
-      const thread = (await Thread.create({ board_id: boardId })).toJSON();
+      const board = await Board.findOne({
+        where: {
+          identifier: boardId,
+        },
+      });
+      const thread = (await Thread.create({ board_id: board.id })).toJSON();
       const post = (await Post.create({
         ...fields,
         thread_id: thread.id,
