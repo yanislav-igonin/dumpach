@@ -13,7 +13,7 @@ module.exports = async (ctx, next) => {
     };
 
     if (env === 'development') {
-s      logger.error(err);
+      logger.error(err);
     }
 
     ctx.status = err.status || 500;
