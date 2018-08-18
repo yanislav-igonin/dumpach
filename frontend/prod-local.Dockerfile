@@ -2,9 +2,9 @@
 FROM node:9 as build-deps
 WORKDIR /client
 COPY package.json ./
-RUN npm install
+RUN yarn install
 COPY . ./
-RUN npm run build
+RUN yarn build
 
 # Stage 2 - the production environment
 FROM nginx:latest

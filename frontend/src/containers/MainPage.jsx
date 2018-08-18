@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route, NavLink } from 'react-router-dom';
+import styled from 'styled-components';
 
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -15,16 +16,19 @@ import Board from './Board';
 
 import { getBoards } from '../store/actions/boards';
 
-const styles = (theme) => ({
+const styles = () => ({
   appBarColor: {
     backgroundColor: 'rgba(0, 0, 0, 0)',
-    boxShadow: 'none',
-  },
+    boxShadow: 'none'
+  }
 });
 
-class MainPage extends Component {
+const BasicDiv = styled.div`
+  color: green;
+`;
+class MainPage extends PureComponent {
   state = {
-    isMenuOpened: false,
+    isMenuOpened: false
   };
 
   componentDidMount = () => {
@@ -46,23 +50,19 @@ class MainPage extends Component {
         <div className="main-page-container">
           <AppBar position="sticky" className={classes.appBarColor}>
             <Toolbar disableGutters={true}>
-              <IconButton
-                color="secondary"
-                aria-label="open drawer"
-                onClick={this.toggleDrawer}
-              >
+              <IconButton color="secondary" aria-label="open drawer" onClick={this.toggleDrawer}>
                 <Icon>menu</Icon>
               </IconButton>
 
               <NavLink
                 to="/"
                 style={{
-                  textDecoration: 'none',
+                  textDecoration: 'none'
                 }}
                 activeStyle={{
-                  textDecoration: 'none',
+                  textDecoration: 'none'
                 }}
-              >
+              ><BasicDiv>Kek</BasicDiv>
                 <Typography variant="title" color="secondary">
                   dumpach
                 </Typography>
@@ -70,13 +70,9 @@ class MainPage extends Component {
             </Toolbar>
           </AppBar>
 
-          <DrawerMenu
-            open={isMenuOpened}
-            onClose={this.toggleDrawer}
-            boards={boards.list}
-          />
+          <DrawerMenu open={isMenuOpened} onClose={this.toggleDrawer} boards={boards.list} />
 
-          <div className="main-page-content" style={{padding: 10}}>
+          <div className="main-page-content" style={{ padding: 10 }}>
             <Switch>
               <Route exact={true} path="/" component={IndexPage} />
               <Route exact={true} path="/:boardId" component={Board} />
@@ -89,18 +85,18 @@ class MainPage extends Component {
 }
 
 const mapStateToProps = ({ boards }) => ({
-  boards,
+  boards
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   getBoards: () => {
     dispatch(getBoards());
-  },
+  }
 });
 
 export default withStyles(styles)(
   connect(
     mapStateToProps,
-    mapDispatchToProps,
-  )(MainPage),
+    mapDispatchToProps
+  )(MainPage)
 );
