@@ -21,11 +21,16 @@
   },
   "devDependencies": {
     "eslint": "^5.5.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
     "husky": "^0.14.3",
     "nodemon": "^1.17.5"
   },
   "scripts": {
     "start": "NODE_ENV=production node index.js",
-    "dev": "NODE_ENV=development nodemon --inspect index.js"
+    "dev": "NODE_ENV=development nodemon --inspect index.js",
+    "lint": "eslint .",
+    "precommit": "npm run lint",
+    "prepush": "npm run lint"
   }
 }
