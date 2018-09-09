@@ -16,7 +16,7 @@ const Section = db.define(
       unique: true,
     },
   },
-  { underscored: true }
+  { underscored: true },
 );
 
 Section.hasMany(Board, { foreignKey: 'section_id', onDelete: 'cascade' });

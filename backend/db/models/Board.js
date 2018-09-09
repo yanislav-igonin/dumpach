@@ -18,9 +18,9 @@ const Board = db.define(
     title: {
       type: Sequelize.STRING,
       unique: true,
-    }
+    },
   },
-  { underscored: true }
+  { underscored: true },
 );
 
 Board.hasMany(Thread, { foreignKey: 'board_id', onDelete: 'cascade' });

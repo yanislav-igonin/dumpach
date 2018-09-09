@@ -1,4 +1,4 @@
-const status = require('http-status');
+const httpStatus = require('http-status');
 
 class AppError extends Error {
   constructor(message, status) {
@@ -14,7 +14,7 @@ class AppError extends Error {
 
 class HttpNotFoundException extends AppError {
   constructor(message) {
-    super(message || 'Not found!', status.NOT_FOUND);
+    super(message || 'Not found!', httpStatus.NOT_FOUND);
   }
 }
 

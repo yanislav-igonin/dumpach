@@ -13,8 +13,6 @@ const seedAll = async () => {
   if (dbBoards.length === 0) {
     await Board.bulkCreate(boards);
   }
-
-  return;
 };
 
 module.exports = seedAll;

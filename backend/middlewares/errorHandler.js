@@ -1,6 +1,6 @@
-const status = require('http-status');
 const logger = require('../modules/logger');
-const { HttpNotFoundException } = require('../modules/errors');
+// const { HttpNotFoundException } = require('../modules/errors');
+
 const env = process.env.NODE_ENV;
 
 module.exports = async (ctx, next) => {

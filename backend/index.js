@@ -9,7 +9,7 @@ const server = new Koa();
 
 const middlewares = require('./middlewares');
 
-middlewares.forEach((middleware) => server.use(middleware));
+middlewares.forEach(middleware => server.use(middleware));
 logger.info('server - middlewares connection - success');
 
 // server.use(router.routes());
@@ -21,17 +21,17 @@ db.authenticate()
 
     try {
       await db.sync();
-      logger.info(`database - models syncing - success`);
+      logger.info('database - models syncing - success');
     } catch (e) {
-      logger.error(`database - models syncing - failure`);
+      logger.error('database - models syncing - failure');
       logger.error('message:', e.message);
     }
 
     try {
       await seedAll();
-      logger.info(`database - seeding - success`);
+      logger.info('database - seeding - success');
     } catch (e) {
-      logger.error(`database - seeding - failure`);
+      logger.error('database - seeding - failure');
       logger.error('message:', e.message);
     }
 
