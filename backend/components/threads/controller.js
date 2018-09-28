@@ -1,7 +1,7 @@
 const { Board, Thread, Post } = require('../../db/models');
 
 class Controller {
-  static async get(ctx) {
+  static async list(ctx) {
     const { boardId } = ctx.params;
 
     try {

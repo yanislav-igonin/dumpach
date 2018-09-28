@@ -1,7 +1,7 @@
 const { Section, Board } = require('../../db/models');
 
 class Controller {
-  static async get(ctx) {
+  static async list(ctx) {
     try {
       const sections = await Section.findAll({
         include: [Board],
