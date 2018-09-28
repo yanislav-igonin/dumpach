@@ -1,16 +1,21 @@
-const threads = [
-  {
-    board_id: 1,
-  },
-  {
-    board_id: 1,
-  },
-  {
-    board_id: 2,
-  },
-  {
-    board_id: 2,
-  },
-];
+const generate = () => {
+  const data = [];
+
+  for (let i = 0; i < 50; i += 1) {
+    data.push({
+      board_id: 1,
+    });
+  }
+
+  for (let i = 0; i < 50; i += 1) {
+    data.push({
+      board_id: 2,
+    });
+  }
+
+  return data;
+};
+
+const threads = generate();
 
 module.exports = threads;
