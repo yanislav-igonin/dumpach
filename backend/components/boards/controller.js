@@ -1,4 +1,4 @@
-const { Section, Board } = require('../../db/models');
+const { Section, Board } = require('../../db').models;
 
 class Controller {
   static async list(ctx) {

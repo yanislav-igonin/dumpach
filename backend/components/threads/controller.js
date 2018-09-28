@@ -1,4 +1,4 @@
-const { Board, Thread, Post } = require('../../db/models');
+const { Board, Thread, Post } = require('../../db').models;
 
 class Controller {
   static async list(ctx) {
