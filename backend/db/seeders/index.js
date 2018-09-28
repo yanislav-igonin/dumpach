@@ -74,4 +74,4 @@ const init = async () => {
   }
 };
 
-module.exports = init;
+module.exports = { init };

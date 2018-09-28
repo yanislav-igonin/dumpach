@@ -2,8 +2,7 @@ const Koa = require('koa');
 global.Promise = require('bluebird');
 const logger = require('./modules/logger');
 const { routes } = require('./components');
-const db = require('./db/connection');
-const seedAll = require('./db/seeders');
+const { db, seeders } = require('./db');
 
 const server = new Koa();
 
@@ -28,7 +27,7 @@ db.authenticate()
     }
 
     try {
-      await seedAll();
+      await seeders.init();
       logger.info('database - seeding - success');
     } catch (e) {
       logger.error('database - seeding - failure');
