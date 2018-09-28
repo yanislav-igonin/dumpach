@@ -29,6 +29,35 @@ class Controller {
       throw new Error(err);
     }
   }
+
+  static async get(ctx) {
+    const { boardId, threadId } = ctx.params;
+
+    try {
+      const board = await Board.find({
+        where: {
+          identifier: boardId,
+        },
+      });
+
+      const thread = await Thread.findOne({
+        where: {
+          board_id: board.id,
+          id: threadId,
+        },
+        // order: [['updated_at', 'desc']],
+        include: [
+          {
+            model: Post,
+          },
+        ],
+      });
+
+      ctx.body = { data: thread };
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
 }
 
 module.exports = Controller;

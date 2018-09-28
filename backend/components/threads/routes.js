@@ -6,5 +6,6 @@ const router = new Router({
 });
 
 router.get('/threads', controller.list);
+router.get('/threads/:threadId', controller.get);
 
 module.exports = router.routes();
