@@ -1,7 +1,7 @@
 const Koa = require('koa');
 global.Promise = require('bluebird');
 const logger = require('./modules/logger');
-// const router = require('./router');
+const { routes } = require('./components');
 const db = require('./db/connection');
 const seedAll = require('./db/seeders');
 
@@ -12,7 +12,7 @@ const middlewares = require('./middlewares');
 middlewares.forEach(middleware => server.use(middleware));
 logger.info('server - middlewares connection - success');
 
-// server.use(router.routes());
+routes.forEach(route => server.use(route));
 logger.info('server - routes initialization - success');
 
 db.authenticate()
