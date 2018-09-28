@@ -11,6 +11,7 @@ class Controller {
         },
       });
 
+      // TODO: add posts updated_at ordering
       const threads = await Thread.findAll({
         where: {
           board_id: board.id,
@@ -40,6 +41,7 @@ class Controller {
         },
       });
 
+      // TODO: add posts updated_at ordering
       const thread = await Thread.findOne({
         where: {
           board_id: board.id,
