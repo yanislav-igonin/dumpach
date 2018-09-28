@@ -1,6 +1,12 @@
+const { Section, Board } = require('../../db/models');
+
 class Controller {
   static async get(ctx) {
-    ctx.body = 'HELLO DUMPACH';
+    const sections = await Section.findAll({
+      include: [Board],
+    });
+
+    ctx.body = { data: sections };
   }
 }
 
