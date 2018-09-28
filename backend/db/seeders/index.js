@@ -1,7 +1,11 @@
-const { Section } = require('../models');
 const { Board } = require('../models');
-const sections = require('./sections');
+const { Post } = require('../models');
+const { Section } = require('../models');
+const { Thread } = require('../models');
 const boards = require('./boards');
+const posts = require('./posts');
+const sections = require('./sections');
+const threads = require('./threads');
 
 const seedSections = async () => {
   const dbSections = await Section.findAll();
@@ -9,8 +13,9 @@ const seedSections = async () => {
     try {
       await Section.bulkCreate(sections);
     } catch (err) {
-      console.error('seeding section error');
+      console.error('seeding sections error');
       console.error(err);
+      process.exit();
     }
   }
 };
@@ -23,13 +28,46 @@ const seedBoards = async () => {
     } catch (err) {
       console.error('seeding boards error');
       console.error(err);
+      process.exit();
+    }
+  }
+};
+
+const seedThreads = async () => {
+  const dbThreads = await Thread.findAll();
+  if (dbThreads.length === 0) {
+    try {
+      await Thread.bulkCreate(threads);
+    } catch (err) {
+      console.error('seeding threads error');
+      console.error(err);
+      process.exit();
+    }
+  }
+};
+
+const seedPosts = async () => {
+  const dbPosts = await Post.findAll();
+  if (dbPosts.length === 0) {
+    try {
+      await Post.bulkCreate(posts);
+    } catch (err) {
+      console.error('seeding threads error');
+      console.error(err);
+      process.exit();
     }
   }
 };
 
 const init = async () => {
+  const { NODE_ENV } = process.env;
   await seedSections();
   await seedBoards();
+
+  if (NODE_ENV === 'development') {
+    await seedThreads();
+    await seedPosts();
+  }
 };
 
 module.exports = init;
