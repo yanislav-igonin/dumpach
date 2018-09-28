@@ -17,7 +17,7 @@ const posts = [
     title:
       'Long test title, test title, test title, test title, test title, test title, test title, test title, test title, test title, test title, test title, test title, test title, test title, test title, test title, test title',
     text:
-      'Average test text, test text, test text, test text, test text, test text, test title, test title, test title, test title, test title, test title, test title, test title, test title, test title, test title, test title',
+      'Long test text, test text, test text, test text, test text, test text, test title, test title, test title, test title, test title, test title, test title, test title, test title, test title, test title, test title',
     is_sage: false,
     thread_id: 1,
   },
@@ -51,7 +51,7 @@ const posts = [
     title:
       'Long test title, test title, test title, test title, test title, test title, test title, test title, test title, test title, test title, test title, test title, test title, test title, test title, test title, test title',
     text:
-      'Average test text, test text, test text, test text, test text, test text, test title, test title, test title, test title, test title, test title, test title, test title, test title, test title, test title, test title',
+      'Long test text, test text, test text, test text, test text, test text, test title, test title, test title, test title, test title, test title, test title, test title, test title, test title, test title, test title',
     is_sage: false,
     thread_id: 2,
   },
