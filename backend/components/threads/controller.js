@@ -27,6 +27,7 @@ class Controller {
           {
             model: Post,
             limit: 4,
+            include: [Attachment],
           },
         ],
       });
@@ -57,6 +58,7 @@ class Controller {
         include: [
           {
             model: Post,
+            include: [Attachment],
           },
         ],
       });
