@@ -17,7 +17,8 @@ class Controller {
         },
       });
 
-      // TODO: add posts updated_at ordering
+      // TODO: make separate thread and posts finding
+      // TODO: make only 1st and last 3 posts finding
       const threads = await Thread.findAll({
         where: {
           board_id: board.id,
@@ -48,16 +49,17 @@ class Controller {
         },
       });
 
-      // TODO: add posts updated_at ordering
       const thread = await Thread.findOne({
         where: {
           board_id: board.id,
           id: threadId,
         },
-        // order: [['updated_at', 'desc']],
+        order: [[Post, 'created_at', 'desc']],
         include: [
           {
             model: Post,
+            // TODO: add attachments create ordering
+            // maybe, need to rewrite this in separate queries
             include: [Attachment],
           },
         ],
@@ -114,9 +116,52 @@ class Controller {
   }
 
   static async update(ctx) {
+    // TODO: add thread updating (new updated_at)
     const { boardId, threadId } = ctx.params;
 
-    ctx.body = { data: `${boardId} THREAD ${threadId} UPDATE` };
+    try {
+      const { files, fields } = await mediaFiles.parseFormData(ctx.req);
+
+      const board = await Board.findOne({
+        where: {
+          identifier: boardId,
+        },
+        raw: true,
+      });
+
+      const post = await Post.create({ ...fields, thread_id: threadId });
+
+      const attachmentsFields = await mediaFiles.moveFiles(
+        files,
+        board.identifier,
+        threadId,
+      );
+
+      await Promise.all(
+        attachmentsFields.map(attachment => Attachment.create({
+          ...attachment,
+          post_id: post.id,
+        })),
+      );
+
+      const thread = await Thread.findOne({
+        where: {
+          board_id: board.id,
+          id: threadId,
+        },
+        order: [[Post, 'created_at', 'desc']],
+        include: [
+          {
+            model: Post,
+            include: [Attachment],
+          },
+        ],
+      });
+
+      ctx.body = { data: thread };
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 }
 
