@@ -4,7 +4,9 @@ const env = process.env.NODE_ENV;
 
 const development = {
   port: parseInt(process.env.PORT, 10) || 3000,
-  uploads: path.join(__dirname, '../../frontend/public/uploads'),
+  // IF DEVELOPING WITHOUT DOCKER
+  // uploads: path.join(__dirname, '../../frontend/public/uploads'),
+  uploads: path.join(__dirname, '../uploads'),
 };
 
 const production = {
