@@ -17,7 +17,10 @@ const development = {
 
 const production = {
   port: parseInt(process.env.PORT, 10) || 3000,
-  uploads: path.join(__dirname, '../../uploads'),
+  uploads: {
+    source: path.join(__dirname, '../../uploads/source'),
+    thumb: path.join(__dirname, '../../uploads/thumb'),
+  },
 };
 
 const config = {
