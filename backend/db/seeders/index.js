@@ -1,4 +1,4 @@
-const logger = require('../../modules/logger');
+const { logger } = require('../../modules');
 const { Board } = require('../models');
 const { Post } = require('../models');
 const { Section } = require('../models');

@@ -1,4 +1,4 @@
-const logger = require('../modules/logger');
+const { logger } = require('../modules');
 // const { HttpNotFoundException } = require('../modules/errors');
 
 const env = process.env.NODE_ENV;

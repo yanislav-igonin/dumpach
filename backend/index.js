@@ -1,6 +1,6 @@
 const Koa = require('koa');
 global.Promise = require('bluebird');
-const logger = require('./modules/logger');
+const { logger } = require('./modules');
 const { routes } = require('./components');
 const { db, seeders } = require('./db');
 
