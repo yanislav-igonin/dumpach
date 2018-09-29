@@ -15,7 +15,7 @@ const Attachment = db.define(
       allowNull: false,
     },
     size: {
-      type: Sequelize.NUMBER,
+      type: Sequelize.INTEGER,
       allowNull: false,
     },
   },
