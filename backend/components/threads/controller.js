@@ -116,7 +116,6 @@ class Controller {
   }
 
   static async update(ctx) {
-    // TODO: add thread updating (new updated_at)
     const { boardId, threadId } = ctx.params;
 
     try {
@@ -157,6 +156,9 @@ class Controller {
           },
         ],
       });
+
+      thread.changed('updated_at', true);
+      await thread.save();
 
       ctx.body = { data: thread };
     } catch (err) {
