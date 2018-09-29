@@ -6,6 +6,8 @@ const router = new Router({
 });
 
 router.get('/threads', controller.list);
+router.post('/threads', controller.create);
 router.get('/threads/:threadId', controller.get);
+router.put('/threads/:threadId', controller.update);
 
 module.exports = router.routes();

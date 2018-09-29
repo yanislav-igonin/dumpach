@@ -1,3 +1,5 @@
+const status = require('http-status');
+// const { mediaFiles } = require('../../modules');
 const { Board, Thread, Post } = require('../../db').models;
 
 // TODO: maybe add repositories for easier testing
@@ -61,6 +63,24 @@ class Controller {
     } catch (err) {
       throw new Error(err);
     }
+  }
+
+  static async create(ctx) {
+    const { boardId } = ctx.params;
+
+    // const { files, fields } = await mediaFiles.parseFormData(ctx.req);
+
+    // console.log(fields);
+    // console.log(files);
+
+    ctx.status = status.CREATED;
+    ctx.body = { data: `${boardId} THREAD CREATED` };
+  }
+
+  static async update(ctx) {
+    const { boardId, threadId } = ctx.params;
+
+    ctx.body = { data: `${boardId} THREAD ${threadId} UPDATE` };
   }
 }
 
