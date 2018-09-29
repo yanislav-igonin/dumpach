@@ -14,6 +14,10 @@ const Attachment = db.define(
       type: Sequelize.STRING,
       allowNull: false,
     },
+    size: {
+      type: Sequelize.NUMBER,
+      allowNull: false,
+    },
   },
   { underscored: true },
 );
