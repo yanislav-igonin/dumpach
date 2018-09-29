@@ -1,3 +1,4 @@
+const logger = require('../../modules/logger');
 const { Board } = require('../models');
 const { Post } = require('../models');
 const { Section } = require('../models');
@@ -14,8 +15,8 @@ const seedSections = async () => {
     try {
       await Section.bulkCreate(sections);
     } catch (err) {
-      console.error('seeding sections error');
-      console.error(err);
+      logger.error('seeding sections error');
+      logger.error(err);
       process.exit();
     }
   }
@@ -28,8 +29,8 @@ const seedBoards = async () => {
     try {
       await Board.bulkCreate(boards);
     } catch (err) {
-      console.error('seeding boards error');
-      console.error(err);
+      logger.error('seeding boards error');
+      logger.error(err);
       process.exit();
     }
   }
@@ -42,8 +43,8 @@ const seedThreads = async () => {
     try {
       await Thread.bulkCreate(threads);
     } catch (err) {
-      console.error('seeding threads error');
-      console.error(err);
+      logger.error('seeding threads error');
+      logger.error(err);
       process.exit();
     }
   }
@@ -56,8 +57,8 @@ const seedPosts = async () => {
     try {
       await Post.bulkCreate(posts);
     } catch (err) {
-      console.error('seeding posts error');
-      console.error(err);
+      logger.error('seeding posts error');
+      logger.error(err);
       process.exit();
     }
   }
