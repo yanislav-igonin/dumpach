@@ -23,10 +23,10 @@ const moveFiles = async (files, board, threadId) => {
         type: file.mimeType,
         uuid,
       });
-      // TODO: update uploads dir: make source and thumb directories
+      // TODO: add thumbnails creating
       return fs.move(
         file.path,
-        `${config.app.uploads}/${board}/${threadId}/${newFileName}`,
+        `${config.app.uploads.source}/${board}/${threadId}/${newFileName}`,
       );
     }),
   );
