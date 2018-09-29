@@ -5,8 +5,14 @@ const env = process.env.NODE_ENV;
 const development = {
   port: parseInt(process.env.PORT, 10) || 3000,
   // IF DEVELOPING WITHOUT DOCKER
-  // uploads: path.join(__dirname, '../../frontend/public/uploads'),
-  uploads: path.join(__dirname, '../uploads'),
+  // uploads: {
+  //   source: path.join(__dirname, '../../frontend/public/uploads/source'),
+  //   thumb: path.join(__dirname, '../../frontend/public/uploads/thumb'),
+  // },
+  uploads: {
+    source: path.join(__dirname, '../uploads/source'),
+    thumb: path.join(__dirname, '../uploads/thumb'),
+  },
 };
 
 const production = {
