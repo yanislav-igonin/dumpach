@@ -7,10 +7,13 @@ const {
 // TODO: maybe add repositories for easier testing
 
 class Controller {
+  // TODO: add offset and limit pagination
+  // TODO: add count field for pagination
   static async list(ctx) {
     const { boardId } = ctx.params;
 
     try {
+      // TODO: add not found board error
       const board = await Board.findOne({
         where: {
           identifier: boardId,
@@ -19,6 +22,7 @@ class Controller {
 
       // TODO: make separate thread and posts finding
       // TODO: make only 1st and last 3 posts finding
+      // TODO: add remained posts count field
       const threads = await Thread.findAll({
         where: {
           board_id: board.id,
@@ -43,12 +47,14 @@ class Controller {
     const { boardId, threadId } = ctx.params;
 
     try {
+      // TODO: add not found board error
       const board = await Board.find({
         where: {
           identifier: boardId,
         },
       });
 
+      // TODO: add not found thread error
       const thread = await Thread.findOne({
         where: {
           board_id: board.id,
@@ -77,6 +83,7 @@ class Controller {
     try {
       const { files, fields } = await mediaFiles.parseFormData(ctx.req);
 
+      // TODO: add not found board error
       const board = await Board.findOne({
         where: {
           identifier: boardId,
@@ -121,12 +128,16 @@ class Controller {
     try {
       const { files, fields } = await mediaFiles.parseFormData(ctx.req);
 
+      // TODO: add not found board error
       const board = await Board.findOne({
         where: {
           identifier: boardId,
         },
         raw: true,
       });
+
+      // TODO: add not found thread error
+      // TODO: add thread finding
 
       const post = await Post.create({ ...fields, thread_id: threadId });
 
