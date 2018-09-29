@@ -1,5 +1,7 @@
 const httpStatus = require('http-status');
 
+// TODO: think about BOOM errors
+
 class AppError extends Error {
   constructor(message, status) {
     super(message);

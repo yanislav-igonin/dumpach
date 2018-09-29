@@ -1,5 +1,7 @@
 const { Board, Thread, Post } = require('../../db').models;
 
+// TODO: maybe add repositories for easier testing
+
 class Controller {
   static async list(ctx) {
     const { boardId } = ctx.params;
