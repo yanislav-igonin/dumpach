@@ -9,14 +9,25 @@ const parseFormData = async (request) => {
   return { files, fields };
 };
 
-const moveFiles = async (files, threadId) => {
+const moveFiles = async (files, board, threadId) => {
   const newFilesNames = [];
 
   await Promise.all(
-    files.map((file) => {
-      const newFileName = `${uuidv4()}-${file.filename}`;
-      newFilesNames.push(newFileName);
-      return fs.move(file.path, `${config.app.uploads}/${threadId}/${newFileName}`);
+    files.map(async (file) => {
+      const { size } = await fs.stat(file.path);
+      const uuid = uuidv4();
+      const newFileName = `${uuid}-${file.filename}`;
+      newFilesNames.push({
+        name: file.filename,
+        size,
+        type: file.mimeType,
+        uuid,
+      });
+      // TODO: update uploads dir: make source and thumb directories
+      return fs.move(
+        file.path,
+        `${config.app.uploads}/${board}/${threadId}/${newFileName}`,
+      );
     }),
   );
 
