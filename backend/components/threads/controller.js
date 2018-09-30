@@ -152,8 +152,17 @@ class Controller {
         throw new HttpNotFoundException('Board not found!');
       }
 
-      // TODO: add not found thread error
-      // TODO: add thread finding
+      const thread = await Thread.findOne({
+        where: {
+          board_id: board.id,
+          id: threadId,
+        },
+        raw: true,
+      });
+
+      if (!thread) {
+        throw new HttpNotFoundException('Thread not found!');
+      }
 
       const post = await Post.create({ ...fields, thread_id: threadId });
 
@@ -170,7 +179,7 @@ class Controller {
         })),
       );
 
-      const thread = await Thread.findOne({
+      const sendedThread = await Thread.findOne({
         where: {
           board_id: board.id,
           id: threadId,
@@ -184,10 +193,10 @@ class Controller {
         ],
       });
 
-      thread.changed('updated_at', true);
-      await thread.save();
+      sendedThread.changed('updated_at', true);
+      await sendedThread.save();
 
-      ctx.body = { data: thread };
+      ctx.body = { data: sendedThread };
     } catch (err) {
       throw err;
     }
