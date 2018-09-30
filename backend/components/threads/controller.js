@@ -36,6 +36,8 @@ class Controller {
           {
             model: Post,
             limit: 4,
+            // TODO: add attachments create ordering
+            // maybe, need to rewrite this in separate queries
             include: [Attachment],
           },
         ],
@@ -188,6 +190,8 @@ class Controller {
         include: [
           {
             model: Post,
+            // TODO: add attachments create ordering
+            // maybe, need to rewrite this in separate queries
             include: [Attachment],
           },
         ],
