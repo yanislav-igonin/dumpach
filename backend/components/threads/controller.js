@@ -3,6 +3,7 @@ const { mediaFiles } = require('../../modules');
 const {
   Board, Thread, Post, Attachment,
 } = require('../../db').models;
+const { HttpNotFoundException } = require('../../modules').errors;
 
 // TODO: maybe add repositories for easier testing
 
@@ -13,12 +14,15 @@ class Controller {
     const { boardId } = ctx.params;
 
     try {
-      // TODO: add not found board error
       const board = await Board.findOne({
         where: {
           identifier: boardId,
         },
       });
+
+      if (!board) {
+        throw new HttpNotFoundException('Board not found!');
+      }
 
       // TODO: make separate thread and posts finding
       // TODO: make only 1st and last 3 posts finding
@@ -39,7 +43,7 @@ class Controller {
 
       ctx.body = { data: threads };
     } catch (err) {
-      throw new Error(err);
+      throw err;
     }
   }
 
@@ -47,14 +51,16 @@ class Controller {
     const { boardId, threadId } = ctx.params;
 
     try {
-      // TODO: add not found board error
-      const board = await Board.find({
+      const board = await Board.findOne({
         where: {
           identifier: boardId,
         },
       });
 
-      // TODO: add not found thread error
+      if (!board) {
+        throw new HttpNotFoundException('Board not found!');
+      }
+
       const thread = await Thread.findOne({
         where: {
           board_id: board.id,
@@ -71,9 +77,13 @@ class Controller {
         ],
       });
 
+      if (!thread) {
+        throw new HttpNotFoundException('Thread not found!');
+      }
+
       ctx.body = { data: thread };
     } catch (err) {
-      throw new Error(err);
+      throw err;
     }
   }
 
@@ -83,13 +93,16 @@ class Controller {
     try {
       const { files, fields } = await mediaFiles.parseFormData(ctx.req);
 
-      // TODO: add not found board error
       const board = await Board.findOne({
         where: {
           identifier: boardId,
         },
         raw: true,
       });
+
+      if (!board) {
+        throw new HttpNotFoundException('Board not found!');
+      }
 
       const thread = await Thread.create({ board_id: board.id });
 
@@ -118,7 +131,7 @@ class Controller {
       ctx.status = status.CREATED;
       ctx.body = { data: sendedThread };
     } catch (err) {
-      throw new Error(err);
+      throw err;
     }
   }
 
@@ -128,13 +141,16 @@ class Controller {
     try {
       const { files, fields } = await mediaFiles.parseFormData(ctx.req);
 
-      // TODO: add not found board error
       const board = await Board.findOne({
         where: {
           identifier: boardId,
         },
         raw: true,
       });
+
+      if (!board) {
+        throw new HttpNotFoundException('Board not found!');
+      }
 
       // TODO: add not found thread error
       // TODO: add thread finding
@@ -173,7 +189,7 @@ class Controller {
 
       ctx.body = { data: thread };
     } catch (err) {
-      throw new Error(err);
+      throw err;
     }
   }
 }
