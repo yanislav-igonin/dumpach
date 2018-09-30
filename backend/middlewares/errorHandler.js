@@ -8,8 +8,8 @@ module.exports = async (ctx, next) => {
   } catch (err) {
     const error = {
       message: err.message,
-      code: err.status,
-      error: err.error,
+      code: err.status || 500,
+      error: err.error || 'Internal Server Error',
     };
 
     if (env === 'development') {
