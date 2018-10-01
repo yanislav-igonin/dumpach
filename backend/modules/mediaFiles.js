@@ -10,34 +10,67 @@ const parseFormData = async (request) => {
   return { files, fields };
 };
 
-const moveFiles = async (files, board, threadId) => {
+const createThumb = (options) => {
+  const {
+    path, boardIdentifier, threadId, outputFileName,
+  } = options;
+
+  return sharp(path)
+    .resize(200, 200)
+    .min()
+    .toFile(
+      `${config.app.uploads.thumb}/${boardIdentifier}/${threadId}/${outputFileName}`,
+    );
+};
+
+const copyFile = (options) => {
+  const {
+    path, boardIdentifier, threadId, outputFileName,
+  } = options;
+
+  return fs.copy(
+    path,
+    `${config.app.uploads.source}/${boardIdentifier}/${threadId}/${outputFileName}`,
+  );
+};
+
+const moveFiles = async (files, boardIdentifier, threadId) => {
   const newFilesNames = [];
 
   await Promise.all(
     files.map(async (file) => {
-      // TODO: add try/catch
-      const { size } = await fs.stat(file.path);
-      const uuid = uuidv4();
-      const newFileName = `${uuid}-${file.filename}`;
-      newFilesNames.push({
-        name: file.filename,
-        size,
-        type: file.mimeType,
-        uuid,
-      });
+      try {
+        const { size } = await fs.stat(file.path);
+        const uuid = uuidv4();
+        const newFileName = `${uuid}-${file.filename}`;
+        newFilesNames.push({
+          name: file.filename,
+          size,
+          type: file.mimeType,
+          uuid,
+        });
 
-      await fs.ensureDir(`${config.app.uploads.thumb}/${board}/${threadId}`);
-      // TODO: maybe return Promise.all
-      // TODO: maybe add size checking to not resize small images
-      await sharp(file.path)
-        .resize(200, 200)
-        .min()
-        .toFile(`${config.app.uploads.thumb}//${board}/${threadId}/${newFileName}`);
+        await fs.ensureDir(
+          `${config.app.uploads.thumb}/${boardIdentifier}/${threadId}`,
+        );
 
-      return fs.move(
-        file.path,
-        `${config.app.uploads.source}/${board}/${threadId}/${newFileName}`,
-      );
+        // TODO: maybe add size checking to not resize small images
+        const imageProcessOptions = {
+          path: file.path,
+          boardIdentifier,
+          threadId,
+          outputFileName: newFileName,
+        };
+
+        await Promise.all([
+          createThumb(imageProcessOptions),
+          copyFile(imageProcessOptions),
+        ]);
+
+        return fs.unlink(file.path);
+      } catch (err) {
+        throw err;
+      }
     }),
   );
 
