@@ -17,6 +17,7 @@
     "pg-hstore": "^2.3.2",
     "pino": "^4.17.0",
     "sequelize": "^4.38.0",
+    "sharp": "^0.20.8",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
