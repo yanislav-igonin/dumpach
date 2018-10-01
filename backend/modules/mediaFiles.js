@@ -17,6 +17,7 @@ const createThumb = (options) => {
 
   return sharp(path)
     .resize(200, 200)
+    .withoutEnlargement()
     .min()
     .toFile(
       `${config.app.uploads.thumb}/${boardIdentifier}/${threadId}/${outputFileName}`,
@@ -54,7 +55,6 @@ const moveFiles = async (files, boardIdentifier, threadId) => {
           `${config.app.uploads.thumb}/${boardIdentifier}/${threadId}`,
         );
 
-        // TODO: maybe add size checking to not resize small images
         const imageProcessOptions = {
           path: file.path,
           boardIdentifier,
