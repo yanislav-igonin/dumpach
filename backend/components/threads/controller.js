@@ -8,10 +8,10 @@ const { HttpNotFoundException } = require('../../modules').errors;
 // TODO: maybe add repositories for easier testing
 
 class Controller {
-  // TODO: add offset and limit pagination
-  // TODO: add count field for pagination
   static async list(ctx) {
     const { boardId } = ctx.params;
+    // TODO: add query type checking, maybe via ajv
+    const { limit = 10, offset = 10 } = ctx.query;
 
     try {
       const board = await Board.findOne({
@@ -27,10 +27,12 @@ class Controller {
       // TODO: make separate thread and posts finding
       // TODO: make only 1st and last 3 posts finding
       // TODO: add remained posts count field
-      const threads = await Thread.findAll({
+      const threadsAndCount = await Thread.findAndCountAll({
         where: {
           board_id: board.id,
         },
+        limit: parseInt(limit, 10),
+        offset: parseInt(offset, 10),
         order: [['updated_at', 'desc']],
         include: [
           {
@@ -43,7 +45,13 @@ class Controller {
         ],
       });
 
-      ctx.body = { data: threads };
+      const isLastPage = threadsAndCount.rows.length < offset;
+
+      ctx.body = {
+        data: threadsAndCount.rows,
+        count: threadsAndCount.count,
+        is_last_page: isLastPage,
+      };
     } catch (err) {
       throw err;
     }
