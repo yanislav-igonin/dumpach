@@ -1,8 +1,8 @@
 const checkPostValidity = (fields, files) => {
   const isThereAnyFiles = files.length > 0;
-  const isThereAnyFields = fields.title || fields.text;
+  const isThereAnyText = Boolean(fields.text);
 
-  return isThereAnyFields || isThereAnyFiles;
+  return isThereAnyText || isThereAnyFiles;
 };
 
 module.exports = {
