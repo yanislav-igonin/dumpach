@@ -15,7 +15,7 @@ class Controller {
   static async list(ctx) {
     const { boardId } = ctx.params;
     // TODO: add query type checking, maybe via ajv
-    const { limit = 10, offset = 10 } = ctx.query;
+    const { limit = 10, offset = 0 } = ctx.query;
 
     try {
       const board = await Board.findOne({
