@@ -18,6 +18,13 @@ class HttpNotFoundException extends AppError {
   }
 }
 
+class HttpBadRequestException extends AppError {
+  constructor(message) {
+    super(message || 'Bad request!', httpStatus.BAD_REQUEST, httpStatus[400]);
+  }
+}
+
 module.exports = {
   HttpNotFoundException,
+  HttpBadRequestException,
 };
