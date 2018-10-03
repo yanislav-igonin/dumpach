@@ -39,6 +39,7 @@ const moveFiles = async (files, boardIdentifier, threadId) => {
   const newFilesNames = [];
 
   await Promise.all(
+    // TODO: add files type checking and error throwing
     files.map(async (file) => {
       try {
         const { size } = await fs.stat(file.path);
