@@ -3,7 +3,11 @@ const { mediaFiles } = require('../../modules');
 const {
   Board, Thread, Post, Attachment,
 } = require('../../db').models;
-const { HttpNotFoundException } = require('../../modules').errors;
+const {
+  HttpNotFoundException,
+  HttpBadRequestException,
+} = require('../../modules').errors;
+const { checkPostValidity } = require('./helpers');
 
 // TODO: maybe add repositories for easier testing
 
@@ -114,6 +118,14 @@ class Controller {
         throw new HttpNotFoundException('Board not found!');
       }
 
+      const isPostValid = checkPostValidity(fields, files);
+
+      if (!isPostValid) {
+        throw new HttpBadRequestException(
+          'Post must contain at least file(s) or text!',
+        );
+      }
+
       const thread = await Thread.create({ board_id: board.id });
 
       const post = await Post.create({ ...fields, thread_id: thread.id });
@@ -172,6 +184,14 @@ class Controller {
 
       if (!thread) {
         throw new HttpNotFoundException('Thread not found!');
+      }
+
+      const isPostValid = checkPostValidity(fields, files);
+
+      if (!isPostValid) {
+        throw new HttpBadRequestException(
+          'Post must contain at least file(s) or text!',
+        );
       }
 
       const post = await Post.create({ ...fields, thread_id: threadId });
