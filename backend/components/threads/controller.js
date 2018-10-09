@@ -28,10 +28,7 @@ class Controller {
         throw new HttpNotFoundException('Board not found!');
       }
 
-      // TODO: make separate thread and posts finding
-      // TODO: make only 1st and last 3 posts finding
-      // TODO: add remained posts count field
-      const threadsAndCount = await Thread.findAndCountAll({
+      const { rows: threads, count } = await Thread.findAndCountAll({
         where: {
           board_id: board.id,
         },
@@ -41,19 +38,40 @@ class Controller {
         include: [
           {
             model: Post,
-            limit: 4,
-            // TODO: add attachments create ordering
-            // maybe, need to rewrite this in separate queries
             include: [Attachment],
           },
         ],
       });
 
-      const isLastPage = threadsAndCount.rows.length < offset;
+      const orderedPostsThreads = threads.map((thread) => {
+        const posts = thread.posts.sort(
+          (postA, postB) => new Date(postA.createdAt) - new Date(postB.createdAt),
+        );
+
+        return { ...thread.toJSON(), posts };
+      });
+
+      const slicedPostsThreads = orderedPostsThreads.map((thread) => {
+        // TODO: add attachments create ordering
+        if (thread.posts.length < 5) {
+          return { ...thread, remained_posts: 0 };
+        }
+
+        const posts = [];
+
+        posts.push(thread.posts[0]);
+        posts.push(thread.posts[thread.posts.length - 1]);
+        posts.push(thread.posts[thread.posts.length - 2]);
+        posts.push(thread.posts[thread.posts.length - 3]);
+
+        return { ...thread, posts, remained_posts: thread.posts.length - 4 };
+      });
+
+      const isLastPage = threads.length < offset;
 
       ctx.body = {
-        data: threadsAndCount.rows,
-        count: threadsAndCount.count,
+        data: slicedPostsThreads,
+        count,
         is_last_page: isLastPage,
       };
     } catch (err) {
