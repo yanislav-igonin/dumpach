@@ -34,7 +34,7 @@ class Controller {
         },
         limit: parseInt(limit, 10),
         offset: parseInt(offset, 10),
-        order: [['updated_at', 'desc']],
+        order: [['updated_at', 'desc'], [Post, 'created_at', 'desc']],
         include: [
           {
             model: Post,
@@ -43,18 +43,10 @@ class Controller {
         ],
       });
 
-      const orderedPostsThreads = threads.map((thread) => {
-        const posts = thread.posts.sort(
-          (postA, postB) => new Date(postA.createdAt) - new Date(postB.createdAt),
-        );
-
-        return { ...thread.toJSON(), posts };
-      });
-
-      const slicedPostsThreads = orderedPostsThreads.map((thread) => {
+      const slicedPostsThreads = threads.map((thread) => {
         // TODO: add attachments create ordering
         if (thread.posts.length < 5) {
-          return { ...thread, remained_posts: 0 };
+          return { ...thread.toJSON(), remained_posts: 0 };
         }
 
         const posts = [];
@@ -64,7 +56,11 @@ class Controller {
         posts.push(thread.posts[thread.posts.length - 2]);
         posts.push(thread.posts[thread.posts.length - 3]);
 
-        return { ...thread, posts, remained_posts: thread.posts.length - 4 };
+        return {
+          ...thread.toJSON(),
+          posts,
+          remained_posts: thread.posts.length - 4,
+        };
       });
 
       const isLastPage = threads.length < offset;
