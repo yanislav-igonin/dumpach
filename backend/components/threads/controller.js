@@ -35,7 +35,6 @@ class Controller {
         throw new HttpNotFoundException('Board not found');
       }
 
-      // TODO: fix count field
       const threads = await Thread.findAll({
         where: {
           board_id: board.id,
