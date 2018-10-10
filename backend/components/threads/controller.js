@@ -10,6 +10,7 @@ const {
 const { checkPostValidity } = require('./helpers');
 
 // TODO: maybe add repositories for easier testing
+// TODO: think how to make different table for every board
 
 class Controller {
   static async list(ctx) {
@@ -120,6 +121,8 @@ class Controller {
   }
 
   static async create(ctx) {
+    // TODO: add old threads delete
+    // any: all boards limit 50; separate limit for every board stored in db
     const { boardId } = ctx.params;
 
     try {
