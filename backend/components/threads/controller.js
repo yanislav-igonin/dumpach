@@ -10,7 +10,10 @@ const {
 const { checkPostValidity } = require('./helpers');
 
 // TODO: maybe add repositories for easier testing
-// TODO: think how to make different table for every board
+// TODO: think how to make different table for every board.
+// maybe add another table or parameter, that will count
+// post numeric id for every board, so i dont need some other tables
+// to save same entity
 
 class Controller {
   static async list(ctx) {
@@ -33,7 +36,7 @@ class Controller {
       }
 
       // TODO: fix count field
-      const { rows: threads, count } = await Thread.findAndCountAll({
+      const threads = await Thread.findAll({
         where: {
           board_id: board.id,
         },
@@ -50,6 +53,12 @@ class Controller {
             include: [Attachment],
           },
         ],
+      });
+
+      const count = await Thread.count({
+        where: {
+          board_id: board.id,
+        },
       });
 
       const slicedPostsThreads = threads.map((thread) => {
@@ -156,7 +165,7 @@ class Controller {
       // TODO: all boards limit 50; separate limit for every board stored in db
       // TODO: add transaction for this functional
       if (threads.length > 49) {
-        const threadsForDelete = threads.slice(50);
+        const threadsForDelete = threads.slice(49);
 
         await Promise.all(
           threadsForDelete.map(threadForDelete => Promise.all([
