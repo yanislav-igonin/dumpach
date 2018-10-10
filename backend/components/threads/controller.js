@@ -34,7 +34,11 @@ class Controller {
         },
         limit: parseInt(limit, 10),
         offset: parseInt(offset, 10),
-        order: [['updated_at', 'desc'], [Post, 'created_at', 'desc']],
+        order: [
+          ['updated_at', 'desc'],
+          [Post, 'created_at', 'desc'],
+          [Post, Attachment, 'id', 'asc'],
+        ],
         include: [
           {
             model: Post,
@@ -44,7 +48,6 @@ class Controller {
       });
 
       const slicedPostsThreads = threads.map((thread) => {
-        // TODO: add attachments create ordering
         if (thread.posts.length < 5) {
           return { ...thread.toJSON(), remained_posts: 0 };
         }
@@ -94,12 +97,10 @@ class Controller {
           board_id: board.id,
           id: threadId,
         },
-        order: [[Post, 'created_at', 'desc']],
+        order: [[Post, 'created_at', 'desc'], [Post, Attachment, 'id', 'asc']],
         include: [
           {
             model: Post,
-            // TODO: add attachments create ordering
-            // maybe, need to rewrite this in separate queries
             include: [Attachment],
           },
         ],
