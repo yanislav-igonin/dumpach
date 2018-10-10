@@ -239,8 +239,10 @@ class Controller {
         ],
       });
 
-      sendedThread.changed('updated_at', true);
-      await sendedThread.save();
+      if (!post.is_sage) {
+        sendedThread.changed('updated_at', true);
+        await sendedThread.save();
+      }
 
       ctx.body = { data: sendedThread };
     } catch (err) {
