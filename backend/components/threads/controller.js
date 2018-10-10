@@ -14,8 +14,11 @@ const { checkPostValidity } = require('./helpers');
 class Controller {
   static async list(ctx) {
     const { boardId } = ctx.params;
-    // TODO: add query type checking, maybe via ajv
     const { limit = 10, offset = 0 } = ctx.query;
+
+    if (isNaN(parseInt(limit, 10)) || isNaN(parseInt(limit, 10))) {
+      throw new HttpBadRequestException('Bad query parameters');
+    }
 
     try {
       const board = await Board.findOne({
@@ -25,7 +28,7 @@ class Controller {
       });
 
       if (!board) {
-        throw new HttpNotFoundException('Board not found!');
+        throw new HttpNotFoundException('Board not found');
       }
 
       const { rows: threads, count } = await Thread.findAndCountAll({
@@ -89,7 +92,7 @@ class Controller {
       });
 
       if (!board) {
-        throw new HttpNotFoundException('Board not found!');
+        throw new HttpNotFoundException('Board not found');
       }
 
       const thread = await Thread.findOne({
@@ -107,7 +110,7 @@ class Controller {
       });
 
       if (!thread) {
-        throw new HttpNotFoundException('Thread not found!');
+        throw new HttpNotFoundException('Thread not found');
       }
 
       ctx.body = { data: thread };
@@ -130,14 +133,14 @@ class Controller {
       });
 
       if (!board) {
-        throw new HttpNotFoundException('Board not found!');
+        throw new HttpNotFoundException('Board not found');
       }
 
       const isPostValid = checkPostValidity(fields, files);
 
       if (!isPostValid) {
         throw new HttpBadRequestException(
-          'Post must contain at least file(s) or text!',
+          'Post must contain at least file(s) or text',
         );
       }
 
@@ -186,7 +189,7 @@ class Controller {
       });
 
       if (!board) {
-        throw new HttpNotFoundException('Board not found!');
+        throw new HttpNotFoundException('Board not found');
       }
 
       const thread = await Thread.findOne({
@@ -198,14 +201,14 @@ class Controller {
       });
 
       if (!thread) {
-        throw new HttpNotFoundException('Thread not found!');
+        throw new HttpNotFoundException('Thread not found');
       }
 
       const isPostValid = checkPostValidity(fields, files);
 
       if (!isPostValid) {
         throw new HttpBadRequestException(
-          'Post must contain at least file(s) or text!',
+          'Post must contain at least file(s) or text',
         );
       }
 
@@ -229,12 +232,10 @@ class Controller {
           board_id: board.id,
           id: threadId,
         },
-        order: [[Post, 'created_at', 'desc']],
+        order: [[Post, 'created_at', 'desc'], [Post, Attachment, 'id', 'asc']],
         include: [
           {
             model: Post,
-            // TODO: add attachments create ordering
-            // maybe, need to rewrite this in separate queries
             include: [Attachment],
           },
         ],
