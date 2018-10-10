@@ -3,6 +3,31 @@ const fs = require('fs-extra');
 const sharp = require('sharp');
 const uuidv4 = require('uuid/v4');
 const config = require('../config');
+const { HttpUnsupportedMediaTypeException } = require('./errors');
+
+const checkFilesTypes = async (files) => {
+  const supportedTypes = ['image/jpeg', 'image/gif', 'image/png'];
+
+  const unsupportedFiles = files.reduce((acc, file) => {
+    if (!supportedTypes.includes(file.mimeType)) {
+      acc.push(file);
+    }
+
+    return acc;
+  }, []);
+
+  if (unsupportedFiles.length > 0) {
+    let errorMessage = 'This file(s) has unsupported media type:\n';
+
+    unsupportedFiles.forEach((file) => {
+      errorMessage = errorMessage.concat(`\n${file.filename}`);
+    });
+
+    await Promise.all(files.map(file => fs.unlink(file.path)));
+
+    throw new HttpUnsupportedMediaTypeException(errorMessage);
+  }
+};
 
 const parseFormData = async (request) => {
   const { files, fields } = await asyncBusboy(request);
@@ -36,10 +61,11 @@ const copyFile = (options) => {
 };
 
 const moveFiles = async (files, boardIdentifier, threadId) => {
+  await checkFilesTypes(files);
+
   const newFilesNames = [];
 
   await Promise.all(
-    // TODO: add files type checking and error throwing
     files.map(async (file) => {
       try {
         const { size } = await fs.stat(file.path);
