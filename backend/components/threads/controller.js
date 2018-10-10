@@ -32,6 +32,7 @@ class Controller {
         throw new HttpNotFoundException('Board not found');
       }
 
+      // TODO: fix count field
       const { rows: threads, count } = await Thread.findAndCountAll({
         where: {
           board_id: board.id,
@@ -121,8 +122,6 @@ class Controller {
   }
 
   static async create(ctx) {
-    // TODO: add old threads delete
-    // any: all boards limit 50; separate limit for every board stored in db
     const { boardId } = ctx.params;
 
     try {
@@ -144,6 +143,25 @@ class Controller {
       if (!isPostValid) {
         throw new HttpBadRequestException(
           'Post must contain at least file(s) or text',
+        );
+      }
+
+      const threads = await Thread.findAll({
+        where: {
+          board_id: board.id,
+        },
+        order: [['updated_at', 'desc']],
+      });
+
+      // TODO: all boards limit 50; separate limit for every board stored in db
+      if (threads.length > 49) {
+        const threadsForDelete = threads.slice(50);
+
+        await Promise.all(
+          threadsForDelete.map(threadForDelete => Promise.all([
+            threadForDelete.destroy(),
+            mediaFiles.deleteThreadFiles(boardId, threadForDelete.id),
+          ])),
         );
       }
 
