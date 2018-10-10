@@ -5,6 +5,17 @@ const uuidv4 = require('uuid/v4');
 const config = require('../config');
 const { HttpUnsupportedMediaTypeException } = require('./errors');
 
+const removeThreadSourceFiles = async (boardIdentifier, threadId) => fs
+  .remove(`${config.app.uploads.source}/${boardIdentifier}/${threadId}`);
+
+const removeThreadThumbFiles = async (boardIdentifier, threadId) => fs
+  .remove(`${config.app.uploads.thumb}/${boardIdentifier}/${threadId}`);
+
+const deleteThreadFiles = async (boardIdentifier, threadId) => Promise.all([
+  removeThreadSourceFiles(boardIdentifier, threadId),
+  removeThreadThumbFiles(boardIdentifier, threadId),
+]);
+
 const checkFilesTypes = async (files) => {
   const supportedTypes = ['image/jpeg', 'image/gif', 'image/png'];
 
@@ -104,4 +115,4 @@ const moveFiles = async (files, boardIdentifier, threadId) => {
   return newFilesNames;
 };
 
-module.exports = { parseFormData, moveFiles };
+module.exports = { parseFormData, moveFiles, deleteThreadFiles };
