@@ -154,6 +154,7 @@ class Controller {
       });
 
       // TODO: all boards limit 50; separate limit for every board stored in db
+      // TODO: add transaction for this functional
       if (threads.length > 49) {
         const threadsForDelete = threads.slice(50);
 
@@ -233,6 +234,7 @@ class Controller {
         );
       }
 
+      // TODO: add transaction for this functional
       const post = await Post.create({ ...fields, thread_id: threadId });
 
       const attachmentsFields = await mediaFiles.moveFiles(
