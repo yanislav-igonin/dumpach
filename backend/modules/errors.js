@@ -12,19 +12,30 @@ class AppError extends Error {
   }
 }
 
-class HttpNotFoundException extends AppError {
+class HttpBadRequestException extends AppError {
   constructor(message) {
-    super(message || 'Not found!', httpStatus.NOT_FOUND, httpStatus[404]);
+    super(message || 'Bad request', httpStatus.BAD_REQUEST, httpStatus[400]);
   }
 }
 
-class HttpBadRequestException extends AppError {
+class HttpNotFoundException extends AppError {
   constructor(message) {
-    super(message || 'Bad request!', httpStatus.BAD_REQUEST, httpStatus[400]);
+    super(message || 'Not found', httpStatus.NOT_FOUND, httpStatus[404]);
+  }
+}
+
+class HttpUnsupportedMediaTypeException extends AppError {
+  constructor(message) {
+    super(
+      message || 'Unsupported Media Type',
+      httpStatus.UNSUPPORTED_MEDIA_TYPE,
+      httpStatus[415],
+    );
   }
 }
 
 module.exports = {
-  HttpNotFoundException,
   HttpBadRequestException,
+  HttpNotFoundException,
+  HttpUnsupportedMediaTypeException,
 };
