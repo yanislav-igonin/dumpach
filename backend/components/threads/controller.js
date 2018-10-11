@@ -134,8 +134,6 @@ class Controller {
     const { boardId } = ctx.params;
 
     try {
-      const { files, fields } = await mediaFiles.parseFormData(ctx.req);
-
       const board = await Board.findOne({
         where: {
           identifier: boardId,
@@ -146,6 +144,8 @@ class Controller {
       if (!board) {
         throw new HttpNotFoundException('Board not found');
       }
+
+      const { files, fields } = await mediaFiles.parseFormData(ctx.req);
 
       const isPostValid = checkPostValidity(fields, files);
 
@@ -220,8 +220,6 @@ class Controller {
     const { boardId, threadId } = ctx.params;
 
     try {
-      const { files, fields } = await mediaFiles.parseFormData(ctx.req);
-
       const board = await Board.findOne({
         where: {
           identifier: boardId,
@@ -243,6 +241,8 @@ class Controller {
       if (!thread) {
         throw new HttpNotFoundException('Thread not found');
       }
+
+      const { files, fields } = await mediaFiles.parseFormData(ctx.req);
 
       const isPostValid = checkPostValidity(fields, files);
 
