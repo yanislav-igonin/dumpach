@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('../connection');
 const Thread = require('./Thread');
 
+// TODO: add threads limit field
 const Board = db.define(
   'boards',
   {
