@@ -239,7 +239,6 @@ class Controller {
           board_id: board.id,
           id: threadId,
         },
-        raw: true,
       });
 
       if (!thread) {
@@ -254,21 +253,33 @@ class Controller {
         );
       }
 
-      // TODO: add transaction for this functional
-      const post = await Post.create({ ...fields, thread_id: threadId });
+      await db.transaction(async (t) => {
+        const post = await Post.create(
+          { ...fields, thread_id: threadId },
+          { transaction: t },
+        );
 
-      const attachmentsFields = await mediaFiles.moveFiles(
-        files,
-        board.identifier,
-        threadId,
-      );
+        const attachmentsFields = await mediaFiles.moveFiles(
+          files,
+          board.identifier,
+          threadId,
+        );
 
-      await Promise.all(
-        attachmentsFields.map(attachment => Attachment.create({
-          ...attachment,
-          post_id: post.id,
-        })),
-      );
+        await Promise.all(
+          attachmentsFields.map(attachment => Attachment.create(
+            {
+              ...attachment,
+              post_id: post.id,
+            },
+            { transaction: t },
+          )),
+        );
+
+        if (!post.is_sage) {
+          thread.changed('updated_at', true);
+          await thread.save({ transaction: t });
+        }
+      });
 
       const sendedThread = await Thread.findOne({
         where: {
@@ -283,11 +294,6 @@ class Controller {
           },
         ],
       });
-
-      if (!post.is_sage) {
-        sendedThread.changed('updated_at', true);
-        await sendedThread.save();
-      }
 
       ctx.body = { data: sendedThread };
     } catch (err) {
