@@ -162,20 +162,8 @@ class Controller {
         order: [['updated_at', 'desc']],
       });
 
-      // TODO: all boards limit 50; separate limit for every board stored in db
       const [sendedThread, sendedPost, sendedAttachments] = await db.transaction(
         async (t) => {
-          if (threads.length > 49) {
-            const threadsForDelete = threads.slice(49);
-
-            await Promise.all(
-              threadsForDelete.map(threadForDelete => Promise.all([
-                threadForDelete.destroy({ transaction: t }),
-                mediaFiles.deleteThreadFiles(boardId, threadForDelete.id),
-              ])),
-            );
-          }
-
           const thread = await Thread.create(
             { board_id: board.id },
             { transaction: t },
@@ -201,6 +189,17 @@ class Controller {
               { transaction: t },
             )),
           );
+
+          if (threads.length > board.threads_limit - 1) {
+            const threadsForDelete = threads.slice(49);
+
+            await Promise.all(
+              threadsForDelete.map(threadForDelete => Promise.all([
+                threadForDelete.destroy({ transaction: t }),
+                mediaFiles.deleteThreadFiles(boardId, threadForDelete.id),
+              ])),
+            );
+          }
 
           return [thread.toJSON(), post.toJSON(), attachments];
         },
