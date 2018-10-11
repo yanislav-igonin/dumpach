@@ -24,6 +24,16 @@ class HttpNotFoundException extends AppError {
   }
 }
 
+class HttpPayloadTooLargeException extends AppError {
+  constructor(message) {
+    super(
+      message || 'Payload Too Large',
+      httpStatus.REQUEST_ENTITY_TOO_LARGE,
+      httpStatus[413],
+    );
+  }
+}
+
 class HttpUnsupportedMediaTypeException extends AppError {
   constructor(message) {
     super(
@@ -37,5 +47,6 @@ class HttpUnsupportedMediaTypeException extends AppError {
 module.exports = {
   HttpBadRequestException,
   HttpNotFoundException,
+  HttpPayloadTooLargeException,
   HttpUnsupportedMediaTypeException,
 };
