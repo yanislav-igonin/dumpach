@@ -21,17 +21,17 @@ db.authenticate()
     try {
       await db.sync();
       logger.info('database - models syncing - success');
-    } catch (e) {
+    } catch (err) {
       logger.error('database - models syncing - failure');
-      logger.error('message:', e.message);
+      logger.error('message:', err.message);
     }
 
     try {
       await seeders.init();
       logger.info('database - seeding - success');
-    } catch (e) {
+    } catch (err) {
       logger.error('database - seeding - failure');
-      logger.error('message:', e.message);
+      logger.error('message:', err.message);
     }
 
     server.listen(3000, () => {
@@ -39,6 +39,9 @@ db.authenticate()
       logger.info('all systems nominal');
     });
   })
-  .catch((e) => {
-    logger.error(e);
+  .catch((err) => {
+    logger.error(err);
   });
+
+// TODO: add boards stats(separate table)
+// TODO: add process.exit on startup errors
