@@ -15,10 +15,16 @@ const Board = db.define(
     identifier: {
       type: Sequelize.STRING,
       unique: true,
+      allowNull: false,
     },
     title: {
       type: Sequelize.STRING,
       unique: true,
+      allowNull: false,
+    },
+    threads_limit: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
     },
   },
   { underscored: true },

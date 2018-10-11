@@ -14,6 +14,7 @@ const Section = db.define(
     title: {
       type: Sequelize.STRING,
       unique: true,
+      allowNull: false,
     },
   },
   { underscored: true },
