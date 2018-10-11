@@ -8,6 +8,7 @@ const {
   HttpBadRequestException,
 } = require('../../modules').errors;
 const { checkPostValidity } = require('./helpers');
+const { db } = require('../../db');
 
 // TODO: maybe add repositories for easier testing
 // TODO: think how to make different table for every board.
@@ -162,39 +163,50 @@ class Controller {
       });
 
       // TODO: all boards limit 50; separate limit for every board stored in db
-      // TODO: add transaction for this functional
-      if (threads.length > 49) {
-        const threadsForDelete = threads.slice(49);
+      const [sendedThread, sendedPost, sendedAttachments] = await db.transaction(
+        async (t) => {
+          if (threads.length > 49) {
+            const threadsForDelete = threads.slice(49);
 
-        await Promise.all(
-          threadsForDelete.map(threadForDelete => Promise.all([
-            threadForDelete.destroy(),
-            mediaFiles.deleteThreadFiles(boardId, threadForDelete.id),
-          ])),
-        );
-      }
+            await Promise.all(
+              threadsForDelete.map(threadForDelete => Promise.all([
+                threadForDelete.destroy({ transaction: t }),
+                mediaFiles.deleteThreadFiles(boardId, threadForDelete.id),
+              ])),
+            );
+          }
 
-      const thread = await Thread.create({ board_id: board.id });
+          const thread = await Thread.create(
+            { board_id: board.id },
+            { transaction: t },
+          );
 
-      const post = await Post.create({ ...fields, thread_id: thread.id });
+          const post = await Post.create(
+            { ...fields, thread_id: thread.id },
+            { transaction: t },
+          );
 
-      const attachmentsFields = await mediaFiles.moveFiles(
-        files,
-        board.identifier,
-        thread.id,
+          const attachmentsFields = await mediaFiles.moveFiles(
+            files,
+            board.identifier,
+            thread.id,
+          );
+
+          const attachments = await Promise.all(
+            attachmentsFields.map(attachment => Attachment.create(
+              {
+                ...attachment,
+                post_id: post.id,
+              },
+              { transaction: t },
+            )),
+          );
+
+          return [thread.toJSON(), post.toJSON(), attachments];
+        },
       );
 
-      const attachments = await Promise.all(
-        attachmentsFields.map(attachment => Attachment.create({
-          ...attachment,
-          post_id: post.id,
-        })),
-      );
-
-      const sendedThread = thread.toJSON();
-      const sendedPost = post.toJSON();
-
-      sendedPost.attachments = attachments;
+      sendedPost.attachments = sendedAttachments;
       sendedThread.posts = [];
       sendedThread.posts.push(sendedPost);
 
