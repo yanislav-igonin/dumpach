@@ -1,6 +1,5 @@
-const status = require('http-status');
-const logger = require('../modules/logger');
-const { HttpNotFoundException } = require('../modules/errors');
+const { logger } = require('../modules');
+
 const env = process.env.NODE_ENV;
 
 module.exports = async (ctx, next) => {
@@ -9,16 +8,16 @@ module.exports = async (ctx, next) => {
   } catch (err) {
     const error = {
       message: err.message,
-      code: err.status,
+      code: err.status || 500,
+      error: err.error || 'Internal Server Error',
     };
 
     if (env === 'development') {
-      error.stack = err.stack;
-
       logger.error(err);
+      error.stack = err.stack;
     }
 
-    ctx.status = err.status;
+    ctx.status = err.status || 500;
     ctx.body = {
       error,
     };

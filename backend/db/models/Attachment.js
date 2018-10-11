@@ -14,6 +14,18 @@ const Attachment = db.define(
       type: Sequelize.STRING,
       allowNull: false,
     },
+    uuid: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    type: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    size: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+    },
   },
   { underscored: true },
 );

@@ -1,11 +1,13 @@
-const Board = require('./Board');
-const Thread = require('./Thread');
-const Post = require('./Post');
 const Attachment = require('./Attachment');
+const Board = require('./Board');
+const Post = require('./Post');
+const Section = require('./Section');
+const Thread = require('./Thread');
 
 module.exports = {
-  Board,
-  Thread,
-  Post,
   Attachment,
+  Board,
+  Post,
+  Section,
+  Thread,
 };

@@ -13,9 +13,11 @@ const Post = db.define(
     },
     title: {
       type: Sequelize.TEXT,
+      defaultValue: '',
     },
     text: {
       type: Sequelize.TEXT,
+      defaultValue: '',
     },
     is_sage: {
       type: Sequelize.BOOLEAN,

@@ -6,10 +6,24 @@ const Board = db.define(
   'boards',
   {
     id: {
-      type: Sequelize.STRING,
+      type: Sequelize.INTEGER,
       allowNull: false,
       primaryKey: true,
+      autoIncrement: true,
+    },
+    identifier: {
+      type: Sequelize.STRING,
       unique: true,
+      allowNull: false,
+    },
+    title: {
+      type: Sequelize.STRING,
+      unique: true,
+      allowNull: false,
+    },
+    threads_limit: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
     },
   },
   { underscored: true },

@@ -1,35 +1,47 @@
 const Koa = require('koa');
 global.Promise = require('bluebird');
-const logger = require('./modules/logger');
-const router = require('./router');
-const db = require('./db/connection');
-const seedAll = require('./db/seeders');
+const { logger } = require('./modules');
+const { routes } = require('./components');
+const { db, seeders } = require('./db');
 
 const server = new Koa();
 
 const middlewares = require('./middlewares');
 
-middlewares.forEach((middleware) => server.use(middleware));
+middlewares.forEach(middleware => server.use(middleware));
 logger.info('server - middlewares connection - success');
 
-server.use(router.routes());
+routes.forEach(route => server.use(route));
 logger.info('server - routes initialization - success');
 
-db.authenticate().then(async () => {
-  logger.info('database - online');
+db.authenticate()
+  .then(async () => {
+    logger.info('database - online');
 
-  try {
-    await db.sync();
-    logger.info(`database - models syncing - success`);
-    await seedAll();
-    logger.info(`database - seeding - success`);
-  } catch (e) {
-    logger.error(`database - models syncing - failure`);
-    logger.error('message:', e.message);
-  }
+    try {
+      await db.sync();
+      logger.info('database - models syncing - success');
+    } catch (err) {
+      logger.error('database - models syncing - failure');
+      logger.error('message:', err.message);
+    }
 
-  server.listen(3000, () => {
-    logger.info('server - online');
-    logger.info('all systems nominal');
+    try {
+      await seeders.init();
+      logger.info('database - seeding - success');
+    } catch (err) {
+      logger.error('database - seeding - failure');
+      logger.error('message:', err.message);
+    }
+
+    server.listen(3000, () => {
+      logger.info('server - online');
+      logger.info('all systems nominal');
+    });
+  })
+  .catch((err) => {
+    logger.error(err);
   });
-});
+
+// TODO: add boards stats(separate table)
+// TODO: add process.exit on startup errors
