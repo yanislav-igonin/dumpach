@@ -3,7 +3,10 @@ const fs = require('fs-extra');
 const sharp = require('sharp');
 const uuidv4 = require('uuid/v4');
 const config = require('../config');
-const { HttpUnsupportedMediaTypeException } = require('./errors');
+const {
+  HttpPayloadTooLargeException,
+  HttpUnsupportedMediaTypeException,
+} = require('./errors');
 
 const removeThreadSourceFiles = async (boardIdentifier, threadId) => fs
   .remove(`${config.app.uploads.source}/${boardIdentifier}/${threadId}`);
@@ -11,10 +14,12 @@ const removeThreadSourceFiles = async (boardIdentifier, threadId) => fs
 const removeThreadThumbFiles = async (boardIdentifier, threadId) => fs
   .remove(`${config.app.uploads.thumb}/${boardIdentifier}/${threadId}`);
 
-const removeThreadFiles = async (boardIdentifier, threadId) => Promise.all([
+const removeThreadFiles = (boardIdentifier, threadId) => Promise.all([
   removeThreadSourceFiles(boardIdentifier, threadId),
   removeThreadThumbFiles(boardIdentifier, threadId),
 ]);
+
+const removeFile = file => fs.unlink(file.path);
 
 const checkFilesTypes = async (files) => {
   const supportedTypes = ['image/jpeg', 'image/gif', 'image/png'];
@@ -40,9 +45,46 @@ const checkFilesTypes = async (files) => {
   }
 };
 
+const checkFilesCount = async (files) => {
+  if (files.length > 5) {
+    await Promise.all(files.map(file => removeFile(file)));
+
+    throw new HttpPayloadTooLargeException('Too many files');
+  }
+};
+
+const checkFilesSize = async (files) => {
+  const exceededSizeFiles = [];
+
+  await Promise.all(
+    files.map(async (file) => {
+      const { size } = await fs.stat(file.path);
+
+      if (size > 1048576) {
+        exceededSizeFiles.push(file);
+      }
+    }),
+  );
+
+  if (exceededSizeFiles.length > 0) {
+    let errorMessage = 'This file(s) has exceeded size limit:\n';
+
+    exceededSizeFiles.forEach((file) => {
+      errorMessage = errorMessage.concat(`\n${file.filename}`);
+    });
+
+    await Promise.all(files.map(file => removeFile(file)));
+
+    throw new HttpPayloadTooLargeException(errorMessage);
+  }
+};
+
 const parseFormData = async (request) => {
-  // TODO: add files count and files size errors
   const { files, fields } = await asyncBusboy(request);
+
+  await checkFilesTypes(files);
+  await checkFilesCount(files);
+  await checkFilesSize(files);
 
   return { files, fields };
 };
@@ -73,8 +115,6 @@ const copyFile = (options) => {
 };
 
 const moveFiles = async (files, boardIdentifier, threadId) => {
-  await checkFilesTypes(files);
-
   const newFilesNames = [];
 
   await Promise.all(
@@ -106,7 +146,7 @@ const moveFiles = async (files, boardIdentifier, threadId) => {
           copyFile(imageProcessOptions),
         ]);
 
-        return fs.unlink(file.path);
+        return removeFile(file);
       } catch (err) {
         throw err;
       }
