@@ -147,6 +147,7 @@ class Controller {
 
       const { files, fields } = await mediaFiles.parseFormData(ctx.req);
 
+      // TODO: add max text and title check
       const isPostValid = checkPostValidity(fields, files);
 
       if (!isPostValid) {
@@ -244,6 +245,7 @@ class Controller {
 
       const { files, fields } = await mediaFiles.parseFormData(ctx.req);
 
+      // TODO: add max text and title check
       const isPostValid = checkPostValidity(fields, files);
 
       if (!isPostValid) {
