@@ -196,7 +196,7 @@ class Controller {
             await Promise.all(
               threadsForDelete.map(threadForDelete => Promise.all([
                 threadForDelete.destroy({ transaction: t }),
-                mediaFiles.deleteThreadFiles(boardId, threadForDelete.id),
+                mediaFiles.removeThreadFiles(boardId, threadForDelete.id),
               ])),
             );
           }

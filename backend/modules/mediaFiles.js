@@ -11,7 +11,7 @@ const removeThreadSourceFiles = async (boardIdentifier, threadId) => fs
 const removeThreadThumbFiles = async (boardIdentifier, threadId) => fs
   .remove(`${config.app.uploads.thumb}/${boardIdentifier}/${threadId}`);
 
-const deleteThreadFiles = async (boardIdentifier, threadId) => Promise.all([
+const removeThreadFiles = async (boardIdentifier, threadId) => Promise.all([
   removeThreadSourceFiles(boardIdentifier, threadId),
   removeThreadThumbFiles(boardIdentifier, threadId),
 ]);
@@ -41,6 +41,7 @@ const checkFilesTypes = async (files) => {
 };
 
 const parseFormData = async (request) => {
+  // TODO: add files count and files size errors
   const { files, fields } = await asyncBusboy(request);
 
   return { files, fields };
@@ -115,4 +116,4 @@ const moveFiles = async (files, boardIdentifier, threadId) => {
   return newFilesNames;
 };
 
-module.exports = { parseFormData, moveFiles, deleteThreadFiles };
+module.exports = { parseFormData, moveFiles, removeThreadFiles };
