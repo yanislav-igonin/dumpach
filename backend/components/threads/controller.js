@@ -45,15 +45,18 @@ class Controller {
         order: [
           ['updated_at', 'desc'],
           [Post[board.id], 'created_at', 'desc'],
-          [Post[board.id], Attachment[board.id], 'id', 'asc'],
+          // [Post[board.id], Attachment[board.id], 'id', 'asc'],
         ],
         include: [
           {
             model: Post[board.id],
-            include: [Attachment[board.id]],
+            as: 'posts',
+            // include: [Attachment[board.id]],
           },
         ],
       });
+
+      console.log(threads);
 
       const count = await Thread[board.id].count({
         where: {
