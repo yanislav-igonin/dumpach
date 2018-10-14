@@ -3,13 +3,13 @@ const generate = () => {
 
   for (let i = 0; i < 50; i += 1) {
     data.push({
-      board_id: 1,
+      board_id: 'b',
     });
   }
 
   for (let i = 0; i < 50; i += 1) {
     data.push({
-      board_id: 2,
+      board_id: 'dev',
     });
   }
 

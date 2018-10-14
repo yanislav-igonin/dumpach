@@ -6,15 +6,9 @@ const Board = db.define(
   'boards',
   {
     id: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       allowNull: false,
       primaryKey: true,
-      autoIncrement: true,
-    },
-    identifier: {
-      type: Sequelize.STRING,
-      unique: true,
-      allowNull: false,
     },
     title: {
       type: Sequelize.STRING,
