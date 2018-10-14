@@ -36,7 +36,7 @@ class Controller {
         throw new HttpNotFoundException('Board not found');
       }
 
-      const threads = await Thread.findAll({
+      const threads = await Thread[board.id].findAll({
         where: {
           board_id: board.id,
         },
@@ -44,18 +44,18 @@ class Controller {
         offset: parseInt(offset, 10),
         order: [
           ['updated_at', 'desc'],
-          [Post, 'created_at', 'desc'],
-          [Post, Attachment, 'id', 'asc'],
+          [Post[board.id], 'created_at', 'desc'],
+          [Post[board.id], Attachment[board.id], 'id', 'asc'],
         ],
         include: [
           {
-            model: Post,
-            include: [Attachment],
+            model: Post[board.id],
+            include: [Attachment[board.id]],
           },
         ],
       });
 
-      const count = await Thread.count({
+      const count = await Thread[board.id].count({
         where: {
           board_id: board.id,
         },

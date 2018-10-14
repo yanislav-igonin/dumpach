@@ -1,6 +1,7 @@
 /* eslint max-len: 0 */
-const generatePosts = (threadId) => {
-  let data = [];
+const { app } = require('../../config');
+
+const returnRandomPost = (threadId) => {
   const posts = [
     {
       title: 'Short test title',
@@ -39,23 +40,17 @@ const generatePosts = (threadId) => {
     },
   ];
 
-  for (let i = 0; i < 50; i += 1) {
-    data = data.concat(posts);
+  return posts[Math.floor(Math.random() * 4)];
+};
+
+const generate = (threadId) => {
+  const data = [];
+
+  for (let i = 0; i < app.seeding.postsPerThread; i += 1) {
+    data.push(returnRandomPost(threadId));
   }
 
   return data;
 };
 
-const generate = () => {
-  let data = [];
-
-  for (let i = 1; i < 51; i += 1) {
-    data = data.concat(generatePosts(i));
-  }
-
-  return data;
-};
-
-const posts = generate();
-
-module.exports = posts;
+module.exports = generate;

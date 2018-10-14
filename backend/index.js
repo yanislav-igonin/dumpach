@@ -19,7 +19,7 @@ db.authenticate()
     logger.info('database - online');
 
     try {
-      await db.sync();
+      await db.sync({ force: true });
       logger.info('database - models syncing - success');
     } catch (err) {
       logger.error('database - models syncing - failure');

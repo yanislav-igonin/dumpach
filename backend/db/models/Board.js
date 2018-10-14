@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../connection');
-const Thread = require('./Thread');
+// const Thread = require('./Thread');/
 
 const Board = db.define(
   'boards',
@@ -23,6 +23,6 @@ const Board = db.define(
   { underscored: true },
 );
 
-Board.hasMany(Thread, { foreignKey: 'board_id', onDelete: 'cascade' });
+// Board.hasMany(Thread, { foreignKey: 'board_id', onDelete: 'cascade' });
 
 module.exports = Board;

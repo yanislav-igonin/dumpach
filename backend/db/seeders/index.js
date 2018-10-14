@@ -7,6 +7,7 @@ const boards = require('./boards');
 const posts = require('./posts');
 const sections = require('./sections');
 const threads = require('./threads');
+const { app } = require('../../config');
 
 const seedSections = async () => {
   const dbSections = await Section.findAll();
@@ -37,31 +38,45 @@ const seedBoards = async () => {
 };
 
 const seedThreads = async () => {
-  const dbThreads = await Thread.findAll();
+  boards.forEach(async (board) => {
+    const model = Thread[board.id];
+    const seed = threads[board.id];
 
-  if (dbThreads.length === 0) {
     try {
-      await Thread.bulkCreate(threads);
+      const dbThreads = await model.findAll();
+
+      if (dbThreads.length === 0) {
+        await model.bulkCreate(seed);
+      }
     } catch (err) {
       logger.error('seeding threads error');
       logger.error(err);
       process.exit();
     }
-  }
+  });
 };
 
 const seedPosts = async () => {
-  const dbPosts = await Post.findAll();
+  boards.forEach(async (board) => {
+    const model = Post[board.id];
 
-  if (dbPosts.length === 0) {
-    try {
-      await Post.bulkCreate(posts);
-    } catch (err) {
-      logger.error('seeding posts error');
-      logger.error(err);
-      process.exit();
+    /* eslint no-restricted-syntax: off */
+    /* eslint no-await-in-loop: off */
+    for (let thread = 1; thread < app.seeding.threadsPerBoard; thread += 1) {
+      try {
+        const dbPosts = await model.findAll();
+
+        if (dbPosts.length === 0) {
+          const seed = posts(thread);
+          await model.bulkCreate(seed);
+        }
+      } catch (err) {
+        logger.error('seeding threads error');
+        logger.error(err);
+        process.exit();
+      }
     }
-  }
+  });
 };
 
 const init = async () => {
