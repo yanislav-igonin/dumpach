@@ -28,7 +28,7 @@ class Controller {
     try {
       const board = await Board.findOne({
         where: {
-          identifier: boardId,
+          id: boardId,
         },
       });
 
@@ -98,7 +98,7 @@ class Controller {
     try {
       const board = await Board.findOne({
         where: {
-          identifier: boardId,
+          id: boardId,
         },
       });
 
@@ -136,7 +136,7 @@ class Controller {
     try {
       const board = await Board.findOne({
         where: {
-          identifier: boardId,
+          id: boardId,
         },
         raw: true,
       });
@@ -223,7 +223,7 @@ class Controller {
     try {
       const board = await Board.findOne({
         where: {
-          identifier: boardId,
+          id: boardId,
         },
         raw: true,
       });
