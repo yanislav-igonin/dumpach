@@ -31,6 +31,7 @@
     "start": "NODE_ENV=production node index.js",
     "dev": "NODE_ENV=development nodemon --inspect index.js",
     "lint": "eslint .",
+    "test": "jest",
     "precommit": "npm run lint",
     "prepush": "npm run lint"
   }
