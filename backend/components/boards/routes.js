@@ -6,6 +6,6 @@ const router = new Router({
 });
 
 router.get('/', controller.list);
-// TODO: add GET one board
+router.get('/:boardId', controller.get);
 
 module.exports = router.routes();
