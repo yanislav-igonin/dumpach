@@ -13,6 +13,10 @@ const development = {
     source: path.join(__dirname, '../uploads/source'),
     thumb: path.join(__dirname, '../uploads/thumb'),
   },
+  seeding: {
+    threadsPerBoard: 50,
+    postsPerThread: 250,
+  },
 };
 
 const production = {

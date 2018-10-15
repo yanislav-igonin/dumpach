@@ -7,62 +7,81 @@ const boards = require('./boards');
 const posts = require('./posts');
 const sections = require('./sections');
 const threads = require('./threads');
+const { app } = require('../../config');
 
 const seedSections = async () => {
-  const dbSections = await Section.findAll();
+  try {
+    const dbSections = await Section.findAll();
 
-  if (dbSections.length === 0) {
-    try {
+    if (dbSections.length === 0) {
       await Section.bulkCreate(sections);
-    } catch (err) {
-      logger.error('seeding sections error');
-      logger.error(err);
-      process.exit();
     }
+  } catch (err) {
+    logger.error('seeding sections error');
+    logger.error(err);
+    process.exit();
   }
 };
 
 const seedBoards = async () => {
-  const dbBoards = await Board.findAll();
+  try {
+    const dbBoards = await Board.findAll();
 
-  if (dbBoards.length === 0) {
-    try {
+    if (dbBoards.length === 0) {
       await Board.bulkCreate(boards);
-    } catch (err) {
-      logger.error('seeding boards error');
-      logger.error(err);
-      process.exit();
     }
+  } catch (err) {
+    logger.error('seeding boards error');
+    logger.error(err);
+    process.exit();
   }
 };
 
-const seedThreads = async () => {
-  const dbThreads = await Thread.findAll();
+const seedThreads = async () => Promise.all(
+  boards.map(async (board) => {
+    const model = Thread[board.id];
+    const seed = threads[board.id];
 
-  if (dbThreads.length === 0) {
     try {
-      await Thread.bulkCreate(threads);
+      const dbThreads = await model.findAll();
+
+      if (dbThreads.length === 0) {
+        await model.bulkCreate(seed);
+      }
     } catch (err) {
       logger.error('seeding threads error');
       logger.error(err);
       process.exit();
     }
-  }
-};
+  }),
+);
 
-const seedPosts = async () => {
-  const dbPosts = await Post.findAll();
+const seedPosts = async () => Promise.all(
+  boards.map(async (board) => {
+    const model = Post[board.id];
 
-  if (dbPosts.length === 0) {
-    try {
-      await Post.bulkCreate(posts);
-    } catch (err) {
-      logger.error('seeding posts error');
-      logger.error(err);
-      process.exit();
+    const threadsArray = [];
+    for (let thread = 1; thread <= app.seeding.threadsPerBoard; thread += 1) {
+      threadsArray.push(thread);
     }
-  }
-};
+
+    return Promise.all(
+      threadsArray.map(async (thread) => {
+        try {
+          const dbPosts = await model.findAll({ where: { thread_id: thread } });
+          if (dbPosts.length === 0) {
+            const seed = posts(thread);
+            await model.bulkCreate(seed);
+          }
+        } catch (err) {
+          logger.error('seeding threads error');
+          logger.error(err);
+          process.exit();
+        }
+      }),
+    );
+  }),
+);
 
 const init = async () => {
   const { NODE_ENV } = process.env;

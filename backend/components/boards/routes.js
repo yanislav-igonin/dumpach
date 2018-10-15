@@ -6,5 +6,6 @@ const router = new Router({
 });
 
 router.get('/', controller.list);
+router.get('/:boardId', controller.get);
 
 module.exports = router.routes();

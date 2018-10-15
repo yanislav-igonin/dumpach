@@ -1,17 +1,18 @@
+const { app } = require('../../config');
+const boards = require('./boards');
+
 const generate = () => {
-  const data = [];
+  const data = {};
 
-  for (let i = 0; i < 50; i += 1) {
-    data.push({
-      board_id: 1,
-    });
-  }
+  boards.forEach((board) => {
+    data[board.id] = [];
 
-  for (let i = 0; i < 50; i += 1) {
-    data.push({
-      board_id: 2,
-    });
-  }
+    for (let i = 0; i < app.seeding.threadsPerBoard; i += 1) {
+      data[board.id].push({
+        board_id: board.id,
+      });
+    }
+  });
 
   return data;
 };
