@@ -1,20 +1,11 @@
 const status = require('http-status');
 const { mediaFiles } = require('../../modules');
 const {
-  Board, Thread, Post, Attachment,
-} = require('../../db').models;
-const {
   HttpNotFoundException,
   HttpBadRequestException,
 } = require('../../modules').errors;
 const { checkPostValidity } = require('./helpers');
-const { db } = require('../../db');
-
-// TODO: maybe add repositories for easier testing
-// TODO: think how to make different table for every board.
-// maybe add another table or parameter, that will count
-// post numeric id for every board, so i dont need some other tables
-// to save same entity
+const Repository = require('./repository');
 
 class Controller {
   static async list(ctx) {
@@ -26,40 +17,16 @@ class Controller {
     }
 
     try {
-      const board = await Board.findOne({
-        where: {
-          id: boardId,
-        },
-      });
+      const repository = new Repository(boardId);
+      const board = await repository.findBoard(boardId);
 
       if (!board) {
         throw new HttpNotFoundException('Board not found');
       }
 
-      const threads = await Thread.findAll({
-        where: {
-          board_id: board.id,
-        },
-        limit: parseInt(limit, 10),
-        offset: parseInt(offset, 10),
-        order: [
-          ['updated_at', 'desc'],
-          [Post, 'created_at', 'desc'],
-          [Post, Attachment, 'id', 'asc'],
-        ],
-        include: [
-          {
-            model: Post,
-            include: [Attachment],
-          },
-        ],
-      });
+      const threads = await repository.findThreads(limit, offset);
 
-      const count = await Thread.count({
-        where: {
-          board_id: board.id,
-        },
-      });
+      const count = await repository.countThreads();
 
       const slicedPostsThreads = threads.map((thread) => {
         if (thread.posts.length < 5) {
@@ -96,29 +63,14 @@ class Controller {
     const { boardId, threadId } = ctx.params;
 
     try {
-      const board = await Board.findOne({
-        where: {
-          id: boardId,
-        },
-      });
+      const repository = new Repository(boardId);
+      const board = await repository.findBoard(boardId);
 
       if (!board) {
         throw new HttpNotFoundException('Board not found');
       }
 
-      const thread = await Thread.findOne({
-        where: {
-          board_id: board.id,
-          id: threadId,
-        },
-        order: [[Post, 'created_at', 'desc'], [Post, Attachment, 'id', 'asc']],
-        include: [
-          {
-            model: Post,
-            include: [Attachment],
-          },
-        ],
-      });
+      const thread = await repository.findThread(threadId);
 
       if (!thread) {
         throw new HttpNotFoundException('Thread not found');
@@ -134,12 +86,8 @@ class Controller {
     const { boardId } = ctx.params;
 
     try {
-      const board = await Board.findOne({
-        where: {
-          id: boardId,
-        },
-        raw: true,
-      });
+      const repository = new Repository(boardId);
+      const board = await repository.findBoard(boardId);
 
       if (!board) {
         throw new HttpNotFoundException('Board not found');
@@ -156,55 +104,11 @@ class Controller {
         );
       }
 
-      const threads = await Thread.findAll({
-        where: {
-          board_id: board.id,
-        },
-        order: [['updated_at', 'desc']],
-      });
-
-      const [sendedThread, sendedPost, sendedAttachments] = await db.transaction(
-        async (t) => {
-          const thread = await Thread.create(
-            { board_id: board.id },
-            { transaction: t },
-          );
-
-          const post = await Post.create(
-            { ...fields, thread_id: thread.id },
-            { transaction: t },
-          );
-
-          const attachmentsFields = await mediaFiles.moveFiles(
-            files,
-            board.identifier,
-            thread.id,
-          );
-
-          const attachments = await Promise.all(
-            attachmentsFields.map(attachment => Attachment.create(
-              {
-                ...attachment,
-                post_id: post.id,
-              },
-              { transaction: t },
-            )),
-          );
-
-          if (threads.length > board.threads_limit - 1) {
-            const threadsForDelete = threads.slice(49);
-
-            await Promise.all(
-              threadsForDelete.map(threadForDelete => Promise.all([
-                threadForDelete.destroy({ transaction: t }),
-                mediaFiles.removeThreadFiles(boardId, threadForDelete.id),
-              ])),
-            );
-          }
-
-          return [thread.toJSON(), post.toJSON(), attachments];
-        },
-      );
+      const [
+        sendedThread,
+        sendedPost,
+        sendedAttachments,
+      ] = await repository.createThread(fields, files, board.threads_limit);
 
       sendedPost.attachments = sendedAttachments;
       sendedThread.posts = [];
@@ -221,23 +125,14 @@ class Controller {
     const { boardId, threadId } = ctx.params;
 
     try {
-      const board = await Board.findOne({
-        where: {
-          id: boardId,
-        },
-        raw: true,
-      });
+      const repository = new Repository(boardId);
+      const board = await repository.findBoard(boardId);
 
       if (!board) {
         throw new HttpNotFoundException('Board not found');
       }
 
-      const thread = await Thread.findOne({
-        where: {
-          board_id: board.id,
-          id: threadId,
-        },
-      });
+      const thread = await repository.findThread(threadId);
 
       if (!thread) {
         throw new HttpNotFoundException('Thread not found');
@@ -254,47 +149,9 @@ class Controller {
         );
       }
 
-      await db.transaction(async (t) => {
-        const post = await Post.create(
-          { ...fields, thread_id: threadId },
-          { transaction: t },
-        );
+      await repository.updateThread(fields, files, thread);
 
-        const attachmentsFields = await mediaFiles.moveFiles(
-          files,
-          board.identifier,
-          threadId,
-        );
-
-        await Promise.all(
-          attachmentsFields.map(attachment => Attachment.create(
-            {
-              ...attachment,
-              post_id: post.id,
-            },
-            { transaction: t },
-          )),
-        );
-
-        if (!post.is_sage) {
-          thread.changed('updated_at', true);
-          await thread.save({ transaction: t });
-        }
-      });
-
-      const sendedThread = await Thread.findOne({
-        where: {
-          board_id: board.id,
-          id: threadId,
-        },
-        order: [[Post, 'created_at', 'desc'], [Post, Attachment, 'id', 'asc']],
-        include: [
-          {
-            model: Post,
-            include: [Attachment],
-          },
-        ],
-      });
+      const sendedThread = await repository.findThread(threadId);
 
       ctx.body = { data: sendedThread };
     } catch (err) {

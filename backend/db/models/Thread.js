@@ -1,20 +1,41 @@
 const Sequelize = require('sequelize');
 const db = require('../connection');
 const Post = require('./Post');
+const boards = require('../seeders/boards');
 
-const Thread = db.define(
-  'threads',
-  {
-    id: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-  },
-  { underscored: true },
-);
+const generateModels = () => {
+  const threadModels = {};
 
-Thread.hasMany(Post, { foreignKey: 'thread_id', onDelete: 'cascade' });
+  boards.forEach((board) => {
+    const model = db.define(
+      `${board.id}_threads`,
+      {
+        id: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+          primaryKey: true,
+          autoIncrement: true,
+        },
+        board_id: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
+      },
+      { underscored: true },
+    );
+
+    model.hasMany(Post[board.id], {
+      as: 'posts',
+      foreignKey: 'thread_id',
+      onDelete: 'cascade',
+    });
+
+    threadModels[board.id] = model;
+  });
+
+  return threadModels;
+};
+
+const Thread = generateModels();
 
 module.exports = Thread;
