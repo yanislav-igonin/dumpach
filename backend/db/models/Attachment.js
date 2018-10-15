@@ -1,44 +1,15 @@
 const Sequelize = require('sequelize');
 const db = require('../connection');
-
-// const Attachment = db.define(
-//   'attachments',
-//   {
-//     id: {
-//       type: Sequelize.INTEGER,
-//       allowNull: false,
-//       primaryKey: true,
-//       autoIncrement: true,
-//     },
-//     name: {
-//       type: Sequelize.STRING,
-//       allowNull: false,
-//     },
-//     uuid: {
-//       type: Sequelize.STRING,
-//       allowNull: false,
-//     },
-//     type: {
-//       type: Sequelize.STRING,
-//       allowNull: false,
-//     },
-//     size: {
-//       type: Sequelize.INTEGER,
-//       allowNull: false,
-//     },
-//   },
-//   { underscored: true },
-// );
-
-// module.exports = Attachment;
+const {
+  data: { boards },
+} = require('../seeders');
 
 const generateModels = () => {
-  const boards = ['b', 'dev'];
-  const postsModels = {};
+  const attachmentModels = {};
 
   boards.forEach((board) => {
-    postsModels[board] = db.define(
-      `${board}_attachments`,
+    attachmentModels[board.id] = db.define(
+      `${board.id}_attachments`,
       {
         id: {
           type: Sequelize.INTEGER,
@@ -67,9 +38,9 @@ const generateModels = () => {
     );
   });
 
-  return postsModels;
+  return attachmentModels;
 };
 
-const Posts = generateModels();
+const Attachment = generateModels();
 
-module.exports = Posts;
+module.exports = Attachment;

@@ -1,41 +1,16 @@
 const Sequelize = require('sequelize');
 const db = require('../connection');
 const Attachment = require('./Attachment');
-
-// const Post = db.define(
-//   'posts',
-//   {
-//     id: {
-//       type: Sequelize.INTEGER,
-//       allowNull: false,
-//       primaryKey: true,
-//       autoIncrement: true,
-//     },
-//     title: {
-//       type: Sequelize.TEXT,
-//       defaultValue: '',
-//     },
-//     text: {
-//       type: Sequelize.TEXT,
-//       defaultValue: '',
-//     },
-//     is_sage: {
-//       type: Sequelize.BOOLEAN,
-//       defaultValue: false,
-//     },
-//   },
-//   { underscored: true },
-// );
-
-// Post.hasMany(Attachment, { foreignKey: 'post_id', onDelete: 'cascade' });
+const {
+  data: { boards },
+} = require('../seeders');
 
 const generateModels = () => {
-  const boards = ['b', 'dev'];
   const postsModels = {};
 
   boards.forEach((board) => {
     const model = db.define(
-      `${board}_posts`,
+      `${board.id}_posts`,
       {
         id: {
           type: Sequelize.INTEGER,
@@ -59,13 +34,13 @@ const generateModels = () => {
       { underscored: true },
     );
 
-    model.hasMany(Attachment[board], {
+    model.hasMany(Attachment[board.id], {
       as: 'attachments',
       foreignKey: 'post_id',
       onDelete: 'cascade',
     });
 
-    postsModels[board] = model;
+    postsModels[board.id] = model;
   });
 
   return postsModels;
