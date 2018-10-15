@@ -1,6 +1,8 @@
 const {
   Board, Thread, Post, Attachment,
 } = require('../../db').models;
+const { db } = require('../../db');
+const { mediaFiles } = require('../../modules');
 
 class Repository {
   constructor(boardId) {
@@ -98,6 +100,62 @@ class Repository {
         },
       ],
     });
+  }
+
+  async createThread(fields, files, threadsLimit) {
+    const {
+      boardId, model, postModel, attachmentModel,
+    } = this;
+
+    const threads = await model.findAll({
+      where: {
+        board_id: boardId,
+      },
+      order: [['updated_at', 'desc']],
+    });
+
+    return db.transaction(
+      async (t) => {
+        const thread = await model.create(
+          { board_id: boardId },
+          { transaction: t },
+        );
+
+        const post = await postModel.create(
+          { ...fields, thread_id: thread.id },
+          { transaction: t },
+        );
+
+        const attachmentsFields = await mediaFiles.moveFiles(
+          files,
+          boardId,
+          thread.id,
+        );
+
+        const attachments = await Promise.all(
+          attachmentsFields.map(attachment => attachmentModel.create(
+            {
+              ...attachment,
+              post_id: post.id,
+            },
+            { transaction: t },
+          )),
+        );
+
+        if (threads.length > threadsLimit - 1) {
+          const threadsForDelete = threads.slice(threadsLimit - 1);
+
+          await Promise.all(
+            threadsForDelete.map(threadForDelete => Promise.all([
+              threadForDelete.destroy({ transaction: t }),
+              mediaFiles.removeThreadFiles(boardId, threadForDelete.id),
+            ])),
+          );
+        }
+
+        return [thread.toJSON(), post.toJSON(), attachments];
+      },
+    );
   }
 }
 
