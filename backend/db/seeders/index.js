@@ -89,11 +89,4 @@ const init = async () => {
   }
 };
 
-const data = {
-  sections,
-  boards,
-  threads,
-  posts,
-};
-
-module.exports = { init, data };
+module.exports = { init };
