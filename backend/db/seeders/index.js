@@ -64,8 +64,7 @@ const seedPosts = async () => {
     /* eslint no-await-in-loop: off */
     for (let thread = 1; thread < app.seeding.threadsPerBoard; thread += 1) {
       try {
-        const dbPosts = await model.findAll();
-
+        const dbPosts = await model.findAll({ where: { thread_id: thread } });
         if (dbPosts.length === 0) {
           const seed = posts(thread);
           await model.bulkCreate(seed);
