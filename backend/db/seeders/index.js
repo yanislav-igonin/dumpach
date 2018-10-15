@@ -10,30 +10,30 @@ const threads = require('./threads');
 const { app } = require('../../config');
 
 const seedSections = async () => {
-  const dbSections = await Section.findAll();
+  try {
+    const dbSections = await Section.findAll();
 
-  if (dbSections.length === 0) {
-    try {
+    if (dbSections.length === 0) {
       await Section.bulkCreate(sections);
-    } catch (err) {
-      logger.error('seeding sections error');
-      logger.error(err);
-      process.exit();
     }
+  } catch (err) {
+    logger.error('seeding sections error');
+    logger.error(err);
+    process.exit();
   }
 };
 
 const seedBoards = async () => {
-  const dbBoards = await Board.findAll();
+  try {
+    const dbBoards = await Board.findAll();
 
-  if (dbBoards.length === 0) {
-    try {
+    if (dbBoards.length === 0) {
       await Board.bulkCreate(boards);
-    } catch (err) {
-      logger.error('seeding boards error');
-      logger.error(err);
-      process.exit();
     }
+  } catch (err) {
+    logger.error('seeding boards error');
+    logger.error(err);
+    process.exit();
   }
 };
 
