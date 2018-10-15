@@ -11,6 +11,14 @@ class Repository {
     this.attachmentModel = Attachment[boardId];
   }
 
+  findBoard(boardId) {
+    return this.boardModel.findOne({
+      where: {
+        id: boardId,
+      },
+    });
+  }
+
   findThreads(limit, offset) {
     const {
       boardId, model, postModel, attachmentModel,
@@ -89,14 +97,6 @@ class Repository {
           ],
         },
       ],
-    });
-  }
-
-  findBoard(boardId) {
-    return this.boardModel.findOne({
-      where: {
-        id: boardId,
-      },
     });
   }
 }
