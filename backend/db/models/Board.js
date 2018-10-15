@@ -29,3 +29,7 @@ boards.forEach((board) => {
 });
 
 module.exports = Board;
+
+// TODO: add allowed sage
+// TODO: add allowed attachments
+// TODO: add thread bump limit
