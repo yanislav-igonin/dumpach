@@ -117,16 +117,30 @@ class Controller {
         throw new HttpNotFoundException('Board not found');
       }
 
-      const thread = await Thread.findOne({
+      const thread = await Thread[board.id].findOne({
         where: {
           board_id: board.id,
           id: threadId,
         },
-        order: [[Post, 'created_at', 'desc'], [Post, Attachment, 'id', 'asc']],
+        order: [
+          [{ model: Post[board.id], as: 'posts' }, 'created_at', 'desc'],
+          [
+            { model: Post[board.id], as: 'posts' },
+            { model: Attachment[board.id], as: 'attachments' },
+            'id',
+            'asc',
+          ],
+        ],
         include: [
           {
-            model: Post,
-            include: [Attachment],
+            as: 'posts',
+            model: Post[board.id],
+            include: [
+              {
+                as: 'attachments',
+                model: Attachment[board.id],
+              },
+            ],
           },
         ],
       });
@@ -167,7 +181,7 @@ class Controller {
         );
       }
 
-      const threads = await Thread.findAll({
+      const threads = await Thread[board.id].findAll({
         where: {
           board_id: board.id,
         },
@@ -176,24 +190,24 @@ class Controller {
 
       const [sendedThread, sendedPost, sendedAttachments] = await db.transaction(
         async (t) => {
-          const thread = await Thread.create(
+          const thread = await Thread[board.id].create(
             { board_id: board.id },
             { transaction: t },
           );
 
-          const post = await Post.create(
+          const post = await Post[board.id].create(
             { ...fields, thread_id: thread.id },
             { transaction: t },
           );
 
           const attachmentsFields = await mediaFiles.moveFiles(
             files,
-            board.identifier,
+            board.id,
             thread.id,
           );
 
           const attachments = await Promise.all(
-            attachmentsFields.map(attachment => Attachment.create(
+            attachmentsFields.map(attachment => Attachment[board.id].create(
               {
                 ...attachment,
                 post_id: post.id,
@@ -243,7 +257,7 @@ class Controller {
         throw new HttpNotFoundException('Board not found');
       }
 
-      const thread = await Thread.findOne({
+      const thread = await Thread[board.id].findOne({
         where: {
           board_id: board.id,
           id: threadId,
@@ -266,19 +280,19 @@ class Controller {
       }
 
       await db.transaction(async (t) => {
-        const post = await Post.create(
+        const post = await Post[board.id].create(
           { ...fields, thread_id: threadId },
           { transaction: t },
         );
 
         const attachmentsFields = await mediaFiles.moveFiles(
           files,
-          board.identifier,
+          board.id,
           threadId,
         );
 
         await Promise.all(
-          attachmentsFields.map(attachment => Attachment.create(
+          attachmentsFields.map(attachment => Attachment[board.id].create(
             {
               ...attachment,
               post_id: post.id,
@@ -293,16 +307,31 @@ class Controller {
         }
       });
 
-      const sendedThread = await Thread.findOne({
+      const sendedThread = await Thread[board.id].findOne({
         where: {
           board_id: board.id,
           id: threadId,
         },
-        order: [[Post, 'created_at', 'desc'], [Post, Attachment, 'id', 'asc']],
+        order: [
+          ['updated_at', 'desc'],
+          [{ model: Post[board.id], as: 'posts' }, 'created_at', 'desc'],
+          [
+            { model: Post[board.id], as: 'posts' },
+            { model: Attachment[board.id], as: 'attachments' },
+            'id',
+            'asc',
+          ],
+        ],
         include: [
           {
-            model: Post,
-            include: [Attachment],
+            as: 'posts',
+            model: Post[board.id],
+            include: [
+              {
+                as: 'attachments',
+                model: Attachment[board.id],
+              },
+            ],
           },
         ],
       });
