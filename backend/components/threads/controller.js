@@ -1,18 +1,11 @@
 const status = require('http-status');
 const { mediaFiles } = require('../../modules');
 const {
-  Board, Thread, Post, Attachment,
-} = require('../../db').models;
-const {
   HttpNotFoundException,
   HttpBadRequestException,
 } = require('../../modules').errors;
 const { checkPostValidity } = require('./helpers');
-const { db } = require('../../db');
-
 const Repository = require('./repository');
-
-// TODO: maybe add repositories for easier testing
 
 class Controller {
   static async list(ctx) {
@@ -132,23 +125,14 @@ class Controller {
     const { boardId, threadId } = ctx.params;
 
     try {
-      const board = await Board.findOne({
-        where: {
-          id: boardId,
-        },
-        raw: true,
-      });
+      const repository = new Repository(boardId);
+      const board = await repository.findBoard(boardId);
 
       if (!board) {
         throw new HttpNotFoundException('Board not found');
       }
 
-      const thread = await Thread[board.id].findOne({
-        where: {
-          board_id: board.id,
-          id: threadId,
-        },
-      });
+      const thread = await repository.findThread(threadId);
 
       if (!thread) {
         throw new HttpNotFoundException('Thread not found');
@@ -165,62 +149,9 @@ class Controller {
         );
       }
 
-      await db.transaction(async (t) => {
-        const post = await Post[board.id].create(
-          { ...fields, thread_id: threadId },
-          { transaction: t },
-        );
+      await repository.updateThread(fields, files, thread);
 
-        const attachmentsFields = await mediaFiles.moveFiles(
-          files,
-          board.id,
-          threadId,
-        );
-
-        await Promise.all(
-          attachmentsFields.map(attachment => Attachment[board.id].create(
-            {
-              ...attachment,
-              post_id: post.id,
-            },
-            { transaction: t },
-          )),
-        );
-
-        if (!post.is_sage) {
-          thread.changed('updated_at', true);
-          await thread.save({ transaction: t });
-        }
-      });
-
-      const sendedThread = await Thread[board.id].findOne({
-        where: {
-          board_id: board.id,
-          id: threadId,
-        },
-        order: [
-          ['updated_at', 'desc'],
-          [{ model: Post[board.id], as: 'posts' }, 'created_at', 'desc'],
-          [
-            { model: Post[board.id], as: 'posts' },
-            { model: Attachment[board.id], as: 'attachments' },
-            'id',
-            'asc',
-          ],
-        ],
-        include: [
-          {
-            as: 'posts',
-            model: Post[board.id],
-            include: [
-              {
-                as: 'attachments',
-                model: Attachment[board.id],
-              },
-            ],
-          },
-        ],
-      });
+      const sendedThread = await repository.findThread(threadId);
 
       ctx.body = { data: sendedThread };
     } catch (err) {
