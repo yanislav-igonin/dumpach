@@ -59,7 +59,11 @@ const generateModels = () => {
       { underscored: true },
     );
 
-    model.hasMany(Attachment[board], { foreignKey: 'post_id', onDelete: 'cascade' });
+    model.hasMany(Attachment[board], {
+      as: 'attachments',
+      foreignKey: 'post_id',
+      onDelete: 'cascade',
+    });
 
     postsModels[board] = model;
   });

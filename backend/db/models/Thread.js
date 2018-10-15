@@ -40,7 +40,7 @@ const generateModels = () => {
     );
 
     model.hasMany(Post[board], {
-      as: 'b_posts',
+      as: 'posts',
       foreignKey: 'thread_id',
       onDelete: 'cascade',
     });

@@ -44,19 +44,27 @@ class Controller {
         offset: parseInt(offset, 10),
         order: [
           ['updated_at', 'desc'],
-          [Post[board.id], 'created_at', 'desc'],
-          // [Post[board.id], Attachment[board.id], 'id', 'asc'],
+          [{ model: Post[board.id], as: 'posts' }, 'created_at', 'desc'],
+          [
+            { model: Post[board.id], as: 'posts' },
+            { model: Attachment[board.id], as: 'attachments' },
+            'id',
+            'asc',
+          ],
         ],
         include: [
           {
-            model: Post[board.id],
             as: 'posts',
-            // include: [Attachment[board.id]],
+            model: Post[board.id],
+            include: [
+              {
+                as: 'attachments',
+                model: Attachment[board.id],
+              },
+            ],
           },
         ],
       });
-
-      console.log(threads);
 
       const count = await Thread[board.id].count({
         where: {

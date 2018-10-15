@@ -9,7 +9,7 @@ const development = {
     // host: process.env.DB_HOST || 'localhost',
     port: parseInt(process.env.DEV_DB_PORT, 10) || 5432,
     dialect: 'postgres',
-    logging: true,
+    logging: false,
   },
 };
 
