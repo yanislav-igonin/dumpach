@@ -1,9 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../connection');
 const Post = require('./Post');
-const {
-  data: { boards },
-} = require('../seeders');
+const boards = require('../seeders/boards');
 
 const generateModels = () => {
   const threadModels = {};
