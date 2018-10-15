@@ -10,11 +10,9 @@ const {
 const { checkPostValidity } = require('./helpers');
 const { db } = require('../../db');
 
+const Repository = require('./repository');
+
 // TODO: maybe add repositories for easier testing
-// TODO: think how to make different table for every board.
-// maybe add another table or parameter, that will count
-// post numeric id for every board, so i dont need some other tables
-// to save same entity
 
 class Controller {
   static async list(ctx) {
@@ -26,51 +24,16 @@ class Controller {
     }
 
     try {
-      const board = await Board.findOne({
-        where: {
-          id: boardId,
-        },
-      });
+      const repository = new Repository(boardId);
+      const board = await repository.findBoard(boardId);
 
       if (!board) {
         throw new HttpNotFoundException('Board not found');
       }
 
-      const threads = await Thread[board.id].findAll({
-        where: {
-          board_id: board.id,
-        },
-        limit: parseInt(limit, 10),
-        offset: parseInt(offset, 10),
-        order: [
-          ['updated_at', 'desc'],
-          [{ model: Post[board.id], as: 'posts' }, 'created_at', 'desc'],
-          [
-            { model: Post[board.id], as: 'posts' },
-            { model: Attachment[board.id], as: 'attachments' },
-            'id',
-            'asc',
-          ],
-        ],
-        include: [
-          {
-            as: 'posts',
-            model: Post[board.id],
-            include: [
-              {
-                as: 'attachments',
-                model: Attachment[board.id],
-              },
-            ],
-          },
-        ],
-      });
+      const threads = await repository.findThreads(limit, offset);
 
-      const count = await Thread[board.id].count({
-        where: {
-          board_id: board.id,
-        },
-      });
+      const count = await repository.countThreads();
 
       const slicedPostsThreads = threads.map((thread) => {
         if (thread.posts.length < 5) {
@@ -107,43 +70,14 @@ class Controller {
     const { boardId, threadId } = ctx.params;
 
     try {
-      const board = await Board.findOne({
-        where: {
-          id: boardId,
-        },
-      });
+      const repository = new Repository(boardId);
+      const board = await repository.findBoard(boardId);
 
       if (!board) {
         throw new HttpNotFoundException('Board not found');
       }
 
-      const thread = await Thread[board.id].findOne({
-        where: {
-          board_id: board.id,
-          id: threadId,
-        },
-        order: [
-          [{ model: Post[board.id], as: 'posts' }, 'created_at', 'desc'],
-          [
-            { model: Post[board.id], as: 'posts' },
-            { model: Attachment[board.id], as: 'attachments' },
-            'id',
-            'asc',
-          ],
-        ],
-        include: [
-          {
-            as: 'posts',
-            model: Post[board.id],
-            include: [
-              {
-                as: 'attachments',
-                model: Attachment[board.id],
-              },
-            ],
-          },
-        ],
-      });
+      const thread = await repository.findThread(threadId);
 
       if (!thread) {
         throw new HttpNotFoundException('Thread not found');
