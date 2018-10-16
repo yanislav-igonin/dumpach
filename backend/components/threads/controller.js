@@ -18,7 +18,7 @@ class Controller {
 
     try {
       const repository = new Repository(boardId);
-      const board = await repository.findBoard(boardId);
+      const board = await repository.findBoard();
 
       if (!board) {
         throw new HttpNotFoundException('Board not found');
@@ -64,7 +64,7 @@ class Controller {
 
     try {
       const repository = new Repository(boardId);
-      const board = await repository.findBoard(boardId);
+      const board = await repository.findBoard();
 
       if (!board) {
         throw new HttpNotFoundException('Board not found');
@@ -87,7 +87,7 @@ class Controller {
 
     try {
       const repository = new Repository(boardId);
-      const board = await repository.findBoard(boardId);
+      const board = await repository.findBoard();
 
       if (!board) {
         throw new HttpNotFoundException('Board not found');
@@ -126,7 +126,7 @@ class Controller {
 
     try {
       const repository = new Repository(boardId);
-      const board = await repository.findBoard(boardId);
+      const board = await repository.findBoard();
 
       if (!board) {
         throw new HttpNotFoundException('Board not found');

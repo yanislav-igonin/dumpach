@@ -13,7 +13,9 @@ class Repository {
     this.attachmentModel = Attachment[boardId];
   }
 
-  findBoard(boardId) {
+  findBoard() {
+    const { boardId } = this;
+
     return this.boardModel.findOne({
       where: {
         id: boardId,
