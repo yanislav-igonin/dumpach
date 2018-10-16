@@ -28,7 +28,7 @@ const production = {
 };
 
 const test = {
-  port: parseInt(process.env.PORT, 10) || 3000,
+  port: parseInt(process.env.PORT, 10) || 3001,
   // IF DEVELOPING WITHOUT DOCKER
   // uploads: {
   //   source: path.join(__dirname, '../../frontend/public/uploads/source'),

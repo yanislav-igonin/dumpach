@@ -3,6 +3,7 @@ global.Promise = require('bluebird');
 const { logger } = require('./modules');
 const { routes } = require('./components');
 const { db, seeders } = require('./db');
+const { app } = require('./config');
 
 const server = new Koa();
 
@@ -19,7 +20,7 @@ db.authenticate()
     logger.info('database - online');
 
     try {
-      await db.sync({ force: true });
+      await db.sync();
       logger.info('database - models syncing - success');
     } catch (err) {
       logger.error('database - models syncing - failure');
@@ -34,7 +35,7 @@ db.authenticate()
       throw err;
     }
 
-    server.listen(3000, () => {
+    server.listen(app.port, () => {
       logger.info('server - online');
       logger.info('all systems nominal');
     });
