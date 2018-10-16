@@ -21,7 +21,7 @@ class Repository {
     });
   }
 
-  findThreads(limit, offset) {
+  findThreads(limit = 10, offset = 0) {
     const {
       boardId, model, postModel, attachmentModel,
     } = this;
