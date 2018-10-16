@@ -124,6 +124,7 @@ class Repository {
         { transaction: t },
       );
 
+      // TODO: think how to separate work with db and files moving
       const attachmentsFields = await mediaFiles.moveFiles(
         files,
         boardId,
@@ -164,6 +165,7 @@ class Repository {
         { transaction: t },
       );
 
+      // TODO: think how to separate work with db and files moving
       const attachmentsFields = await mediaFiles.moveFiles(
         files,
         boardId,
