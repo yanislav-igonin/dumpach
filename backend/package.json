@@ -33,6 +33,7 @@
     "dev": "NODE_ENV=development nodemon --inspect index.js",
     "lint": "eslint .",
     "test": "NODE_ENV=test jest",
+    "coverage": "jest --collectCoverageFrom=components/**.js --coverage .",
     "precommit": "npm run lint",
     "prepush": "npm run test & npm run lint"
   },
