@@ -88,7 +88,7 @@ const init = async () => {
   await seedSections();
   await seedBoards();
 
-  if (NODE_ENV === 'development') {
+  if (NODE_ENV === 'development' || NODE_ENV === 'test') {
     await seedThreads();
     await seedPosts();
   }
