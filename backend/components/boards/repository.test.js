@@ -7,42 +7,46 @@ describe('boards repository', () => {
     await seeders.init();
   });
 
-  test('should return sections list', async () => {
-    const repository = new Repository();
+  describe('findBoards', () => {
+    test('should return sections list', async () => {
+      const repository = new Repository();
 
-    const desiredBoard = {
-      id: 'b',
-      title: 'random',
-      threads_limit: 50,
-      section_id: 1,
-    };
+      const desiredBoard = {
+        id: 'b',
+        title: 'random',
+        threads_limit: 50,
+        section_id: 1,
+      };
 
-    const section = await repository.findBoards();
+      const section = await repository.findBoards();
 
-    expect(section.length).toBe(2);
-    expect(section[0].boards[0]).toMatchObject(desiredBoard);
+      expect(section).toHaveLength(2);
+      expect(section[0].boards[0]).toMatchObject(desiredBoard);
+    });
   });
 
-  test('should return one board', async () => {
-    const repository = new Repository();
+  describe('findBoard', () => {
+    test('should return one board', async () => {
+      const repository = new Repository();
 
-    const desiredBoard = {
-      id: 'b',
-      title: 'random',
-      threads_limit: 50,
-      section_id: 1,
-    };
+      const desiredBoard = {
+        id: 'b',
+        title: 'random',
+        threads_limit: 50,
+        section_id: 1,
+      };
 
-    const board = await repository.findBoard('b');
+      const board = await repository.findBoard('b');
 
-    expect(board).toMatchObject(desiredBoard);
-  });
+      expect(board).toMatchObject(desiredBoard);
+    });
 
-  test('should return null', async () => {
-    const repository = new Repository();
+    test('should return null', async () => {
+      const repository = new Repository();
 
-    const board = await repository.findBoard('some_random_name');
+      const board = await repository.findBoard('some_random_name');
 
-    expect(board).toBeNull();
+      expect(board).toBeNull();
+    });
   });
 });
