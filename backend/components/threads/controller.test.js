@@ -2,6 +2,8 @@
 const request = require('supertest');
 const { seeders } = require('../../db');
 
+// TODO: add create and update thread tests
+
 describe('threads controller', () => {
   beforeAll(async () => {
     await seeders.init();
