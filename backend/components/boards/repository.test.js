@@ -38,4 +38,12 @@ describe('boards repository', () => {
 
     expect(board).toMatchObject(desiredBoard);
   });
+
+  test('should return null', async () => {
+    const repository = new Repository();
+
+    const board = await repository.findBoard('some_random_name');
+
+    expect(board).toBeNull();
+  });
 });
