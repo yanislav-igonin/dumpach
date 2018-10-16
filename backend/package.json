@@ -34,6 +34,6 @@
     "lint": "eslint .",
     "test": "NODE_ENV=test jest",
     "precommit": "npm run lint",
-    "prepush": "npm run lint"
+    "prepush": "npm run test & npm run lint"
   }
 }
