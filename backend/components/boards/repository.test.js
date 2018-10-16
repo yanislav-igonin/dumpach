@@ -5,7 +5,6 @@ const Repository = require('./repository');
 describe('boards repository', () => {
   beforeAll(async () => {
     await seeders.init();
-    repository = new Repository();
   });
 
   test('should return sections list', async () => {
