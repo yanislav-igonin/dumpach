@@ -35,7 +35,7 @@
     "test": "NODE_ENV=test jest",
     "coverage": "jest --collectCoverageFrom=components/**.js --coverage .",
     "precommit": "npm run lint",
-    "prepush": "npm run test & npm run lint"
+    "prepush": "npm run test && npm run lint"
   },
   "jest": {
     "verbose": true
