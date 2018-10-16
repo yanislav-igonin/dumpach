@@ -8,7 +8,7 @@ describe('checkPostValidity', () => {
     };
     const files = [];
 
-    expect(checkPostValidity(fields, files)).toBe(false);
+    expect(checkPostValidity(fields, files)).toBeFalsy();
   });
 
   test('should return true with text and empty files', () => {
@@ -17,7 +17,7 @@ describe('checkPostValidity', () => {
     };
     const files = [];
 
-    expect(checkPostValidity(fields, files)).toBe(true);
+    expect(checkPostValidity(fields, files)).toBeTruthy();
   });
 
   test('should return true with empty text and files', () => {
@@ -26,6 +26,6 @@ describe('checkPostValidity', () => {
     };
     const files = ['file1', 'file2'];
 
-    expect(checkPostValidity(fields, files)).toBe(true);
+    expect(checkPostValidity(fields, files)).toBeTruthy();
   });
 });
