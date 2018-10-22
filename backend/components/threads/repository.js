@@ -13,7 +13,9 @@ class Repository {
     this.attachmentModel = Attachment[boardId];
   }
 
-  findBoard(boardId) {
+  findBoard() {
+    const { boardId } = this;
+
     return this.boardModel.findOne({
       where: {
         id: boardId,
@@ -21,7 +23,7 @@ class Repository {
     });
   }
 
-  findThreads(limit, offset) {
+  findThreads(limit = 10, offset = 0) {
     const {
       boardId, model, postModel, attachmentModel,
     } = this;
@@ -122,6 +124,7 @@ class Repository {
         { transaction: t },
       );
 
+      // TODO: think how to separate work with db and files moving
       const attachmentsFields = await mediaFiles.moveFiles(
         files,
         boardId,
@@ -162,6 +165,7 @@ class Repository {
         { transaction: t },
       );
 
+      // TODO: think how to separate work with db and files moving
       const attachmentsFields = await mediaFiles.moveFiles(
         files,
         boardId,
