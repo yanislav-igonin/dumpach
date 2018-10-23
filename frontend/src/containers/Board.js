@@ -3,13 +3,7 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 
 import { getThreads } from '../store/actions/threads';
-
-const styles = (theme) => ({
-  appBarColor: {
-    backgroundColor: 'rgba(0, 0, 0, 0)',
-    boxShadow: 'none',
-  },
-});
+import ThreadCard from '../components/ThreadCard';
 
 class Board extends Component {
   componentDidMount = () => {
@@ -17,7 +11,7 @@ class Board extends Component {
     this.props.getThreads(boardId);
   };
 
-  componentDidUpdate = (prevProps) => {
+  componentDidUpdate = prevProps => {
     const { boardId } = this.props.match.params;
     const { boardId: prevBoardId } = prevProps.match.params;
     if (boardId !== prevBoardId) {
@@ -26,23 +20,31 @@ class Board extends Component {
   };
 
   render() {
-    return <div className="board-container">board</div>;
+    const { threads } = this.props;
+
+    return (
+      <div className="board-container" style={{ display: 'inline-block' }}>
+        {threads.list.map(thread => (
+          <div style={{ display: 'inline-block' }}>
+            <ThreadCard thread={thread} />
+          </div>
+        ))}
+      </div>
+    );
   }
 }
 
 const mapStateToProps = ({ threads }) => ({
-  threads,
+  threads
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  getThreads: (boardId) => {
+const mapDispatchToProps = dispatch => ({
+  getThreads: boardId => {
     dispatch(getThreads(boardId));
-  },
+  }
 });
 
-export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(Board),
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Board);

@@ -23,9 +23,6 @@ const styles = () => ({
   }
 });
 
-const BasicDiv = styled.div`
-  color: green;
-`;
 class MainPage extends PureComponent {
   state = {
     isMenuOpened: false
@@ -62,7 +59,7 @@ class MainPage extends PureComponent {
                 activeStyle={{
                   textDecoration: 'none'
                 }}
-              ><BasicDiv>Kek</BasicDiv>
+              >
                 <Typography variant="title" color="secondary">
                   dumpach
                 </Typography>
@@ -70,7 +67,7 @@ class MainPage extends PureComponent {
             </Toolbar>
           </AppBar>
 
-          <DrawerMenu open={isMenuOpened} onClose={this.toggleDrawer} boards={boards.list} />
+          {/* <DrawerMenu open={isMenuOpened} onClose={this.toggleDrawer} boards={boards.list} /> */}
 
           <div className="main-page-content" style={{ padding: 10 }}>
             <Switch>

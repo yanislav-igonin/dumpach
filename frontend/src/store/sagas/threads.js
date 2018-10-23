@@ -5,7 +5,7 @@ import types from '../types';
 
 function* getThreads({ boardId }) {
   try {
-    const response = yield axios.get(`/api/threads/${boardId}`);
+    const response = yield axios.get(`/api/boards/${boardId}/threads`);
 
     if (response.status === 200) {
       yield put({
