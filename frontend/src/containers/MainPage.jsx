@@ -67,7 +67,7 @@ class MainPage extends PureComponent {
             </Toolbar>
           </AppBar>
 
-          {/* <DrawerMenu open={isMenuOpened} onClose={this.toggleDrawer} boards={boards.list} /> */}
+          <DrawerMenu open={isMenuOpened} onClose={this.toggleDrawer} boards={boards.list} />
 
           <div className="main-page-content" style={{ padding: 10 }}>
             <Switch>

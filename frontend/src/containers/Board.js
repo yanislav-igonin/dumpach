@@ -25,7 +25,7 @@ class Board extends Component {
     return (
       <div className="board-container" style={{ display: 'inline-block' }}>
         {threads.list.map(thread => (
-          <div style={{ display: 'inline-block' }}>
+          <div style={{ display: 'inline-block', maxWidth: '33%' }}>
             <ThreadCard thread={thread} />
           </div>
         ))}

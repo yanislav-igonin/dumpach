@@ -18,16 +18,15 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 const styles = theme => ({
   card: {
-    maxWidth: 400,
     marginRight: 10,
     marginBottom: 10,
   },
-  media: {
-    height: 0,
-    paddingTop: '56.25%' // 16:9
-  },
+  // media: {
+  //   height: 0,
+  //   paddingTop: '56.25%' // 16:9
+  // },
   actions: {
-    display: 'flex'
+    // display: 'flex'
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -41,35 +40,41 @@ const styles = theme => ({
   },
   expandOpen: {
     transform: 'rotate(180deg)'
-  },
-  avatar: {
-    backgroundColor: red[500]
   }
 });
 
+const cutThreadTitle = title => {
+  if (title.length < 300) {
+    return title;
+  }
+
+  return `${title.slice(0, 300)} ...`;
+};
+
 const ThreadCard = ({ classes, thread }) => (
-  <Card className={classes.card}>
+  <Card className={classes.card} key={thread.id}>
     <CardHeader
       action={
         <IconButton>
           <MoreVertIcon />
         </IconButton>
       }
-      title={thread.posts[0].title}
+      title={cutThreadTitle(thread.posts[0].title)}
       subheader={`${new Date(thread.created_at).toLocaleDateString()}
         ${new Date(thread.created_at).toLocaleTimeString()}`}
     />
     {thread.posts[0].attachments.length > 0 ? (
       <CardMedia
+        component="img"
         className={classes.media}
-        image="/static/images/cards/paella.jpg"
+        image={`/uploads/thumb/${thread.board_id}/${thread.id}/${
+          thread.posts[0].attachments[0].uuid
+        }-${thread.posts[0].attachments[0].name}`}
         title="Contemplative Reptile"
       />
     ) : null}
     <CardContent>
-      <Typography component="p">
-        {thread.posts[0].text}
-      </Typography>
+      <Typography component="p">{thread.posts[0].text}</Typography>
     </CardContent>
     <CardActions className={classes.actions} disableActionSpacing>
       <IconButton aria-label="Add to favorites">
