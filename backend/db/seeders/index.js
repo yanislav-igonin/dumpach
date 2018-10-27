@@ -7,7 +7,6 @@ const boards = require('./boards');
 const posts = require('./posts');
 const sections = require('./sections');
 const threads = require('./threads');
-const { app } = require('../../config');
 
 const seedSections = async () => {
   try {
@@ -59,22 +58,20 @@ const seedThreads = async () => Promise.all(
 const seedPosts = async () => Promise.all(
   boards.map(async (board) => {
     const model = Post[board.id];
+    const threadModel = Thread[board.id];
 
-    const threadsArray = [];
-    for (let thread = 1; thread <= app.seeding.threadsPerBoard; thread += 1) {
-      threadsArray.push(thread);
-    }
+    const dbThreads = await threadModel.findAll();
 
     return Promise.all(
-      threadsArray.map(async (thread) => {
+      dbThreads.map(async (thread) => {
         try {
-          const dbPosts = await model.findAll({ where: { thread_id: thread } });
+          const dbPosts = await model.findAll({ where: { thread_id: thread.id } });
           if (dbPosts.length === 0) {
             const seed = posts(thread);
             await model.bulkCreate(seed);
           }
         } catch (err) {
-          logger.error('seeding threads error');
+          logger.error('seeding posts error');
           logger.error(err);
           process.exit();
         }
