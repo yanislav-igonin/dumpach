@@ -1,7 +1,7 @@
 import types from '../types';
 
 const initialState = {
-  isFetching: false,
+  isFetching: true,
   data: [],
 };
 
