@@ -36,7 +36,7 @@ class Repository {
       offset: parseInt(offset, 10),
       order: [
         ['updated_at', 'desc'],
-        [{ model: postModel, as: 'posts' }, 'created_at', 'desc'],
+        [{ model: postModel, as: 'posts' }, 'created_at', 'asc'],
         [
           { model: postModel, as: 'posts' },
           { model: attachmentModel, as: 'attachments' },
@@ -81,7 +81,7 @@ class Repository {
       },
       order: [
         ['updated_at', 'desc'],
-        [{ model: postModel, as: 'posts' }, 'created_at', 'desc'],
+        [{ model: postModel, as: 'posts' }, 'created_at', 'asc'],
         [
           { model: postModel, as: 'posts' },
           { model: attachmentModel, as: 'attachments' },
