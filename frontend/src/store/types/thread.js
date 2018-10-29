@@ -1,0 +1,11 @@
+const GET_THREAD = 'GET_THREAD';
+const GET_THREAD_SUCCESS = 'GET_THREAD_SUCCESS';
+const GET_THREAD_FAIL = 'GET_THREAD_FAIL';
+
+const thread = {
+  GET_THREAD,
+  GET_THREAD_SUCCESS,
+  GET_THREAD_FAIL,
+};
+
+export default thread;
