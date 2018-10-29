@@ -7,14 +7,17 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import PlayCircleFilled from '@material-ui/icons/PlayCircleFilled';
 
 const styles = theme => ({
-  firstPost: {
-    backgroundColor: theme.palette.primary.main
-  },
   post: {
-    marginBottom: 10
+    marginBottom: 10,
+    margin: '0 10px'
+  },
+  firstPost: {
+    backgroundColor: theme.palette.primary.main,
+    borderRadius: 0,
+    margin: '0 0 10px 0'
   },
   mediaContainer: {
     textAlign: 'center'
@@ -51,13 +54,17 @@ const renderAttchments = (post, boardId, classes) =>
     </Link>
   ));
 
-const Post = ({ classes, thread, post, indexInThread }) => (
-  <Card className={indexInThread === 0 ? `${classes.firstPost} ${classes.post}` : classes.post}>
+const Post = ({ classes, thread, post, indexInThread, preview = false }) => (
+  <Card className={indexInThread === 0 ? `${classes.post} ${classes.firstPost} ` : classes.post}>
     <CardHeader
       action={
-        <IconButton>
-          <MoreVertIcon />
-        </IconButton>
+        indexInThread === 0 && preview ? (
+          <Link to={`/${thread.board_id}/${thread.id}`}>
+            <IconButton>
+              <PlayCircleFilled />
+            </IconButton>
+          </Link>
+        ) : null
       }
       title={cutThreadTitle(post.title)}
       subheader={`${new Date(post.created_at).toLocaleDateString()}
@@ -71,7 +78,7 @@ const Post = ({ classes, thread, post, indexInThread }) => (
     <CardContent>
       <Typography variant="subheading">{post.text}</Typography>
     </CardContent>
-    {indexInThread === 0 ? (
+    {indexInThread === 0 && preview ? (
       <CardHeader subheader={`Ramained posts: ${thread.remained_posts}`} />
     ) : null}
   </Card>

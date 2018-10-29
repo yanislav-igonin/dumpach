@@ -10,7 +10,7 @@ const ThreadPreviewContainer = styled.div`
 const ThreadPreview = ({ thread }) => (
   <ThreadPreviewContainer>
     {thread.posts.map((post, index) => (
-      <Post post={post} thread={thread} key={post.id} indexInThread={index} />
+      <Post post={post} thread={thread} key={post.id} indexInThread={index} preview={true} />
     ))}
   </ThreadPreviewContainer>
 );

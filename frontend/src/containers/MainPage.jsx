@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route, NavLink } from 'react-router-dom';
-import styled from 'styled-components';
 
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -13,6 +12,7 @@ import Icon from '@material-ui/core/Icon';
 import IndexPage from '../components/IndexPage';
 import DrawerMenu from '../components/DrawerMenu';
 import Board from './Board';
+import Thread from './Thread';
 
 import { getBoards } from '../store/actions/boards';
 
@@ -67,12 +67,14 @@ class MainPage extends PureComponent {
             </Toolbar>
           </AppBar>
 
-          <DrawerMenu open={isMenuOpened} onClose={this.toggleDrawer} boards={boards.list} />
+          <DrawerMenu open={isMenuOpened} onClose={this.toggleDrawer} boards={boards.data} />
 
-          <div className="main-page-content" style={{ padding: 10 }}>
+          {/* <div className="main-page-content" style={{ padding: 10 }}> */}
+          <div className="main-page-content">
             <Switch>
               <Route exact={true} path="/" component={IndexPage} />
               <Route exact={true} path="/:boardId" component={Board} />
+              <Route exact={true} path="/:boardId/:threadId" component={Thread} />
             </Switch>
           </div>
         </div>
