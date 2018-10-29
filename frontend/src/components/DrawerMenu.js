@@ -10,14 +10,13 @@ import Collapse from '@material-ui/core/Collapse';
 import Icon from '@material-ui/core/Icon';
 
 const styles = theme => {
-  console.log(theme);
   return {
     drawerPaper: {
       position: 'relative',
       width: 240
     },
     smsIcon: {
-      color: theme.palette.secondary.main
+      color: theme.palette.primary.main
     }
   };
 };
@@ -46,9 +45,9 @@ class DrawerMenu extends Component {
 
             <ListItemText inset primary="boards" />
             {isBoardsOpened ? (
-              <Icon color="secondary">expand_less</Icon>
+              <Icon color="primary">expand_less</Icon>
             ) : (
-              <Icon color="secondary">expand_more</Icon>
+              <Icon color="primary">expand_more</Icon>
             )}
           </ListItem>
           <Collapse in={isBoardsOpened} timeout="auto" unmountOnExit>
@@ -64,7 +63,7 @@ class DrawerMenu extends Component {
                     }}
                     activeStyle={{
                       fontWeight: 'bold',
-                      color: '#f50057',
+                      color: '#e65100',
                       textDecoration: 'none'
                     }}
                   >

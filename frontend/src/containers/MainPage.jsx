@@ -47,7 +47,7 @@ class MainPage extends PureComponent {
         <div className="main-page-container">
           <AppBar position="sticky" className={classes.appBarColor}>
             <Toolbar disableGutters={true}>
-              <IconButton color="secondary" aria-label="open drawer" onClick={this.toggleDrawer}>
+              <IconButton color="primary" aria-label="open drawer" onClick={this.toggleDrawer}>
                 <Icon>menu</Icon>
               </IconButton>
 
@@ -60,7 +60,7 @@ class MainPage extends PureComponent {
                   textDecoration: 'none'
                 }}
               >
-                <Typography variant="title" color="secondary">
+                <Typography variant="title" color="primary">
                   dumpach
                 </Typography>
               </NavLink>

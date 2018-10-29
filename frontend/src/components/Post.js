@@ -8,8 +8,11 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-const styles = () => ({
-  card: {
+const styles = theme => ({
+  firstPost: {
+    backgroundColor: theme.palette.primary.main
+  },
+  post: {
     marginBottom: 10
   },
   mediaContainer: {
@@ -42,7 +45,9 @@ const renderAttchments = (post, boardId, classes) =>
   ));
 
 const Post = ({ classes, thread, post, indexInThread }) => (
-  <Card className={classes.card} style={indexInThread === 0 ? { backgroundColor: '#f50057' } : {}}>
+  <Card
+    className={indexInThread === 0 ? `${classes.firstPost} ${classes.post}` : classes.post}
+  >
     <CardHeader
       action={
         <IconButton>
