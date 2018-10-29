@@ -41,6 +41,7 @@ const renderAttchments = (post, boardId, classes) =>
       component="img"
       image={`/uploads/thumb/${boardId}/${post.thread_id}/${attachment.uuid}-${attachment.name}`}
       title={attachment.name}
+      key={attachment.id}
     />
   ));
 
