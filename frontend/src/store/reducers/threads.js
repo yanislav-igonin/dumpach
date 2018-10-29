@@ -18,9 +18,9 @@ const threads = (state = initialState, action) => {
     case types.threads.GET_THREADS_SUCCESS:
       return {
         isFetching: false,
-        list: action.data,
-        count: action.count,
-        isLastPage: action.is_last_page
+        list: action.data.data,
+        count: action.data.count,
+        isLastPage: action.data.is_last_page
       };
     default:
       return state;

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
+import styled from 'styled-components';
 
 import { getThreads } from '../store/actions/threads';
-import ThreadCard from '../components/ThreadCard';
+import ThreadPreview from '../components/ThreadPreview';
+
+const BoardContainer = styled.div``;
 
 class Board extends Component {
   componentDidMount = () => {
@@ -23,13 +25,11 @@ class Board extends Component {
     const { threads } = this.props;
 
     return (
-      <div className="board-container" style={{ display: 'inline-block' }}>
+      <BoardContainer>
         {threads.list.map(thread => (
-          <div style={{ display: 'inline-block', maxWidth: '33%' }}>
-            <ThreadCard thread={thread} />
-          </div>
+          <ThreadPreview thread={thread} key={thread.id} />
         ))}
-      </div>
+      </BoardContainer>
     );
   }
 }

@@ -10,7 +10,7 @@ function* getThreads({ boardId }) {
     if (response.status === 200) {
       yield put({
         type: types.threads.GET_THREADS_SUCCESS,
-        data: response.data.data,
+        data: response.data,
       });
     }
   } catch (err) {

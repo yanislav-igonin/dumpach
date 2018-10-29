@@ -36,15 +36,13 @@ const renderAttchments = (post, boardId, classes) =>
     <CardMedia
       className={classes.media}
       component="img"
-      image={`/uploads/thumb/${boardId}/${post.thread_id}/${attachment.uuid}-${
-        attachment.name
-      }`}
+      image={`/uploads/thumb/${boardId}/${post.thread_id}/${attachment.uuid}-${attachment.name}`}
       title={attachment.name}
     />
   ));
 
-const Post = ({ classes, boardId, post }) => (
-  <Card className={classes.card}>
+const Post = ({ classes, thread, post, indexInThread }) => (
+  <Card className={classes.card} style={indexInThread === 0 ? { backgroundColor: '#f50057' } : {}}>
     <CardHeader
       action={
         <IconButton>
@@ -56,11 +54,16 @@ const Post = ({ classes, boardId, post }) => (
         ${new Date(post.created_at).toLocaleTimeString()}`}
     />
     {post.attachments.length > 0 ? (
-      <div className={classes.mediaContainer}>{renderAttchments(post, boardId, classes)}</div>
+      <div className={classes.mediaContainer}>
+        {renderAttchments(post, thread.board_id, classes)}
+      </div>
     ) : null}
     <CardContent>
       <Typography variant="subheading">{post.text}</Typography>
     </CardContent>
+    {indexInThread === 0 ? (
+      <CardHeader subheader={`Ramained posts: ${thread.remained_posts}`} />
+    ) : null}
   </Card>
 );
 
