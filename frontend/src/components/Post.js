@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -36,19 +37,22 @@ const cutThreadTitle = title => {
 
 const renderAttchments = (post, boardId, classes) =>
   post.attachments.map(attachment => (
-    <CardMedia
-      className={classes.media}
-      component="img"
-      image={`/uploads/thumb/${boardId}/${post.thread_id}/${attachment.uuid}-${attachment.name}`}
-      title={attachment.name}
+    <Link
+      to={`/uploads/source/${boardId}/${post.thread_id}/${attachment.uuid}-${attachment.name}`}
+      target="blank"
       key={attachment.id}
-    />
+    >
+      <CardMedia
+        className={classes.media}
+        component="img"
+        image={`/uploads/thumb/${boardId}/${post.thread_id}/${attachment.uuid}-${attachment.name}`}
+        title={attachment.name}
+      />
+    </Link>
   ));
 
 const Post = ({ classes, thread, post, indexInThread }) => (
-  <Card
-    className={indexInThread === 0 ? `${classes.firstPost} ${classes.post}` : classes.post}
-  >
+  <Card className={indexInThread === 0 ? `${classes.firstPost} ${classes.post}` : classes.post}>
     <CardHeader
       action={
         <IconButton>
