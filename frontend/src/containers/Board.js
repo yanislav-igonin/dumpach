@@ -26,7 +26,7 @@ class Board extends Component {
 
     return (
       <BoardContainer>
-        {threads.list.map(thread => (
+        {threads.data.map(thread => (
           <ThreadPreview thread={thread} key={thread.id} />
         ))}
       </BoardContainer>

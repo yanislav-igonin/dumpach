@@ -2,7 +2,7 @@ import types from '../types';
 
 const initialState = {
   isFetching: false,
-  list: [],
+  data: [],
   count: 0,
   isLastPage: true
 };
@@ -13,12 +13,12 @@ const threads = (state = initialState, action) => {
       return {
         ...state,
         isFetching: true,
-        list: []
+        data: []
       };
     case types.threads.GET_THREADS_SUCCESS:
       return {
         isFetching: false,
-        list: action.data.data,
+        data: action.data.data,
         count: action.data.count,
         isLastPage: action.data.is_last_page
       };
