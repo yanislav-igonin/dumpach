@@ -41,7 +41,7 @@ class MainPage extends PureComponent {
   render() {
     const { boards, classes } = this.props;
     const { isMenuOpened } = this.state;
-
+    
     return (
       <Router>
         <div className="main-page-container">
@@ -72,7 +72,7 @@ class MainPage extends PureComponent {
           {/* <div className="main-page-content" style={{ padding: 10 }}> */}
           <div className="main-page-content">
             <Switch>
-              <Route exact={true} path="/" component={IndexPage} />
+              <Route exact={true} path="/" render={() => <IndexPage boards={boards.data} />} />
               <Route exact={true} path="/:boardId" component={Board} />
               <Route exact={true} path="/:boardId/:threadId" component={Thread} />
             </Switch>
