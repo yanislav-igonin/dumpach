@@ -24,7 +24,7 @@ class Thread extends Component {
 
   render() {
     const { thread } = this.props;
-    console.log(thread)
+    
     return (
       <ThreadContainer>
         {thread.isFetching
