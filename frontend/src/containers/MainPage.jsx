@@ -69,7 +69,6 @@ class MainPage extends PureComponent {
 
           <DrawerMenu open={isMenuOpened} onClose={this.toggleDrawer} boards={boards.data} />
 
-          {/* <div className="main-page-content" style={{ padding: 10 }}> */}
           <div className="main-page-content">
             <Switch>
               <Route exact={true} path="/" render={() => <IndexPage boards={boards.data} />} />
