@@ -12,7 +12,7 @@ class Controller {
     const { boardId } = ctx.params;
     const { limit = 10, offset = 0 } = ctx.query;
 
-    if (isNaN(parseInt(limit, 10)) || isNaN(parseInt(limit, 10))) {
+    if (isNaN(parseInt(limit, 10)) || isNaN(parseInt(offset, 10))) {
       throw new HttpBadRequestException('Bad query parameters');
     }
 
@@ -47,7 +47,7 @@ class Controller {
         };
       });
 
-      const isLastPage = threads.length < offset;
+      const isLastPage = threads.length < limit;
 
       ctx.body = {
         data: slicedPostsThreads,
