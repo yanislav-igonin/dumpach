@@ -54,6 +54,7 @@ const renderAttchments = (post, boardId, classes) =>
     </Link>
   ));
 
+// TODO: add posts in thread numeration
 const Post = ({ classes, thread, post, indexInThread, preview = false }) => (
   <Card className={indexInThread === 0 ? `${classes.post} ${classes.firstPost} ` : classes.post}>
     <CardHeader

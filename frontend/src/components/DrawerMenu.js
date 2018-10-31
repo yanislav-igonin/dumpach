@@ -21,6 +21,8 @@ const styles = theme => {
   };
 };
 
+// TODO: move opened state and toggle function into this class
+// TODO: think about design
 class DrawerMenu extends Component {
   state = {
     isBoardsOpened: false
