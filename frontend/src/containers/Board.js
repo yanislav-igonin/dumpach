@@ -30,6 +30,8 @@ class Board extends Component {
     const { settings } = this.props;
 
     if (boardId !== prevBoardId) {
+      // TODO: make pagination avaliable via links
+      this.setState({ page: 0 });
       this.props.getThreads(boardId, settings.threads.limitPerPage);
     }
   };
