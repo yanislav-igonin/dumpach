@@ -3,9 +3,11 @@ import axios from 'axios';
 
 import types from '../types';
 
-function* getThreads({ boardId, limitPerPage }) {
+function* getThreads({ boardId, limitPerPage, offset }) {
   try {
-    const response = yield axios.get(`/api/boards/${boardId}/threads?limit=${limitPerPage}`);
+    const response = yield axios.get(
+      `/api/boards/${boardId}/threads?limit=${limitPerPage}&offset=${offset}`
+    );
 
     if (response.status === 200) {
       yield put({
