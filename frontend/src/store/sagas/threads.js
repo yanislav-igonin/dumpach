@@ -3,14 +3,14 @@ import axios from 'axios';
 
 import types from '../types';
 
-function* getThreads({ boardId }) {
+function* getThreads({ boardId, limitPerPage }) {
   try {
-    const response = yield axios.get(`/api/boards/${boardId}/threads`);
+    const response = yield axios.get(`/api/boards/${boardId}/threads?limit=${limitPerPage}`);
 
     if (response.status === 200) {
       yield put({
         type: types.threads.GET_THREADS_SUCCESS,
-        data: response.data,
+        data: response.data
       });
     }
   } catch (err) {

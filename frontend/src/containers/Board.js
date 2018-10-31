@@ -10,14 +10,18 @@ const BoardContainer = styled.div``;
 class Board extends Component {
   componentDidMount = () => {
     const { boardId } = this.props.match.params;
-    this.props.getThreads(boardId);
+    const { settings } = this.props;
+    
+    this.props.getThreads(boardId, settings.threads.limitPerPage);
   };
 
   componentDidUpdate = prevProps => {
     const { boardId } = this.props.match.params;
     const { boardId: prevBoardId } = prevProps.match.params;
+    const { settings } = this.props;
+
     if (boardId !== prevBoardId) {
-      this.props.getThreads(boardId);
+      this.props.getThreads(boardId, settings.threads.limitPerPage);
     }
   };
 
@@ -34,13 +38,14 @@ class Board extends Component {
   }
 }
 
-const mapStateToProps = ({ threads }) => ({
+const mapStateToProps = ({ settings, threads }) => ({
+  settings,
   threads
 });
 
 const mapDispatchToProps = dispatch => ({
-  getThreads: boardId => {
-    dispatch(getThreads(boardId));
+  getThreads: (boardId, limitPerPage) => {
+    dispatch(getThreads(boardId, limitPerPage));
   }
 });
 
