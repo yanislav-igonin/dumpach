@@ -1,20 +1,30 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
+import { withStyles } from '@material-ui/core/styles';
 import Pagination from 'material-ui-flat-pagination';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
 
 import { getThreads } from '../store/actions/threads';
 import ThreadPreview from '../components/ThreadPreview';
+import ThreadForm from '../components/ThreadForm';
 
-const BoardContainer = styled.div``;
-const PaginationContainer = styled.div`
-  margin-bottom: 20px;
-  text-align: center;
-`;
+const styles = theme => ({
+  paginationContainer: {
+    marginBottom: 20,
+    textAlign: 'center'
+  },
+  fab: {
+    position: 'fixed',
+    bottom: theme.spacing.unit * 2,
+    right: theme.spacing.unit * 2
+  }
+});
 
 class Board extends Component {
   state = {
-    page: 0
+    page: 0,
+    isFormOpened: false
   };
 
   componentDidMount = () => {
@@ -45,36 +55,48 @@ class Board extends Component {
     this.props.getThreads(boardId, settings.threads.limitPerPage, offset);
   };
 
+  handleOpenThreadFormClick = () => {
+    const { isFormOpened } = this.state;
+    this.setState({ isFormOpened: !isFormOpened });
+  };
+
   render() {
-    const { page } = this.state;
-    const { settings, threads } = this.props;
+    const { page, isFormOpened } = this.state;
+    const { settings, threads, classes } = this.props;
 
     return (
-      <BoardContainer>
-        <PaginationContainer>
+      <div>
+        {isFormOpened ? <ThreadForm /> : null}
+        <div className={classes.paginationContainer}>
           <Pagination
             limit={settings.threads.limitPerPage}
             offset={page * settings.threads.limitPerPage}
             total={threads.count}
             onClick={(e, offset) => this.handlePaginationClick(offset)}
           />
-        </PaginationContainer>
-
+        </div>
         {threads.data.map(thread => (
           <ThreadPreview thread={thread} key={thread.id} />
         ))}
-
         {!threads.isFetching ? (
-          <PaginationContainer>
+          <div className={classes.paginationContainer}>
             <Pagination
               limit={settings.threads.limitPerPage}
               offset={page * settings.threads.limitPerPage}
               total={threads.count}
               onClick={(e, offset) => this.handlePaginationClick(offset)}
             />
-          </PaginationContainer>
+          </div>
         ) : null}
-      </BoardContainer>
+        <Button
+          variant="fab"
+          className={classes.fab}
+          color="primary"
+          onClick={this.handleOpenThreadFormClick}
+        >
+          <AddIcon />
+        </Button>
+      </div>
     );
   }
 }
@@ -90,7 +112,9 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Board);
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Board)
+);
