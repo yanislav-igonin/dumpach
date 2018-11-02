@@ -1,21 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
-const IndexPageContainer = styled.div`
-  text-align: center;
-`;
-const SectionsListContainer = styled.div`
-  margin-top: 20px;
-`;
-const SectionContainer = styled.div`
-  margin-top: 20px;
-`;
+const styles = () => ({
+  indexPageContainer: {
+    textAlign: 'center'
+  },
+  sectionsListContainer: {
+    marginTop: 20,
+    display: 'flex',
+    justifyContent: 'space-around',
+    alignItems: 'flex-start'
+  },
+});
 
 // TODO: think about design
-const IndexPage = ({ boards }) => (
-  <IndexPageContainer>
+const IndexPage = ({ boards, classes }) => (
+  <div className={classes.indexPageContainer}>
     <Typography variant="display1" color="primary">
       this is dumpach
     </Typography>
@@ -32,9 +34,9 @@ const IndexPage = ({ boards }) => (
       feel free
     </Typography>
 
-    <SectionsListContainer>
+    <div className={classes.sectionsListContainer}>
       {boards.map(section => (
-        <SectionContainer>
+        <div>
           <Typography variant="display1" color="primary">
             {section.title}
           </Typography>
@@ -45,10 +47,10 @@ const IndexPage = ({ boards }) => (
               </Typography>
             </Link>
           ))}
-        </SectionContainer>
+        </div>
       ))}
-    </SectionsListContainer>
-  </IndexPageContainer>
+    </div>
+  </div>
 );
 
-export default IndexPage;
+export default withStyles(styles)(IndexPage);
