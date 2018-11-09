@@ -24,7 +24,7 @@ const styles = theme => ({
 class Board extends Component {
   state = {
     page: 0,
-    isFormOpened: false
+    isFormOpened: true
   };
 
   componentDidMount = () => {
@@ -64,6 +64,7 @@ class Board extends Component {
     const { page, isFormOpened } = this.state;
     const { settings, threads, classes } = this.props;
 
+    // TODO: maybe make form invisible, not unmounted, because it removes all data in form
     return (
       <div>
         {isFormOpened ? <ThreadForm /> : null}
