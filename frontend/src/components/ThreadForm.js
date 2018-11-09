@@ -25,16 +25,13 @@ const styles = theme => ({
   },
   dropZone: {
     width: 'initial',
-    height: 100,
+    minHeight: 150,
     borderColor: 'rgba(255, 255, 255, 0.7)',
     borderRadius: 4,
     borderStyle: 'solid',
     borderWidth: 1,
     marginTop: 20,
-    marginBottom: 20,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
+    marginBottom: 20
   },
   attachmentIcon: {
     color: 'rgba(255, 255, 255, 0.7)'
@@ -52,6 +49,11 @@ class ThreadForm extends PureComponent {
     attachments: []
   };
 
+  componentWillUnmount() {
+    const { attachments } = this.state;
+    attachments.forEach(attachment => URL.revokeObjectURL(attachment.preview));
+  }
+
   onInputChange = (event, name) => {
     this.setState({
       [name]: event.target.value
@@ -66,15 +68,39 @@ class ThreadForm extends PureComponent {
 
   onAttachmentsDrop = acceptedFiles => {
     this.setState({
-      attachments: acceptedFiles
+      attachments: acceptedFiles.map(file => ({
+        ...file,
+        preview: URL.createObjectURL(file)
+      }))
     });
   };
 
   renderAttachemnts = attachments => {
     return attachments.length > 0 ? (
-      <p>SOSI HUI</p>
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '10px 10px 0'
+        }}
+      >
+        {attachments.map(attachment => (
+          <img style={{ maxHeight: 100, maxWidth: '100%', marginBottom: 10 }} src={attachment.preview} />
+        ))}
+      </div>
     ) : (
-      <AttachFileIcon style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: 50 }} />
+      <div
+        style={{
+          height: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
+        <AttachFileIcon style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: 50 }} />
+      </div>
     );
   };
 
