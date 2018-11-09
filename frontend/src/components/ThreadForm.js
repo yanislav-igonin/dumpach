@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
+
 import { withStyles } from '@material-ui/core/styles';
+
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import FormGroup from '@material-ui/core/FormGroup';
@@ -8,7 +10,9 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import Dropzone from 'react-dropzone';
-import AttachFile from '@material-ui/icons/AttachFile';
+
+import AttachFileIcon from '@material-ui/icons/AttachFile';
+import SendIcon from '@material-ui/icons/Send';
 
 const styles = () => ({
   formContainer: {
@@ -62,7 +66,7 @@ class ThreadForm extends PureComponent {
     return attachments.length > 0 ? (
       <p>SOSI HUI</p>
     ) : (
-      <AttachFile style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: 50 }} />
+      <AttachFileIcon style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: 50 }} />
     );
   };
 
