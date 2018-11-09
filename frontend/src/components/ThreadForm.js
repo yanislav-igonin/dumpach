@@ -7,6 +7,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
+import Dropzone from 'react-dropzone';
 
 const styles = theme => ({
   formContainer: {
@@ -22,6 +23,18 @@ class ThreadForm extends PureComponent {
     attachments: []
   };
 
+  onInputChange = (event, name) => {
+    this.setState({
+      [name]: event.target.value
+    });
+  };
+
+  onChecboxChange = (event, name) => {
+    this.setState({
+      [name]: event.target.checked
+    });
+  };
+
   render() {
     const { title, text, isSage, attachments } = this.state;
     const { classes } = this.props;
@@ -32,27 +45,30 @@ class ThreadForm extends PureComponent {
           <TextField
             id="title"
             label="title"
-            // className={classes.textField}
             value={title}
             fullWidth={true}
-            // onChange={this.handleChange('name')}
+            onChange={event => this.onInputChange(event, 'title')}
             margin="normal"
           />
           <TextField
             id="text"
             label="text"
-            // className={classes.textField}
             value={text}
             fullWidth={true}
-            // onChange={this.handleChange('name')}
+            onChange={event => this.onInputChange(event, 'text')}
             margin="normal"
           />
+          <Dropzone
+          // onDrop={this.onDrop}
+          >
+            <p>Try dropping some files here, or click to select files to upload.</p>
+          </Dropzone>
           <FormGroup row>
             <FormControlLabel
               control={
                 <Checkbox
                   checked={isSage}
-                  // onChange={this.handleChange('checkedB')}
+                  onChange={(event) => this.onChecboxChange(event, 'isSage')}
                   value="isSage"
                   color="primary"
                 />
