@@ -14,9 +14,14 @@ import Dropzone from 'react-dropzone';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import SendIcon from '@material-ui/icons/Send';
 
-const styles = () => ({
+const styles = theme => ({
   formContainer: {
-    margin: '0 10px'
+    margin: '0 10px 20px 10px'
+  },
+  controlsContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start'
   },
   dropZone: {
     width: 'initial',
@@ -26,13 +31,16 @@ const styles = () => ({
     borderStyle: 'solid',
     borderWidth: 1,
     marginTop: 20,
-    marginBottom: 10,
+    marginBottom: 20,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'
   },
   attachmentIcon: {
     color: 'rgba(255, 255, 255, 0.7)'
+  },
+  sendIcon: {
+    marginLeft: theme.spacing.unit
   }
 });
 
@@ -96,19 +104,25 @@ class ThreadForm extends PureComponent {
           <Dropzone onDrop={this.onAttachmentsDrop} className={classes.dropZone}>
             {this.renderAttachemnts(attachments)}
           </Dropzone>
-          <FormGroup row>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={isSage}
-                  onChange={event => this.onChecboxChange(event, 'isSage')}
-                  value="isSage"
-                  color="primary"
-                />
-              }
-              label="sage"
-            />
-          </FormGroup>
+          <div className={classes.controlsContainer}>
+            <FormGroup row>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={isSage}
+                    onChange={event => this.onChecboxChange(event, 'isSage')}
+                    value="isSage"
+                    color="primary"
+                  />
+                }
+                label="sage"
+              />
+            </FormGroup>
+            <Button variant="contained" color="primary" className={classes.button}>
+              Create thread
+              <SendIcon className={classes.sendIcon} />
+            </Button>
+          </div>
         </CardContent>
       </Card>
     );
