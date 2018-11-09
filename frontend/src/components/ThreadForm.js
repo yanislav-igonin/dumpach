@@ -87,13 +87,16 @@ class ThreadForm extends PureComponent {
         }}
       >
         {attachments.map(attachment => (
-          <img style={{ maxHeight: 100, maxWidth: '100%', marginBottom: 10 }} src={attachment.preview} />
+          <img
+            style={{ maxHeight: 100, maxWidth: '100%', marginBottom: 10 }}
+            src={attachment.preview}
+          />
         ))}
       </div>
     ) : (
       <div
         style={{
-          height: '100%',
+          height: 150,
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center'
