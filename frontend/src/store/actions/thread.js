@@ -6,8 +6,15 @@ export const getThread = (boardId, threadId) => ({
   threadId,
 });
 
+export const createThread = (boardId, data) => ({
+  type: types.threads.CREATE_THREAD,
+  boardId,
+  data,
+});
+
 const actions = {
   getThread,
+  createThread
 };
 
 export default actions;
