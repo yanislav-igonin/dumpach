@@ -9,9 +9,19 @@ import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import Dropzone from 'react-dropzone';
 
-const styles = theme => ({
+const styles = () => ({
   formContainer: {
     margin: '0 10px'
+  },
+  dropZone: {
+    width: 'initial',
+    height: 100,
+    borderColor: 'rgba(255, 255, 255, 0.7)',
+    borderRadius: 4,
+    borderStyle: 'solid',
+    borderWidth: 1,
+    marginTop: 20,
+    marginBottom: 10
   }
 });
 
@@ -59,7 +69,8 @@ class ThreadForm extends PureComponent {
             margin="normal"
           />
           <Dropzone
-          // onDrop={this.onDrop}
+            // onDrop={this.onDrop}
+            className={classes.dropZone}
           >
             <p>Try dropping some files here, or click to select files to upload.</p>
           </Dropzone>
@@ -68,7 +79,7 @@ class ThreadForm extends PureComponent {
               control={
                 <Checkbox
                   checked={isSage}
-                  onChange={(event) => this.onChecboxChange(event, 'isSage')}
+                  onChange={event => this.onChecboxChange(event, 'isSage')}
                   value="isSage"
                   color="primary"
                 />
