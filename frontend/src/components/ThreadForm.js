@@ -8,6 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import Dropzone from 'react-dropzone';
+import AttachFile from '@material-ui/icons/AttachFile';
 
 const styles = () => ({
   formContainer: {
@@ -21,7 +22,13 @@ const styles = () => ({
     borderStyle: 'solid',
     borderWidth: 1,
     marginTop: 20,
-    marginBottom: 10
+    marginBottom: 10,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  attachmentIcon: {
+    color: 'rgba(255, 255, 255, 0.7)'
   }
 });
 
@@ -43,6 +50,20 @@ class ThreadForm extends PureComponent {
     this.setState({
       [name]: event.target.checked
     });
+  };
+
+  onAttachmentsDrop = acceptedFiles => {
+    this.setState({
+      attachments: acceptedFiles
+    });
+  };
+
+  renderAttachemnts = attachments => {
+    return attachments.length > 0 ? (
+      <p>SOSI HUI</p>
+    ) : (
+      <AttachFile style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: 50 }} />
+    );
   };
 
   render() {
@@ -68,11 +89,8 @@ class ThreadForm extends PureComponent {
             onChange={event => this.onInputChange(event, 'text')}
             margin="normal"
           />
-          <Dropzone
-            // onDrop={this.onDrop}
-            className={classes.dropZone}
-          >
-            <p>Try dropping some files here, or click to select files to upload.</p>
+          <Dropzone onDrop={this.onAttachmentsDrop} className={classes.dropZone}>
+            {this.renderAttachemnts(attachments)}
           </Dropzone>
           <FormGroup row>
             <FormControlLabel
