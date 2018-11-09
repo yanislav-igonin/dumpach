@@ -1,18 +1,20 @@
 import React from 'react';
-import styled from 'styled-components';
+import { withStyles } from '@material-ui/core/styles';
 
 import Post from './Post';
 
-const ThreadPreviewContainer = styled.div`
-  margin-bottom: 20px;
-`;
+const styles = () => ({
+  threadPreviewContainer: {
+    marginBottom: 20
+  }
+});
 
-const ThreadPreview = ({ thread }) => (
-  <ThreadPreviewContainer>
+const ThreadPreview = ({ thread, classes }) => (
+  <div className={classes.threadPreviewContainer}>
     {thread.posts.map((post, index) => (
       <Post post={post} thread={thread} key={post.id} indexInThread={index} preview={true} />
     ))}
-  </ThreadPreviewContainer>
+  </div>
 );
 
-export default ThreadPreview;
+export default withStyles(styles)(ThreadPreview);

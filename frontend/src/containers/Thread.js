@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
 
 import { getThread } from '../store/actions/thread';
 import Post from '../components/Post';
-
-const ThreadContainer = styled.div``;
 
 class Thread extends Component {
   componentDidMount = () => {
@@ -24,15 +21,15 @@ class Thread extends Component {
 
   render() {
     const { thread } = this.props;
-    
+
     return (
-      <ThreadContainer>
+      <div>
         {thread.isFetching
           ? null
           : thread.data.posts.map((post, indexInThread) => (
             <Post post={post} indexInThread={indexInThread} thread={thread.data} />
           ))}
-      </ThreadContainer>
+      </div>
     );
   }
 }
