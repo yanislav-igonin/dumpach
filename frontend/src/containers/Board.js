@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+
 import { withStyles } from '@material-ui/core/styles';
 import Pagination from 'material-ui-flat-pagination';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import { getThreads } from '../store/actions/threads';
 import ThreadPreview from '../components/ThreadPreview';
@@ -89,14 +91,16 @@ class Board extends Component {
             />
           </div>
         ) : null}
-        <Button
-          variant="fab"
-          className={classes.fab}
-          color="primary"
-          onClick={this.handleOpenThreadFormClick}
-        >
-          <AddIcon />
-        </Button>
+        <Tooltip title="Open form" placement="left">
+          <Button
+            variant="fab"
+            className={classes.fab}
+            color="primary"
+            onClick={this.handleOpenThreadFormClick}
+          >
+            <AddIcon />
+          </Button>
+        </Tooltip>
       </div>
     );
   }
