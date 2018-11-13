@@ -9,6 +9,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Collapse from '@material-ui/core/Collapse';
 import Icon from '@material-ui/core/Icon';
 
+import helpers from '../helpers';
+
 const styles = theme => {
   return {
     drawerPaper: {
@@ -68,7 +70,9 @@ class DrawerMenu extends Component {
                       textDecoration: 'none'
                     }}
                   >
-                    <ListItem button>{board.id}</ListItem>
+                    <ListItem button>
+                      {board.id} - {helpers.strings.capitalizeFirstLetter(board.title)}
+                    </ListItem>
                   </NavLink>
                 ));
               })}
