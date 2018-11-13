@@ -65,11 +65,12 @@ class Board extends Component {
   render() {
     const { page, isFormOpened } = this.state;
     const { settings, threads, classes } = this.props;
+    const { boardId } = this.props.match.params;
 
     // TODO: maybe make form invisible, not unmounted, because it removes all data in form
     return (
       <div>
-        {isFormOpened ? <ThreadForm /> : null}
+        {isFormOpened ? <ThreadForm newThread={true} boardId={boardId} /> : null}
         <div className={classes.paginationContainer}>
           <Pagination
             limit={settings.threads.limitPerPage}
