@@ -167,7 +167,7 @@ class ThreadForm extends PureComponent {
               className={classes.button}
               onClick={() => this.onSend()}
             >
-              Create thread
+              {newThread ? 'Create thread' : 'Post in thread'}
               <SendIcon className={classes.sendIcon} />
             </Button>
           </div>
