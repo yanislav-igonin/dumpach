@@ -29,6 +29,7 @@ function* createThread({ boardId, data }) {
     const response = yield axios.post(`/api/boards/${boardId}/threads`, formData);
 
     console.log(response);
+    // TODO: add response handling
     // if (response.status === 201) {
     //   yield put({
     //     type: types.thread.GET_THREAD_SUCCESS,
