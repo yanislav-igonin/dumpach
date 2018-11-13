@@ -10,7 +10,7 @@ function* getThread({ boardId, threadId }) {
     if (response.status === 200) {
       yield put({
         type: types.thread.GET_THREAD_SUCCESS,
-        data: response.data.data,
+        data: response.data.data
       });
     }
   } catch (err) {
@@ -18,8 +18,31 @@ function* getThread({ boardId, threadId }) {
   }
 }
 
+function* createThread({ boardId, data }) {
+  try {
+    const formData = new FormData();
+    formData.append('title', data.title);
+    formData.append('text', data.text);
+    formData.append('is_sage', data.isSage);
+    data.attachments.forEach((attachment, index) => formData.append(`file_${index}`, attachment));
+
+    const response = yield axios.post(`/api/boards/${boardId}/threads`, formData);
+
+    console.log(response);
+    // if (response.status === 201) {
+    //   yield put({
+    //     type: types.thread.GET_THREAD_SUCCESS,
+    //     data: response.data.data
+    //   });
+    // }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 function* threadSaga() {
   yield takeLatest(types.thread.GET_THREAD, getThread);
+  yield takeLatest(types.thread.CREATE_THREAD, createThread);
 }
 
 export default threadSaga;
