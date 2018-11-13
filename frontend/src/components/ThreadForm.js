@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -13,6 +14,8 @@ import Dropzone from 'react-dropzone';
 
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import SendIcon from '@material-ui/icons/Send';
+
+import { createThread } from '../store/actions/thread';
 
 const styles = theme => ({
   formContainer: {
@@ -46,12 +49,13 @@ class ThreadForm extends PureComponent {
     title: '',
     text: '',
     isSage: false,
-    attachments: []
+    attachments: [],
+    attachmentsPreviews: []
   };
 
   componentWillUnmount() {
-    const { attachments } = this.state;
-    attachments.forEach(attachment => URL.revokeObjectURL(attachment.preview));
+    const { attachmentsPreviews } = this.state;
+    attachmentsPreviews.forEach(attachment => URL.revokeObjectURL(attachment.preview));
   }
 
   onInputChange = (event, name) => {
@@ -68,14 +72,21 @@ class ThreadForm extends PureComponent {
 
   onAttachmentsDrop = acceptedFiles => {
     this.setState({
-      attachments: acceptedFiles.map(file => ({
-        ...file,
+      attachmentsPreviews: acceptedFiles.map(file => ({
         preview: URL.createObjectURL(file)
-      }))
+      })),
+      attachments: acceptedFiles
     });
   };
 
+  onSend = () => {
+    const { boardId } = this.props;
+
+    this.props.createThread(boardId, this.state);
+  };
+
   renderAttachemnts = attachments => {
+    // TODO: add attachments removing
     return attachments.length > 0 ? (
       <div
         style={{
@@ -88,6 +99,7 @@ class ThreadForm extends PureComponent {
       >
         {attachments.map(attachment => (
           <img
+            key={attachment.preview}
             style={{ maxHeight: 100, maxWidth: '100%', marginBottom: 10 }}
             src={attachment.preview}
           />
@@ -108,8 +120,8 @@ class ThreadForm extends PureComponent {
   };
 
   render() {
-    const { title, text, isSage, attachments } = this.state;
-    const { classes } = this.props;
+    const { title, text, isSage, attachmentsPreviews } = this.state;
+    const { classes, newThread } = this.props;
 
     return (
       <Card className={classes.formContainer}>
@@ -131,23 +143,30 @@ class ThreadForm extends PureComponent {
             margin="normal"
           />
           <Dropzone onDrop={this.onAttachmentsDrop} className={classes.dropZone}>
-            {this.renderAttachemnts(attachments)}
+            {this.renderAttachemnts(attachmentsPreviews)}
           </Dropzone>
           <div className={classes.controlsContainer}>
             <FormGroup row>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={isSage}
-                    onChange={event => this.onChecboxChange(event, 'isSage')}
-                    value="isSage"
-                    color="primary"
-                  />
-                }
-                label="sage"
-              />
+              {!newThread ? (
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={isSage}
+                      onChange={event => this.onChecboxChange(event, 'isSage')}
+                      value="isSage"
+                      color="primary"
+                    />
+                  }
+                  label="sage"
+                />
+              ) : null}
             </FormGroup>
-            <Button variant="contained" color="primary" className={classes.button}>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+              onClick={() => this.onSend()}
+            >
               Create thread
               <SendIcon className={classes.sendIcon} />
             </Button>
@@ -158,4 +177,17 @@ class ThreadForm extends PureComponent {
   }
 }
 
-export default withStyles(styles)(ThreadForm);
+const mapStateToProps = () => ({});
+
+const mapDispatchToProps = dispatch => ({
+  createThread: (boardId, data) => {
+    dispatch(createThread(boardId, data));
+  }
+});
+
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(ThreadForm)
+);
