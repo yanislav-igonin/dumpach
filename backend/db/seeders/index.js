@@ -67,7 +67,7 @@ const seedPosts = async () => Promise.all(
         try {
           const dbPosts = await model.findAll({ where: { thread_id: thread.id } });
           if (dbPosts.length === 0) {
-            const seed = posts(thread);
+            const seed = posts(thread.id);
             await model.bulkCreate(seed);
           }
         } catch (err) {
