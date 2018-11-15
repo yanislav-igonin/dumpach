@@ -55,7 +55,9 @@ class ThreadForm extends PureComponent {
 
   componentWillUnmount() {
     const { attachmentsPreviews } = this.state;
-    attachmentsPreviews.forEach(attachment => URL.revokeObjectURL(attachment.preview));
+    attachmentsPreviews.forEach(attachment =>
+      URL.revokeObjectURL(attachment.preview)
+    );
   }
 
   onInputChange = (event, name) => {
@@ -83,7 +85,33 @@ class ThreadForm extends PureComponent {
     // TODO: add form clearing
     const { boardId } = this.props;
 
-    this.props.createThread(boardId, this.state);
+    this.props.createThread(
+      boardId,
+      this.state,
+      this.clearForm,
+      this.redirectOnThread
+    );
+  };
+
+  clearForm = () => {
+    const { attachmentsPreviews } = this.state;
+    attachmentsPreviews.forEach(attachment =>
+      URL.revokeObjectURL(attachment.preview)
+    );
+
+    this.setState({
+      title: '',
+      text: '',
+      isSage: false,
+      attachments: [],
+      attachmentsPreviews: []
+    });
+  };
+
+  redirectOnThread = threadId => {
+    const { boardId, history } = this.props;
+
+    history.push(`${boardId}/${threadId}`);
   };
 
   renderAttachemnts = attachments => {
@@ -115,7 +143,9 @@ class ThreadForm extends PureComponent {
           alignItems: 'center'
         }}
       >
-        <AttachFileIcon style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: 50 }} />
+        <AttachFileIcon
+          style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: 50 }}
+        />
       </div>
     );
   };
@@ -181,8 +211,8 @@ class ThreadForm extends PureComponent {
 const mapStateToProps = () => ({});
 
 const mapDispatchToProps = dispatch => ({
-  createThread: (boardId, data) => {
-    dispatch(createThread(boardId, data));
+  createThread: (boardId, data, clearForm, redirectOnThread) => {
+    dispatch(createThread(boardId, data, clearForm, redirectOnThread));
   }
 });
 

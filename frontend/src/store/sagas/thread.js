@@ -18,24 +18,28 @@ function* getThread({ boardId, threadId }) {
   }
 }
 
-function* createThread({ boardId, data }) {
+function* createThread({ boardId, data, clearForm, redirectOnThread }) {
   try {
     const formData = new FormData();
     formData.append('title', data.title);
     formData.append('text', data.text);
     formData.append('is_sage', data.isSage);
-    data.attachments.forEach((attachment, index) => formData.append(`file_${index}`, attachment));
+    data.attachments.forEach((attachment, index) =>
+      formData.append(`file_${index}`, attachment)
+    );
 
     const response = yield axios.post(`/api/boards/${boardId}/threads`, formData);
 
-    console.log(response);
-    // TODO: add response handling
-    // if (response.status === 201) {
-    //   yield put({
-    //     type: types.thread.GET_THREAD_SUCCESS,
-    //     data: response.data.data
-    //   });
-    // }
+    if (response.status === 201) {
+      clearForm();
+
+      redirectOnThread(response.data.data.id);
+
+      yield put({
+        type: types.thread.CREATE_THREAD_SUCCESS
+        // data: response.data.data
+      });
+    }
   } catch (err) {
     console.log(err);
   }

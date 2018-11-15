@@ -59,18 +59,19 @@ class Board extends Component {
 
   handleOpenThreadFormClick = () => {
     const { isFormOpened } = this.state;
+    console.log(this.props);
     this.setState({ isFormOpened: !isFormOpened });
   };
 
   render() {
     const { page, isFormOpened } = this.state;
-    const { settings, threads, classes } = this.props;
+    const { settings, threads, classes, history } = this.props;
     const { boardId } = this.props.match.params;
 
     // TODO: maybe make form invisible, not unmounted, because it removes all data in form
     return (
       <div>
-        {isFormOpened ? <ThreadForm newThread={true} boardId={boardId} /> : null}
+        {isFormOpened ? <ThreadForm newThread={true} boardId={boardId} history={history} /> : null}
         <div className={classes.paginationContainer}>
           <Pagination
             limit={settings.threads.limitPerPage}
