@@ -59,7 +59,6 @@ class Board extends Component {
 
   handleOpenThreadFormClick = () => {
     const { isFormOpened } = this.state;
-    console.log(this.props);
     this.setState({ isFormOpened: !isFormOpened });
   };
 
