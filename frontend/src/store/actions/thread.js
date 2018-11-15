@@ -14,9 +14,18 @@ export const createThread = (boardId, data, clearForm, redirectOnThread) => ({
   redirectOnThread
 });
 
+export const updateThread = (boardId, threadId, data, clearForm) => ({
+  type: types.thread.UPDATE_THREAD,
+  boardId,
+  threadId,
+  data,
+  clearForm
+});
+
 const actions = {
   getThread,
-  createThread
+  createThread,
+  updateThread
 };
 
 export default actions;

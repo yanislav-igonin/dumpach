@@ -45,9 +45,38 @@ function* createThread({ boardId, data, clearForm, redirectOnThread }) {
   }
 }
 
+function* updateThread({ boardId, threadId, data, clearForm }) {
+  try {
+    const formData = new FormData();
+    formData.append('title', data.title);
+    formData.append('text', data.text);
+    formData.append('is_sage', data.isSage);
+    data.attachments.forEach((attachment, index) =>
+      formData.append(`file_${index}`, attachment)
+    );
+
+    const response = yield axios.post(
+      `/api/boards/${boardId}/threads/${threadId}`,
+      formData
+    );
+
+    if (response.status === 200) {
+      clearForm();
+
+      yield put({
+        type: types.thread.UPDATE_THREAD_SUCCESS,
+        data: response.data.data
+      });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 function* threadSaga() {
   yield takeLatest(types.thread.GET_THREAD, getThread);
   yield takeLatest(types.thread.CREATE_THREAD, createThread);
+  yield takeLatest(types.thread.UPDATE_THREAD, updateThread);
 }
 
 export default threadSaga;

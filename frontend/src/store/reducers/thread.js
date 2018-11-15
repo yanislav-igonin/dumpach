@@ -14,6 +14,10 @@ const threads = (state = initialState, action) => {
         isFetching: false,
         data: action.data
       };
+    case types.thread.UPDATE_THREAD_SUCCESS:
+      return {
+        data: action.data
+      };
     default:
       return state;
   }
