@@ -117,6 +117,7 @@ const copyFile = (options) => {
 const moveFiles = async (files, boardIdentifier, threadId) => {
   const newFilesNames = [];
 
+  // TODO: maybe add image sizes (can get it from sharp)
   await Promise.all(
     files.map(async (file) => {
       try {
