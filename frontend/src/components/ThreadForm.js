@@ -15,7 +15,7 @@ import Dropzone from 'react-dropzone';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import SendIcon from '@material-ui/icons/Send';
 
-import { createThread } from '../store/actions/thread';
+import { createThread, updateThread } from '../store/actions/thread';
 
 const styles = theme => ({
   formContainer: {
@@ -82,14 +82,18 @@ class ThreadForm extends PureComponent {
   };
 
   onSend = () => {
-    const { boardId } = this.props;
+    const { boardId, threadId, newThread } = this.props;
 
-    this.props.createThread(
-      boardId,
-      this.state,
-      this.clearForm,
-      this.redirectOnThread
-    );
+    if (newThread) {
+      this.props.createThread(
+        boardId,
+        this.state,
+        this.clearForm,
+        this.redirectOnThread
+      );
+    } else {
+      this.props.updateThread(boardId, threadId, this.state, this.clearForm);
+    }
   };
 
   clearForm = () => {
@@ -212,6 +216,9 @@ const mapStateToProps = () => ({});
 const mapDispatchToProps = dispatch => ({
   createThread: (boardId, data, clearForm, redirectOnThread) => {
     dispatch(createThread(boardId, data, clearForm, redirectOnThread));
+  },
+  updateThread: (boardId, threadId, data, clearForm) => {
+    dispatch(updateThread(boardId, threadId, data, clearForm));
   }
 });
 
