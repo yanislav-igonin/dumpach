@@ -82,7 +82,6 @@ class ThreadForm extends PureComponent {
   };
 
   onSend = () => {
-    // TODO: add form clearing
     const { boardId } = this.props;
 
     this.props.createThread(
