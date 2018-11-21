@@ -1,8 +1,8 @@
 import types from '../types';
 
 const initialState = {
-  isFetching: false,
-  list: [],
+  isFetching: true,
+  data: [],
 };
 
 const boards = (state = initialState, action) => {
@@ -10,12 +10,12 @@ const boards = (state = initialState, action) => {
     case types.boards.GET_BOARDS:
       return {
         isFetching: true,
-        list: [],
+        data: [],
       };
     case types.boards.GET_BOARDS_SUCCESS:
       return {
         isFetching: false,
-        list: action.data,
+        data: action.data,
       };
     default:
       return state;

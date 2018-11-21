@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route, NavLink } from 'react-router-dom';
-import styled from 'styled-components';
 
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -13,6 +12,7 @@ import Icon from '@material-ui/core/Icon';
 import IndexPage from '../components/IndexPage';
 import DrawerMenu from '../components/DrawerMenu';
 import Board from './Board';
+import Thread from './Thread';
 
 import { getBoards } from '../store/actions/boards';
 
@@ -23,9 +23,6 @@ const styles = () => ({
   }
 });
 
-const BasicDiv = styled.div`
-  color: green;
-`;
 class MainPage extends PureComponent {
   state = {
     isMenuOpened: false
@@ -44,13 +41,13 @@ class MainPage extends PureComponent {
   render() {
     const { boards, classes } = this.props;
     const { isMenuOpened } = this.state;
-
+    
     return (
       <Router>
         <div className="main-page-container">
           <AppBar position="sticky" className={classes.appBarColor}>
             <Toolbar disableGutters={true}>
-              <IconButton color="secondary" aria-label="open drawer" onClick={this.toggleDrawer}>
+              <IconButton color="primary" aria-label="open drawer" onClick={this.toggleDrawer}>
                 <Icon>menu</Icon>
               </IconButton>
 
@@ -62,20 +59,21 @@ class MainPage extends PureComponent {
                 activeStyle={{
                   textDecoration: 'none'
                 }}
-              ><BasicDiv>Kek</BasicDiv>
-                <Typography variant="title" color="secondary">
+              >
+                <Typography variant="title" color="primary">
                   dumpach
                 </Typography>
               </NavLink>
             </Toolbar>
           </AppBar>
 
-          <DrawerMenu open={isMenuOpened} onClose={this.toggleDrawer} boards={boards.list} />
+          <DrawerMenu open={isMenuOpened} onClose={this.toggleDrawer} boards={boards.data} />
 
-          <div className="main-page-content" style={{ padding: 10 }}>
+          <div className="main-page-content">
             <Switch>
-              <Route exact={true} path="/" component={IndexPage} />
+              <Route exact={true} path="/" render={() => <IndexPage boards={boards.data} />} />
               <Route exact={true} path="/:boardId" component={Board} />
+              <Route exact={true} path="/:boardId/:threadId" component={Thread} />
             </Switch>
           </div>
         </div>
