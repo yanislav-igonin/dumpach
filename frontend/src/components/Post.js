@@ -20,12 +20,13 @@ const styles = theme => ({
     margin: '0 0 10px 0'
   },
   mediaContainer: {
-    textAlign: 'center'
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   media: {
     maxWidth: '100%',
     maxHeight: 100,
-    display: 'inline-block',
     width: 'auto'
   }
 });
@@ -39,16 +40,23 @@ const cutThreadTitle = title => {
 };
 
 const renderAttchments = (post, boardId, classes) =>
-  post.attachments.map(attachment => (
+  post.attachments.map((attachment, attachmentIndex) => (
     <Link
-      to={`/uploads/source/${boardId}/${post.thread_id}/${attachment.uuid}-${attachment.name}`}
+      to={`/uploads/source/${boardId}/${post.thread_id}/${attachment.uuid}-${
+        attachment.name
+      }`}
       target="blank"
       key={attachment.id}
+      style={{
+        marginRight: attachmentIndex !== post.attachments.length - 1 ? 1 : 'none'
+      }}
     >
       <CardMedia
         className={classes.media}
         component="img"
-        image={`/uploads/thumb/${boardId}/${post.thread_id}/${attachment.uuid}-${attachment.name}`}
+        image={`/uploads/thumb/${boardId}/${post.thread_id}/${attachment.uuid}-${
+          attachment.name
+        }`}
         title={attachment.name}
       />
     </Link>
@@ -56,7 +64,11 @@ const renderAttchments = (post, boardId, classes) =>
 
 // TODO: add posts in thread numeration
 const Post = ({ classes, thread, post, indexInThread, preview = false }) => (
-  <Card className={indexInThread === 0 ? `${classes.post} ${classes.firstPost} ` : classes.post}>
+  <Card
+    className={
+      indexInThread === 0 ? `${classes.post} ${classes.firstPost} ` : classes.post
+    }
+  >
     <CardHeader
       action={
         indexInThread === 0 && preview ? (
