@@ -14,6 +14,7 @@ import Dropzone from 'react-dropzone';
 
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import SendIcon from '@material-ui/icons/Send';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 import { createThread, updateThread } from '../store/actions/thread';
 
@@ -75,9 +76,28 @@ class ThreadForm extends PureComponent {
   onAttachmentsDrop = acceptedFiles => {
     this.setState({
       attachmentsPreviews: acceptedFiles.map(file => ({
-        preview: URL.createObjectURL(file)
+        preview: URL.createObjectURL(file),
+        name: file.name
       })),
       attachments: acceptedFiles
+    });
+  };
+
+  onRemoveAttachment = (event, name) => {
+    event.preventDefault();
+
+    const { attachments, attachmentsPreviews } = this.state;
+
+    URL.revokeObjectURL(
+      attachmentsPreviews.find(attachmentPreview => attachmentPreview.name === name)
+        .preview
+    );
+
+    this.setState({
+      attachments: attachments.filter(attachment => attachment.name !== name),
+      attachmentsPreviews: attachmentsPreviews.filter(
+        attachmentPreview => attachmentPreview.name !== name
+      )
     });
   };
 
@@ -118,7 +138,6 @@ class ThreadForm extends PureComponent {
   };
 
   renderAttachemnts = attachments => {
-    // TODO: add attachments removing
     return attachments.length > 0 ? (
       <div
         style={{
@@ -130,11 +149,21 @@ class ThreadForm extends PureComponent {
         }}
       >
         {attachments.map(attachment => (
-          <img
-            key={attachment.preview}
-            style={{ maxHeight: 100, maxWidth: '100%', marginBottom: 10 }}
-            src={attachment.preview}
-          />
+          <div key={attachment.preview}>
+            <img
+              style={{ maxHeight: 100, maxWidth: '100%', marginBottom: 10 }}
+              src={attachment.preview}
+            />
+            <HighlightOffIcon
+              style={{
+                position: 'relative',
+                right: 24,
+                top: -86,
+                cursor: 'pointer'
+              }}
+              onClick={event => this.onRemoveAttachment(event, attachment.name)}
+            />
+          </div>
         ))}
       </div>
     ) : (
