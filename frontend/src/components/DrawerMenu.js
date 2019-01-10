@@ -59,7 +59,7 @@ class DrawerMenu extends Component {
                 return section.boards.map(board => (
                   <NavLink
                     key={board.id}
-                    to={`/${board.id}`}
+                    to={`/${board.id}/1`}
                     style={{
                       textDecoration: 'none',
                       color: '#fff'
