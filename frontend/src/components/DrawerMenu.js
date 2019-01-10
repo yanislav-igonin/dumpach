@@ -35,7 +35,7 @@ class DrawerMenu extends Component {
   };
 
   render() {
-    const { open, onClose, boards: sections, classes } = this.props;
+    const { open, onClose, boards: sections, classes, pageId } = this.props;
     const { isBoardsOpened } = this.state;
 
     return (
@@ -59,7 +59,7 @@ class DrawerMenu extends Component {
                 return section.boards.map(board => (
                   <NavLink
                     key={board.id}
-                    to={`/${board.id}/1`}
+                    to={`/${board.id}/${pageId}`}
                     style={{
                       textDecoration: 'none',
                       color: '#fff'

@@ -39,7 +39,7 @@ class MainPage extends PureComponent {
   };
 
   render() {
-    const { boards, classes } = this.props;
+    const { boards, settings, classes } = this.props;
     const { isMenuOpened } = this.state;
     
     return (
@@ -67,7 +67,7 @@ class MainPage extends PureComponent {
             </Toolbar>
           </AppBar>
 
-          <DrawerMenu open={isMenuOpened} onClose={this.toggleDrawer} boards={boards.data} />
+          <DrawerMenu open={isMenuOpened} onClose={this.toggleDrawer} boards={boards.data} pageId={settings.app.pageId} />
 
           <div className="main-page-content">
             <Switch>
@@ -82,8 +82,9 @@ class MainPage extends PureComponent {
   }
 }
 
-const mapStateToProps = ({ boards }) => ({
-  boards
+const mapStateToProps = ({ boards, settings }) => ({
+  boards,
+  settings
 });
 
 const mapDispatchToProps = dispatch => ({
