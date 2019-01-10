@@ -1,6 +1,9 @@
 const initialState = {
   threads: {
     limitPerPage: 10
+  },
+  app: {
+    pageId: 1
   }
 };
 
