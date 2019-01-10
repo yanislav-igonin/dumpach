@@ -72,8 +72,8 @@ class MainPage extends PureComponent {
           <div className="main-page-content">
             <Switch>
               <Route exact={true} path="/" render={() => <IndexPage boards={boards.data} />} />
-              <Route exact={true} path="/:boardId" component={Board} />
-              <Route exact={true} path="/:boardId/:threadId" component={Thread} />
+              <Route exact={true} path="/:boardId/:pageId" component={Board} />
+              <Route exact={true} path="/:boardId/threads/:threadId" component={Thread} />
             </Switch>
           </div>
         </div>
