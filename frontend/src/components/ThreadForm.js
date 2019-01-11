@@ -134,7 +134,7 @@ class ThreadForm extends PureComponent {
   redirectOnThread = threadId => {
     const { boardId, history } = this.props;
 
-    history.push(`${boardId}/${threadId}`);
+    history.push(`${boardId}/threads/${threadId}`);
   };
 
   renderAttachemnts = attachments => {
