@@ -41,7 +41,7 @@ const IndexPage = ({ boards, classes }) => (
             {section.title}
           </Typography>
           {section.boards.map(board => (
-            <Link to={board.id}>
+            <Link to={`${board.id}/threads/1`}>
               <Typography variant="body" color="primary">
                 {`${board.id} - ${board.title}`}
               </Typography>
