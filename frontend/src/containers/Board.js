@@ -33,7 +33,7 @@ class Board extends Component {
     const { boardId } = this.props.match.params;
     const { settings } = this.props;
 
-    this.props.getThreads(boardId, settings.threads.limitPerPage);
+    this.props.getThreads(boardId, settings.pagination.threadsPerPage);
   };
 
   componentDidUpdate = prevProps => {
@@ -44,7 +44,7 @@ class Board extends Component {
     if (boardId !== prevBoardId) {
       // TODO: make pagination avaliable via links
       this.setState({ page: 0 });
-      this.props.getThreads(boardId, settings.threads.limitPerPage);
+      this.props.getThreads(boardId, settings.pagination.threadsPerPage);
     }
   };
 
@@ -52,9 +52,9 @@ class Board extends Component {
     const { boardId } = this.props.match.params;
     const { settings } = this.props;
 
-    this.setState({ page: offset / settings.threads.limitPerPage });
+    this.setState({ page: offset / settings.pagination.threadsPerPage });
 
-    this.props.getThreads(boardId, settings.threads.limitPerPage, offset);
+    this.props.getThreads(boardId, settings.pagination.threadsPerPage, offset);
   };
 
   handleOpenThreadFormClick = () => {
@@ -73,8 +73,8 @@ class Board extends Component {
         {isFormOpened ? <ThreadForm newThread={true} boardId={boardId} history={history} /> : null}
         <div className={classes.paginationContainer}>
           <Pagination
-            limit={settings.threads.limitPerPage}
-            offset={page * settings.threads.limitPerPage}
+            limit={settings.pagination.threadsPerPage}
+            offset={page * settings.pagination.threadsPerPage}
             total={threads.count}
             onClick={(e, offset) => this.handlePaginationClick(offset)}
           />
@@ -85,8 +85,8 @@ class Board extends Component {
         {!threads.isFetching ? (
           <div className={classes.paginationContainer}>
             <Pagination
-              limit={settings.threads.limitPerPage}
-              offset={page * settings.threads.limitPerPage}
+              limit={settings.pagination.threadsPerPage}
+              offset={page * settings.pagination.threadsPerPage}
               total={threads.count}
               onClick={(e, offset) => this.handlePaginationClick(offset)}
             />
@@ -113,8 +113,8 @@ const mapStateToProps = ({ settings, threads }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getThreads: (boardId, limitPerPage, offset) => {
-    dispatch(getThreads(boardId, limitPerPage, offset));
+  getThreads: (boardId, threadsPerPage, offset) => {
+    dispatch(getThreads(boardId, threadsPerPage, offset));
   }
 });
 
