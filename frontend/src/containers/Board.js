@@ -69,13 +69,7 @@ class Board extends Component {
       },
     } = this.props;
 
-    this.props.history.push(`/${boardId}/${offset / threadsPerPage + 1}`);
-
-    console.log('​Board -> handlePaginationClick -> offset', offset);
-    console.log(
-      '​Board -> handlePaginationClick -> offset / threadsPerPage',
-      offset / threadsPerPage
-    );
+    this.props.history.push(`/${boardId}/${(offset / threadsPerPage) + 1}`);
 
     this.props.getThreads(boardId, threadsPerPage, offset);
   };
