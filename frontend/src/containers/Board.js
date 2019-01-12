@@ -36,7 +36,11 @@ class Board extends Component {
       },
     } = this.props;
 
-    this.props.getThreads(boardId, threadsPerPage, (pageId - 1) * threadsPerPage || 0);
+    this.props.getThreads(
+      boardId,
+      threadsPerPage,
+      (pageId - 1) * threadsPerPage || 0
+    );
   };
 
   componentDidUpdate = (prevProps) => {
@@ -50,7 +54,11 @@ class Board extends Component {
 
     if (boardId !== prevBoardId) {
       // TODO: make pagination avaliable via links
-      this.props.getThreads(boardId, threadsPerPage, (pageId - 1) * threadsPerPage || 0);
+      this.props.getThreads(
+        boardId,
+        threadsPerPage,
+        (pageId - 1) * threadsPerPage || 0
+      );
     }
   };
 
@@ -61,8 +69,8 @@ class Board extends Component {
         pagination: { threadsPerPage },
       },
     } = this.props;
-    
-    this.props.history.push(`/${boardId}/${(offset / threadsPerPage) + 1}`);
+
+    this.props.history.push(`/${boardId}/${offset / threadsPerPage + 1}`);
 
     console.log('​Board -> handlePaginationClick -> offset', offset);
     console.log(
