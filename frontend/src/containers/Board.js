@@ -53,7 +53,6 @@ class Board extends Component {
     } = this.props;
 
     if (boardId !== prevBoardId) {
-      // TODO: make pagination avaliable via links
       this.props.getThreads(
         boardId,
         threadsPerPage,
@@ -78,8 +77,6 @@ class Board extends Component {
       offset / threadsPerPage
     );
 
-    // this.setState({ page: offset / settings.pagination.threadsPerPage });
-
     this.props.getThreads(boardId, threadsPerPage, offset);
   };
 
@@ -101,6 +98,7 @@ class Board extends Component {
     const { boardId, pageId } = this.props.match.params;
 
     // TODO: maybe make form invisible, not unmounted, because it removes all data in form
+    // TODO: add EmptyThreads component, if requested page, that has no threads
     return (
       <div>
         {isFormOpened ? (
