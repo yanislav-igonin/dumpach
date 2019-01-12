@@ -72,7 +72,7 @@ const Post = ({ classes, thread, post, indexInThread, preview = false }) => (
     <CardHeader
       action={
         indexInThread === 0 && preview ? (
-          <Link to={`/${thread.board_id}/${thread.id}`}>
+          <Link to={`/${thread.board_id}/threads/${thread.id}`}>
             <IconButton>
               <PlayCircleFilled />
             </IconButton>

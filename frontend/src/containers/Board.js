@@ -11,50 +11,73 @@ import { getThreads } from '../store/actions/threads';
 import ThreadPreview from '../components/ThreadPreview';
 import ThreadForm from '../components/ThreadForm';
 
-const styles = theme => ({
+const styles = (theme) => ({
   paginationContainer: {
     marginBottom: 20,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   fab: {
     position: 'fixed',
     bottom: theme.spacing.unit * 2,
-    right: theme.spacing.unit * 2
-  }
+    right: theme.spacing.unit * 2,
+  },
 });
 
 class Board extends Component {
   state = {
-    page: 0,
-    isFormOpened: true
+    isFormOpened: true,
   };
 
   componentDidMount = () => {
-    const { boardId } = this.props.match.params;
-    const { settings } = this.props;
+    const { boardId, pageId } = this.props.match.params;
+    const {
+      settings: {
+        pagination: { threadsPerPage },
+      },
+    } = this.props;
 
-    this.props.getThreads(boardId, settings.threads.limitPerPage);
+    this.props.getThreads(
+      boardId,
+      threadsPerPage,
+      (pageId - 1) * threadsPerPage || 0
+    );
   };
 
-  componentDidUpdate = prevProps => {
-    const { boardId } = this.props.match.params;
+  componentDidUpdate = (prevProps) => {
+    const { boardId, pageId } = this.props.match.params;
     const { boardId: prevBoardId } = prevProps.match.params;
-    const { settings } = this.props;
+    const {
+      settings: {
+        pagination: { threadsPerPage },
+      },
+    } = this.props;
 
     if (boardId !== prevBoardId) {
-      // TODO: make pagination avaliable via links
-      this.setState({ page: 0 });
-      this.props.getThreads(boardId, settings.threads.limitPerPage);
+      this.props.getThreads(
+        boardId,
+        threadsPerPage,
+        (pageId - 1) * threadsPerPage || 0
+      );
     }
   };
 
-  handlePaginationClick = offset => {
+  handlePaginationClick = (offset) => {
     const { boardId } = this.props.match.params;
-    const { settings } = this.props;
+    const {
+      settings: {
+        pagination: { threadsPerPage },
+      },
+    } = this.props;
 
-    this.setState({ page: offset / settings.threads.limitPerPage });
+    this.props.history.push(`/${boardId}/${offset / threadsPerPage + 1}`);
 
-    this.props.getThreads(boardId, settings.threads.limitPerPage, offset);
+    console.log('​Board -> handlePaginationClick -> offset', offset);
+    console.log(
+      '​Board -> handlePaginationClick -> offset / threadsPerPage',
+      offset / threadsPerPage
+    );
+
+    this.props.getThreads(boardId, threadsPerPage, offset);
   };
 
   handleOpenThreadFormClick = () => {
@@ -63,30 +86,42 @@ class Board extends Component {
   };
 
   render() {
-    const { page, isFormOpened } = this.state;
-    const { settings, threads, classes, history } = this.props;
-    const { boardId } = this.props.match.params;
+    const { isFormOpened } = this.state;
+    const {
+      settings: {
+        pagination: { threadsPerPage },
+      },
+      threads,
+      classes,
+      history,
+    } = this.props;
+    const { boardId, pageId } = this.props.match.params;
 
     // TODO: maybe make form invisible, not unmounted, because it removes all data in form
+    // TODO: add EmptyThreads component, if requested page, that has no threads
     return (
       <div>
-        {isFormOpened ? <ThreadForm newThread={true} boardId={boardId} history={history} /> : null}
-        <div className={classes.paginationContainer}>
-          <Pagination
-            limit={settings.threads.limitPerPage}
-            offset={page * settings.threads.limitPerPage}
-            total={threads.count}
-            onClick={(e, offset) => this.handlePaginationClick(offset)}
-          />
-        </div>
-        {threads.data.map(thread => (
+        {isFormOpened ? (
+          <ThreadForm newThread={true} boardId={boardId} history={history} />
+        ) : null}
+        {!threads.isFetching ? (
+          <div className={classes.paginationContainer}>
+            <Pagination
+              limit={threadsPerPage}
+              offset={(pageId - 1 || 0) * threadsPerPage}
+              total={threads.count}
+              onClick={(e, offset) => this.handlePaginationClick(offset)}
+            />
+          </div>
+        ) : null}
+        {threads.data.map((thread) => (
           <ThreadPreview thread={thread} key={thread.id} />
         ))}
         {!threads.isFetching ? (
           <div className={classes.paginationContainer}>
             <Pagination
-              limit={settings.threads.limitPerPage}
-              offset={page * settings.threads.limitPerPage}
+              limit={threadsPerPage}
+              offset={(pageId - 1 || 0) * threadsPerPage}
               total={threads.count}
               onClick={(e, offset) => this.handlePaginationClick(offset)}
             />
@@ -109,13 +144,13 @@ class Board extends Component {
 
 const mapStateToProps = ({ settings, threads }) => ({
   settings,
-  threads
+  threads,
 });
 
-const mapDispatchToProps = dispatch => ({
-  getThreads: (boardId, limitPerPage, offset) => {
-    dispatch(getThreads(boardId, limitPerPage, offset));
-  }
+const mapDispatchToProps = (dispatch) => ({
+  getThreads: (boardId, threadsPerPage, offset) => {
+    dispatch(getThreads(boardId, threadsPerPage, offset));
+  },
 });
 
 export default withStyles(styles)(

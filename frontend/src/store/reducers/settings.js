@@ -1,7 +1,7 @@
 const initialState = {
-  threads: {
-    limitPerPage: 10
-  }
+  pagination: {
+    threadsPerPage: 10,
+  },
 };
 
 const settings = (state = initialState, action) => {

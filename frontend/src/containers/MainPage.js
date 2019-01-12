@@ -19,13 +19,13 @@ import { getBoards } from '../store/actions/boards';
 const styles = () => ({
   appBarColor: {
     backgroundColor: 'rgba(0, 0, 0, 0)',
-    boxShadow: 'none'
-  }
+    boxShadow: 'none',
+  },
 });
 
 class MainPage extends PureComponent {
   state = {
-    isMenuOpened: false
+    isMenuOpened: false,
   };
 
   componentDidMount = () => {
@@ -39,25 +39,29 @@ class MainPage extends PureComponent {
   };
 
   render() {
-    const { boards, classes } = this.props;
+    const { boards, settings, classes } = this.props;
     const { isMenuOpened } = this.state;
-    
+
     return (
       <Router>
         <div className="main-page-container">
           <AppBar position="sticky" className={classes.appBarColor}>
             <Toolbar disableGutters={true}>
-              <IconButton color="primary" aria-label="open drawer" onClick={this.toggleDrawer}>
+              <IconButton
+                color="primary"
+                aria-label="open drawer"
+                onClick={this.toggleDrawer}
+              >
                 <Icon>menu</Icon>
               </IconButton>
 
               <NavLink
                 to="/"
                 style={{
-                  textDecoration: 'none'
+                  textDecoration: 'none',
                 }}
                 activeStyle={{
-                  textDecoration: 'none'
+                  textDecoration: 'none',
                 }}
               >
                 <Typography variant="title" color="primary">
@@ -67,13 +71,27 @@ class MainPage extends PureComponent {
             </Toolbar>
           </AppBar>
 
-          <DrawerMenu open={isMenuOpened} onClose={this.toggleDrawer} boards={boards.data} />
+          <DrawerMenu
+            open={isMenuOpened}
+            onClose={this.toggleDrawer}
+            boards={boards.data}
+            pageId={settings.pagination.pageId}
+          />
 
           <div className="main-page-content">
             <Switch>
-              <Route exact={true} path="/" render={() => <IndexPage boards={boards.data} />} />
-              <Route exact={true} path="/:boardId" component={Board} />
-              <Route exact={true} path="/:boardId/:threadId" component={Thread} />
+              <Route
+                exact={true}
+                path="/"
+                render={() => <IndexPage boards={boards.data} />}
+              />
+              <Route exact={true} path="/:boardId/" component={Board} />
+              <Route exact={true} path="/:boardId/:pageId" component={Board} />
+              <Route
+                exact={true}
+                path="/:boardId/threads/:threadId"
+                component={Thread}
+              />
             </Switch>
           </div>
         </div>
@@ -82,14 +100,15 @@ class MainPage extends PureComponent {
   }
 }
 
-const mapStateToProps = ({ boards }) => ({
-  boards
+const mapStateToProps = ({ boards, settings }) => ({
+  boards,
+  settings,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   getBoards: () => {
     dispatch(getBoards());
-  }
+  },
 });
 
 export default withStyles(styles)(

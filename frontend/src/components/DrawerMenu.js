@@ -11,22 +11,22 @@ import Icon from '@material-ui/core/Icon';
 
 import helpers from '../helpers';
 
-const styles = theme => {
+const styles = (theme) => {
   return {
     drawerPaper: {
       position: 'relative',
-      width: 240
+      width: 240,
     },
     smsIcon: {
-      color: theme.palette.primary.main
-    }
+      color: theme.palette.primary.main,
+    },
   };
 };
 
 // TODO: think about design
 class DrawerMenu extends Component {
   state = {
-    isBoardsOpened: false
+    isBoardsOpened: false,
   };
 
   openBoards = () => {
@@ -55,23 +55,24 @@ class DrawerMenu extends Component {
           </ListItem>
           <Collapse in={isBoardsOpened} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              {sections.map(section => {
-                return section.boards.map(board => (
+              {sections.map((section) => {
+                return section.boards.map((board) => (
                   <NavLink
                     key={board.id}
                     to={`/${board.id}`}
                     style={{
                       textDecoration: 'none',
-                      color: '#fff'
+                      color: '#fff',
                     }}
                     activeStyle={{
                       fontWeight: 'bold',
                       color: '#e65100',
-                      textDecoration: 'none'
+                      textDecoration: 'none',
                     }}
                   >
                     <ListItem button>
-                      {board.id} - {helpers.strings.capitalizeFirstLetter(board.title)}
+                      {board.id} -{' '}
+                      {helpers.strings.capitalizeFirstLetter(board.title)}
                     </ListItem>
                   </NavLink>
                 ));
