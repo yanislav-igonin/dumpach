@@ -1,7 +1,6 @@
 const initialState = {
   pagination: {
     threadsPerPage: 10,
-    pageId: 1
   },
 };
 
