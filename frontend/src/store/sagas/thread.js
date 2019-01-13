@@ -1,16 +1,19 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
+import config from '../../config';
 import types from '../types';
 
 function* getThread({ boardId, threadId }) {
   try {
-    const response = yield axios.get(`/api/boards/${boardId}/threads/${threadId}`);
+    const response = yield axios.get(
+      `${config.app.api.enpoint}/boards/${boardId}/threads/${threadId}`
+    );
 
     if (response.status === 200) {
       yield put({
         type: types.thread.GET_THREAD_SUCCESS,
-        data: response.data.data
+        data: response.data.data,
       });
     }
   } catch (err) {
@@ -28,7 +31,10 @@ function* createThread({ boardId, data, clearForm, redirectOnThread }) {
       formData.append(`file_${index}`, attachment)
     );
 
-    const response = yield axios.post(`/api/boards/${boardId}/threads`, formData);
+    const response = yield axios.post(
+      `${config.app.api.enpoint}/boards/${boardId}/threads`,
+      formData
+    );
 
     if (response.status === 201) {
       clearForm();
@@ -36,7 +42,7 @@ function* createThread({ boardId, data, clearForm, redirectOnThread }) {
       redirectOnThread(response.data.data.id);
 
       yield put({
-        type: types.thread.CREATE_THREAD_SUCCESS
+        type: types.thread.CREATE_THREAD_SUCCESS,
         // data: response.data.data
       });
     }
@@ -56,7 +62,7 @@ function* updateThread({ boardId, threadId, data, clearForm }) {
     );
 
     const response = yield axios.post(
-      `/api/boards/${boardId}/threads/${threadId}`,
+      `${config.app.api.endpoint}/boards/${boardId}/threads/${threadId}`,
       formData
     );
 
@@ -65,7 +71,7 @@ function* updateThread({ boardId, threadId, data, clearForm }) {
 
       yield put({
         type: types.thread.UPDATE_THREAD_SUCCESS,
-        data: response.data.data
+        data: response.data.data,
       });
     }
   } catch (err) {
