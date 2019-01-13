@@ -153,6 +153,7 @@ class ThreadForm extends PureComponent {
             <img
               style={{ maxHeight: 100, maxWidth: '100%', marginBottom: 10 }}
               src={attachment.preview}
+              alt={attachment.name}
             />
             {/* TODO: fix icon styles(especially for small images) */}
             <HighlightOffIcon

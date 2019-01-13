@@ -9,29 +9,29 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import PlayCircleFilled from '@material-ui/icons/PlayCircleFilled';
 
-const styles = theme => ({
+const styles = (theme) => ({
   post: {
     marginBottom: 10,
-    margin: '0 10px'
+    margin: '0 10px',
   },
   firstPost: {
     backgroundColor: theme.palette.primary.main,
     borderRadius: 0,
-    margin: '0 0 10px 0'
+    margin: '0 0 10px 0',
   },
   mediaContainer: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   media: {
     maxWidth: '100%',
     maxHeight: 100,
-    width: 'auto'
-  }
+    width: 'auto',
+  },
 });
 
-const cutThreadTitle = title => {
+const cutThreadTitle = (title) => {
   if (title.length < 300) {
     return title;
   }
@@ -48,7 +48,7 @@ const renderAttchments = (post, boardId, classes) =>
       target="blank"
       key={attachment.id}
       style={{
-        marginRight: attachmentIndex !== post.attachments.length - 1 ? 1 : 'none'
+        marginRight: attachmentIndex !== post.attachments.length - 1 ? 1 : 'none',
       }}
     >
       <CardMedia
@@ -57,6 +57,7 @@ const renderAttchments = (post, boardId, classes) =>
         image={`/uploads/thumb/${boardId}/${post.thread_id}/${attachment.uuid}-${
           attachment.name
         }`}
+        alt={attachment.name}
         title={attachment.name}
       />
     </Link>
