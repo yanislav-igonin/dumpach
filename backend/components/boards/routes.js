@@ -2,7 +2,7 @@ const Router = require('koa-router');
 const controller = require('./controller');
 
 const router = new Router({
-  prefix: '/api/boards',
+  prefix: '/api/v1/boards',
 });
 
 router.get('/', controller.list);
