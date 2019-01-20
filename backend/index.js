@@ -16,6 +16,7 @@ routes.forEach(route => server.use(route));
 logger.info('server - routes initialization - success');
 
 db.authenticate()
+  /* eslint-disable-next-line consistent-return */
   .then(async () => {
     logger.info('database - online');
 
@@ -24,7 +25,7 @@ db.authenticate()
       logger.info('database - models syncing - success');
     } catch (err) {
       logger.error('database - models syncing - failure');
-      throw err;
+      return logger.error(err);
     }
 
     try {
@@ -32,18 +33,23 @@ db.authenticate()
       logger.info('database - seeding - success');
     } catch (err) {
       logger.error('database - seeding - failure');
-      throw err;
+      return logger.error(err);
     }
 
-    server.listen(app.port, () => {
+    /* eslint-disable-next-line consistent-return */
+    server.listen(app.port, (err) => {
+      if (err) {
+        logger.error('server - offline');
+        return logger.error(err);
+      }
+
       logger.info('server - online');
       logger.info('all systems nominal');
     });
   })
   .catch((err) => {
-    logger.error('message:', err.message);
-    logger.error(err.stack);
-    process.exit();
+    logger.error('database - offline:');
+    return logger.error(err);
   });
 
 // TODO: add boards stats(separate table)
