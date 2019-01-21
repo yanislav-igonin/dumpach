@@ -8,15 +8,15 @@ import store from './store';
 
 import './index.css';
 import MainPage from './containers/MainPage';
-// import registerServiceWorker from './registerServiceWorker';
 
 const theme = createMuiTheme({
   palette: {
     type: 'dark', // Switching the dark mode on is a single property value change.
-    primary: deepOrange
+    primary: deepOrange,
   },
 });
 
+/* eslint-disable */
 render(
   <Provider store={store}>
     <MuiThemeProvider theme={theme}>
@@ -25,4 +25,3 @@ render(
   </Provider>,
   document.getElementById('root'),
 );
-// registerServiceWorker();
