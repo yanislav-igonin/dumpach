@@ -5,13 +5,13 @@ import Typography from '@material-ui/core/Typography';
 
 const styles = () => ({
   indexPageContainer: {
-    textAlign: 'center'
+    textAlign: 'center',
   },
   sectionsListContainer: {
     marginTop: 20,
     display: 'flex',
     justifyContent: 'space-around',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
   },
 });
 
@@ -35,12 +35,12 @@ const IndexPage = ({ boards, classes }) => (
     </Typography>
 
     <div className={classes.sectionsListContainer}>
-      {boards.map(section => (
+      {boards.map((section) => (
         <div>
           <Typography variant="display1" color="primary">
             {section.title}
           </Typography>
-          {section.boards.map(board => (
+          {section.boards.map((board) => (
             <Link to={`${board.id}`}>
               <Typography variant="body" color="primary">
                 {`${board.id} - ${board.title}`}

@@ -11,7 +11,7 @@ import Icon from '@material-ui/core/Icon';
 
 import helpers from '../helpers';
 
-const styles = theme => ({
+const styles = (theme) => ({
   drawerPaper: {
     position: 'relative',
     width: 240,
@@ -55,7 +55,7 @@ class DrawerMenu extends Component {
           </ListItem>
           <Collapse in={isBoardsOpened} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              {sections.map(section => section.boards.map(board => (
+              {sections.map((section) => section.boards.map((board) => (
                 <NavLink
                   key={board.id}
                   to={`/${board.id}`}

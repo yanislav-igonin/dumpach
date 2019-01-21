@@ -11,28 +11,29 @@ import { getThread } from '../store/actions/thread';
 import ThreadForm from '../components/ThreadForm';
 import Post from '../components/Post';
 
-const styles = theme => ({
+const styles = (theme) => ({
   paginationContainer: {
     marginBottom: 20,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   fab: {
     position: 'fixed',
     bottom: theme.spacing.unit * 2,
-    right: theme.spacing.unit * 2
-  }
+    right: theme.spacing.unit * 2,
+  },
 });
 
 class Thread extends Component {
   state = {
-    isFormOpened: false
+    isFormOpened: false,
   };
+
   componentDidMount = () => {
     const { boardId, threadId } = this.props.match.params;
     this.props.getThreads(boardId, threadId);
   };
 
-  componentDidUpdate = prevProps => {
+  componentDidUpdate = (prevProps) => {
     const { boardId, threadId } = this.props.match.params;
     const { boardId: prevBoardId, threadId: prevThreadId } = prevProps.match.params;
 
@@ -87,18 +88,18 @@ class Thread extends Component {
 }
 
 const mapStateToProps = ({ thread }) => ({
-  thread
+  thread,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   getThreads: (boardId, threadId) => {
     dispatch(getThread(boardId, threadId));
-  }
+  },
 });
 
 export default withStyles(styles)(
   connect(
     mapStateToProps,
-    mapDispatchToProps
-  )(Thread)
+    mapDispatchToProps,
+  )(Thread),
 );

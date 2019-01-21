@@ -96,7 +96,7 @@ class Board extends Component {
     return (
       <div>
         {isFormOpened ? (
-          <ThreadForm newThread={true} boardId={boardId} history={history} />
+          <ThreadForm newThread boardId={boardId} history={history} />
         ) : null}
         {!threads.isFetching ? (
           <div className={classes.paginationContainer}>

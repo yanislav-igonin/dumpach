@@ -18,14 +18,14 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 import { createThread, updateThread } from '../store/actions/thread';
 
-const styles = theme => ({
+const styles = (theme) => ({
   formContainer: {
-    margin: '0 10px 20px 10px'
+    margin: '0 10px 20px 10px',
   },
   controlsContainer: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
   },
   dropZone: {
     width: 'initial',
@@ -35,14 +35,14 @@ const styles = theme => ({
     borderStyle: 'solid',
     borderWidth: 1,
     marginTop: 20,
-    marginBottom: 20
+    marginBottom: 20,
   },
   attachmentIcon: {
-    color: 'rgba(255, 255, 255, 0.7)'
+    color: 'rgba(255, 255, 255, 0.7)',
   },
   sendIcon: {
-    marginLeft: theme.spacing.unit
-  }
+    marginLeft: theme.spacing.unit,
+  },
 });
 
 class ThreadForm extends PureComponent {
@@ -51,35 +51,33 @@ class ThreadForm extends PureComponent {
     text: '',
     isSage: false,
     attachments: [],
-    attachmentsPreviews: []
+    attachmentsPreviews: [],
   };
 
   componentWillUnmount() {
     const { attachmentsPreviews } = this.state;
-    attachmentsPreviews.forEach(attachment =>
-      URL.revokeObjectURL(attachment.preview)
-    );
+    attachmentsPreviews.forEach((attachment) => URL.revokeObjectURL(attachment.preview));
   }
 
   onInputChange = (event, name) => {
     this.setState({
-      [name]: event.target.value
+      [name]: event.target.value,
     });
   };
 
   onChecboxChange = (event, name) => {
     this.setState({
-      [name]: event.target.checked
+      [name]: event.target.checked,
     });
   };
 
-  onAttachmentsDrop = acceptedFiles => {
+  onAttachmentsDrop = (acceptedFiles) => {
     this.setState({
-      attachmentsPreviews: acceptedFiles.map(file => ({
+      attachmentsPreviews: acceptedFiles.map((file) => ({
         preview: URL.createObjectURL(file),
-        name: file.name
+        name: file.name,
       })),
-      attachments: acceptedFiles
+      attachments: acceptedFiles,
     });
   };
 
@@ -89,15 +87,16 @@ class ThreadForm extends PureComponent {
     const { attachments, attachmentsPreviews } = this.state;
 
     URL.revokeObjectURL(
-      attachmentsPreviews.find(attachmentPreview => attachmentPreview.name === name)
-        .preview
+      attachmentsPreviews.find(
+        (attachmentPreview) => attachmentPreview.name === name,
+      ).preview,
     );
 
     this.setState({
-      attachments: attachments.filter(attachment => attachment.name !== name),
+      attachments: attachments.filter((attachment) => attachment.name !== name),
       attachmentsPreviews: attachmentsPreviews.filter(
-        attachmentPreview => attachmentPreview.name !== name
-      )
+        (attachmentPreview) => attachmentPreview.name !== name,
+      ),
     });
   };
 
@@ -109,7 +108,7 @@ class ThreadForm extends PureComponent {
         boardId,
         this.state,
         this.clearForm,
-        this.redirectOnThread
+        this.redirectOnThread,
       );
     } else {
       this.props.updateThread(boardId, threadId, this.state, this.clearForm);
@@ -118,74 +117,72 @@ class ThreadForm extends PureComponent {
 
   clearForm = () => {
     const { attachmentsPreviews } = this.state;
-    attachmentsPreviews.forEach(attachment =>
-      URL.revokeObjectURL(attachment.preview)
-    );
+    attachmentsPreviews.forEach((attachment) => URL.revokeObjectURL(attachment.preview));
 
     this.setState({
       title: '',
       text: '',
       isSage: false,
       attachments: [],
-      attachmentsPreviews: []
+      attachmentsPreviews: [],
     });
   };
 
-  redirectOnThread = threadId => {
+  redirectOnThread = (threadId) => {
     const { boardId, history } = this.props;
 
     history.push(`${boardId}/threads/${threadId}`);
   };
 
-  renderAttachemnts = attachments => {
-    return attachments.length > 0 ? (
-      <div
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: '10px 10px 0'
-        }}
-      >
-        {attachments.map(attachment => (
-          <div key={attachment.preview}>
-            <img
-              style={{ maxHeight: 100, maxWidth: '100%', marginBottom: 10 }}
-              src={attachment.preview}
-              alt={attachment.name}
-            />
-            {/* TODO: fix icon styles(especially for small images) */}
-            <HighlightOffIcon
-              style={{
-                position: 'relative',
-                right: 24,
-                top: -86,
-                cursor: 'pointer'
-              }}
-              onClick={event => this.onRemoveAttachment(event, attachment.name)}
-            />
-          </div>
-        ))}
-      </div>
-    ) : (
-      <div
-        style={{
-          height: 150,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-      >
-        <AttachFileIcon
-          style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: 50 }}
-        />
-      </div>
-    );
-  };
+  renderAttachemnts = (attachments) => (attachments.length > 0 ? (
+    <div
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: '10px 10px 0',
+      }}
+    >
+      {attachments.map((attachment) => (
+        <div key={attachment.preview}>
+          <img
+            style={{ maxHeight: 100, maxWidth: '100%', marginBottom: 10 }}
+            src={attachment.preview}
+            alt={attachment.name}
+          />
+          {/* TODO: fix icon styles(especially for small images) */}
+          <HighlightOffIcon
+            style={{
+              position: 'relative',
+              right: 24,
+              top: -86,
+              cursor: 'pointer',
+            }}
+            onClick={(event) => this.onRemoveAttachment(event, attachment.name)}
+          />
+        </div>
+      ))}
+    </div>
+  ) : (
+    <div
+      style={{
+        height: 150,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <AttachFileIcon
+        style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: 50 }}
+      />
+    </div>
+  ));
 
   render() {
-    const { title, text, isSage, attachmentsPreviews } = this.state;
+    const {
+      title, text, isSage, attachmentsPreviews,
+    } = this.state;
     const { classes, newThread } = this.props;
 
     return (
@@ -195,16 +192,16 @@ class ThreadForm extends PureComponent {
             id="title"
             label="title"
             value={title}
-            fullWidth={true}
-            onChange={event => this.onInputChange(event, 'title')}
+            fullWidth
+            onChange={(event) => this.onInputChange(event, 'title')}
             margin="normal"
           />
           <TextField
             id="text"
             label="text"
             value={text}
-            fullWidth={true}
-            onChange={event => this.onInputChange(event, 'text')}
+            fullWidth
+            onChange={(event) => this.onInputChange(event, 'text')}
             margin="normal"
           />
           <Dropzone onDrop={this.onAttachmentsDrop} className={classes.dropZone}>
@@ -214,14 +211,14 @@ class ThreadForm extends PureComponent {
             <FormGroup row>
               {!newThread ? (
                 <FormControlLabel
-                  control={
+                  control={(
                     <Checkbox
                       checked={isSage}
-                      onChange={event => this.onChecboxChange(event, 'isSage')}
+                      onChange={(event) => this.onChecboxChange(event, 'isSage')}
                       value="isSage"
                       color="primary"
                     />
-                  }
+)}
                   label="sage"
                 />
               ) : null}
@@ -244,18 +241,18 @@ class ThreadForm extends PureComponent {
 
 const mapStateToProps = () => ({});
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   createThread: (boardId, data, clearForm, redirectOnThread) => {
     dispatch(createThread(boardId, data, clearForm, redirectOnThread));
   },
   updateThread: (boardId, threadId, data, clearForm) => {
     dispatch(updateThread(boardId, threadId, data, clearForm));
-  }
+  },
 });
 
 export default withStyles(styles)(
   connect(
     mapStateToProps,
-    mapDispatchToProps
-  )(ThreadForm)
+    mapDispatchToProps,
+  )(ThreadForm),
 );

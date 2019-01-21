@@ -39,32 +39,33 @@ const cutThreadTitle = (title) => {
   return `${title.slice(0, 300)} ...`;
 };
 
-const renderAttchments = (post, boardId, classes) =>
-  post.attachments.map((attachment, attachmentIndex) => (
-    <Link
-      to={`/uploads/source/${boardId}/${post.thread_id}/${attachment.uuid}-${
+const renderAttchments = (post, boardId, classes) => post.attachments.map((attachment, attachmentIndex) => (
+  <Link
+    to={`/uploads/source/${boardId}/${post.thread_id}/${attachment.uuid}-${
+      attachment.name
+    }`}
+    target="blank"
+    key={attachment.id}
+    style={{
+      marginRight: attachmentIndex !== post.attachments.length - 1 ? 1 : 'none',
+    }}
+  >
+    <CardMedia
+      className={classes.media}
+      component="img"
+      image={`/uploads/thumb/${boardId}/${post.thread_id}/${attachment.uuid}-${
         attachment.name
       }`}
-      target="blank"
-      key={attachment.id}
-      style={{
-        marginRight: attachmentIndex !== post.attachments.length - 1 ? 1 : 'none',
-      }}
-    >
-      <CardMedia
-        className={classes.media}
-        component="img"
-        image={`/uploads/thumb/${boardId}/${post.thread_id}/${attachment.uuid}-${
-          attachment.name
-        }`}
-        alt={attachment.name}
-        title={attachment.name}
-      />
-    </Link>
-  ));
+      alt={attachment.name}
+      title={attachment.name}
+    />
+  </Link>
+));
 
 // TODO: add posts in thread numeration
-const Post = ({ classes, thread, post, indexInThread, preview = false }) => (
+const Post = ({
+  classes, thread, post, indexInThread, preview = false,
+}) => (
   <Card
     className={
       indexInThread === 0 ? `${classes.post} ${classes.firstPost} ` : classes.post

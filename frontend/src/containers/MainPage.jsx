@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter as Router, Switch, Route, NavLink } from 'react-router-dom';
+import {
+  BrowserRouter as Router, Switch, Route, NavLink,
+} from 'react-router-dom';
 
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -46,7 +48,7 @@ class MainPage extends PureComponent {
       <Router>
         <div className="main-page-container">
           <AppBar position="sticky" className={classes.appBarColor}>
-            <Toolbar disableGutters={true}>
+            <Toolbar disableGutters>
               <IconButton
                 color="primary"
                 aria-label="open drawer"
@@ -81,14 +83,14 @@ class MainPage extends PureComponent {
           <div className="main-page-content">
             <Switch>
               <Route
-                exact={true}
+                exact
                 path="/"
                 render={() => <IndexPage boards={boards.data} />}
               />
-              <Route exact={true} path="/:boardId/" component={Board} />
-              <Route exact={true} path="/:boardId/:pageId" component={Board} />
+              <Route exact path="/:boardId/" component={Board} />
+              <Route exact path="/:boardId/:pageId" component={Board} />
               <Route
-                exact={true}
+                exact
                 path="/:boardId/threads/:threadId"
                 component={Thread}
               />
@@ -114,6 +116,6 @@ const mapDispatchToProps = (dispatch) => ({
 export default withStyles(styles)(
   connect(
     mapStateToProps,
-    mapDispatchToProps
-  )(MainPage)
+    mapDispatchToProps,
+  )(MainPage),
 );

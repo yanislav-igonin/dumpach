@@ -9,7 +9,10 @@ function* getBoards() {
     const response = yield axios.get(`${config.app.api.endpoint}/boards`);
 
     if (response.status === 200) {
-      yield put({ type: types.boards.GET_BOARDS_SUCCESS, data: response.data.data });
+      yield put({
+        type: types.boards.GET_BOARDS_SUCCESS,
+        data: response.data.data,
+      });
     }
   } catch (err) {
     console.log(err);
