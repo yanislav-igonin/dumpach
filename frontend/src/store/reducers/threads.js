@@ -4,7 +4,7 @@ const initialState = {
   isFetching: true,
   data: [],
   count: 0,
-  isLastPage: true
+  isLastPage: true,
 };
 
 const threads = (state = initialState, action) => {
@@ -13,14 +13,14 @@ const threads = (state = initialState, action) => {
       return {
         ...state,
         isFetching: true,
-        data: []
+        data: [],
       };
     case types.threads.GET_THREADS_SUCCESS:
       return {
         isFetching: false,
         data: action.data.data,
         count: action.data.count,
-        isLastPage: action.data.is_last_page
+        isLastPage: action.data.is_last_page,
       };
     default:
       return state;

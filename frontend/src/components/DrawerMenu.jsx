@@ -11,17 +11,15 @@ import Icon from '@material-ui/core/Icon';
 
 import helpers from '../helpers';
 
-const styles = (theme) => {
-  return {
-    drawerPaper: {
-      position: 'relative',
-      width: 240,
-    },
-    smsIcon: {
-      color: theme.palette.primary.main,
-    },
-  };
-};
+const styles = theme => ({
+  drawerPaper: {
+    position: 'relative',
+    width: 240,
+  },
+  smsIcon: {
+    color: theme.palette.primary.main,
+  },
+});
 
 // TODO: think about design
 class DrawerMenu extends Component {
@@ -35,7 +33,9 @@ class DrawerMenu extends Component {
   };
 
   render() {
-    const { open, onClose, boards: sections, classes } = this.props;
+    const {
+      open, onClose, boards: sections, classes,
+    } = this.props;
     const { isBoardsOpened } = this.state;
 
     return (
@@ -55,28 +55,29 @@ class DrawerMenu extends Component {
           </ListItem>
           <Collapse in={isBoardsOpened} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              {sections.map((section) => {
-                return section.boards.map((board) => (
-                  <NavLink
-                    key={board.id}
-                    to={`/${board.id}`}
-                    style={{
-                      textDecoration: 'none',
-                      color: '#fff',
-                    }}
-                    activeStyle={{
-                      fontWeight: 'bold',
-                      color: '#e65100',
-                      textDecoration: 'none',
-                    }}
-                  >
-                    <ListItem button>
-                      {board.id} -{' '}
-                      {helpers.strings.capitalizeFirstLetter(board.title)}
-                    </ListItem>
-                  </NavLink>
-                ));
-              })}
+              {sections.map(section => section.boards.map(board => (
+                <NavLink
+                  key={board.id}
+                  to={`/${board.id}`}
+                  style={{
+                    textDecoration: 'none',
+                    color: '#fff',
+                  }}
+                  activeStyle={{
+                    fontWeight: 'bold',
+                    color: '#e65100',
+                    textDecoration: 'none',
+                  }}
+                >
+                  <ListItem button>
+                    {board.id}
+                    {' '}
+-
+                    {' '}
+                    {helpers.strings.capitalizeFirstLetter(board.title)}
+                  </ListItem>
+                </NavLink>
+              )))}
             </List>
           </Collapse>
         </List>

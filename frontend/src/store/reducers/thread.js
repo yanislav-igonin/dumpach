@@ -2,7 +2,7 @@ import types from '../types';
 
 const initialState = {
   isFetching: true,
-  data: {}
+  data: {},
 };
 
 const threads = (state = initialState, action) => {
@@ -12,11 +12,11 @@ const threads = (state = initialState, action) => {
     case types.thread.GET_THREAD_SUCCESS:
       return {
         isFetching: false,
-        data: action.data
+        data: action.data,
       };
     case types.thread.UPDATE_THREAD_SUCCESS:
       return {
-        data: action.data
+        data: action.data,
       };
     default:
       return state;

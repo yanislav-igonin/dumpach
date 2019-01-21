@@ -1,6 +1,8 @@
 {
+  "parser": "babel-eslint",
   "extends": "airbnb",
   "rules": {
-    "max-len": ["error", { "code": 85, "tabWidth": 2 }]
+    "max-len": ["error", { "code": 85, "tabWidth": 2 }],
+    "arrow-parens": ["error", "always"]
   }
 }
