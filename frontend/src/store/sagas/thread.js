@@ -7,7 +7,7 @@ import types from '../types';
 function* getThread({ boardId, threadId }) {
   try {
     const response = yield axios.get(
-      `${config.app.api.enpoint}/boards/${boardId}/threads/${threadId}`
+      `${config.app.api.endpoint}/boards/${boardId}/threads/${threadId}`,
     );
 
     if (response.status === 200) {
@@ -21,19 +21,22 @@ function* getThread({ boardId, threadId }) {
   }
 }
 
-function* createThread({ boardId, data, clearForm, redirectOnThread }) {
+function* createThread({
+  boardId, data, clearForm, redirectOnThread,
+}) {
   try {
+    /* eslint-disable-next-line no-undef */
     const formData = new FormData();
     formData.append('title', data.title);
     formData.append('text', data.text);
     formData.append('is_sage', data.isSage);
-    data.attachments.forEach((attachment, index) =>
-      formData.append(`file_${index}`, attachment)
+    data.attachments.forEach(
+      (attachment, index) => formData.append(`file_${index}`, attachment),
     );
 
     const response = yield axios.post(
-      `${config.app.api.enpoint}/boards/${boardId}/threads`,
-      formData
+      `${config.app.api.endpoint}/boards/${boardId}/threads`,
+      formData,
     );
 
     if (response.status === 201) {
@@ -51,19 +54,22 @@ function* createThread({ boardId, data, clearForm, redirectOnThread }) {
   }
 }
 
-function* updateThread({ boardId, threadId, data, clearForm }) {
+function* updateThread({
+  boardId, threadId, data, clearForm,
+}) {
   try {
+    /* eslint-disable-next-line no-undef */
     const formData = new FormData();
     formData.append('title', data.title);
     formData.append('text', data.text);
     formData.append('is_sage', data.isSage);
-    data.attachments.forEach((attachment, index) =>
-      formData.append(`file_${index}`, attachment)
+    data.attachments.forEach(
+      (attachment, index) => formData.append(`file_${index}`, attachment),
     );
 
     const response = yield axios.post(
       `${config.app.api.endpoint}/boards/${boardId}/threads/${threadId}`,
-      formData
+      formData,
     );
 
     if (response.status === 200) {

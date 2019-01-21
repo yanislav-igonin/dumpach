@@ -9,7 +9,7 @@ function* getThreads({ boardId, threadsPerPage, offset }) {
     const response = yield axios.get(
       `${
         config.app.api.endpoint
-      }/boards/${boardId}/threads?limit=${threadsPerPage}&offset=${offset}`
+      }/boards/${boardId}/threads?limit=${threadsPerPage}&offset=${offset}`,
     );
 
     if (response.status === 200) {

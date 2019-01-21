@@ -19,7 +19,7 @@ const thread = {
   CREATE_THREAD_FAIL,
   UPDATE_THREAD,
   UPDATE_THREAD_SUCCESS,
-  UPDATE_THREAD_FAIL
+  UPDATE_THREAD_FAIL,
 };
 
 export default thread;

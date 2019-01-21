@@ -3,7 +3,7 @@ import types from '../types';
 export const getThread = (boardId, threadId) => ({
   type: types.thread.GET_THREAD,
   boardId,
-  threadId
+  threadId,
 });
 
 export const createThread = (boardId, data, clearForm, redirectOnThread) => ({
@@ -11,7 +11,7 @@ export const createThread = (boardId, data, clearForm, redirectOnThread) => ({
   boardId,
   data,
   clearForm,
-  redirectOnThread
+  redirectOnThread,
 });
 
 export const updateThread = (boardId, threadId, data, clearForm) => ({
@@ -19,13 +19,13 @@ export const updateThread = (boardId, threadId, data, clearForm) => ({
   boardId,
   threadId,
   data,
-  clearForm
+  clearForm,
 });
 
 const actions = {
   getThread,
   createThread,
-  updateThread
+  updateThread,
 };
 
 export default actions;
